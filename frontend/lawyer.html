@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lawyer Portal — LawyerGrid</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/lawyer.css">
+</head>
+
+<body>
+  <aside id="sidebar"><a class="brand" href="index.html"><i>L</i>LawyerGrid</a><small class="portal">LAWYER
+      PORTAL</small>
+    <nav>
+      <button class="active" data-view="overview">⌂ <span>Overview</span></button><button data-view="consultations">▣
+        <span>Consultations</span><b>3</b></button><button data-view="calendar">□
+        <span>Availability</span></button><button data-view="messages">◇ <span>Messages</span><b>2</b></button><button
+        data-view="documents">▤ <span>Documents</span></button><button data-view="earnings">₹
+        <span>Earnings</span></button><button data-view="drafting">✏
+        <span>Drafting</span></button><button data-view="profile">○ <span>Profile & verification</span></button>
+    </nav>
+    <div class="support"><i>?</i><strong>Need help?</strong><small>Contact lawyer support</small><button
+        data-toast="Support chat will open here.">Get support</button></div><button class="signout"
+      data-toast="You have been signed out securely.">↪ Sign out</button>
+  </aside>
+  <div class="app">
+    <header><button id="menu">☰</button><label class="search">⌕ <input
+          placeholder="Search consultations, clients..."></label><button class="bell"
+        data-toast="You have 3 new notifications.">♧<b>3</b></button><span class="avatar" id="header-avatar">??</span>
+      <div class="identity"><strong id="header-name">Loading...</strong><small id="header-practice">Lawyer
+          Portal</small></div>
+    </header>
+    <main>
+      <section class="view active" id="overview">
+        <div class="page-head">
+          <div><small class="eyebrow" id="greeting-date">LOADING...</small>
+            <h1 id="greeting-name">Good morning.</h1>
+            <p>Here’s what’s happening with your practice today.</p>
+          </div><button class="primary" data-go="calendar">＋ Manage availability</button>
+        </div>
+        <div class="verified"><i>✓</i>
+          <div><strong>Your profile is verified</strong><small>Credentials are current. Next annual review: 12 May
+              2027.</small></div><button data-go="profile">View status →</button>
+        </div>
+        <div class="stats">
+          <article><span>▣</span>
+            <p>Consultations this month</p><strong>24</strong><small>3 scheduled today</small>
+          </article>
+          <article><span>₹</span>
+            <p>Available balance</p><strong>₹38,420</strong><small>₹7,200 pending release</small>
+          </article>
+          <article><span>★</span>
+            <p>Client satisfaction</p><strong>98%</strong><small>4.9 from 128 reviews</small>
+          </article>
+          <article><span>◷</span>
+            <p>Average response time</p><strong>12 min</strong><small>Faster than 92% of lawyers</small>
+          </article>
+        </div>
+        <div class="overview-grid">
+          <div class="panel">
+            <div class="panel-head">
+              <div><small class="eyebrow">TODAY</small>
+                <h2>Your consultations</h2>
+              </div><button data-go="consultations">View all →</button>
+            </div>
+            <div id="today"></div>
+          </div>
+          <div class="panel activity">
+            <div class="panel-head">
+              <h2>Recent activity</h2>
+            </div>
+            <div id="activity-feed">
+              <p class="muted" style="padding:16px 0">Loading activity…</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="consultations">
+        <div class="page-head">
+          <div><small class="eyebrow">YOUR PRACTICE</small>
+            <h1>Consultations</h1>
+            <p>Review intake details and manage client sessions.</p>
+          </div><button class="primary" data-go="calendar">＋ Open calendar</button>
+        </div>
+        <div class="tabs"><button class="active" data-filter="upcoming">Upcoming</button><button
+            data-filter="completed">Completed</button></div>
+        <div class="panel table" id="session-table"></div>
+      </section>
+      <section class="view" id="calendar">
+        <div class="page-head">
+          <div><small class="eyebrow">SCHEDULING</small>
+            <h1>Availability</h1>
+            <p>Set open hours and prevent double-bookings.</p>
+          </div><button class="primary" data-toast="Availability saved and calendars synchronized.">Save
+            changes</button>
+        </div>
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Weekly hours</h2>
+                <p>Clients can book inside these windows.</p>
+              </div><label class="toggle">Accepting bookings<input type="checkbox" checked><i></i></label>
+            </div>
+            <div id="week"></div>
+          </div>
+          <div class="panel sync">
+            <h2>Calendar sync</h2>
+            <p>Connect external calendars to prevent conflicts.</p><button><i class="google">G</i><span><strong>Google
+                  Calendar</strong><small>Connected · Syncing</small></span><b>✓</b></button><button><i
+                class="outlook">O</i><span><strong>Microsoft Outlook</strong><small>Not
+                  connected</small></span><b>＋</b></button>
+            <hr><label>Minimum notice<select>
+                <option>12 hours</option>
+                <option>24 hours</option>
+              </select></label><label>Buffer between calls<select>
+                <option>15 minutes</option>
+                <option>30 minutes</option>
+              </select></label><label>Timezone<select>
+                <option>Asia/Kolkata (IST)</option>
+              </select></label>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="messages">
+        <div class="page-head">
+          <div><small class="eyebrow">ENCRYPTED</small>
+            <h1>Messages</h1>
+            <p>Communicate without sharing personal contact details.</p>
+          </div>
+        </div>
+        <div class="panel chat" id="chat-panel">
+          <div class="threads" id="threads"></div>
+          <div class="conversation">
+            <div class="chat-head"><button class="mobile-back-btn" id="chat-back-btn" aria-label="Back to conversations">←</button><span class="avatar" id="chat-avatar">—</span>
+              <div><strong id="chat-name">Select a conversation</strong><small id="chat-status">● Secure · End-to-end
+                  encrypted</small></div><button id="video">▣</button>
+            </div>
+            <div class="bubbles" id="bubbles"></div>
+            <form id="message-form"><button type="button" data-toast="Secure document picker opened.">＋</button><input
+                id="message" placeholder="Write a secure message..." required><button>➤</button></form>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="documents">
+        <div class="page-head">
+          <div><small class="eyebrow">SECURE VAULT</small>
+            <h1>Documents</h1>
+            <p>Client files for active consultations.</p>
+          </div><button class="primary" id="upload">＋ Upload document</button><input id="file" type="file" hidden>
+        </div>
+        <div class="panel table" id="docs"></div>
+      </section>
+      <section class="view" id="earnings">
+        <div class="page-head">
+          <div><small class="eyebrow">FINANCES</small>
+            <h1>Earnings</h1>
+            <p>Track payouts, fees, and completed sessions.</p>
+          </div><button class="primary" id="withdraw-btn" data-toast="Payout request submitted.">Withdraw...</button>
+        </div>
+        <div class="stats finance">
+          <article>
+            <p>Available to withdraw</p><strong>₹0</strong><small>Stripe Connect balance</small>
+          </article>
+          <article>
+            <p>Pending release</p><strong>₹0</strong><small>From 0 consultations</small>
+          </article>
+          <article>
+            <p>Earned this month</p><strong>₹0</strong><small class="green">Total gross earnings</small>
+          </article>
+        </div>
+        <div class="two-col earnings">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Earnings overview</h2>
+                <p>Net earnings after platform infrastructure usage fees</p>
+              </div>
+            </div>
+            <div class="chart"></div>
+          </div>
+          <div class="panel bank" id="payout-account-panel">
+            <div class="panel-head">
+              <h2>Payout account</h2>
+              <div style="display:flex;gap:8px;">
+                <button class="outline" id="edit-bank-btn" style="padding:5px 12px;font-size:12px;" hidden>Edit</button>
+                <button class="outline" id="delete-bank-btn" style="padding:5px 12px;font-size:12px;color:var(--terra);border-color:var(--terra);" hidden>Remove</button>
+              </div>
+            </div>
+            <div id="bank-account-display">
+              <p class="muted" style="padding:8px 0 12px;">No payout account linked yet.</p>
+              <button class="primary" id="add-bank-btn" style="width:100%;">＋ Add bank account</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel table" id="transactions"></div>
+      </section>
+      <section class="view" id="profile">
+        <div class="page-head">
+          <div><small class="eyebrow">PUBLIC PROFILE</small>
+            <h1>Profile & verification</h1>
+            <p>Keep professional details and credentials current.</p>
+          </div><button class="primary" id="save-profile-btn">Save profile</button>
+        </div>
+        <div class="two-col profile">
+          <div class="panel">
+            <div class="profile-top"><span class="avatar large">AR</span>
+              <div>
+                <h2>Adv. Aanya Rao</h2><small>Profile complete</small>
+                <div class="progress"><i style="width:100%"></i></div>
+              </div>
+            </div>
+            <div class="form"><label>Professional name *<input id="prof-name" value="Adv. Aanya Rao" required></label><label>Bar
+                council number *<input id="prof-bar" value="DL/2014/02841" required></label>
+                <label class="full">Practice areas *
+                  <div class="practice-checkboxes" style="display:flex; gap:20px; margin-top:8px;">
+                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal; cursor:pointer; margin:0;">
+                      <input type="checkbox" name="prof-practice" value="Property Law" style="width:18px; height:18px; cursor:pointer;"> Property Law
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal; cursor:pointer; margin:0;">
+                      <input type="checkbox" name="prof-practice" value="Corporate Law" style="width:18px; height:18px; cursor:pointer;"> Corporate Law
+                    </label>
+                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal; cursor:pointer; margin:0;">
+                      <input type="checkbox" name="prof-practice" value="Family Law" style="width:18px; height:18px; cursor:pointer;"> Family Law
+                    </label>
+                  </div>
+                </label><label>Enrollment date *<input id="prof-enrollment"
+                  type="date" required></label><label>Experience<input id="prof-exp" readonly
+                  placeholder="Calculated from enrollment date"></label><label>Practice address *<input id="prof-address"
+                  placeholder="Enter practice address" required></label><label class="full">Professional summary<textarea
+                  id="prof-summary" placeholder="Describe your practice, experience, and services..."></textarea></label><label>Languages<input
+                  id="prof-languages" value="English, Hindi" list="lang-suggestions"
+                  placeholder="e.g. English, Hindi, Kannada"></label><datalist id="lang-suggestions">
+                <option value="English">
+                <option value="Hindi">
+                <option value="Kannada">
+                <option value="Telugu">
+                <option value="Tamil">
+                <option value="Malayalam">
+                <option value="Gujarati">
+                <option value="Bengali">
+                <option value="Marathi">
+                <option value="Punjabi">
+              </datalist><label>Consultation fee (INR)<input id="prof-fee" value="1800"></label><label>Aadhaar
+                Number *<input id="aadhaar-number" value="" placeholder="12-digit Aadhaar" required></label>
+              <label class="mobile-verify-label">Mobile number
+                *
+                <div class="mobile-verify-row">
+                  <input id="prof-mobile" type="tel" placeholder="10-digit mobile number" maxlength="10" minlength="10" pattern="[6-9][0-9]{9}" required autocomplete="tel">
+                  <button type="button" id="verify-mobile-btn" class="outline verify-btn">Verify</button>
+                </div>
+                <span id="mobile-verified-badge" class="verified-badge" hidden>✓ Verified</span>
+              </label></div>
+          </div>
+          <div class="panel credentials">
+            <div class="credential-status"><i>✓</i><span><strong>Identity verified</strong><small>Reviewed 12 May
+                  2026</small></span></div>
+            <h2>Professional credentials</h2>
+            <p>▤ <span><strong>Bar Council Certificate</strong><small
+                  id="bar-license-status">Verified</small></span><button type="button" class="outline"
+                id="upload-bar-btn"
+                style="padding:4px 10px;font-size:12px;margin-left:auto;width:auto;cursor:pointer;">Upload</button></p>
+            <p>▤ <span><strong>Aadhaar</strong><small id="gov-id-status">Verified</small></span><button
+                type="button" class="outline" id="upload-id-btn"
+                style="padding:4px 10px;font-size:12px;margin-left:auto;width:auto;cursor:pointer;">Upload</button></p>
+            <input id="bar-licence-file" type="file" hidden><input id="aadhaar-file" type="file" hidden><input
+              id="profile-pic-file" type="file" hidden><small class="privacy">🔒 Credentials are encrypted at rest and
+              only visible to the verification team.</small>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="drafting">
+        <div class="page-head">
+          <div><small class="eyebrow">DRAFTING DESK</small>
+            <h1>Drafting Portal</h1>
+            <p>View assignments, submit drafts, or check other drafting requests.</p>
+          </div>
+          <button class="primary" id="lawyer-create-draft-btn" style="min-height:44px; display:inline-flex; align-items:center;">＋ Post Request</button>
+        </div>
+        <div class="tabs" style="margin-bottom: 20px;">
+          <button class="active" id="tab-avail-drafts" data-draft-tab="available">Available Assignments</button>
+          <button id="tab-my-drafts" data-draft-tab="my-requests">My Requests</button>
+          <button id="tab-my-assign" data-draft-tab="my-assignments">My Assignments</button>
+        </div>
+        <div class="panel table" id="drafting-lawyer-panel" style="padding: 24px; display:flex; flex-direction:column; gap:20px;">
+          <!-- Content will load dynamically here based on selected tab -->
+        </div>
+      </section>
+    </main>
+  </div>
+  <div id="lawyer-auth-page" style="display:none;">
+    <div class="auth-card">
+      <a href="index.html" class="close-auth-btn" aria-label="Close" title="Return to Home">×</a>
+      <div id="lawyer-login-section">
+        <h2>Lawyer Sign In</h2>
+        <p>Access your LawyerGrid lawyer dashboard.</p>
+        <form id="lawyer-login-form" autocomplete="off">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="lawyer-login-email" required placeholder="advocate@example.com">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="lawyer-login-password" required placeholder="••••••••••••">
+          </div>
+          <div id="lawyer-login-error" class="error-message"></div>
+          <button class="btn" type="submit">Sign In</button>
+        </form>
+        <p class="switch-text">Don't have an account? <button id="to-lawyer-register">Create account</button></p>
+      </div>
+      <div id="lawyer-register-section" style="display:none;">
+        <h2>Lawyer Registration</h2>
+        <p>Join LawyerGrid as a verified legal professional.</p>
+        <form id="lawyer-register-form" autocomplete="off">
+          <div class="field">
+            <label>Full Name</label>
+            <input type="text" id="lawyer-reg-name" required placeholder="Adv. John Doe">
+          </div>
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="lawyer-reg-email" required placeholder="advocate@example.com">
+          </div>
+          <div class="field">
+            <label>Password (min 12 chars)</label>
+            <input type="password" id="lawyer-reg-password" required minlength="12" placeholder="••••••••••••">
+          </div>
+          <div class="field">
+            <label>Re-enter Password</label>
+            <input type="password" id="lawyer-reg-confirm-password" required minlength="12" placeholder="••••••••••••">
+          </div>
+          <div class="field">
+            <label>Date of Birth <span style="font-size:11px;color:var(--muted);font-weight:400;">(must be 18+ — DPDP Act §9)</span></label>
+            <input type="date" id="lawyer-reg-dob" required
+              style="font-family:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fbfcfb;font-size:14px;outline:none;">
+          </div>
+          <div id="lawyer-register-error" class="error-message"></div>
+          <div class="field"
+            style="background:#f8fdf9;border:1px solid #c8e6c9;border-radius:10px;padding:12px 14px;margin-top:4px;">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-weight:400;font-size:13px;">
+              <input type="checkbox" id="lawyer-consent-privacy" required
+                style="margin-top:2px;accent-color:#1b5e3b;width:16px;height:16px;flex-shrink:0;">
+              <span>I have read and agree to the <a href="privacy.html" style="color:var(--accent);font-weight:600;">Privacy
+                  Policy</a> and consent to the collection and processing of my personal data under the <strong>Digital
+                  Personal Data Protection Act, 2023 (DPDPA)</strong>.</span>
+            </label>
+            <label
+              style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-weight:400;font-size:13px;margin-top:10px;">
+              <input type="checkbox" id="lawyer-consent-terms" required
+                style="margin-top:2px;accent-color:#1b5e3b;width:16px;height:16px;flex-shrink:0;">
+              <span>I agree to the <a href="terms.html" style="color:var(--accent);font-weight:600;">Terms of Service</a>.</span>
+            </label>
+          </div>
+          <button class="btn" type="submit">Register</button>
+        </form>
+        <p class="switch-text">Already have an account? <button id="to-lawyer-login">Sign in instead</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bank Account Form Modal -->
+  <div class="backdrop" id="bank-modal" hidden>
+    <div class="call-modal" style="max-width:480px;">
+      <button id="bank-modal-close">×</button>
+      <small class="eyebrow" id="bank-modal-eyebrow">PAYOUT ACCOUNT</small>
+      <h2 id="bank-modal-title">Add bank account</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Your account number is encrypted and never displayed in full.</p>
+      <form id="bank-form" autocomplete="off">
+        <div class="form">
+          <label style="display:block;margin-bottom:12px;">Account holder name *
+            <input id="bank-holder" placeholder="As per bank records" required style="margin-top:6px;">
+          </label>
+          <label style="display:block;margin-bottom:12px;">Bank name *
+            <input id="bank-name" placeholder="e.g. HDFC Bank" required style="margin-top:6px;" list="bank-suggestions">
+            <datalist id="bank-suggestions">
+              <option value="HDFC Bank"><option value="ICICI Bank"><option value="State Bank of India">
+              <option value="Axis Bank"><option value="Kotak Mahindra Bank"><option value="Punjab National Bank">
+              <option value="Bank of Baroda"><option value="Canara Bank"><option value="IndusInd Bank">
+            </datalist>
+          </label>
+          <label style="display:block;margin-bottom:12px;">Account number *
+            <input id="bank-acno" type="password" autocomplete="new-password" placeholder="6–18 digits" pattern="[0-9]{6,18}" required style="margin-top:6px;" inputmode="numeric">
+          </label>
+          <label style="display:block;margin-bottom:12px;">Confirm account number *
+            <input id="bank-acno-confirm" type="text" placeholder="Re-enter account number" pattern="[0-9]{6,18}" required style="margin-top:6px;" inputmode="numeric">
+          </label>
+          <label style="display:block;margin-bottom:12px;">IFSC code *
+            <input id="bank-ifsc" placeholder="e.g. HDFC0001234" required style="margin-top:6px;" maxlength="11" pattern="[A-Z]{4}0[A-Z0-9]{6}">
+          </label>
+          <label style="display:block;margin-bottom:16px;">UPI ID / VPA (optional)
+            <input id="bank-vpa" placeholder="e.g. lawyer@upi" style="margin-top:6px;">
+          </label>
+          <p id="bank-form-error" style="color:var(--terra);font-size:13px;margin-bottom:10px;"></p>
+          <button class="primary" type="submit" id="bank-form-submit" style="width:100%;">Save account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- UPI Verification Modal -->
+  <div class="backdrop" id="upi-verify-modal" hidden>
+    <div class="call-modal" style="max-width:420px;text-align:center;">
+      <button id="upi-verify-close">×</button>
+      <div style="font-size:40px;margin-bottom:10px;">📱</div>
+      <small class="eyebrow">UPI IDENTITY VERIFICATION</small>
+      <h2 style="margin:8px 0;">Verify via UPI</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
+        We will initiate a <strong>₹1 payment</strong> through PhonePe.<br>
+        On success, your UPI identity is confirmed and the ₹1 may be refunded per our policy.
+      </p>
+      <div id="upi-verify-bank-info" style="background:var(--surface);border-radius:10px;padding:14px;margin-bottom:20px;text-align:left;"></div>
+      <p id="upi-verify-error" style="color:var(--terra);font-size:13px;margin-bottom:10px;"></p>
+      <button class="primary" id="upi-verify-confirm-btn" style="width:100%;">Proceed with ₹1 payment →</button>
+      <p style="font-size:11px;color:var(--muted);margin-top:12px;">Powered by PhonePe · Secured by LawyerGrid</p>
+    </div>
+  </div>
+
+  <div class="backdrop" id="call" hidden>
+    <div class="call-modal"><button id="close">×</button><small class="eyebrow">SECURE CONSULTATION</small>
+      <h2 id="call-title">Consultation room</h2>
+      <p>Secure Daily room · Do not share this link</p>
+      <div id="jitsi"></div>
+    </div>
+  </div>
+  <!-- Generic Modal for Drafting Requests -->
+  <div class="backdrop" id="drafting-modal" hidden>
+    <div class="call-modal" style="max-width:600px; width:calc(100% - 32px); position:relative; padding:35px; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.15);">
+      <button id="drafting-modal-close" style="position:absolute; right:20px; top:20px; border:0; background:none; font-size:24px; cursor:pointer; color:var(--muted);">×</button>
+      <div id="drafting-modal-content"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Firebase OTP Modal -->
+  <div class="backdrop" id="otp-modal" hidden>
+    <div class="otp-card">
+      <button type="button" class="otp-close" id="otp-close-btn" aria-label="Close">×</button>
+      <div class="otp-icon">📱</div>
+      <h3>Verify Mobile Number</h3>
+      <p id="otp-modal-desc">Enter the 6-digit code sent to your number</p>
+      <div class="otp-inputs">
+        <input id="otp-input" type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6"
+               placeholder="_ _ _ _ _ _" autocomplete="one-time-code">
+      </div>
+      <p class="otp-error" id="otp-modal-error"></p>
+      <button type="button" class="btn" id="otp-confirm-btn">Confirm OTP</button>
+      <button type="button" class="otp-resend" id="otp-resend-btn">Resend code</button>
+    </div>
+  </div>
+
+  <!-- Invisible reCAPTCHA anchor (required by Firebase) -->
+  <div id="recaptcha-container"></div>
+
+  <script src="js/cookie-consent.js"></script>
+  <script src="js/e2ee.js"></script>
+  <script src="js/api-client.js?v=rev-24"></script>
+  <script src="js/daily-js.js"></script>
+  <!-- Firebase compat SDK (loaded as regular scripts — no module timing issues) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="js/firebase-phone-auth.js"></script>
+  <script src="js/pdf-annotator.js?v=rev-24"></script>
+  <script src="js/lawyer.js?v=rev-24"></script>
+</body>
+
+</html>

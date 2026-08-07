@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — LawyerGrid</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=daily-8">
+  <style>
+    .legal-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      line-height: 1.8;
+      color: var(--ink);
+    }
+    .legal-content h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(36px, 4vw, 56px);
+      margin-bottom: 8px;
+      color: var(--forest);
+    }
+    .legal-content .meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
+    }
+    .legal-content h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 24px;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      color: var(--forest);
+    }
+    .legal-content p {
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    .legal-content ul {
+      margin-bottom: 20px;
+      padding-left: 20px;
+    }
+    .legal-content li {
+      margin-bottom: 8px;
+    }
+    .legal-content strong {
+      color: var(--forest);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="index.html"><i>L</i>LawyerGrid</a>
+    <button id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+    <nav>
+      <a href="index.html#lawyers">Find a lawyer</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#security">Security</a>
+    </nav>
+    <div class="header-actions">
+      <a class="ghost" href="lawyer.html">Lawyer portal</a>
+      <a class="primary" style="display: flex; align-items: center; justify-content: center;" href="index.html">Go Home</a>
+    </div>
+  </header>
+
+  <main class="white">
+    <div class="legal-content">
+      <small class="eyebrow">Trust & Privacy</small>
+      <h1>Privacy Policy</h1>
+      <div class="meta">Last Updated: July 15, 2026</div>
+
+      <p>At <strong>LawyerGrid</strong>, we believe privacy is a fundamental promise. As a marketplace provider connecting clients with verified legal professionals, we handle highly sensitive legal matters. This policy details how we handle, secure, and protect your information, with special compliance guidelines for the <strong>Digital Personal Data Protection Act, 2023 (DPDP Act)</strong>.</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>To deliver a highly functional marketplace, we collect two types of information:</p>
+      <ul>
+        <li><strong>Basic Profile Data:</strong> Names, email addresses, and contact numbers. Lawyer profiles also store verified credential records, practice details, and verified government IDs.</li>
+        <li><strong>Consultation Metadata & Documents:</strong> Intake form answers, dates/times of consultations, chat messages, and legal case documents.</li>
+      </ul>
+
+      <h2>2. End-to-End Encryption & Security</h2>
+      <p>Unlike standard legal directories, LawyerGrid provides integrated secure tooling:</p>
+      <ul>
+        <li><strong>Secure Video Rooms:</strong> All consultation calls are run through our custom end-to-end encrypted Daily video service, bypassing public logs.</li>
+        <li><strong>Secure Vault:</strong> All uploaded case documents and records are encrypted at rest using industry-standard keys. Access is restricted exclusively to you and your assigned lawyer.</li>
+        <li><strong>Chat Security:</strong> Instant text messaging within the app uses localized secure key derivation, meaning conversations are encrypted.</li>
+      </ul>
+
+      <h2>3. Consent and Data Processing (DPDP Act 2023)</h2>
+      <p>Under the DPDP Act 2023, you retain absolute authority over your personal information:</p>
+      <ul>
+        <li>We process your data strictly on the grounds of <strong>explicit consent</strong> for executing your scheduled lawyer consultations.</li>
+        <li>You have the right to withdraw consent at any time, request structural corrections, or request complete erasure of your platform records.</li>
+      </ul>
+
+      <h2>4. Data Retention</h2>
+      <p>We retain transaction details and consultation histories to settle payouts, tax logs, and dispute records. Personal case documentation and secure chat records can be purged at any time at the request of the client.</p>
+
+      <h2>5. Changes to this Policy</h2>
+      <p>We may modify this policy periodically to align with updated safety policies. Changes will be updated on this page with a revised date stamp.</p>
+
+      <h2>6. Contact Us</h2>
+      <p>For support requests or details on your data rights, contact us at <strong>privacy@lawyergrid.in</strong>.</p>
+    </div>
+  </main>
+
+  <footer>
+    <a class="brand" href="index.html"><i>L</i>LawyerGrid</a>
+    <p>Trusted legal guidance, wherever you are.</p>
+    <div>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="index.html#contact">Contact Us</a>
+      <a href="index.html#feedback">Feedback</a>
+    </div>
+    <small>© 2026 LawyerGrid. Marketplace services only; not a law firm.</small>
+  <script src="js/cookie-consent.js"></script>
+  <script>
+    const menuBtn = document.querySelector("#mobile-menu-btn");
+    const headerEl = document.querySelector("header");
+    if (menuBtn && headerEl) {
+      menuBtn.onclick = (e) => {
+        e.stopPropagation();
+        headerEl.classList.toggle("menu-open");
+      };
+      document.addEventListener("click", (e) => {
+        if (headerEl.classList.contains("menu-open") && !headerEl.contains(e.target)) {
+          headerEl.classList.remove("menu-open");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+

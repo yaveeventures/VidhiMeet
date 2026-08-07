@@ -1,0 +1,152 @@
+{
+  "admin.js": {
+    "mtime": 1783584356.4576445,
+    "ast_hash": "e479891a92fb783ce641af614cc6d04c",
+    "semantic_hash": ""
+  },
+  "api-client.js": {
+    "mtime": 1783600132.7663052,
+    "ast_hash": "d01e7be8b71275de4fd2e417661a3a1b",
+    "semantic_hash": ""
+  },
+  "app.js": {
+    "mtime": 1783659852.6796608,
+    "ast_hash": "d7d03ae3066bdbb8d1795b087b798266",
+    "semantic_hash": ""
+  },
+  "backend/__init__.py": {
+    "mtime": 1783336313.5986695,
+    "ast_hash": "a134134432148caa244a6b85ec828a54",
+    "semantic_hash": ""
+  },
+  "backend/config.py": {
+    "mtime": 1783320972.605668,
+    "ast_hash": "e23aa0d50a57b8495945b154d291f7d6",
+    "semantic_hash": ""
+  },
+  "backend/db.py": {
+    "mtime": 1782800675.5323203,
+    "ast_hash": "7014f27777bad9946759742e24bc4568",
+    "semantic_hash": ""
+  },
+  "backend/main.py": {
+    "mtime": 1783659743.3587902,
+    "ast_hash": "2391e739dd83a369e2855e6fe1c62cfa",
+    "semantic_hash": ""
+  },
+  "backend/models.py": {
+    "mtime": 1783659450.4355257,
+    "ast_hash": "3746c9e9d501410264c95970bc6676b4",
+    "semantic_hash": ""
+  },
+  "backend/schemas.py": {
+    "mtime": 1783659733.2879817,
+    "ast_hash": "ea8e94deeb0f99f4bed0894baf3d182d",
+    "semantic_hash": ""
+  },
+  "backend/security.py": {
+    "mtime": 1783659543.613539,
+    "ast_hash": "08aabe7b83ec656df61b3551e20680ed",
+    "semantic_hash": ""
+  },
+  "backend/services.py": {
+    "mtime": 1783518664.4568293,
+    "ast_hash": "2514547b1f63c7979647c71731f7c16f",
+    "semantic_hash": ""
+  },
+  "daily-js.js": {
+    "mtime": 1783335385.5521939,
+    "ast_hash": "2d58cb67038f3acb5d1dcd38b4b103f1",
+    "semantic_hash": ""
+  },
+  "e2ee.js": {
+    "mtime": 1783518675.6436985,
+    "ast_hash": "bff1d60c9ac9d728cf762f22877f2a88",
+    "semantic_hash": ""
+  },
+  "lawyer.js": {
+    "mtime": 1783659886.2533247,
+    "ast_hash": "e232967777297a1155b23e48ee369aa5",
+    "semantic_hash": ""
+  },
+  "migrations/env.py": {
+    "mtime": 1782800798.292,
+    "ast_hash": "e758aa475aec9b190efe9618db5cfddf",
+    "semantic_hash": ""
+  },
+  "migrations/versions/8dcb01bed07f_initial_schema.py": {
+    "mtime": 1782807073.860001,
+    "ast_hash": "25c621f123ffa4f38fdb0dfdf8cd1fb7",
+    "semantic_hash": ""
+  },
+  "migrations/versions/9d0be6640444_add_aadhaar_and_profile_picture.py": {
+    "mtime": 1782971568.1806364,
+    "ast_hash": "56a557fcbf95bdf48a3a90055be84014",
+    "semantic_hash": ""
+  },
+  "scripts/reset_users.py": {
+    "mtime": 1783517589.7390783,
+    "ast_hash": "fa015ac0c51a97a04e925eed5604283c",
+    "semantic_hash": ""
+  },
+  "scripts/seed.py": {
+    "mtime": 1783336332.3753998,
+    "ast_hash": "bd9fc0ae6485049ee221d66465411ea2",
+    "semantic_hash": ""
+  },
+  "tests/conftest.py": {
+    "mtime": 1782800752.031154,
+    "ast_hash": "545ada0bf837589ee7689459a9e70a48",
+    "semantic_hash": ""
+  },
+  "tests/test_api.py": {
+    "mtime": 1783659599.3575158,
+    "ast_hash": "b432a05dc3ab8f5186258e0beeb00b91",
+    "semantic_hash": ""
+  },
+  ".agents/rules/graphify.md": {
+    "mtime": 1783518378.3484173,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  ".agents/workflows/graphify.md": {
+    "mtime": 1783518378.351555,
+    "ast_hash": "637776aa6f7496d069afe7520c845c8a",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1783336321.8616083,
+    "ast_hash": "84bbd45e875d88e592944b2e411ea0ef",
+    "semantic_hash": ""
+  },
+  "admin.html": {
+    "mtime": 1783584371.6130824,
+    "ast_hash": "e955e3a100c075d2f02453065fd22063",
+    "semantic_hash": ""
+  },
+  "docker-compose.yml": {
+    "mtime": 1782800752.031154,
+    "ast_hash": "b65dbf281e2ec4bf53ac48b695ef8c19",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1783600153.7567692,
+    "ast_hash": "7a70d49699ecd738ef8e5495eb4615bc",
+    "semantic_hash": ""
+  },
+  "lawyer.html": {
+    "mtime": 1783659867.8659742,
+    "ast_hash": "0c6cc846fed39a4d3d6bd1c27cb944f7",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1782800798.283475,
+    "ast_hash": "9aabbb3429356ba4ab86b521d811ce1e",
+    "semantic_hash": ""
+  },
+  "tests/test_compliance.py": {
+    "mtime": 1783659632.9795535,
+    "ast_hash": "d4b4382b3728dff370edb00e1e32e4f7",
+    "semantic_hash": ""
+  }
+}

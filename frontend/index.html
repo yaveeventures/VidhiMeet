@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="LawyerGrid — trusted legal advice, on your terms.">
+  <title>LawyerGrid — Legal help, made human</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/design-tokens.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "LawyerGrid",
+    "description": "Verified legal advice, confidential online consultations, and legal document drafting in India.",
+    "url": "https://lawyergrid.com",
+    "areaServed": "IN",
+    "serviceType": ["Property Law", "Corporate Law", "Family Law"]
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#home"><i>L</i>LawyerGrid</a>
+    <button id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+    <nav><a href="#lawyers">Find a lawyer</a><a href="#how">How it works</a><a href="#security">Security</a><a href="#my-meetings" data-view="my-meetings">My Meetings</a><a href="#drafting" data-view="drafting">Drafting</a></nav>
+    <div class="header-actions"><a class="ghost" href="lawyer.html">Lawyer portal</a><button class="ghost" id="signin-btn">Client sign in</button></div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <span class="eyebrow">— Verified lawyers. Private consultations.</span>
+        <h1>Legal help,<br><em>made human.</em></h1>
+        <p>Connect with a trusted legal expert, share your story securely, and get clear next steps—all from home.</p>
+        <form class="hero-search" id="search">
+          <div class="custom-dropdown" id="hero-practice-dropdown">
+            <button type="button" class="dropdown-trigger" id="dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <div class="trigger-content">
+                <small class="trigger-label">I need help with</small>
+                <div class="trigger-selected">
+                  <span class="option-icon">⌂</span>
+                  <span id="selected-practice-text">Land & property</span>
+                </div>
+              </div>
+              <span class="chevron">▾</span>
+            </button>
+            <div class="dropdown-menu" id="dropdown-menu" role="listbox">
+              <div class="dropdown-option active" data-value="Property Law" data-text="Land & property" data-icon="⌂" role="option">
+                <span class="option-badge icon-property">⌂</span>
+                <div class="option-details">
+                  <strong>Land & property</strong>
+                  <small>Title checks, disputes & tenancy agreements</small>
+                </div>
+                <span class="check-mark">✓</span>
+              </div>
+              <div class="dropdown-option" data-value="Corporate Law" data-text="Business & corporate" data-icon="▱" role="option">
+                <span class="option-badge icon-corporate">▱</span>
+                <div class="option-details">
+                  <strong>Business & corporate</strong>
+                  <small>Registration, contracts & IP advisory</small>
+                </div>
+                <span class="check-mark">✓</span>
+              </div>
+              <div class="dropdown-option" data-value="Family Law" data-text="Family & divorce" data-icon="⚖" role="option">
+                <span class="option-badge icon-family">⚖</span>
+                <div class="option-details">
+                  <strong>Family & divorce</strong>
+                  <small>Divorce, custody, inheritance & mediation</small>
+                </div>
+                <span class="check-mark">✓</span>
+              </div>
+            </div>
+            <select id="practice" style="display:none;">
+              <option value="Property Law" selected>Land & property</option>
+              <option value="Corporate Law">Business & corporate</option>
+              <option value="Family Law">Family & divorce</option>
+            </select>
+          </div>
+          <button aria-label="Search" type="submit" class="search-submit">→</button>
+        </form>
+        <div class="trust"><div class="faces" id="trust-faces"><b>AR</b><b>SK</b><b>MN</b></div><div><strong id="trust-rating">Verified <span>✓</span></strong><small id="trust-clients">Verified Legal Experts</small></div></div>
+      </div>
+      <div class="hero-art">
+        <div class="rings"></div>
+        <div class="portrait"><div class="hair"></div><div class="head"></div><div class="body"></div><div class="collar"></div></div>
+        <div class="float verified"><b>✓</b><span><strong>Every lawyer is verified</strong><small>Credentials checked by our team</small></span></div>
+        <div class="float available"><b></b><span><strong>Available today</strong><small id="stat-lawyers-online">— lawyers online</small></span></div>
+      </div>
+    </section>
+
+    <section class="section white" id="lawyers">
+      <div class="heading"><div><span class="kicker">Start with what matters</span><h2>What can we help you with?</h2></div><p>Choose an area and we'll match you with lawyers who understand your situation.</p></div>
+      <div class="practice-grid">
+        <button class="practice active" data-practice="Property Law"><span class="icon">⌂</span><span class="arrow">↗</span><h3>Land & property</h3><p>Title checks, disputes & tenancy agreements</p><small id="count-property">— verified lawyers</small></button>
+        <button class="practice" data-practice="Corporate Law"><span class="icon">▱</span><span class="arrow">↗</span><h3>Company & corporate</h3><p>Registration, contracts & intellectual property</p><small id="count-corporate">— verified lawyers</small></button>
+        <button class="practice" data-practice="Family Law"><span class="icon">♡</span><span class="arrow">↗</span><h3>Family law</h3><p>Divorce, custody, alimony & inheritance</p><small id="count-family">— verified lawyers</small></button>
+      </div>
+    </section>
+
+    <section class="section lawyers">
+      <div class="heading"><div><span class="kicker">Hand-picked for you</span><h2>Meet your legal experts</h2></div><button class="link" id="view-all-lawyers-btn">View all lawyers →</button></div>
+      <div class="filters"><button class="active" data-filter="all">All experts</button><button data-filter="today">Available today</button><button data-filter="low">Under ₹2,000</button></div>
+      <div class="lawyer-grid" id="lawyer-grid"></div>
+    </section>
+
+    <section class="how" id="how">
+      <div><span class="kicker gold">Simple by design</span><h2>From uncertainty<br>to a clear way forward.</h2><p>No confusing process. Just three thoughtful steps to the right legal guidance.</p></div>
+      <div class="steps">
+        <article><b>01</b><div><h3>Tell us what’s happening</h3><p>A short, private intake helps your lawyer arrive prepared.</p></div></article>
+        <article><b>02</b><div><h3>Choose your lawyer</h3><p>Compare verified experts, availability, languages and fees.</p></div></article>
+        <article><b>03</b><div><h3>Meet securely online</h3><p>Join a video, voice or chat consultation inside your browser.</p></div></article>
+      </div>
+    </section>
+
+    <section class="security" id="security">
+      <div><span class="kicker">Privacy isn't a feature. It's a promise.</span><h2>Your story stays yours.</h2><p>From your first message to your final document, LawyerGrid is designed to keep sensitive legal matters private.</p><div class="security-list"><b>◈ Encrypted calls</b><b>▣ Secure document vault</b><b>✓ Verified professionals</b></div></div>
+      <div class="shield-card"><div class="shield">L<small>✓</small></div><div><small>PROTECTED BY</small><h3>LawyerGrid Secure</h3><p>TLS encrypted · Access controlled · Monitored 24/7</p></div></div>
+    </section>
+  </main>
+
+<section id="all-lawyers-view" class="view" style="display:none; min-height: 80vh; padding: 60px 8vw 90px; background: var(--cream);">
+  <div class="meetings-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+    <div>
+      <small class="eyebrow" style="color: var(--terra); text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 700;">BROWSE MEMBERS</small>
+      <h2 style="font-family: 'Playfair Display'; font-size: clamp(32px, 4vw, 52px); margin: 6px 0 0; color: var(--forest);">All Verified Lawyers</h2>
+    </div>
+    <button class="btn-back" id="all-lawyers-back-btn">← Back to home</button>
+  </div>
+
+  <div class="all-lawyers-filters" style="display: flex; gap: 16px; margin-bottom: 30px; flex-wrap: wrap; background: white; padding: 18px 24px; border-radius: 16px; border: 1px solid #17251f12;">
+    <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 150px;">
+      <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted);">Experience</label>
+      <select id="filter-experience" style="padding: 10px; border-radius: 8px; border: 1px solid var(--line); background: #fbfcfb; font-size: 14px; outline: none; font-weight: 600;">
+        <option value="0">Any Experience</option>
+        <option value="5">5+ Years</option>
+        <option value="10">10+ Years</option>
+        <option value="15">15+ Years</option>
+      </select>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 150px;">
+      <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--muted);">Language</label>
+      <select id="filter-language" style="padding: 10px; border-radius: 8px; border: 1px solid var(--line); background: #fbfcfb; font-size: 14px; outline: none; font-weight: 600;">
+        <option value="all">Any Language</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Malayalam">Malayalam</option>
+        <option value="Gujarati">Gujarati</option>
+        <option value="Tamil">Tamil</option>
+        <option value="Bengali">Bengali</option>
+        <option value="Kannada">Kannada</option>
+        <option value="Telugu">Telugu</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="lawyer-grid" id="all-lawyers-grid"></div>
+</section>
+
+<section id="my-meetings" class="view" style="display:none;">
+  <div class="meetings-header">
+    <h2>Your Meetings</h2>
+    <button class="btn-back" id="back-to-home">← Back to home</button>
+  </div>
+  <div id="meetings-list" class="meetings-list"></div>
+</section>
+
+<section id="drafting" class="view" style="display:none; min-height: 80vh; padding: 60px 8vw 90px; background: var(--cream);">
+  <div class="meetings-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+    <div>
+      <small class="eyebrow" style="color: var(--terra); text-transform: uppercase; letter-spacing: .16em; font-size: 11px; font-weight: 700;">LEGAL DOCUMENTS</small>
+      <h2 style="font-family: 'Playfair Display'; font-size: clamp(32px, 4vw, 52px); margin: 6px 0 0; color: var(--forest);">Drafting Requests</h2>
+    </div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button class="primary" id="create-drafting-btn" style="min-height: 44px; display: inline-flex; align-items: center;">＋ New Request</button>
+      <button class="btn-back" id="drafting-back-btn" style="min-height: 44px; display: inline-flex; align-items: center;">← Back to home</button>
+    </div>
+  </div>
+
+  <div id="drafting-list" class="drafting-list" style="display: flex; flex-direction: column; gap: 20px;">
+    <!-- Drafting requests will load here dynamically -->
+  </div>
+</section>
+
+  <footer><a class="brand" href="#home"><i>L</i>LawyerGrid</a><p>Trusted legal guidance, wherever you are.</p><div><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="#cookie-settings" class="cookie-settings-btn">Cookie Preferences</a><a href="#contact" id="contact-us-btn">Contact Us</a><a href="#feedback" id="feedback-btn">Feedback</a></div><small>© 2026 LawyerGrid. Marketplace services only; not a law firm.</small></footer>
+
+  <div class="backdrop" id="backdrop" hidden><section class="modal" role="dialog" aria-modal="true"><button class="close" aria-label="Close">×</button><div id="modal-content"></div></section></div>
+  <div class="toast" id="toast"></div>
+  <script src="js/cookie-consent.js"></script>
+  <script src="js/e2ee.js"></script>
+  <script src="js/api-client.js?v=rev-24"></script>
+  <script src="js/daily-js.js"></script>
+  <script src="js/pdf-annotator.js?v=rev-24"></script>
+  <script src="js/app.js?v=rev-24"></script>
+</body>
+</html>
+

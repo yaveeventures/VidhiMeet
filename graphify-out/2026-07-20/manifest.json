@@ -1,0 +1,192 @@
+{
+  "admin.js": {
+    "mtime": 1784557676.4140127,
+    "ast_hash": "ba1a747b72c1e12a80705ecbb154db19",
+    "semantic_hash": ""
+  },
+  "api-client.js": {
+    "mtime": 1784559710.6047578,
+    "ast_hash": "a34e70b73c2a0104ffc84b7f37b050a9",
+    "semantic_hash": ""
+  },
+  "app.js": {
+    "mtime": 1784559813.2995608,
+    "ast_hash": "0ce0b8f3b57016f393134410d28d9a69",
+    "semantic_hash": ""
+  },
+  "backend/__init__.py": {
+    "mtime": 1783336313.5986695,
+    "ast_hash": "a134134432148caa244a6b85ec828a54",
+    "semantic_hash": ""
+  },
+  "backend/config.py": {
+    "mtime": 1784530664.3908322,
+    "ast_hash": "995808d445fbef4746fa07293fa0db1d",
+    "semantic_hash": ""
+  },
+  "backend/db.py": {
+    "mtime": 1782800675.5323203,
+    "ast_hash": "7014f27777bad9946759742e24bc4568",
+    "semantic_hash": ""
+  },
+  "backend/main.py": {
+    "mtime": 1784559689.5050628,
+    "ast_hash": "71f2df0398e23b25f2f3fdea602414c4",
+    "semantic_hash": ""
+  },
+  "backend/models.py": {
+    "mtime": 1784559595.5302362,
+    "ast_hash": "9d020d2512e53ec5d528b06404e16ebf",
+    "semantic_hash": ""
+  },
+  "backend/schemas.py": {
+    "mtime": 1784559654.6091118,
+    "ast_hash": "4f7c16bedb708c81d89a970332b8f574",
+    "semantic_hash": ""
+  },
+  "backend/security.py": {
+    "mtime": 1783659543.613539,
+    "ast_hash": "08aabe7b83ec656df61b3551e20680ed",
+    "semantic_hash": ""
+  },
+  "backend/services.py": {
+    "mtime": 1784533698.9609437,
+    "ast_hash": "c7ed8923790f60fddc9f57efdca43477",
+    "semantic_hash": ""
+  },
+  "daily-js.js": {
+    "mtime": 1783335385.5521939,
+    "ast_hash": "2d58cb67038f3acb5d1dcd38b4b103f1",
+    "semantic_hash": ""
+  },
+  "e2ee.js": {
+    "mtime": 1783518675.6436985,
+    "ast_hash": "bff1d60c9ac9d728cf762f22877f2a88",
+    "semantic_hash": ""
+  },
+  "lawyer.js": {
+    "mtime": 1784559959.144408,
+    "ast_hash": "eb95a8e50c45e89d5555ca6424b28eb9",
+    "semantic_hash": ""
+  },
+  "migrations/env.py": {
+    "mtime": 1782800798.292,
+    "ast_hash": "e758aa475aec9b190efe9618db5cfddf",
+    "semantic_hash": ""
+  },
+  "migrations/versions/8dcb01bed07f_initial_schema.py": {
+    "mtime": 1782807073.860001,
+    "ast_hash": "25c621f123ffa4f38fdb0dfdf8cd1fb7",
+    "semantic_hash": ""
+  },
+  "migrations/versions/9d0be6640444_add_aadhaar_and_profile_picture.py": {
+    "mtime": 1782971568.1806364,
+    "ast_hash": "56a557fcbf95bdf48a3a90055be84014",
+    "semantic_hash": ""
+  },
+  "scripts/reset_users.py": {
+    "mtime": 1783517589.7390783,
+    "ast_hash": "fa015ac0c51a97a04e925eed5604283c",
+    "semantic_hash": ""
+  },
+  "scripts/seed.py": {
+    "mtime": 1783336332.3753998,
+    "ast_hash": "bd9fc0ae6485049ee221d66465411ea2",
+    "semantic_hash": ""
+  },
+  "tests/conftest.py": {
+    "mtime": 1782800752.031154,
+    "ast_hash": "545ada0bf837589ee7689459a9e70a48",
+    "semantic_hash": ""
+  },
+  "tests/test_api.py": {
+    "mtime": 1784127721.4790049,
+    "ast_hash": "c6135cbe241b3bb890294d40c7c0471f",
+    "semantic_hash": ""
+  },
+  ".agents/rules/graphify.md": {
+    "mtime": 1783518378.3484173,
+    "ast_hash": "a0e4d192b9e2e17256124dbfc8e24e6a",
+    "semantic_hash": ""
+  },
+  ".agents/workflows/graphify.md": {
+    "mtime": 1783518378.351555,
+    "ast_hash": "637776aa6f7496d069afe7520c845c8a",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1783336321.8616083,
+    "ast_hash": "84bbd45e875d88e592944b2e411ea0ef",
+    "semantic_hash": ""
+  },
+  "admin.html": {
+    "mtime": 1784557763.8321302,
+    "ast_hash": "b28037e111cfc47581d62ca13eb63c36",
+    "semantic_hash": ""
+  },
+  "docker-compose.yml": {
+    "mtime": 1782800752.031154,
+    "ast_hash": "b65dbf281e2ec4bf53ac48b695ef8c19",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1784559743.7925696,
+    "ast_hash": "190b9c00860ff098f3a0b3ff93e3748a",
+    "semantic_hash": ""
+  },
+  "lawyer.html": {
+    "mtime": 1784559928.341753,
+    "ast_hash": "8fcd8bf00b7d54112961cad22579ecb4",
+    "semantic_hash": ""
+  },
+  "requirements.txt": {
+    "mtime": 1782800798.283475,
+    "ast_hash": "9aabbb3429356ba4ab86b521d811ce1e",
+    "semantic_hash": ""
+  },
+  "tests/test_compliance.py": {
+    "mtime": 1784127726.9880228,
+    "ast_hash": "80bb451b3f42fbcd7fa9f2c5d95c5af0",
+    "semantic_hash": ""
+  },
+  "migrations/versions/268d55c084cf_add_mobile_number.py": {
+    "mtime": 1784039070.0972524,
+    "ast_hash": "b275b3a5e3d39f3d0683718e38f9918f",
+    "semantic_hash": ""
+  },
+  "privacy.html": {
+    "mtime": 1784088616.3181484,
+    "ast_hash": "cf4db6acac9ab416f0b8cdaf2eddad03",
+    "semantic_hash": ""
+  },
+  "terms.html": {
+    "mtime": 1784089872.45953,
+    "ast_hash": "1d696cf0b184598db9a7b77cc93f3fb5",
+    "semantic_hash": ""
+  },
+  "firebase-phone-auth.js": {
+    "mtime": 1784555501.1686513,
+    "ast_hash": "e02a3277bb06b72b16cb7d8ed047f0c7",
+    "semantic_hash": ""
+  },
+  "migrations/versions/80394484e25e_add_phonepe_transaction_id.py": {
+    "mtime": 1784530687.9382246,
+    "ast_hash": "fead49e832cecd669634b89c07333616",
+    "semantic_hash": ""
+  },
+  "tests/test_phonepe.py": {
+    "mtime": 1784530846.754501,
+    "ast_hash": "903f923d01283e463727223baf3d4336",
+    "semantic_hash": ""
+  },
+  "tests/test_bank_account.py": {
+    "mtime": 1784535379.5003762,
+    "ast_hash": "2fd078abf986227f788bd921215ba26d",
+    "semantic_hash": ""
+  },
+  "tests/test_drafting.py": {
+    "mtime": 1784560003.5888548,
+    "ast_hash": "3afdfd4678fd68eea82cef69bf3fb273",
+    "semantic_hash": ""
+  }
+}
