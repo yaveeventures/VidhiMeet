@@ -5,6 +5,15 @@ from .models import BookingStatus, Practice, Role, DraftingStatus, ProposalStatu
 from .sanitizer import sanitize_text, sanitize_filename, sanitize_key
 
 
+class GoogleLoginRequest(BaseModel):
+    id_token: str | None = None
+    email: EmailStr
+    full_name: str | None = None
+    role: Role = Role.CLIENT
+    practice: Practice | None = None
+    bar_number: str | None = None
+
+
 class RegisterRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=12, max_length=128)
@@ -55,12 +64,29 @@ class RegisterRequest(BaseModel):
 class LoginRequest(BaseModel):
     email: EmailStr = Field(..., max_length=256)
     password: str = Field(..., min_length=1, max_length=128)
+    totp_code: str | None = Field(default=None, max_length=6)
 
 
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str = "bearer"
+    mfa_required: bool = False
+
+
+class MfaSetupResponse(BaseModel):
+    secret: str
+    qr_uri: str
+
+
+class MfaEnableRequest(BaseModel):
+    code: str = Field(..., min_length=6, max_length=6)
+
+
+class MfaVerifyRequest(BaseModel):
+    email: EmailStr = Field(..., max_length=256)
+    code: str = Field(..., min_length=6, max_length=6)
+
 
 
 class BookingCreate(BaseModel):
@@ -90,7 +116,8 @@ class BookingOut(BaseModel):
     client_id: str
     lawyer_id: str
     practice: Practice
-    starts_at: datetime
+    starts_at: datetime | None = None
+    original_starts_at: datetime | None = None
     duration_minutes: int
     amount_minor: int
     currency: str
@@ -104,17 +131,68 @@ class BookingOut(BaseModel):
     base_price_minor: int = 0
     client_platform_fee_minor: int = 0
     lawyer_platform_fee_minor: int = 0
-    platform_fee_minor: int
-    lawyer_amount_minor: int
+    platform_fee_minor: int = 0
+    lawyer_amount_minor: int = 0
     payment_url: str | None = None
-    last_message_at: datetime
+    last_message_at: datetime | None = None
     dispute_category: str | None = None
     dispute_reason: str | None = None
     disputed_at: datetime | None = None
     lawyer_duration_seconds: int = 0
     client_duration_seconds: int = 0
     auto_resolution_status: str | None = None
+    cancellation_reason: str | None = None
+    cancelled_by_role: str | None = None
+    refund_amount_minor: int | None = None
+    penalty_amount_minor: int | None = None
+    refund_tx_id: str | None = None
+    voucher_code: str | None = None
+    relisted_at: datetime | None = None
     model_config = {"from_attributes": True}
+
+
+class CancellationPreviewOut(BaseModel):
+    policy_tier: str
+    hours_until_start: float
+    total_amount_minor: int
+    refund_pct: int
+    penalty_pct: int
+    refund_amount_minor: int
+    penalty_amount_minor: int
+    voucher_issued: bool
+    reversal_timeline_notice: str
+
+
+class CancellationRequest(BaseModel):
+    reason: str | None = Field(default=None, max_length=500)
+
+    @field_validator("reason")
+    @classmethod
+    def sanitize_reason(cls, v: str | None) -> str | None:
+        return sanitize_text(v) if v else v
+
+
+class CancellationResultOut(BaseModel):
+    booking_id: str
+    status: str
+    cancelled_by_role: str
+    refund_amount_minor: int
+    penalty_amount_minor: int
+    refund_tx_id: str | None = None
+    voucher_code: str | None = None
+    reversal_timeline_notice: str
+    message: str
+
+
+class VoucherOut(BaseModel):
+    id: str
+    code: str
+    discount_percent: int
+    expires_at: datetime
+    used: bool
+    created_at: datetime
+    model_config = {"from_attributes": True}
+
 
 
 

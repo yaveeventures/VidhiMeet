@@ -1,5 +1,6 @@
+import asyncio
 import secrets
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy import func, select
@@ -8,17 +9,18 @@ from sqlalchemy.orm import Session
 from ..config import get_settings
 from ..db import get_db
 from ..models import (
-    Booking, BookingStatus, LawyerProfile, Message, Practice, Review, Role, User
+    Booking, BookingStatus, LawyerProfile, Message, Practice, Review, Role, User, Voucher
 )
 from ..schemas import (
-    BookingCreate, BookingOut, DisputeCreate, MessageCreate, MessageOut,
-    ReviewCreate, ReviewOut
+    BookingCreate, BookingOut, CancellationPreviewOut, CancellationRequest, CancellationResultOut,
+    DisputeCreate, MessageCreate, MessageOut, ReviewCreate, ReviewOut
 )
 from ..security import current_user, require_roles
 from ..services import (
-    audit, create_payment_intent, evaluate_daily_meeting_logs, get_daily_meeting_details,
-    presign_document, validate_intake
+    audit, calculate_cancellation_policy, create_payment_intent, evaluate_daily_meeting_logs,
+    get_daily_meeting_details, initiate_refund, presign_document, validate_intake
 )
+from ..services.event_bus import event_bus
 
 
 settings = get_settings()
@@ -42,7 +44,10 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                    db: Session = Depends(get_db)):
     if not payload.disclaimer_accepted:
         raise HTTPException(422, "attorney-client disclaimer acknowledgement is required")
-    if payload.starts_at <= datetime.now(timezone.utc):
+    starts = payload.starts_at
+    if starts.tzinfo is None:
+        starts = starts.replace(tzinfo=timezone.utc)
+    if starts <= datetime.now(timezone.utc):
         raise HTTPException(422, "booking must be in the future")
     validate_intake(payload.practice, payload.intake)
     lawyer = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == payload.lawyer_id,
@@ -50,6 +55,50 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
     p_practices = [x.lower() for x in lawyer.practice] if isinstance(lawyer.practice, list) else [str(lawyer.practice).lower()]
     if not lawyer or payload.practice.value.lower() not in p_practices:
         raise HTTPException(404, "verified lawyer not found for this practice")
+
+    # ── Lawyer Availability & Working Hours Check ─────────────────────────────
+    if lawyer.availability and isinstance(lawyer.availability, dict):
+        min_notice = lawyer.availability.get("_min_notice", 12)
+        if isinstance(min_notice, (int, float)) and min_notice > 0:
+            if starts < datetime.now(timezone.utc) + timedelta(hours=min_notice):
+                raise HTTPException(422, f"Bookings for this lawyer require at least {min_notice} hours advance notice")
+
+        try:
+            from zoneinfo import ZoneInfo
+            tz = ZoneInfo("Asia/Kolkata")
+        except Exception:
+            tz = timezone.utc
+        
+        local_starts = starts.astimezone(tz)
+        day_key = local_starts.strftime("%A").lower()
+        day_config = lawyer.availability.get(day_key, {})
+        
+        if not day_config or not day_config.get("active", False):
+            raise HTTPException(422, f"Lawyer is unavailable on {local_starts.strftime('%A')}s")
+            
+        start_str = day_config.get("start")
+        end_str = day_config.get("end")
+        if start_str and end_str:
+            try:
+                work_start = datetime.strptime(start_str, "%I:%M %p").time()
+                work_end = datetime.strptime(end_str, "%I:%M %p").time()
+                booking_time = local_starts.time()
+                if booking_time < work_start or booking_time > work_end:
+                    raise HTTPException(422, f"Lawyer is only available between {start_str} and {end_str} on {local_starts.strftime('%A')}s")
+            except ValueError:
+                pass
+
+    # ── Double Booking Conflict Check ──────────────────────────────────────────
+    existing = db.scalar(
+        select(Booking).where(
+            Booking.lawyer_id == payload.lawyer_id,
+            Booking.status.in_([BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS, BookingStatus.PENDING_PAYMENT]),
+            Booking.starts_at == payload.starts_at
+        )
+    )
+    if existing:
+        raise HTTPException(409, "This time slot is already booked for this lawyer.")
+
     fee = max(3500, round(lawyer.hourly_fee_minor * 0.05))
     booking = Booking(client_id=user.id, lawyer_id=payload.lawyer_id, practice=payload.practice,
                       starts_at=payload.starts_at, duration_minutes=payload.duration_minutes,
@@ -69,6 +118,17 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
     audit(db, user, "booking.created", "booking", booking.id, {"disclaimer": payload.disclaimer_version})
     db.commit(); db.refresh(booking)
     booking.payment_url = payment_url
+
+    try:
+        asyncio.create_task(event_bus.publish_user(str(payload.lawyer_id), "BOOKING_CREATED", {
+            "booking_id": booking.id,
+            "client_name": user.full_name,
+            "practice": payload.practice,
+            "starts_at": booking.starts_at.isoformat() if booking.starts_at else None
+        }))
+    except Exception:
+        pass
+
     return booking
 
 
@@ -92,6 +152,28 @@ def meeting_token(booking_id: str, user: User = Depends(current_user), db: Sessi
     booking = booking_for_participant(booking_id, user, db)
     if booking.status not in (BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS):
         raise HTTPException(409, "consultation room is unavailable")
+
+    # Time-window enforcement: Room is active 15 mins before starts_at until session duration ends
+    if booking.status == BookingStatus.CONFIRMED and booking.starts_at:
+        now = datetime.now(timezone.utc)
+        starts = booking.starts_at
+        if starts.tzinfo is None:
+            starts = starts.replace(tzinfo=timezone.utc)
+        
+        window_start = starts - timedelta(minutes=15)
+        window_end = starts + timedelta(minutes=booking.duration_minutes or 45)
+
+        if now < window_start:
+            raise HTTPException(
+                400,
+                "Consultation room is not active yet. Rooms open 15 minutes before the scheduled time."
+            )
+        if now > window_end:
+            raise HTTPException(
+                400,
+                "Consultation session time window has expired."
+            )
+
     return get_daily_meeting_details(booking, user)
 
 
@@ -138,6 +220,19 @@ def complete_booking(booking_id: str, user: User = Depends(current_user), db: Se
     booking = booking_for_participant(booking_id, user, db)
     if booking.status not in (BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS):
         raise HTTPException(400, "only confirmed or in-progress bookings can be completed")
+
+    # Time-window enforcement: Booking cannot be completed before its scheduled start time (-15m buffer)
+    if booking.status == BookingStatus.CONFIRMED and booking.starts_at:
+        now = datetime.now(timezone.utc)
+        starts = booking.starts_at
+        if starts.tzinfo is None:
+            starts = starts.replace(tzinfo=timezone.utc)
+        window_start = starts - timedelta(minutes=15)
+        if now < window_start:
+            raise HTTPException(
+                400,
+                "Consultation cannot be completed before its scheduled session time."
+            )
 
     # Enforce minimum call duration of 15 minutes when completed by the lawyer
     if user.role == Role.LAWYER:
@@ -227,6 +322,25 @@ def send_message(booking_id: str, payload: MessageCreate, user: User = Depends(c
     audit(db, user, "message.sent", "message", msg.id, {"booking_id": booking.id, "encrypted": payload.encrypted})
     db.commit()
     db.refresh(msg)
+
+    recipient_user_id = str(booking.lawyer_id) if user.id == booking.client_id else str(booking.client_id)
+    try:
+        asyncio.create_task(event_bus.publish_user(recipient_user_id, "CHAT_MESSAGE_RECEIVED", {
+            "booking_id": booking_id,
+            "sender_name": user.full_name,
+            "message": {
+                "id": msg.id,
+                "booking_id": msg.booking_id,
+                "sender_id": msg.sender_id,
+                "content": msg.content,
+                "encrypted": msg.encrypted,
+                "iv": msg.iv,
+                "created_at": msg.created_at.isoformat() if msg.created_at else None
+            }
+        }))
+    except Exception:
+        pass
+
     return msg
 
 
@@ -256,3 +370,96 @@ def list_lawyer_reviews(lawyer_id: str, db: Session = Depends(get_db)):
         select(Review).where(Review.lawyer_id == lawyer_id).order_by(Review.created_at.desc())
     ).all()
     return list(reviews)
+
+
+# ── Cancellation & Time-Tiered Refund Engine ───────────────────────────────────
+
+@router.get("/api/v1/bookings/{booking_id}/cancellation-preview", response_model=CancellationPreviewOut)
+def cancellation_preview(booking_id: str, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    booking = booking_for_participant(booking_id, user, db)
+    if booking.status in (BookingStatus.CANCELLED, BookingStatus.REFUNDED, BookingStatus.COMPLETED):
+        raise HTTPException(400, f"booking cannot be cancelled in status '{booking.status.value}'")
+
+    from ..ntp_time import ntp_now
+    now_dt = ntp_now()
+
+    role = "lawyer" if user.id == booking.lawyer_id else "client"
+    if user.role == Role.ADMIN:
+        role = "admin"
+
+    calc = calculate_cancellation_policy(booking, role, now_dt)
+    return calc
+
+
+@router.post("/api/v1/bookings/{booking_id}/cancel", response_model=CancellationResultOut)
+def cancel_booking(
+    booking_id: str,
+    payload: CancellationRequest = CancellationRequest(),
+    user: User = Depends(current_user),
+    db: Session = Depends(get_db)
+):
+    booking = booking_for_participant(booking_id, user, db)
+    if booking.status in (BookingStatus.CANCELLED, BookingStatus.REFUNDED, BookingStatus.COMPLETED):
+        raise HTTPException(400, f"booking cannot be cancelled in status '{booking.status.value}'")
+
+    from ..ntp_time import ntp_now
+    now_dt = ntp_now()
+
+    role = "lawyer" if user.id == booking.lawyer_id else "client"
+    if user.role == Role.ADMIN:
+        role = "admin"
+
+    calc = calculate_cancellation_policy(booking, role, now_dt)
+
+    refund_tx_id = None
+    if calc["refund_amount_minor"] > 0:
+        refund_tx_id = initiate_refund(booking, calc["refund_amount_minor"], payload.reason or "Client cancellation")
+
+    voucher_code = None
+    if calc["voucher_issued"]:
+        voucher_code = f"REBOOK-{secrets.token_hex(4).upper()}"
+        voucher = Voucher(
+            code=voucher_code,
+            user_id=booking.client_id,
+            discount_percent=20,
+            expires_at=now_dt + timedelta(days=30),
+            used=False
+        )
+        db.add(voucher)
+
+    booking.status = BookingStatus.CANCELLED
+    booking.original_starts_at = booking.starts_at
+    booking.starts_at = None
+    booking.cancellation_reason = payload.reason
+    booking.cancelled_by_role = role
+    booking.refund_amount_minor = calc["refund_amount_minor"]
+    booking.penalty_amount_minor = calc["penalty_amount_minor"]
+    booking.refund_tx_id = refund_tx_id
+    booking.voucher_code = voucher_code
+    booking.relisted_at = now_dt
+
+    audit(db, user, "booking.cancelled", "booking", booking.id, {
+        "cancelled_by_role": role,
+        "policy_tier": calc["policy_tier"],
+        "refund_amount_minor": calc["refund_amount_minor"],
+        "penalty_amount_minor": calc["penalty_amount_minor"],
+        "voucher_code": voucher_code
+    })
+
+    db.commit()
+    db.refresh(booking)
+
+    msg = f"Booking cancelled successfully. Refund of ₹{calc['refund_amount_minor']/100:.2f} initiated." if calc['refund_amount_minor'] > 0 else "Booking cancelled."
+
+    return {
+        "booking_id": booking.id,
+        "status": booking.status.value,
+        "cancelled_by_role": role,
+        "refund_amount_minor": calc["refund_amount_minor"],
+        "penalty_amount_minor": calc["penalty_amount_minor"],
+        "refund_tx_id": refund_tx_id,
+        "voucher_code": voucher_code,
+        "reversal_timeline_notice": calc["reversal_timeline_notice"],
+        "message": msg
+    }
+

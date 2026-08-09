@@ -2,21 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="LawyerGrid — trusted legal advice, on your terms.">
-  <title>LawyerGrid — Legal help, made human</title>
+  <meta name="description" content="VidhiMeet — trusted legal advice, on your terms.">
+  <title>VidhiMeet — Legal help, made human</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/cookie-consent.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "LegalService",
-    "name": "LawyerGrid",
+    "name": "VidhiMeet",
     "description": "Verified legal advice, confidential online consultations, and legal document drafting in India.",
-    "url": "https://lawyergrid.com",
+    "url": "https://vidhimeet.com",
     "areaServed": "IN",
     "serviceType": ["Property Law", "Corporate Law", "Family Law"]
   }
@@ -24,9 +25,9 @@
 </head>
 <body>
   <header>
-    <a class="brand" href="#home"><i>L</i>LawyerGrid</a>
+    <a class="brand" href="#home"><img src="logo.png" alt="VidhiMeet" class="brand-logo-img" height="72" style="height:72px;width:auto;display:block;"></a>
     <button id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
-    <nav><a href="#lawyers">Find a lawyer</a><a href="#how">How it works</a><a href="#security">Security</a><a href="#my-meetings" data-view="my-meetings">My Meetings</a><a href="#drafting" data-view="drafting">Drafting</a></nav>
+    <nav><a href="#lawyers">Find a lawyer</a><a href="#how">How it works</a><a href="#security">Security</a><a href="#drafting" data-view="drafting">Drafting</a></nav>
     <div class="header-actions"><a class="ghost" href="lawyer.html">Lawyer portal</a><button class="ghost" id="signin-btn">Client sign in</button></div>
   </header>
 
@@ -117,8 +118,8 @@
     </section>
 
     <section class="security" id="security">
-      <div><span class="kicker">Privacy isn't a feature. It's a promise.</span><h2>Your story stays yours.</h2><p>From your first message to your final document, LawyerGrid is designed to keep sensitive legal matters private.</p><div class="security-list"><b>◈ Encrypted calls</b><b>▣ Secure document vault</b><b>✓ Verified professionals</b></div></div>
-      <div class="shield-card"><div class="shield">L<small>✓</small></div><div><small>PROTECTED BY</small><h3>LawyerGrid Secure</h3><p>TLS encrypted · Access controlled · Monitored 24/7</p></div></div>
+      <div><span class="kicker">Privacy isn't a feature. It's a promise.</span><h2>Your story stays yours.</h2><p>From your first message to your final document, VidhiMeet is designed to keep sensitive legal matters private.</p><div class="security-list"><b>◈ Encrypted calls</b><b>▣ Secure document vault</b><b>✓ Verified professionals</b></div></div>
+      <div class="shield-card"><div class="shield">L<small>✓</small></div><div><small>PROTECTED BY</small><h3>VidhiMeet Secure</h3><p>TLS encrypted · Access controlled · Monitored 24/7</p></div></div>
     </section>
   </main>
 
@@ -185,16 +186,17 @@
   </div>
 </section>
 
-  <footer><a class="brand" href="#home"><i>L</i>LawyerGrid</a><p>Trusted legal guidance, wherever you are.</p><div><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="#cookie-settings" class="cookie-settings-btn">Cookie Preferences</a><a href="#contact" id="contact-us-btn">Contact Us</a><a href="#feedback" id="feedback-btn">Feedback</a></div><small>© 2026 LawyerGrid. Marketplace services only; not a law firm.</small></footer>
+  <footer><a class="brand" href="#home"><img src="logo.png" alt="VidhiMeet" class="brand-logo-img" height="38" style="height:38px;width:auto;display:block;"></a><p>Trusted legal guidance, wherever you are.</p><div><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="#cookie-settings" class="cookie-settings-btn">Cookie Preferences</a><a href="#contact" id="contact-us-btn">Contact Us</a><a href="#feedback" id="feedback-btn">Feedback</a><a href="admin-login.html" style="opacity: 0.85;">Admin Portal 🔒</a></div><small>© 2026 VidhiMeet. Marketplace services only; not a law firm.</small></footer>
 
   <div class="backdrop" id="backdrop" hidden><section class="modal" role="dialog" aria-modal="true"><button class="close" aria-label="Close">×</button><div id="modal-content"></div></section></div>
   <div class="toast" id="toast"></div>
   <script src="js/cookie-consent.js"></script>
   <script src="js/e2ee.js"></script>
-  <script src="js/api-client.js?v=rev-24"></script>
+  <script src="js/api-client.js?v=rev-30"></script>
   <script src="js/daily-js.js"></script>
-  <script src="js/pdf-annotator.js?v=rev-24"></script>
-  <script src="js/app.js?v=rev-24"></script>
+  <script src="js/pdf-annotator.js?v=rev-30"></script>
+  <script src="js/realtime.js?v=rev-30"></script>
+  <script src="js/app.js?v=rev-30"></script>
 </body>
 </html>
 

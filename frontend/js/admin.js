@@ -27,10 +27,11 @@ const lawyerMap = {};
 // Session check — clear any stale token and redirect to login if not admin
 function checkAdminSession() {
   const user = LexAPI.getCurrentUser();
-  if (!user || user.role !== "admin") {
+  const role = user ? String(user.role).toLowerCase() : "";
+  if (!user || role !== "admin") {
     // Clear stale token so login page starts fresh
     LexAPI.logout();
-    window.location.href = "index.html?login_redirect=admin";
+    window.location.href = "admin-login.html";
     return false;
   }
   return true;
@@ -99,7 +100,7 @@ async function loadData() {
       toast("Session expired or unauthorized. Redirecting to login...");
       LexAPI.logout();
       setTimeout(() => {
-        window.location.href = "index.html?login_redirect=admin";
+            window.location.href = "admin-login.html";
       }, 1500);
     } else {
       toast("Failed to load admin data: " + (err.message || "Server error"));
@@ -112,7 +113,7 @@ function renderAll() {
   const adminUser = LexAPI.getCurrentUser();
   const initials = adminUser ? adminUser.role.toUpperCase().slice(0, 2) : "AD";
   $(".avatar").textContent = initials;
-  $(".identity strong").textContent = "LawyerGrid Admin";
+  $(".identity strong").textContent = "VidhiMeet Admin";
   $(".identity small").textContent = "Super Administrator";
 
   renderOverview();
@@ -124,6 +125,7 @@ function renderAll() {
   renderPayoutOverview();
   renderPayouts();
   renderFeedback();
+  restoreFeeConfig();
 }
 
 function renderMarketplaceChart(days) {
@@ -293,7 +295,7 @@ function renderOverview() {
   // ── Attention notice ──────────────────────────────────────────────────
   const attentionItems = pendingLawyers.length + openDisputes.length;
   $(".notice div").innerHTML = `
-    <strong>${attentionItems} item${attentionItems !== 1 ? "s" : ""} need your attention</strong>
+    <strong>${attentionItems} item${attentionItems !== 1 ? "s" : ""} ${attentionItems === 1 ? "needs" : "need"} your attention</strong>
     <small>${pendingLawyers.length} lawyer application${pendingLawyers.length !== 1 ? "s" : ""} and ${openDisputes.length} dispute${openDisputes.length !== 1 ? "s" : ""} open.</small>
   `;
 
@@ -877,15 +879,63 @@ function renderTx(typeFilter, searchQuery) {
 }
 
 // Fees tab
+function restoreFeeConfig() {
+  try {
+    const raw = localStorage.getItem("vidhimeet_fee_config");
+    if (!raw) return;
+    const cfg = JSON.parse(raw);
+
+    if (cfg.defaultFee && $("#default-fee")) $("#default-fee").value = cfg.defaultFee;
+    if (cfg.propertyOverride && $("#override-property")) $("#override-property").value = cfg.propertyOverride;
+    if (cfg.corporateOverride && $("#override-corporate")) $("#override-corporate").value = cfg.corporateOverride;
+    if (cfg.familyOverride && $("#override-family")) $("#override-family").value = cfg.familyOverride;
+    
+    if (cfg.minPayout && $("#min-payout-amt")) $("#min-payout-amt").value = cfg.minPayout;
+    if (cfg.payoutSchedule && $("#payout-schedule")) $("#payout-schedule").value = cfg.payoutSchedule;
+
+    if (cfg.releaseRule) {
+      const radio = document.querySelector(`input[name="release"][value="${cfg.releaseRule}"]`);
+      if (radio) {
+        radio.checked = true;
+        document.querySelectorAll('label.choice').forEach(lbl => {
+          lbl.classList.toggle('active', lbl.contains(radio));
+        });
+      }
+    }
+  } catch (err) {
+    console.error("Failed to restore fee config:", err);
+  }
+}
+
 async function handleSaveFees() {
   const feeInput = $("#default-fee");
-  const feeVal = parseInt(feeInput.value);
+  const feeVal = parseInt(feeInput?.value) || 5;
+
+  const propertyOverride = $("#override-property")?.value || "5";
+  const corporateOverride = $("#override-corporate")?.value || "6";
+  const familyOverride = $("#override-family")?.value || "5";
+
+  const selectedRelease = document.querySelector('input[name="release"]:checked')?.value || "completion";
+  const minPayout = $("#min-payout-amt")?.value || "1,000";
+  const payoutSchedule = $("#payout-schedule")?.value || "Weekly";
+
+  const configData = {
+    defaultFee: feeVal,
+    propertyOverride,
+    corporateOverride,
+    familyOverride,
+    releaseRule: selectedRelease,
+    minPayout,
+    payoutSchedule
+  };
+
   try {
+    localStorage.setItem("vidhimeet_fee_config", JSON.stringify(configData));
     await LexAPI.updatePlatformFee(feeVal);
-    toast(`Default Infrastructure Usage Fee updated to ${feeVal}%.`);
+    toast(`Fee & payout configuration saved successfully (Default: ${feeVal}%).`);
     loadData();
   } catch (err) {
-    toast("Failed to update fee: " + err.message);
+    toast("Saved locally, but server update failed: " + err.message);
   }
 }
 
@@ -982,10 +1032,25 @@ function renderPayoutOverview() {
   `;
 }
 
+async function refreshSystemStatusHealth() {
+  const statusTime = $("#system-status-time");
+  try {
+    await LexAPI.health();
+    if (statusTime) {
+      statusTime.textContent = `Last checked just now (${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})})`;
+    }
+  } catch (e) {
+    if (statusTime) statusTime.textContent = "Last checked: 1m ago";
+  }
+}
+
 function switchView(id) {
   document.querySelectorAll(".view").forEach(x => x.classList.toggle("active", x.id === id));
   document.querySelectorAll("nav button").forEach(x => x.classList.toggle("active", x.dataset.view === id));
-  $("#sidebar").classList.remove("open");
+  if (id === "security") {
+    refreshSystemStatusHealth();
+  }
+  setAdminSidebarOpen(false);
   scrollTo(0, 0);
 }
 
@@ -1047,6 +1112,18 @@ document.addEventListener("click", e => {
   if (txf) {
     document.querySelectorAll("[data-tx-filter]").forEach(x => x.classList.toggle("active", x === txf));
     renderTx(txf.dataset.txFilter);
+  }
+  const choiceLabel = e.target.closest("label.choice");
+  if (choiceLabel) {
+    document.querySelectorAll("label.choice").forEach(x => x.classList.remove("active"));
+    choiceLabel.classList.add("active");
+    const rad = choiceLabel.querySelector('input[type="radio"]');
+    if (rad) rad.checked = true;
+  }
+  const fbf = e.target.closest("[data-fb-filter]");
+  if (fbf) {
+    document.querySelectorAll("[data-fb-filter]").forEach(x => x.classList.toggle("active", x === fbf));
+    renderFeedback(fbf.dataset.fbFilter);
   }
   if (rv) {
     const a = lawyerMap[rv.dataset.reviewId];
@@ -1242,42 +1319,172 @@ function renderPayouts() {
     </table>`;
 }
 
-function renderFeedback() {
+let currentFeedbackFilter = "all";
+
+function renderFeedback(filter = "all") {
+  currentFeedbackFilter = filter;
   const container = $("#feedback-table");
   if (!container) return;
-  if (!userFeedbacks || userFeedbacks.length === 0) {
+
+  const searchInput = document.getElementById("feedback-search");
+  if (searchInput && !searchInput.dataset.bound) {
+    searchInput.dataset.bound = "true";
+    searchInput.oninput = () => {
+      const activeTab = document.querySelector("#feedback-type-tabs button.active")?.dataset.fbFilter || "all";
+      renderFeedback(activeTab);
+    };
+  }
+  const searchVal = (searchInput?.value || "").toLowerCase().trim();
+
+  // 1. Calculate Stat Metrics
+  const totalCount = userFeedbacks.length;
+  const ticketList = userFeedbacks.filter(f => (f.comments || "").startsWith("[Support Ticket"));
+  const reviewList = userFeedbacks.filter(f => !(f.comments || "").startsWith("[Support Ticket"));
+  
+  const ticketCount = ticketList.length;
+  const reviewCount = reviewList.length;
+
+  const avgRating = totalCount > 0 
+    ? (userFeedbacks.reduce((sum, f) => sum + (f.rating || 5), 0) / totalCount).toFixed(1)
+    : "5.0";
+
+  // Update Stat Cards
+  const statTotal = document.getElementById("stat-fb-total");
+  if (statTotal) statTotal.textContent = totalCount;
+  const statTotalSub = document.getElementById("stat-fb-total-sub");
+  if (statTotalSub) statTotalSub.textContent = `${reviewCount} reviews · ${ticketCount} tickets`;
+
+  const statTickets = document.getElementById("stat-fb-tickets");
+  if (statTickets) statTickets.textContent = ticketCount;
+  const statTicketsSub = document.getElementById("stat-fb-tickets-sub");
+  if (statTicketsSub) statTicketsSub.textContent = ticketCount === 1 ? "1 active ticket" : `${ticketCount} active tickets`;
+
+  const statAvg = document.getElementById("stat-fb-avg");
+  if (statAvg) statAvg.textContent = `${avgRating} / 5.0 ⭐`;
+  const statAvgSub = document.getElementById("stat-fb-avg-sub");
+  if (statAvgSub) statAvgSub.textContent = `Based on ${totalCount} submission${totalCount !== 1 ? 's' : ''}`;
+
+  // Update Tab Badges
+  const countAll = document.getElementById("fb-count-all");
+  if (countAll) countAll.textContent = totalCount;
+  const countTickets = document.getElementById("fb-count-tickets");
+  if (countTickets) countTickets.textContent = ticketCount;
+  const countReviews = document.getElementById("fb-count-reviews");
+  if (countReviews) countReviews.textContent = reviewCount;
+
+  // 2. Filter dataset
+  let filtered = userFeedbacks;
+  if (filter === "tickets") {
+    filtered = ticketList;
+  } else if (filter === "reviews") {
+    filtered = reviewList;
+  }
+
+  if (searchVal) {
+    filtered = filtered.filter(f => {
+      const name = (f.user_name || "").toLowerCase();
+      const email = (f.user_email || "").toLowerCase();
+      const comment = (f.comments || "").toLowerCase();
+      return name.includes(searchVal) || email.includes(searchVal) || comment.includes(searchVal);
+    });
+  }
+
+  // 3. Render Empty state or Table
+  if (!filtered || filtered.length === 0) {
     container.innerHTML = `
-      <div class="empty" style="padding: 40px; text-align: center; color: #666;">
-        <span style="font-size: 32px;">💬</span>
-        <p style="margin-top: 12px; font-weight: 500;">No user feedback submitted yet.</p>
+      <div class="empty" style="padding: 48px 24px; text-align: center; color: #718096; background: #ffffff; border-radius: 12px;">
+        <span style="font-size: 36px; display: inline-block; margin-bottom: 8px;">💬</span>
+        <p style="font-size: 15px; font-weight: 600; margin: 0 0 4px 0; color: #2d3748;">No feedback or support tickets found</p>
+        <small style="color: #a0aec0;">Try adjusting your search query or switching tabs.</small>
       </div>`;
     return;
   }
 
-  const rowsHtml = userFeedbacks.map(f => {
+  const rowsHtml = filtered.map(f => {
+    const rawComment = f.comments || "";
+    const isTicket = rawComment.startsWith("[Support Ticket");
     const stars = "⭐".repeat(f.rating || 5);
-    const dateStr = new Date(f.created_at).toLocaleString("en-IN", {day: "numeric", month: "short", hour: "2-digit", minute: "2-digit"});
+    
+    let dateStr = "Recently";
+    if (f.created_at) {
+      dateStr = new Date(f.created_at).toLocaleString("en-IN", {
+        day: "numeric", 
+        month: "short", 
+        year: "numeric",
+        hour: "2-digit", 
+        minute: "2-digit"
+      });
+    }
+
+    // Extract Avatar Initial
+    const uName = f.user_name || "Anonymous User";
+    const uEmail = f.user_email || "N/A";
+    const initial = uName.charAt(0).toUpperCase() || "?";
+    
+    // Determine User Role Badge
+    let roleBadge = `<span style="background:#e2e8f0; color:#475569; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:600; margin-left:6px;">USER</span>`;
+    const emailLower = uEmail.toLowerCase();
+    if (emailLower.includes("admin")) {
+      roleBadge = `<span style="background:#fef3c7; color:#92400e; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:700; margin-left:6px;">ADMIN</span>`;
+    } else if (emailLower.includes("lawyer") || emailLower.includes("advocate")) {
+      roleBadge = `<span style="background:#e0e7ff; color:#3730a3; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:700; margin-left:6px;">ADVOCATE</span>`;
+    }
+
+    // Type Badge
+    let typeBadge = `<span style="background:#f0fdf4; color:#166534; border:1px solid #bbf7d0; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; display:inline-flex; align-items:center; gap:4px;"><i style="font-style:normal;">⭐</i> USER REVIEW</span>`;
+    
+    let displayComment = rawComment;
+    let categoryTag = "";
+
+    if (isTicket) {
+      const match = rawComment.match(/^\[Support Ticket - ([^\]]+)\]\s*(.*)/s);
+      if (match) {
+        const categoryName = match[1];
+        displayComment = match[2];
+        categoryTag = `<span style="background:#fff7ed; color:#c2410c; border:1px solid #ffedd5; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:6px;">Category: ${escapeHtml(categoryName)}</span><br>`;
+      }
+      typeBadge = `<span style="background:#fff3ed; color:#c85a32; border:1px solid #ffdac6; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; display:inline-flex; align-items:center; gap:4px;"><i style="font-style:normal;">🎧</i> SUPPORT TICKET</span>`;
+    }
+
     return `
-      <tr>
-        <td>
-          <strong>${escapeHtml(f.user_name)}</strong>
-          <div style="font-size: 11px; color: #888;">${escapeHtml(f.user_email)}</div>
+      <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease;">
+        <td style="padding: 14px 16px; vertical-align: top;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, #1c2826, #265a47); color: #ffffff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+              ${initial}
+            </div>
+            <div>
+              <div style="display: flex; align-items: center; gap: 4px;">
+                <strong style="font-size: 14px; color: #1e293b;">${escapeHtml(uName)}</strong>
+                ${roleBadge}
+              </div>
+              <div style="font-size: 12px; color: #64748b; margin-top: 1px;">${escapeHtml(uEmail)}</div>
+            </div>
+          </div>
         </td>
-        <td><span style="font-size: 14px;">${stars}</span> <small>(${f.rating}/5)</small></td>
-        <td style="max-width: 400px; white-space: normal; line-height: 1.4;">${escapeHtml(f.comments)}</td>
-        <td style="font-size: 12px; color: #666;">${dateStr}</td>
+        <td style="padding: 14px 16px; vertical-align: top; white-space: nowrap;">
+          ${typeBadge}
+          <div style="font-size: 12px; color: #475569; margin-top: 6px; font-weight: 600;">${stars} <span style="color:#64748b; font-weight:400;">(${f.rating || 5}/5)</span></div>
+        </td>
+        <td style="padding: 14px 16px; vertical-align: top; max-width: 480px; white-space: normal; line-height: 1.5; color: #334155; font-size: 13px;">
+          ${categoryTag}
+          <div>${escapeHtml(displayComment)}</div>
+        </td>
+        <td style="padding: 14px 16px; vertical-align: top; white-space: nowrap; font-size: 12px; color: #64748b; text-align: right;">
+          <div>${dateStr}</div>
+        </td>
       </tr>
     `;
   }).join("");
 
   container.innerHTML = `
-    <table>
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
       <thead>
-        <tr>
-          <th>Submitted By</th>
-          <th>Rating</th>
-          <th>Comments & Suggestions</th>
-          <th>Date</th>
+        <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+          <th style="padding: 12px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.5px;">Submitted By</th>
+          <th style="padding: 12px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.5px;">Type & Rating</th>
+          <th style="padding: 12px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.5px;">Message / Ticket Details</th>
+          <th style="padding: 12px 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; color: #475569; letter-spacing: 0.5px; text-align: right;">Date Submitted</th>
         </tr>
       </thead>
       <tbody>

@@ -4,34 +4,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Lawyer Portal — LawyerGrid</title>
+  <title>Lawyer Portal — VidhiMeet</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-tokens.css">
-  <link rel="stylesheet" href="css/lawyer.css">
+  <link rel="stylesheet" href="css/lawyer.css?v=rev-30">
+  <link rel="stylesheet" href="css/cookie-consent.css">
 </head>
 
 <body>
-  <aside id="sidebar"><a class="brand" href="index.html"><i>L</i>LawyerGrid</a><small class="portal">LAWYER
+  <aside id="sidebar"><a class="brand" href="index.html"><img src="logo-white.png" alt="VidhiMeet" class="brand-logo-img" height="80" style="height:80px;width:auto;display:block;"></a><small class="portal">LAWYER
       PORTAL</small>
     <nav>
       <button class="active" data-view="overview">⌂ <span>Overview</span></button><button data-view="consultations">▣
-        <span>Consultations</span><b>3</b></button><button data-view="calendar">□
-        <span>Availability</span></button><button data-view="messages">◇ <span>Messages</span><b>2</b></button><button
+        <span>Consultations</span><b>—</b></button><button data-view="calendar">□
+        <span>Availability</span></button><button data-view="messages">◇ <span>Messages</span><b>—</b></button><button
         data-view="documents">▤ <span>Documents</span></button><button data-view="earnings">₹
         <span>Earnings</span></button><button data-view="drafting">✏
         <span>Drafting</span></button><button data-view="profile">○ <span>Profile & verification</span></button>
     </nav>
-    <div class="support"><i>?</i><strong>Need help?</strong><small>Contact lawyer support</small><button
-        data-toast="Support chat will open here.">Get support</button></div><button class="signout"
+    <div class="support" style="cursor:pointer;" onclick="openSupportModal(); return false;"><i>?</i><strong>Need help?</strong><small>Contact lawyer support</small><button
+        id="open-support-btn" onclick="openSupportModal(); return false;">Get support</button></div><button class="signout"
       data-toast="You have been signed out securely.">↪ Sign out</button>
   </aside>
   <div class="app">
     <header><button id="menu">☰</button><label class="search">⌕ <input
-          placeholder="Search consultations, clients..."></label><button class="bell"
-        data-toast="You have 3 new notifications.">♧<b>3</b></button><span class="avatar" id="header-avatar">??</span>
+          placeholder="Search consultations, clients..."></label>
+      <div class="notif-wrapper" style="position:relative; margin-left:auto;">
+        <button class="bell" id="notification-bell" title="Notifications" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <b id="notification-badge" style="display:none;">0</b>
+        </button>
+        <div id="notification-dropdown" class="notif-dropdown" style="display:none;">
+          <div class="notif-header">
+            <strong>Notifications</strong>
+            <button id="mark-all-read-btn" class="text-btn">Mark all read</button>
+          </div>
+          <div id="notification-list" class="notif-list">
+            <div class="notif-empty">No new notifications</div>
+          </div>
+        </div>
+      </div>
+      <span class="avatar" id="header-avatar">--</span>
       <div class="identity"><strong id="header-name">Loading...</strong><small id="header-practice">Lawyer
           Portal</small></div>
     </header>
@@ -39,26 +55,25 @@
       <section class="view active" id="overview">
         <div class="page-head">
           <div><small class="eyebrow" id="greeting-date">LOADING...</small>
-            <h1 id="greeting-name">Good morning.</h1>
+            <h1 id="greeting-name">Welcome back.</h1>
             <p>Here’s what’s happening with your practice today.</p>
           </div><button class="primary" data-go="calendar">＋ Manage availability</button>
         </div>
         <div class="verified"><i>✓</i>
-          <div><strong>Your profile is verified</strong><small>Credentials are current. Next annual review: 12 May
-              2027.</small></div><button data-go="profile">View status →</button>
+          <div><strong>Checking profile status...</strong><small>Connecting to advocate portal database...</small></div><button data-go="profile">View status →</button>
         </div>
         <div class="stats">
           <article><span>▣</span>
-            <p>Consultations this month</p><strong>24</strong><small>3 scheduled today</small>
+            <p>Upcoming consultations</p><strong>—</strong><small>loading…</small>
           </article>
           <article><span>₹</span>
-            <p>Available balance</p><strong>₹38,420</strong><small>₹7,200 pending release</small>
+            <p>Available balance</p><strong>—</strong><small>loading…</small>
           </article>
           <article><span>★</span>
-            <p>Client satisfaction</p><strong>98%</strong><small>4.9 from 128 reviews</small>
+            <p>Client satisfaction</p><strong>—</strong><small>loading…</small>
           </article>
           <article><span>◷</span>
-            <p>Average response time</p><strong>12 min</strong><small>Faster than 92% of lawyers</small>
+            <p>Average response time</p><strong>—</strong><small>loading…</small>
           </article>
         </div>
         <div class="overview-grid">
@@ -84,12 +99,22 @@
         <div class="page-head">
           <div><small class="eyebrow">YOUR PRACTICE</small>
             <h1>Consultations</h1>
-            <p>Review intake details and manage client sessions.</p>
+            <p>Review intake details, join secure rooms, and manage client sessions.</p>
           </div><button class="primary" data-go="calendar">＋ Open calendar</button>
         </div>
-        <div class="tabs"><button class="active" data-filter="upcoming">Upcoming</button><button
-            data-filter="completed">Completed</button></div>
-        <div class="panel table" id="session-table"></div>
+        <div class="consultation-toolbar">
+          <div class="tabs consultations-tabs">
+            <button class="active" data-filter="upcoming">
+              <span>Upcoming</span>
+              <span class="tab-badge" id="upcoming-count-badge">0</span>
+            </button>
+            <button data-filter="completed">
+              <span>Completed</span>
+              <span class="tab-badge" id="completed-count-badge">0</span>
+            </button>
+          </div>
+        </div>
+        <div class="panel table consultation-card-panel" id="session-table"></div>
       </section>
       <section class="view" id="calendar">
         <div class="page-head">
@@ -111,18 +136,40 @@
           </div>
           <div class="panel sync">
             <h2>Calendar sync</h2>
-            <p>Connect external calendars to prevent conflicts.</p><button><i class="google">G</i><span><strong>Google
-                  Calendar</strong><small>Connected · Syncing</small></span><b>✓</b></button><button><i
-                class="outlook">O</i><span><strong>Microsoft Outlook</strong><small>Not
-                  connected</small></span><b>＋</b></button>
-            <hr><label>Minimum notice<select>
-                <option>12 hours</option>
-                <option>24 hours</option>
-              </select></label><label>Buffer between calls<select>
-                <option>15 minutes</option>
-                <option>30 minutes</option>
-              </select></label><label>Timezone<select>
-                <option>Asia/Kolkata (IST)</option>
+            <p>Subscribe your unique feed URL into any calendar app — Google, Apple, or Outlook.</p>
+            <div id="ical-panel" style="margin:14px 0;">
+              <div style="font-size:13px;color:var(--muted);margin-bottom:8px;">Your iCal subscribe URL</div>
+              <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <input id="ical-feed-url" type="text" readonly
+                  style="flex:1;min-width:0;font-family:monospace;font-size:12px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#f8faf7;color:var(--ink);"
+                  value="Loading…" />
+                <button id="copy-ical-btn" style="white-space:nowrap;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:white;cursor:pointer;font-size:13px;font-weight:600;color:var(--forest);">
+                  📋 Copy
+                </button>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+                <a id="gcal-subscribe-btn" href="#" target="_blank" rel="noopener"
+                  style="display:inline-flex;align-items:center;gap:7px;padding:9px 16px;background:#4285F4;color:white;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">
+                  <svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="4" fill="white" fill-opacity=".2"/><path d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" stroke="white" stroke-width="1.5"/><path d="M3 9h18M9 21V9" stroke="white" stroke-width="1.5"/></svg>
+                  Subscribe in Google Calendar
+                </a>
+                <button id="rotate-ical-btn"
+                  style="padding:9px 14px;border:1px solid var(--line);background:white;border-radius:8px;font-size:12px;color:var(--muted);cursor:pointer;">
+                  🔄 Rotate URL
+                </button>
+              </div>
+              <div style="margin-top:10px;font-size:11px;color:var(--muted);line-height:1.5;">
+                Paste the URL above into <strong>Apple Calendar → File → New Calendar Subscription</strong> or <strong>Outlook → Add Calendar → From Internet</strong> to get live-syncing consultations.
+              </div>
+            </div>
+            <hr><label>Minimum notice<select id="min-notice">
+                <option value="12">12 hours</option>
+                <option value="24">24 hours</option>
+              </select></label><label>Buffer between calls<select id="buffer-time">
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+              </select></label><label>Timezone<select id="timezone-select">
+                <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
               </select></label>
           </div>
         </div>
@@ -209,53 +256,54 @@
         </div>
         <div class="two-col profile">
           <div class="panel">
-            <div class="profile-top"><span class="avatar large">AR</span>
+            <div class="profile-top">
+              <span class="avatar large">AR</span>
               <div>
-                <h2>Adv. Aanya Rao</h2><small>Profile complete</small>
+                <h2>Adv. Aanya Rao</h2>
+                <small>Profile complete</small>
                 <div class="progress"><i style="width:100%"></i></div>
               </div>
             </div>
-            <div class="form"><label>Professional name *<input id="prof-name" value="Adv. Aanya Rao" required></label><label>Bar
-                council number *<input id="prof-bar" value="DL/2014/02841" required></label>
-                <label class="full">Practice areas *
-                  <div class="practice-checkboxes" style="display:flex; gap:20px; margin-top:8px;">
-                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal; cursor:pointer; margin:0;">
-                      <input type="checkbox" name="prof-practice" value="Property Law" style="width:18px; height:18px; cursor:pointer;"> Property Law
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal; cursor:pointer; margin:0;">
-                      <input type="checkbox" name="prof-practice" value="Corporate Law" style="width:18px; height:18px; cursor:pointer;"> Corporate Law
-                    </label>
-                    <label style="display:flex; align-items:center; gap:8px; font-weight:normal; cursor:pointer; margin:0;">
-                      <input type="checkbox" name="prof-practice" value="Family Law" style="width:18px; height:18px; cursor:pointer;"> Family Law
-                    </label>
-                  </div>
-                </label><label>Enrollment date *<input id="prof-enrollment"
-                  type="date" required></label><label>Experience<input id="prof-exp" readonly
-                  placeholder="Calculated from enrollment date"></label><label>Practice address *<input id="prof-address"
-                  placeholder="Enter practice address" required></label><label class="full">Professional summary<textarea
-                  id="prof-summary" placeholder="Describe your practice, experience, and services..."></textarea></label><label>Languages<input
-                  id="prof-languages" value="English, Hindi" list="lang-suggestions"
-                  placeholder="e.g. English, Hindi, Kannada"></label><datalist id="lang-suggestions">
-                <option value="English">
-                <option value="Hindi">
-                <option value="Kannada">
-                <option value="Telugu">
-                <option value="Tamil">
-                <option value="Malayalam">
-                <option value="Gujarati">
-                <option value="Bengali">
-                <option value="Marathi">
-                <option value="Punjabi">
-              </datalist><label>Consultation fee (INR)<input id="prof-fee" value="1800"></label><label>Aadhaar
-                Number *<input id="aadhaar-number" value="" placeholder="12-digit Aadhaar" required></label>
-              <label class="mobile-verify-label">Mobile number
-                *
+            <div class="form">
+              <label>Professional name *<input id="prof-name" value="Adv. Aanya Rao" required></label>
+              <label>Bar council number *<input id="prof-bar" value="DL/2014/02841" required></label>
+
+              <label class="full">
+                Practice areas *
+                <div class="practice-checkboxes">
+                  <label><input type="checkbox" name="prof-practice" value="Property Law"> Property Law</label>
+                  <label><input type="checkbox" name="prof-practice" value="Corporate Law"> Corporate Law</label>
+                  <label><input type="checkbox" name="prof-practice" value="Family Law"> Family Law</label>
+                </div>
+              </label>
+
+              <div class="form-section-divider"><span>Credentials</span></div>
+
+              <label>Enrollment date *<input id="prof-enrollment" type="date" required></label>
+              <label>Experience<input id="prof-exp" readonly placeholder="Calculated from enrollment date"></label>
+              <label class="full">Practice address *<input id="prof-address" placeholder="Enter full practice address" required></label>
+
+              <div class="form-section-divider"><span>About</span></div>
+
+              <label class="full">Professional summary<textarea id="prof-summary" placeholder="Describe your practice, experience, and specializations…"></textarea></label>
+              <label style="position:relative;">
+                Languages
+                <input id="prof-languages" value="English, Hindi" autocomplete="off" placeholder="e.g. English, Hindi, Kannada…">
+                <div id="lang-dropdown" class="lang-dropdown-menu" hidden></div>
+              </label>
+              <label>Consultation fee (INR)<input id="prof-fee" value="1800" placeholder="e.g. 1800"></label>
+
+              <div class="form-section-divider"><span>Identity</span></div>
+
+              <label>Aadhaar Number *<input id="aadhaar-number" value="" placeholder="12-digit Aadhaar" required></label>
+              <label class="mobile-verify-label">Mobile number *
                 <div class="mobile-verify-row">
                   <input id="prof-mobile" type="tel" placeholder="10-digit mobile number" maxlength="10" minlength="10" pattern="[6-9][0-9]{9}" required autocomplete="tel">
                   <button type="button" id="verify-mobile-btn" class="outline verify-btn">Verify</button>
+                  <span id="mobile-verified-badge" class="verified-badge" hidden>✓ Verified</span>
                 </div>
-                <span id="mobile-verified-badge" class="verified-badge" hidden>✓ Verified</span>
-              </label></div>
+              </label>
+            </div>
           </div>
           <div class="panel credentials">
             <div class="credential-status"><i>✓</i><span><strong>Identity verified</strong><small>Reviewed 12 May
@@ -298,7 +346,17 @@
       <a href="index.html" class="close-auth-btn" aria-label="Close" title="Return to Home">×</a>
       <div id="lawyer-login-section">
         <h2>Lawyer Sign In</h2>
-        <p>Access your LawyerGrid lawyer dashboard.</p>
+        <p>Access your VidhiMeet lawyer dashboard.</p>
+        <button type="button" class="btn-google-auth" id="btn-lawyer-google-login">
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l-.01.12 2.67 2.07.18.02c1.7-1.57 2.68-3.88 2.68-6.63z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.21c-.76.53-1.78.9-3.12.9-2.38 0-4.41-1.57-5.13-3.74l-.11.01-2.75 2.13-.03.11C2.43 15.93 5.46 18 9 18z"/>
+            <path fill="#FBBC05" d="M3.87 10.77c-.19-.58-.3-1.2-.3-1.77s.11-1.19.3-1.77l-.01-.13-2.76-2.14-.09.04C.35 6.24 0 7.58 0 9s.35 2.76 1.01 4.01l2.86-2.24z"/>
+            <path fill="#EA4335" d="M9 3.58c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.96 11.43 0 9 0 5.46 0 2.43 2.07 1.01 5.06l2.85 2.24c.72-2.17 2.75-3.72 5.14-3.72z"/>
+          </svg>
+          <span>Sign in with Google</span>
+        </button>
+        <div class="auth-divider"><span>or sign in with email</span></div>
         <form id="lawyer-login-form" autocomplete="off">
           <div class="field">
             <label>Email Address</label>
@@ -315,7 +373,17 @@
       </div>
       <div id="lawyer-register-section" style="display:none;">
         <h2>Lawyer Registration</h2>
-        <p>Join LawyerGrid as a verified legal professional.</p>
+        <p>Join VidhiMeet as a verified legal professional.</p>
+        <button type="button" class="btn-google-auth" id="btn-lawyer-google-reg">
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l-.01.12 2.67 2.07.18.02c1.7-1.57 2.68-3.88 2.68-6.63z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.21c-.76.53-1.78.9-3.12.9-2.38 0-4.41-1.57-5.13-3.74l-.11.01-2.75 2.13-.03.11C2.43 15.93 5.46 18 9 18z"/>
+            <path fill="#FBBC05" d="M3.87 10.77c-.19-.58-.3-1.2-.3-1.77s.11-1.19.3-1.77l-.01-.13-2.76-2.14-.09.04C.35 6.24 0 7.58 0 9s.35 2.76 1.01 4.01l2.86-2.24z"/>
+            <path fill="#EA4335" d="M9 3.58c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.96 11.43 0 9 0 5.46 0 2.43 2.07 1.01 5.06l2.85 2.24c.72-2.17 2.75-3.72 5.14-3.72z"/>
+          </svg>
+          <span>Sign in with Google</span>
+        </button>
+        <div class="auth-divider"><span>or register with email</span></div>
         <form id="lawyer-register-form" autocomplete="off">
           <div class="field">
             <label>Full Name</label>
@@ -415,7 +483,7 @@
       <div id="upi-verify-bank-info" style="background:var(--surface);border-radius:10px;padding:14px;margin-bottom:20px;text-align:left;"></div>
       <p id="upi-verify-error" style="color:var(--terra);font-size:13px;margin-bottom:10px;"></p>
       <button class="primary" id="upi-verify-confirm-btn" style="width:100%;">Proceed with ₹1 payment →</button>
-      <p style="font-size:11px;color:var(--muted);margin-top:12px;">Powered by PhonePe · Secured by LawyerGrid</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:12px;">Powered by PhonePe · Secured by VidhiMeet</p>
     </div>
   </div>
 
@@ -426,11 +494,86 @@
       <div id="jitsi"></div>
     </div>
   </div>
+  <!-- Intake Details Modal -->
+  <div class="backdrop" id="intake-modal" hidden>
+    <div class="call-modal" style="max-width:580px; width:calc(100% - 32px); padding:32px; border-radius:18px; box-shadow:0 24px 48px rgba(0,0,0,0.18); text-align:left; background:#ffffff; position:relative;">
+      <button id="intake-modal-close" style="position:absolute; right:20px; top:20px; border:0; background:none; font-size:24px; cursor:pointer; color:var(--muted, #8c857b);">×</button>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
+        <span style="font-size:22px; background:#f5eee6; width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; flex-shrink:0;">📋</span>
+        <div>
+          <small class="eyebrow" style="margin-bottom:2px; display:block;">CLIENT CONSULTATION INTAKE</small>
+          <h2 id="intake-client-name" style="margin:0; font-size:20px; color:var(--dark, #1c2826);">Client Intake Details</h2>
+        </div>
+      </div>
+      <div id="intake-meta-bar" style="background:#faf8f5; border:1px solid #e2dacd; border-radius:10px; padding:12px 16px; margin-bottom:20px; display:flex; justify-content:space-between; font-size:13px;">
+        <div><span style="color:#8c857b;">Practice Area:</span> <strong id="intake-practice">General</strong></div>
+        <div><span style="color:#8c857b;">Booking ID:</span> <strong id="intake-booking-id">#—</strong></div>
+      </div>
+      <div id="intake-questions-container" style="max-height:360px; overflow-y:auto; padding-right:6px; display:flex; flex-direction:column; gap:16px;">
+        <!-- Q&A Items populated dynamically -->
+      </div>
+      <div style="margin-top:24px; padding-top:16px; border-top:1px solid #f0ebe4; display:flex; justify-content:flex-end;">
+        <button class="primary" id="intake-modal-done-btn" style="min-width:110px;">Done</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Generic Modal for Drafting Requests -->
   <div class="backdrop" id="drafting-modal" hidden>
     <div class="call-modal" style="max-width:600px; width:calc(100% - 32px); position:relative; padding:35px; border-radius:16px; box-shadow:0 20px 40px rgba(0,0,0,0.15);">
       <button id="drafting-modal-close" style="position:absolute; right:20px; top:20px; border:0; background:none; font-size:24px; cursor:pointer; color:var(--muted);">×</button>
       <div id="drafting-modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Lawyer Support Modal -->
+  <div class="backdrop" id="support-modal" hidden>
+    <div class="call-modal" style="max-width:540px; width:calc(100% - 32px); padding:32px; border-radius:18px; box-shadow:0 24px 48px rgba(0,0,0,0.18); text-align:left; background:#ffffff; position:relative;">
+      <button id="support-modal-close" style="position:absolute; right:20px; top:20px; border:0; background:none; font-size:24px; cursor:pointer; color:var(--muted, #8c857b);">×</button>
+      
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:20px;">
+        <span style="font-size:22px; background:#f5eee6; width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; flex-shrink:0; color:#c85a32;">🎧</span>
+        <div>
+          <small class="eyebrow" style="margin-bottom:2px; display:block;">LAWYER DESK SUPPORT</small>
+          <h2 style="margin:0; font-size:20px; color:var(--dark, #1c2826);">How can we assist you?</h2>
+        </div>
+      </div>
+
+      <!-- Quick Contact Channels -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+        <div style="background:#faf8f5; border:1px solid #e2dacd; border-radius:12px; padding:14px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:20px;">💬</span>
+          <div>
+            <strong style="display:block; font-size:13px; color:#1c2826;">Live Support Desk</strong>
+            <span style="font-size:11px; color:#15803d; font-weight:600;">🟢 Online (Avg 2m)</span>
+          </div>
+        </div>
+        <div style="background:#faf8f5; border:1px solid #e2dacd; border-radius:12px; padding:14px; display:flex; align-items:center; gap:10px;">
+          <span style="font-size:20px;">📞</span>
+          <div>
+            <strong style="display:block; font-size:13px; color:#1c2826;">Priority Line</strong>
+            <span style="font-size:11px; color:#8c857b;">1800-102-8434</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Ticket Form -->
+      <form id="support-ticket-form">
+        <label style="display:block; margin-bottom:12px; font-size:13px; font-weight:600; color:#1c2826;">Category
+          <select id="support-category" required style="width:100%; margin-top:6px; padding:10px; border-radius:8px; border:1px solid #e2dacd; font-size:14px; background:#ffffff;">
+            <option value="Payout & Bank Account">Payouts & Earnings</option>
+            <option value="Consultation & Video Call">Consultation & Video Call Issue</option>
+            <option value="Drafting Request Dispute">Drafting Request Assistance</option>
+            <option value="Profile & Bar Verification">Profile Verification & Credentials</option>
+            <option value="Other Assistance">Other Questions</option>
+          </select>
+        </label>
+        <label style="display:block; margin-bottom:16px; font-size:13px; font-weight:600; color:#1c2826;">Describe your query or issue
+          <textarea id="support-message" required placeholder="Provide details about your query so our team can assist promptly..." style="width:100%; height:90px; margin-top:6px; padding:10px; border-radius:8px; border:1px solid #e2dacd; font-size:13px; resize:vertical; font-family:inherit;"></textarea>
+        </label>
+        <button type="submit" class="primary" style="width:100%; padding:12px; font-size:14px; border-radius:10px;">Submit Ticket to Advocate Desk →</button>
+      </form>
+      <p style="font-size:11px; color:#8c857b; text-align:center; margin-top:14px; margin-bottom:0;">Dedicated support for advocate partners · 24/7 priority dispatch</p>
     </div>
   </div>
 
@@ -458,14 +601,15 @@
 
   <script src="js/cookie-consent.js"></script>
   <script src="js/e2ee.js"></script>
-  <script src="js/api-client.js?v=rev-24"></script>
+  <script src="js/api-client.js?v=rev-30"></script>
   <script src="js/daily-js.js"></script>
   <!-- Firebase compat SDK (loaded as regular scripts — no module timing issues) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="js/firebase-phone-auth.js"></script>
-  <script src="js/pdf-annotator.js?v=rev-24"></script>
-  <script src="js/lawyer.js?v=rev-24"></script>
+  <script src="js/pdf-annotator.js?v=rev-30"></script>
+  <script src="js/realtime.js?v=rev-30"></script>
+  <script src="js/lawyer.js?v=rev-30"></script>
 </body>
 
 </html>

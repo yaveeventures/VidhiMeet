@@ -61,6 +61,8 @@ class User(Base):
     # DPDP §9 — age verification; stored to prove user was 18+ at registration time
     date_of_birth: Mapped[str | None] = mapped_column(String(10), nullable=True)  # ISO-8601 date string
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    mfa_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    mfa_secret: Mapped[str | None] = mapped_column(String(64), nullable=True)
     lawyer_profile: Mapped["LawyerProfile | None"] = relationship(back_populates="user", uselist=False)
     bank_account: Mapped["LawyerBankAccount | None"] = relationship(back_populates="user", uselist=False)
 
@@ -87,6 +89,7 @@ class LawyerProfile(Base):
     aadhaar_url: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     mobile_number: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     strike_count: Mapped[int] = mapped_column(Integer, default=0)
+    ical_token: Mapped[str] = mapped_column(String(64), unique=True, default=lambda: secrets.token_urlsafe(48))
     user: Mapped[User] = relationship(back_populates="lawyer_profile")
 
 
@@ -121,7 +124,8 @@ class Booking(Base):
     client_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     lawyer_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     practice: Mapped[Practice] = mapped_column(Enum(Practice))
-    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    starts_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True, nullable=True)
+    original_starts_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     duration_minutes: Mapped[int] = mapped_column(Integer, default=45)
     amount_minor: Mapped[int] = mapped_column(Integer)
     currency: Mapped[str] = mapped_column(String(3), default="INR")
@@ -141,6 +145,14 @@ class Booking(Base):
     lawyer_duration_seconds: Mapped[int] = mapped_column(Integer, default=0)
     client_duration_seconds: Mapped[int] = mapped_column(Integer, default=0)
     auto_resolution_status: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    # Cancellation & Time-Tiered Refund Tracking
+    cancellation_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+    cancelled_by_role: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    refund_amount_minor: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    penalty_amount_minor: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    refund_tx_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    voucher_code: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    relisted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
@@ -382,6 +394,24 @@ class PlatformFeedback(Base):
     @property
     def user_name(self) -> str:
         return self.user.full_name if self.user else "Anonymous User"
+
+    @property
+    def user_email(self) -> str:
+        return self.user.email if self.user else "N/A"
+
+
+class Voucher(Base):
+    __tablename__ = "vouchers"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    code: Mapped[str] = mapped_column(String(30), unique=True, index=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
+    discount_percent: Mapped[int] = mapped_column(Integer, default=20)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    used: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+    user: Mapped["User"] = relationship("User")
+
 
     @property
     def user_email(self) -> str:

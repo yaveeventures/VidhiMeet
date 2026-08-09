@@ -1,5 +1,5 @@
-"""
-Locust Performance & Concurrency Load Benchmark Suite for LawyerGrid.
+﻿"""
+Locust Performance & Concurrency Load Benchmark Suite for VidhiMeet.
 Simulates concurrent user load against marketplace search, health checks, and stats.
 """
 from locust import HttpUser, task, between

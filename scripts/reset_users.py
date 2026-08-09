@@ -1,4 +1,4 @@
-"""
+﻿"""
 Reset script: delete ALL users (lawyers, clients, admin) and related data,
 then seed exactly three demo accounts.
 """
@@ -31,12 +31,12 @@ try:
     # Seed demo accounts
     pw = hash_password("ChangeMe-Immediately-123!")
 
-    admin = User(email="admin@lawyergrid.com", full_name="LawyerGrid Admin",
+    admin = User(email="admin@VidhiMeet.com", full_name="VidhiMeet Admin",
                  role=Role.ADMIN, password_hash=pw)
     db.add(admin)
     db.flush()
 
-    lawyer_user = User(email="aanya@lawyergrid.com", full_name="Adv. Aanya Rao",
+    lawyer_user = User(email="aanya@VidhiMeet.com", full_name="Adv. Aanya Rao",
                        role=Role.LAWYER, password_hash=pw)
     db.add(lawyer_user)
     db.flush()
@@ -46,15 +46,15 @@ try:
         hourly_fee_minor=180000, rating=4.9, verified=True,
     ))
 
-    client = User(email="client@lawyergrid.com", full_name="Demo Client",
+    client = User(email="client@VidhiMeet.com", full_name="Demo Client",
                   role=Role.CLIENT, password_hash=pw)
     db.add(client)
 
     db.commit()
     print("[OK] Demo accounts created:")
-    print("  Admin  -> admin@lawyergrid.com")
-    print("  Lawyer -> aanya@lawyergrid.com")
-    print("  Client -> client@lawyergrid.com")
+    print("  Admin  -> admin@VidhiMeet.com")
+    print("  Lawyer -> aanya@VidhiMeet.com")
+    print("  Client -> client@VidhiMeet.com")
     print("  Password (all): ChangeMe-Immediately-123!")
 finally:
     db.close()

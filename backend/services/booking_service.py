@@ -180,3 +180,60 @@ def verify_daily_meeting_duration(room_name: str) -> float:
     except Exception as e:
         logger.error(f"Error checking Daily meeting duration: {e}")
         return 0.0
+
+
+def calculate_cancellation_policy(booking: Booking, cancelled_by_role: str, now_dt: datetime) -> dict:
+    """
+    Calculate refund and penalty breakdown based on policy matrix:
+    - Lawyer Cancel: 100% Refund + 20% Voucher
+    - Client Cancel (>24h): 100% Refund (0% Penalty)
+    - Client Cancel (2h-24h): 75% Refund (25% Penalty)
+    - Client Cancel (<2h / No-Show): 0% Refund (100% Penalty)
+    """
+    starts_at = booking.starts_at or booking.original_starts_at
+    if starts_at and starts_at.tzinfo is None:
+        starts_at = starts_at.replace(tzinfo=timezone.utc)
+    if now_dt.tzinfo is None:
+        now_dt = now_dt.replace(tzinfo=timezone.utc)
+
+    hours_until_start = (starts_at - now_dt).total_seconds() / 3600.0
+
+    if cancelled_by_role in ("lawyer", "admin"):
+        policy_tier = "lawyer_cancellation"
+        refund_pct = 100
+        penalty_pct = 0
+        voucher_issued = True
+    elif hours_until_start >= 24.0:
+        policy_tier = "client_more_than_24h"
+        refund_pct = 100
+        penalty_pct = 0
+        voucher_issued = False
+    elif hours_until_start >= 2.0:
+        policy_tier = "client_between_2h_and_24h"
+        refund_pct = 75
+        penalty_pct = 25
+        voucher_issued = False
+    else:
+        policy_tier = "client_under_2h_or_noshow"
+        refund_pct = 0
+        penalty_pct = 100
+        voucher_issued = False
+
+    refund_amount_minor = round(booking.amount_minor * (refund_pct / 100.0))
+    penalty_amount_minor = booking.amount_minor - refund_amount_minor
+
+    refund_rupees = refund_amount_minor / 100.0
+    notice = f"Your refund of ₹{refund_rupees:.2f} has been initiated and will reflect in your original payment method (UPI/Bank) within 3 to 5 business days per RBI consumer protection rules." if refund_amount_minor > 0 else "No refund issued per cancellation terms for short-notice cancellations under 2 hours."
+
+    return {
+        "policy_tier": policy_tier,
+        "hours_until_start": round(hours_until_start, 2),
+        "total_amount_minor": booking.amount_minor,
+        "refund_pct": refund_pct,
+        "penalty_pct": penalty_pct,
+        "refund_amount_minor": refund_amount_minor,
+        "penalty_amount_minor": penalty_amount_minor,
+        "voucher_issued": voucher_issued,
+        "reversal_timeline_notice": notice
+    }
+

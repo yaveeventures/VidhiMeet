@@ -36,8 +36,9 @@ class Settings(BaseSettings):
     rate_limit_auth_per_min: int = 10           # Stricter: Login, register, refresh, password reset
     rate_limit_public_per_min: int = 60         # Moderate: Public search, stats, health checks
     rate_limit_authenticated_per_min: int = 200 # Looser: Authenticated user actions
+    rate_limit_admin_per_min: int = 120         # Admin console data queries
     rate_limit_uploads_per_min: int = 15        # Presigned URLs & document uploads
-    rate_limit_strict_per_min: int = 5          # Sensitive admin actions
+    rate_limit_strict_per_min: int = 10         # Sensitive operations (purge, fee changes)
     rate_limit_global_per_min: int = 120        # Default fallback
     # Auth Exponential Backoff Settings (Per-IP & Per-Account)
     rate_limit_auth_account_max_attempts: int = 5     # Max free attempts before backoff kicks in

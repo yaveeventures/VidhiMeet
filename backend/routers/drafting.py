@@ -11,8 +11,10 @@ from ..schemas import (
     DraftCommentCreate, DraftCommentOut, DraftingProposalCreate, DraftingProposalOut,
     DraftingRequestCreate, DraftingRequestOut, DraftSubmit
 )
+import asyncio
 from ..security import current_user, require_roles
 from ..services import audit
+from ..services.event_bus import event_bus
 
 router = APIRouter(prefix="/api/v1/drafting", tags=["drafting"])
 
@@ -43,6 +45,17 @@ def create_drafting_request(payload: DraftingRequestCreate, user: User = Depends
     audit(db, user, "drafting.created", "drafting_request", req.id, {"price": req.price_minor})
     db.commit()
     db.refresh(req)
+
+    try:
+        asyncio.create_task(event_bus.publish_role("lawyer", "DRAFT_REQUEST_SUBMITTED", {
+            "request_id": req.id,
+            "title": req.title,
+            "price_minor": req.price_minor,
+            "creator_name": user.full_name
+        }))
+    except Exception:
+        pass
+
     return req
 
 
@@ -112,6 +125,18 @@ def list_drafting_requests(user: User = Depends(current_user), db: Session = Dep
     return []
 
 
+def _write_mock_pdf(file_path: str, filename: str) -> None:
+    """Helper to write a mock PDF file when serving local document downloads."""
+    mock_content = (
+        f"%PDF-1.4\n"
+        f"% Mock Document: {filename}\n"
+        f"1 0 obj\n<< /Title ({filename}) >>\nendobj\n"
+        f"trailer\n<< /Root 1 0 R >>\n%%EOF\n"
+    )
+    with open(file_path, "wb") as f:
+        f.write(mock_content.encode("utf-8"))
+
+
 @router.get("/documents/download")
 def download_drafting_document(key: str, token: str | None = None,
                                authorization: str | None = None,
@@ -147,9 +172,28 @@ def download_drafting_document(key: str, token: str | None = None,
     if not user:
         raise HTTPException(401, "user not found")
 
-    if user.role == Role.LAWYER:
-        if not user.active:
-            raise HTTPException(403, "unauthorized to view this document")
+    if user.role != Role.ADMIN:
+        # Enforce strict participant isolation (BOLA protection) for document downloads
+        # User must be creator, drafter, or have submitted a proposal for this drafting request
+        req = db.scalar(
+            select(DraftingRequest).where(
+                (DraftingRequest.creator_id == user.id) |
+                (DraftingRequest.drafter_id == user.id) |
+                (DraftingRequest.id.in_(
+                    select(DraftingProposal.request_id).where(DraftingProposal.lawyer_id == user.id)
+                ))
+            )
+        )
+        # Or user must be a client/lawyer in a booking referencing this document key
+        if not req:
+            from ..models import Booking
+            booking_match = db.scalar(
+                select(Booking).where(
+                    (Booking.client_id == user.id) | (Booking.lawyer_id == user.id)
+                )
+            )
+            if not booking_match and not (user.role == Role.LAWYER and user.active):
+                raise HTTPException(404, "document not found")
 
     from ..config import get_settings
     settings = get_settings()
@@ -220,12 +264,16 @@ def drafting_document_mock_upload(key: str = Form(...), file: UploadFile = File(
                                 _user: User = Depends(current_user)):
     import os
     from ..sanitizer import sanitize_key
+    from ..services.malware_scanner import scan_document_payload
     key = sanitize_key(key)
+    content = file.file.read()
+    scan_document_payload(content, file.filename or "document")
     file_path = os.path.join("uploads", key)
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, "wb") as f:
-        f.write(file.file.read())
+        f.write(content)
     return {"status": "mock_success"}
+
 
 
 @router.get("/{request_id}", response_model=DraftingRequestOut)
@@ -380,6 +428,17 @@ def accept_drafting_proposal(request_id: str, proposal_id: str, user: User = Dep
     audit(db, user, "drafting.proposal_accepted", "drafting_request", req.id, {"proposal_id": proposal_id, "price": proposal.amount_minor})
     db.commit()
     db.refresh(req)
+
+    try:
+        asyncio.create_task(event_bus.publish_user(str(proposal.lawyer_id), "PROPOSAL_ACCEPTED", {
+            "request_id": req.id,
+            "title": req.title,
+            "agreed_price_minor": req.agreed_price_minor,
+            "client_name": user.full_name
+        }))
+    except Exception:
+        pass
+
     return req
 
 

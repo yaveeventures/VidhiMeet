@@ -1,4 +1,4 @@
-# NTP Time Synchronization — Compliance Runbook
+﻿# NTP Time Synchronization — Compliance Runbook
 
 **Regulation**: CERT-In Directions 2022 (Clause 2(vi)) · DPDP Act 2023 (§8 — Accuracy)  
 **Scope**: All servers hosting the API backend, PostgreSQL database, Redis cache, and payment gateway integrations.
@@ -156,7 +156,7 @@ Run `scripts/ntp_sync_check.py` every 15 minutes on **all servers** (API, DB, Re
 
 ```bash
 # Add to crontab (crontab -e)
-*/15 * * * * cd /opt/lawyergrid && python3 -m scripts.ntp_sync_check --json 2>&1 | logger -t ntp_compliance
+*/15 * * * * cd /opt/VidhiMeet && python3 -m scripts.ntp_sync_check --json 2>&1 | logger -t ntp_compliance
 ```
 
 For CloudWatch / Stackdriver log-based alerting, parse for:

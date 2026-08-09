@@ -58,7 +58,10 @@ def _query_ntp_server(host: str, timeout: float) -> datetime | None:
             return None
         # Transmit timestamp is at bytes 40-47 (two 32-bit words: seconds + fraction)
         unpacked = struct.unpack(_NTP_PACKET_FORMAT, data)
-        tx_seconds = unpacked[10] - _NTP_DELTA  # Convert NTP epoch → Unix epoch
+        ntp_sec = unpacked[10]
+        if ntp_sec < _NTP_DELTA:
+            return None
+        tx_seconds = ntp_sec - _NTP_DELTA  # Convert NTP epoch → Unix epoch
         tx_fraction = unpacked[11]
         tx_microseconds = tx_fraction * 1_000_000 / (2 ** 32)
         return datetime(1970, 1, 1, tzinfo=timezone.utc) + timedelta(

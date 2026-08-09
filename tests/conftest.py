@@ -5,7 +5,7 @@ os.environ["JWT_SECRET"] = "test-secret-that-is-at-least-thirty-two-characters"
 from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
 import pytest
-from backend.db import Base, SessionLocal, engine
+from backend.db import Base, SessionLocal, engine, get_db
 from backend.main import app
 
 @pytest.fixture(autouse=True)
@@ -29,12 +29,22 @@ def reset_rate_limiter():
 @pytest.fixture(autouse=True)
 def database():
     engine.dispose()
-    Base.metadata.drop_all(bind=engine)
+    try:
+        Base.metadata.drop_all(bind=engine)
+    except Exception:
+        pass
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
+    def _override_get_db():
+        try:
+            yield db
+        finally:
+            pass
+    app.dependency_overrides[get_db] = _override_get_db
     try:
         yield db
     finally:
+        app.dependency_overrides.clear()
         db.close()
         engine.dispose()
 

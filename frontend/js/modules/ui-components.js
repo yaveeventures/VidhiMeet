@@ -1,5 +1,5 @@
-/**
- * LawyerGrid UI Components Module
+﻿/**
+ * VidhiMeet UI Components Module
  * Provides Toast Notifications, Accessible Dialog Modals, and Skeleton Shimmer Cards.
  */
 

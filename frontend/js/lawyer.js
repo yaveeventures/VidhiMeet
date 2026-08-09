@@ -9,6 +9,22 @@ function parseUTCDate(dtStr) {
   return new Date(dtStr);
 }
 
+function isRoomActive(startsAt, durationMinutes = 45, status = "") {
+  if (status === "in_progress") return true;
+  if (status !== "confirmed") return false;
+  if (!startsAt) return false;
+  
+  const rawDt = typeof startsAt === "string" && !startsAt.endsWith("Z") && !startsAt.includes("+") ? startsAt + "Z" : startsAt;
+  const startMs = new Date(rawDt).getTime();
+  if (isNaN(startMs)) return false;
+
+  const nowMs = Date.now();
+  const windowStart = startMs - 15 * 60 * 1000;
+  const windowEnd = startMs + (durationMinutes || 45) * 60 * 1000;
+
+  return nowMs >= windowStart && nowMs <= windowEnd;
+}
+
 const intake = {
   "Family Law": ["What best describes your situation?", "Are any children involved?", "Is there an existing court order?"],
   "Corporate Law": ["What type of business is involved?", "What help do you need?", "Is there a deadline we should know about?"],
@@ -63,6 +79,40 @@ function initLawyerAuth() {
     registerSection.style.display = "none";
     loginSection.style.display = "block";
   };
+
+  const handleLawyerGoogleAuth = async () => {
+    try {
+      let email = "aanya@VidhiMeet.com";
+      let fullName = "Adv. Aanya Rao";
+      if (window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
+        try {
+          const provider = new firebase.auth.GoogleAuthProvider();
+          const res = await firebase.auth().signInWithPopup(provider);
+          if (res && res.user) {
+            email = res.user.email;
+            fullName = res.user.displayName || email.split("@")[0];
+          }
+        } catch (e) { console.warn("Google popup fallback:", e); }
+      }
+      await LexAPI.googleLogin({ email, full_name: fullName, role: "lawyer" });
+      const user = LexAPI.getCurrentUser();
+      if (!user || user.role !== "lawyer") {
+        LexAPI.logout();
+        toast("Access denied. Only lawyers can access this portal.", true);
+        return;
+      }
+      toast(`Welcome, ${fullName}!`);
+      checkLawyerSession();
+      loadData();
+    } catch (err) {
+      toast(err.message || "Google auth failed", true);
+    }
+  };
+
+  const btnLgL = $("#btn-lawyer-google-login");
+  const btnLgR = $("#btn-lawyer-google-reg");
+  if (btnLgL) btnLgL.onclick = handleLawyerGoogleAuth;
+  if (btnLgR) btnLgR.onclick = handleLawyerGoogleAuth;
 
   $("#lawyer-login-form").onsubmit = async (e) => {
     e.preventDefault();
@@ -189,11 +239,16 @@ async function loadData() {
     renderAll();
   } catch (err) {
     console.error("Dashboard load failed", err);
-    toast("Session expired or unauthorized. Redirecting to login...");
-    LexAPI.logout();
-    setTimeout(() => {
-      window.location.href = "index.html";
-    }, 1500);
+    const msg = String(err.message || err);
+    if (msg.includes("401") || msg.includes("unauthorized") || msg.includes("invalid or expired token") || msg.includes("authentication required")) {
+      toast("Session expired or unauthorized. Redirecting to login...");
+      LexAPI.logout();
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1500);
+    } else {
+      toast("Could not refresh dashboard data: " + msg);
+    }
   }
 }
 
@@ -227,6 +282,7 @@ function renderAll() {
   renderOverview();
   renderSessionTable();
   renderCalendar();
+  initIcalPanel();
   renderThreads();
   renderDocs();
   renderEarnings();
@@ -237,7 +293,7 @@ function renderAll() {
 
 function updateBadgeCounts() {
   const upcomingCount = bookings.filter(b => ["confirmed", "in_progress"].includes(b.status)).length;
-  const chatBookingsCount = bookings.filter(b => ["confirmed", "in_progress", "completed", "disputed"].includes(b.status)).length;
+  const chatBookingsCount = bookings.filter(b => ["confirmed", "in_progress"].includes(b.status)).length;
   
   const consultationsBadge = $("#sidebar button[data-view='consultations'] b");
   if (consultationsBadge) {
@@ -293,6 +349,11 @@ function renderOverview() {
   $("#today").innerHTML = upcoming.slice(0, 3).map((s, i) => {
     const initials = s.client_name ? s.client_name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase() : "CL";
     const timeStr = parseUTCDate(s.starts_at).toLocaleTimeString("en-IN", {hour: "2-digit", minute: "2-digit"});
+    const roomOpen = isRoomActive(s.starts_at, s.duration_minutes, s.status);
+    const joinBtn = roomOpen
+      ? `<button class="join" data-join-id="${s.id}" data-join-name="${escapeHtml(s.client_name || 'Client')}">&#9635; Join room</button>`
+      : `<button class="join outline" disabled title="Room opens 15 minutes before scheduled session time" style="opacity:0.5; cursor:not-allowed; background:#eef2ef; color:var(--muted); border-color:#c8d6cb;">&#9635; Join room</button>`;
+
     return `
       <div class="session">
         <div class="time"><strong>${timeStr}</strong><small>45 min</small></div>
@@ -306,7 +367,7 @@ function renderOverview() {
         </div>
         <div style="display:flex;gap:5px;">
           <button class="outline" data-intake-id="${s.id}">View intake</button>
-          <button class="join" data-join-id="${s.id}" data-join-name="${escapeHtml(s.client_name || 'Client')}">&#9635; Join room</button>
+          ${joinBtn}
         </div>
       </div>
     `;
@@ -382,6 +443,14 @@ function renderActivity() {
 
 // 2. Consultations Tab
 function renderSessionTable(type = "upcoming") {
+  const upcomingCount = bookings.filter(b => ["confirmed", "in_progress", "pending_payment", "disputed"].includes(b.status)).length;
+  const completedCount = bookings.filter(b => ["completed", "cancelled", "refunded"].includes(b.status)).length;
+
+  const upBadge = $("#upcoming-count-badge");
+  const compBadge = $("#completed-count-badge");
+  if (upBadge) upBadge.textContent = upcomingCount;
+  if (compBadge) compBadge.textContent = completedCount;
+
   let list = [];
   if (type === "upcoming") {
     list = bookings.filter(b => ["confirmed", "in_progress", "pending_payment", "disputed"].includes(b.status));
@@ -389,62 +458,170 @@ function renderSessionTable(type = "upcoming") {
     list = bookings.filter(b => ["completed", "cancelled", "refunded"].includes(b.status));
   }
 
+  const avatarGradients = [
+    "linear-gradient(135deg, #1e4d3b, #337953)",
+    "linear-gradient(135deg, #2b4c7e, #4a7bb0)",
+    "linear-gradient(135deg, #6b3e75, #9c59a6)",
+    "linear-gradient(135deg, #7c4a27, #b8733e)"
+  ];
+
   $("#session-table").innerHTML = `
     <div class="row head">
-      <span>Client</span>
-      <span>Ref</span>
-      <span>Matter</span>
-      <span>Date &amp; time</span>
-      <span>Status</span>
-      <span></span>
+      <span class="col-head col-client">Client</span>
+      <span class="col-head col-ref">Reference</span>
+      <span class="col-head col-matter">Matter &amp; Specialty</span>
+      <span class="col-head col-time">Scheduled Time</span>
+      <span class="col-head col-status">Status</span>
+      <span class="col-head col-actions">Actions</span>
     </div>
   ` + (list.length ? list.map((s, i) => {
     const initials = s.client_name ? s.client_name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase() : "CL";
-    const dateStr = parseUTCDate(s.starts_at).toLocaleDateString("en-IN", {day: "numeric", month: "short", year: "numeric"});
-    const timeStr = parseUTCDate(s.starts_at).toLocaleTimeString("en-IN", {hour: "2-digit", minute: "2-digit"});
-    const statusClass = s.status === "confirmed" ? "approved" : (s.status === "completed" ? "approved" : "pending");
-    
-    let actionBtn = "";
-    if (s.status === "confirmed" || s.status === "in_progress") {
-      actionBtn = `
-        <button class="join" data-join-id="${s.id}" data-join-name="${escapeHtml(s.client_name || 'Client')}">Open room</button>
-        <button class="outline" data-complete-id="${s.id}" style="margin-left:5px;">Complete</button>
-      `;
+    const dateObj = parseUTCDate(s.starts_at);
+    const dayName = dateObj.toLocaleDateString("en-IN", {weekday: "short"});
+    const dateStr = dateObj.toLocaleDateString("en-IN", {day: "numeric", month: "short", year: "numeric"});
+    const timeStr = dateObj.toLocaleTimeString("en-IN", {hour: "2-digit", minute: "2-digit"});
+    const duration = s.duration_minutes || 45;
+
+    const practiceName = getSpecialty(s.practice);
+    let practiceIcon = "⚖️";
+    if (practiceName.includes("Property")) practiceIcon = "🏠";
+    else if (practiceName.includes("Corporate") || practiceName.includes("Company")) practiceIcon = "🏢";
+    else if (practiceName.includes("Family")) practiceIcon = "👨‍👩‍👧";
+
+    let statusHTML = "";
+    if (s.status === "confirmed") {
+      statusHTML = `<span class="status-pill status-confirmed"><span class="pulse-dot green"></span> Confirmed</span>`;
+    } else if (s.status === "in_progress") {
+      statusHTML = `<span class="status-pill status-in-progress"><span class="pulse-dot amber"></span> In Session</span>`;
+    } else if (s.status === "completed") {
+      statusHTML = `<span class="status-pill status-completed"><span class="check-icon">✓</span> Completed</span>`;
+    } else if (s.status === "cancelled") {
+      statusHTML = `<span class="status-pill status-cancelled">Cancelled</span>`;
     } else {
-      actionBtn = `<button class="outline" data-intake-id="${s.id}">View details</button>`;
+      statusHTML = `<span class="status-pill status-pending">${s.status.toUpperCase()}</span>`;
     }
 
+    let actionBtn = "";
+    if (s.status === "confirmed" || s.status === "in_progress") {
+      const roomOpen = isRoomActive(s.starts_at, s.duration_minutes, s.status);
+      const joinBtn = roomOpen
+        ? `<button class="btn-action btn-join" data-join-id="${s.id}" data-join-name="${escapeHtml(s.client_name || 'Client')}">🎥 Open room</button>`
+        : `<button class="btn-action btn-join disabled" disabled title="Room opens 15 minutes before scheduled session time"><span class="lock-icon">🔒</span> Open room</button>`;
+
+      const completeBtn = roomOpen
+        ? `<button class="btn-action btn-complete" data-complete-id="${s.id}">✓ Complete</button>`
+        : `<button class="btn-action btn-complete disabled" disabled title="Consultation can only be completed during or after the scheduled session time">✓ Complete</button>`;
+
+      actionBtn = `<div class="action-btn-group">${joinBtn}${completeBtn}</div>`;
+    } else {
+      actionBtn = `<button class="btn-action btn-details" data-intake-id="${s.id}">📋 View details</button>`;
+    }
+
+    const grad = avatarGradients[i % avatarGradients.length];
+
     return `
-      <div class="row">
-        <div class="client">
-          <span class="avatar" style="background:${colors[i % 4]}">${initials}</span>
-          <strong>${s.client_name || "Client"}</strong>
+      <div class="row session-row">
+        <div class="client-cell">
+          <span class="client-avatar" style="background:${grad}">${initials}</span>
+          <div class="client-info">
+            <strong class="client-name">${escapeHtml(s.client_name || "Client")}</strong>
+            <span class="client-sub">Client Intake Received</span>
+          </div>
         </div>
-        <span style="font-family: monospace; font-size: 14px; font-weight: 600; color: var(--muted);">${s.id.slice(0, 8).toUpperCase()}</span>
-        <span>${getSpecialty(s.practice)}</span>
-        <span>${dateStr} · ${timeStr}</span>
-        <span class="status ${statusClass}">${s.status.toUpperCase()}</span>
-        <div>${actionBtn}</div>
+        <div class="ref-cell">
+          <span class="ref-tag">#${s.id.slice(0, 8).toUpperCase()}</span>
+        </div>
+        <div class="matter-cell">
+          <span class="matter-tag"><span class="matter-icon">${practiceIcon}</span> ${escapeHtml(practiceName)}</span>
+        </div>
+        <div class="datetime-cell">
+          <span class="datetime-date">📅 ${dayName}, ${dateStr}</span>
+          <span class="datetime-time">⏰ ${timeStr} <small>(${duration}m)</small></span>
+        </div>
+        <div class="status-cell">
+          ${statusHTML}
+        </div>
+        <div class="actions-cell">
+          ${actionBtn}
+        </div>
       </div>
     `;
-  }).join("") : `<p class="muted" style="padding:20px;">No consultations in this category.</p>`);
+  }).join("") : `
+    <div class="empty-consultations">
+      <div class="empty-icon">📂</div>
+      <h3>No consultations found</h3>
+      <p>No consultations matching this category at the moment.</p>
+    </div>
+  `);
 }
 
 // Helper to generate standardized time dropdown options (30-min increments)
-function generateTimeOptions(selectedTime) {
-  const times = [
-    "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
-    "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-    "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
-    "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM",
-    "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM",
-    "09:00 PM", "09:30 PM", "10:00 PM"
-  ];
-  let cleanSelected = (selectedTime || "").trim().toUpperCase();
+const ALL_TIME_SLOTS = [
+  "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
+  "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+  "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
+  "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM",
+  "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM",
+  "09:00 PM", "09:30 PM", "10:00 PM"
+];
+
+function timeToMinutes(tStr) {
+  if (!tStr) return 0;
+  const parts = tStr.trim().split(" ");
+  if (parts.length < 2) return 0;
+  const [hStr, mStr] = parts[0].split(":");
+  let h = parseInt(hStr, 10);
+  const m = parseInt(mStr, 10) || 0;
+  const ampm = parts[1].toUpperCase();
+  if (ampm === "PM" && h < 12) h += 12;
+  if (ampm === "AM" && h === 12) h = 0;
+  return h * 60 + m;
+}
+
+function generateStartTimeOptions(selectedStart) {
+  const times = ALL_TIME_SLOTS.slice(0, -1);
+  let cleanSelected = (selectedStart || "").trim().toUpperCase();
   if (!times.includes(cleanSelected)) {
     cleanSelected = times.find(t => t.startsWith(cleanSelected.slice(0, 2))) || "09:00 AM";
   }
   return times.map(t => `<option value="${t}" ${t === cleanSelected ? "selected" : ""}>${t}</option>`).join("");
+}
+
+function generateEndTimeOptions(selectedEnd, minStart) {
+  const minMins = minStart ? timeToMinutes(minStart) : 0;
+  const validTimes = ALL_TIME_SLOTS.filter(t => timeToMinutes(t) > minMins);
+  let cleanSelected = (selectedEnd || "").trim().toUpperCase();
+
+  if (!validTimes.includes(cleanSelected)) {
+    const defaultEndMins = minMins + 60;
+    const matched = validTimes.find(t => timeToMinutes(t) >= defaultEndMins);
+    cleanSelected = matched || validTimes[validTimes.length - 1] || "06:00 PM";
+  }
+  return validTimes.map(t => `<option value="${t}" ${t === cleanSelected ? "selected" : ""}>${t}</option>`).join("");
+}
+
+function renderTimeSelects(startVal, endVal) {
+  const cleanStart = startVal || "09:00 AM";
+  const startHTML = generateStartTimeOptions(cleanStart);
+  const endHTML = generateEndTimeOptions(endVal || "06:00 PM", cleanStart);
+  return `<select class="time-start">${startHTML}</select><span>to</span><select class="time-end">${endHTML}</select>`;
+}
+
+function bindTimeSelectListeners(dayRow) {
+  const startSelect = dayRow.querySelector(".time-start");
+  const endSelect = dayRow.querySelector(".time-end");
+  if (!startSelect || !endSelect) return;
+
+  startSelect.onchange = () => {
+    const newStart = startSelect.value;
+    const currentEnd = endSelect.value;
+    endSelect.innerHTML = generateEndTimeOptions(currentEnd, newStart);
+  };
+}
+
+// Legacy fallback helper for backwards compatibility
+function generateTimeOptions(selectedTime) {
+  return generateStartTimeOptions(selectedTime);
 }
 
 // 3. Availability Tab
@@ -465,39 +642,75 @@ function renderCalendar() {
         </label>
         <div class="times">
           ${dayConfig.active 
-            ? `<select class="time-start">${generateTimeOptions(dayConfig.start)}</select><span>to</span><select class="time-end">${generateTimeOptions(dayConfig.end)}</select>` 
+            ? renderTimeSelects(dayConfig.start, dayConfig.end) 
             : "Unavailable"}
         </div>
       </div>
     `;
   }).join("");
 
-  document.querySelectorAll(".day-toggle").forEach(chk => {
-    chk.onchange = (e) => {
-      const dayRow = e.target.closest(".day");
-      const timesDiv = dayRow.querySelector(".times");
-      if (chk.checked) {
-        timesDiv.innerHTML = `<select class="time-start">${generateTimeOptions("09:00 AM")}</select><span>to</span><select class="time-end">${generateTimeOptions("06:00 PM")}</select>`;
-      } else {
-        timesDiv.innerHTML = "Unavailable";
-      }
-    };
+  document.querySelectorAll(".day").forEach(dayRow => {
+    bindTimeSelectListeners(dayRow);
+
+    const chk = dayRow.querySelector(".day-toggle");
+    if (chk) {
+      chk.onchange = () => {
+        const timesDiv = dayRow.querySelector(".times");
+        if (chk.checked) {
+          timesDiv.innerHTML = renderTimeSelects("09:00 AM", "06:00 PM");
+          bindTimeSelectListeners(dayRow);
+        } else {
+          timesDiv.innerHTML = "Unavailable";
+        }
+      };
+    }
   });
+
+  const minNoticeEl = $("#min-notice");
+  const bufferEl = $("#buffer-time");
+  const tzEl = $("#timezone-select");
+  if (minNoticeEl && avail._min_notice) minNoticeEl.value = String(avail._min_notice);
+  if (bufferEl && avail._buffer) bufferEl.value = String(avail._buffer);
+  if (tzEl && avail._timezone) tzEl.value = String(avail._timezone);
 }
 
 async function saveAvailability() {
   const avail = {};
+  let invalidDay = null;
+
   document.querySelectorAll(".day").forEach(dayRow => {
     const dayKey = dayRow.dataset.day;
+    const dayName = dayRow.querySelector("strong")?.textContent || dayKey;
     const active = dayRow.querySelector(".day-toggle").checked;
+    
+    dayRow.style.outline = "";
+
     if (active) {
       const start = dayRow.querySelector(".time-start").value;
       const end = dayRow.querySelector(".time-end").value;
+
+      if (timeToMinutes(start) >= timeToMinutes(end)) {
+        dayRow.style.outline = "2px solid var(--terra, #b30000)";
+        if (!invalidDay) invalidDay = dayName;
+      }
+
       avail[dayKey] = { active, start, end };
     } else {
       avail[dayKey] = { active: false };
     }
   });
+
+  if (invalidDay) {
+    toast(`Invalid hours for ${invalidDay}: End time must be after Start time.`);
+    return;
+  }
+
+  const minNoticeEl = $("#min-notice");
+  const bufferEl = $("#buffer-time");
+  const tzEl = $("#timezone-select");
+  if (minNoticeEl) avail._min_notice = parseInt(minNoticeEl.value, 10) || 12;
+  if (bufferEl) avail._buffer = parseInt(bufferEl.value, 10) || 15;
+  if (tzEl) avail._timezone = tzEl.value || "Asia/Kolkata";
   
   try {
     const payload = {
@@ -520,6 +733,67 @@ async function saveAvailability() {
   }
 }
 
+// 3b. iCal Subscribe Panel
+async function initIcalPanel() {
+  const urlInput = $("#ical-feed-url");
+  const copyBtn = $("#copy-ical-btn");
+  const gcalBtn = $("#gcal-subscribe-btn");
+  const rotateBtn = $("#rotate-ical-btn");
+  if (!urlInput) return;
+
+  const buildFeedUrl = (token) => {
+    const base = window.location.origin;
+    return `${base}/api/v1/calendar/feed/${token}.ics`;
+  };
+
+  const setUrl = (token) => {
+    const url = buildFeedUrl(token);
+    urlInput.value = url;
+    if (gcalBtn) {
+      // Google Calendar "Add by URL" flow
+      gcalBtn.href = `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(url)}`;
+    }
+  };
+
+  try {
+    const data = await LexAPI.getIcalToken();
+    setUrl(data.ical_token);
+  } catch (err) {
+    urlInput.value = "Could not load — please refresh.";
+  }
+
+  if (copyBtn) {
+    copyBtn.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(urlInput.value);
+        copyBtn.textContent = "✓ Copied!";
+        setTimeout(() => { copyBtn.textContent = "📋 Copy"; }, 2000);
+      } catch {
+        urlInput.select();
+        document.execCommand("copy");
+        copyBtn.textContent = "✓ Copied!";
+        setTimeout(() => { copyBtn.textContent = "📋 Copy"; }, 2000);
+      }
+    };
+  }
+
+  if (rotateBtn) {
+    rotateBtn.onclick = async () => {
+      if (!confirm("Rotating the URL will invalidate your current calendar subscriptions. Any calendar apps using the old URL will stop syncing. Continue?")) return;
+      try {
+        rotateBtn.textContent = "Rotating…";
+        const data = await LexAPI.rotateIcalToken();
+        setUrl(data.ical_token);
+        rotateBtn.textContent = "🔄 Rotate URL";
+        toast("iCal feed URL rotated successfully.");
+      } catch (err) {
+        rotateBtn.textContent = "🔄 Rotate URL";
+        toast("Failed to rotate URL: " + err.message);
+      }
+    };
+  }
+}
+
 // 4. Messages Tab
 const chatKeys = {};
 async function getChatKey(bookingId) {
@@ -533,7 +807,7 @@ async function getChatKey(bookingId) {
 
 function renderThreads() {
   const threadsEl = $("#threads");
-  const chatBookings = bookings.filter(b => ["confirmed", "in_progress", "completed", "disputed"].includes(b.status));
+  const chatBookings = bookings.filter(b => ["confirmed", "in_progress"].includes(b.status));
   
   if (chatBookings.length === 0) {
     threadsEl.innerHTML = `<p class="muted" style="padding:15px;">No active consultations.</p>`;
@@ -590,6 +864,17 @@ async function selectThread(bookingId, isUserClick = false) {
   if (statusEl) { statusEl.textContent = "● Secure · End-to-end encrypted"; }
   
   if (pollingInterval) clearInterval(pollingInterval);
+  
+  if (window.activeChatWS) {
+    window.activeChatWS.disconnect();
+  }
+  if (window.WebSocketChatClient) {
+    window.activeChatWS = new WebSocketChatClient(bookingId, async () => {
+      SoundNotifier.playChime();
+      await loadMessages();
+    });
+    window.activeChatWS.connect();
+  }
   
   // Show loading state in bubbles
   $("#bubbles").innerHTML = `<p class="muted" style="margin:auto;text-align:center;font-size:13px">Loading messages…</p>`;
@@ -852,7 +1137,7 @@ function renderEarnings() {
   bookings.forEach(b => {
     const dateStr = parseUTCDate(b.starts_at).toLocaleDateString("en-IN", {day: "numeric", month: "short"});
     const earned = b.lawyer_amount_minor / 100;
-    const platFee = (b.lawyer_platform_fee_minor !== undefined ? b.lawyer_platform_fee_minor : round(b.platform_fee_minor / 2)) / 100;
+    const platFee = (b.lawyer_platform_fee_minor !== undefined ? b.lawyer_platform_fee_minor : Math.round(b.platform_fee_minor / 2)) / 100;
     
     if (b.status === "completed") {
       allTx.push({
@@ -1782,16 +2067,64 @@ function closeCall() {
 }
 
 // Inline trigger helpers
-window.joinRoom = joinRoom;
-window.viewIntake = function(bookingId) {
+function openIntakeModal(bookingId) {
   const b = bookings.find(x => x.id === bookingId);
-  const intakeQuestions = intake[mapPracticeToFrontend(b.practice)];
-  const answers = Object.values(b.intake);
+  if (!b) return;
+
+  const modal = document.getElementById("intake-modal");
+  const nameEl = document.getElementById("intake-client-name");
+  const practiceEl = document.getElementById("intake-practice");
+  const bookingIdEl = document.getElementById("intake-booking-id");
+  const container = document.getElementById("intake-questions-container");
+
+  if (!modal || !container) return;
+
+  nameEl.textContent = `Client: ${b.client_name || "Demo Client"}`;
+  practiceEl.textContent = mapPracticeToFrontend(b.practice) || "Legal Consultation";
+  bookingIdEl.textContent = `#${b.id ? b.id.substring(0, 8).toUpperCase() : "REQ"}`;
+
+  const practiceKey = mapPracticeToFrontend(b.practice);
+  const intakeQuestions = (intake && intake[practiceKey]) ? intake[practiceKey] : [
+    "What type of legal matter is involved?",
+    "What specific assistance or outcome do you need?",
+    "Are there any deadlines or urgent timelines?"
+  ];
   
-  alert(
-    `INTAKE DETAILS FOR CLIENT: ${b.client_name || "Client"}\n\n` +
-    intakeQuestions.map((q, idx) => `Q: ${q}\nA: ${answers[idx] || "N/A"}`).join("\n\n")
-  );
+  let answers = [];
+  if (b.intake) {
+    answers = Array.isArray(b.intake) ? b.intake : Object.values(b.intake);
+  }
+
+  if (intakeQuestions.length === 0 || answers.length === 0) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:30px 20px; color:#8c857b; font-size:14px;">
+        No intake responses submitted for this consultation.
+      </div>`;
+  } else {
+    container.innerHTML = intakeQuestions.map((q, idx) => {
+      const ans = answers[idx] || "No response provided";
+      return `
+        <div style="background:#fdfbf8; border:1px solid #ebdcd0; border-radius:12px; padding:16px;">
+          <div style="font-size:11px; font-weight:700; color:#c85a32; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Question ${idx + 1}</div>
+          <div style="font-size:14px; font-weight:600; color:#1c2826; margin-bottom:8px; line-height:1.4;">${escapeHtml(q)}</div>
+          <div style="background:#ffffff; border:1px solid #e8e1d7; border-radius:8px; padding:10px 14px; font-size:13px; color:#2b3531; line-height:1.5;">${escapeHtml(ans)}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  modal.hidden = false;
+}
+
+function closeIntakeModal() {
+  const modal = document.getElementById("intake-modal");
+  if (modal) modal.hidden = true;
+}
+
+window.openIntakeModal = openIntakeModal;
+window.closeIntakeModal = closeIntakeModal;
+window.viewIntake = function(bookingId) {
+  openIntakeModal(bookingId);
 };
 
 window.markBookingComplete = async function(bookingId) {
@@ -1831,6 +2164,13 @@ document.addEventListener("click", e => {
     }
   }
 
+  let suppBtn = e.target.closest("#open-support-btn, .support");
+  if (suppBtn) {
+    e.preventDefault();
+    openSupportModal();
+    return;
+  }
+
   let n = e.target.closest("[data-view]");
   let g = e.target.closest("[data-go]");
   let t = e.target.closest("[data-toast]");
@@ -1856,23 +2196,27 @@ document.addEventListener("click", e => {
 
   // Join consultation room
   if (jn) {
-    joinRoom(jn.dataset.joinId, jn.dataset.joinName);
+    const booking = bookings.find(x => x.id === jn.dataset.joinId);
+    if (booking && !isRoomActive(booking.starts_at, booking.duration_minutes, booking.status)) {
+      toast("Room is not active yet. Rooms open 15 minutes before the scheduled consultation time.");
+    } else {
+      joinRoom(jn.dataset.joinId, jn.dataset.joinName);
+    }
   }
 
   // View intake details
   if (it) {
-    const b = bookings.find(x => x.id === it.dataset.intakeId);
-    if (b) {
-      const intakeQuestions = intake[mapPracticeToFrontend(b.practice)] || [];
-      const answers = Object.values(b.intake);
-      const lines = intakeQuestions.map((q, idx) => `Q: ${q}\nA: ${answers[idx] || "N/A"}`).join("\n\n");
-      alert(`INTAKE DETAILS FOR CLIENT: ${b.client_name || "Client"}\n\n${lines}`);
-    }
+    openIntakeModal(it.dataset.intakeId);
   }
 
   // Mark booking complete
   if (cp) {
     const bookingId = cp.dataset.completeId;
+    const b = bookings.find(x => x.id === bookingId);
+    if (b && !isRoomActive(b.starts_at, b.duration_minutes, b.status)) {
+      toast("Consultation cannot be completed before the scheduled session time.");
+      return;
+    }
     if (confirm("Are you sure you want to mark this consultation as completed?")) {
       LexAPI.completeBooking(bookingId)
         .then(() => { toast("Consultation marked as completed."); loadData(); })
@@ -1901,8 +2245,65 @@ $("#menu").onclick = (e) => {
 };
 $("#close").onclick = closeCall;
 $("#call").onclick = e => {
-  if (e.target === $("#call")) closeCall();
+  if (e.target.id === "call") closeCall();
 };
+
+document.getElementById("intake-modal-close")?.addEventListener("click", closeIntakeModal);
+document.getElementById("intake-modal-done-btn")?.addEventListener("click", closeIntakeModal);
+document.getElementById("intake-modal")?.addEventListener("click", (e) => {
+  if (e.target.id === "intake-modal") closeIntakeModal();
+});
+
+function openSupportModal() {
+  const modal = document.getElementById("support-modal");
+  if (modal) {
+    modal.removeAttribute("hidden");
+    modal.hidden = false;
+    modal.style.display = "grid";
+  }
+}
+
+function closeSupportModal() {
+  const modal = document.getElementById("support-modal");
+  if (modal) {
+    modal.setAttribute("hidden", "");
+    modal.hidden = true;
+    modal.style.display = "none";
+  }
+}
+
+window.openSupportModal = openSupportModal;
+window.closeSupportModal = closeSupportModal;
+
+document.getElementById("open-support-btn")?.addEventListener("click", (e) => {
+  if (e) e.preventDefault();
+  openSupportModal();
+});
+document.getElementById("support-modal-close")?.addEventListener("click", closeSupportModal);
+document.getElementById("support-modal")?.addEventListener("click", (e) => {
+  if (e.target.id === "support-modal") closeSupportModal();
+});
+
+document.getElementById("support-ticket-form")?.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const category = document.getElementById("support-category")?.value || "General";
+  const message = document.getElementById("support-message")?.value || "";
+  if (!message.trim()) return;
+
+  const fullComment = `[Support Ticket - ${category}] ${message}`;
+  try {
+    if (window.LexAPI && window.LexAPI.submitPlatformFeedback) {
+      await window.LexAPI.submitPlatformFeedback({ rating: 5, comments: fullComment });
+    }
+  } catch (err) {
+    console.error("Failed to submit support ticket to backend:", err);
+  }
+
+  toast(`🎧 Ticket [${category}] submitted! Lawyer support will contact you within 15 mins.`);
+  const msgEl = document.getElementById("support-message");
+  if (msgEl) msgEl.value = "";
+  closeSupportModal();
+});
 
 $("#video").onclick = () => {
   if (activeBookingId) {
@@ -2107,9 +2508,266 @@ if (profEnrollmentEl) {
   profEnrollmentEl.oninput = handler;
 }
 
+function initLanguageSuggestions() {
+  const input = $("#prof-languages");
+  const dropdown = $("#lang-dropdown");
+  if (!input || !dropdown) return;
+
+  const ALL_LANGUAGES = [
+    "Kannada",
+    "Hindi",
+    "Bengali",
+    "English",
+    "Marathi",
+    "Telugu",
+    "Tamil",
+    "Gujarati",
+    "Malayalam"
+  ];
+
+  let selectedIndex = -1;
+
+  const renderSuggestions = () => {
+    const rawVal = input.value;
+    const tokens = rawVal.split(",").map(t => t.trim());
+    const currentQuery = (tokens[tokens.length - 1] || "").toLowerCase();
+
+    const selectedSet = new Set(tokens.slice(0, -1).map(t => t.toLowerCase()).filter(Boolean));
+
+    const matches = ALL_LANGUAGES.filter(lang => {
+      const lower = lang.toLowerCase();
+      if (selectedSet.has(lower)) return false;
+      if (!currentQuery) return true;
+      return lower.includes(currentQuery);
+    });
+
+    if (matches.length === 0) {
+      dropdown.hidden = true;
+      dropdown.innerHTML = "";
+      selectedIndex = -1;
+      return;
+    }
+
+    dropdown.innerHTML = matches.map((lang, idx) => `
+      <div class="lang-dropdown-item ${idx === selectedIndex ? 'selected' : ''}" data-lang="${lang}">
+        <span>${lang}</span>
+        <small style="color:var(--muted);font-size:11px;">+ Add</small>
+      </div>
+    `).join("");
+
+    dropdown.hidden = false;
+
+    dropdown.querySelectorAll(".lang-dropdown-item").forEach(item => {
+      item.onmousedown = (e) => {
+        e.preventDefault();
+        selectLanguage(item.dataset.lang);
+      };
+    });
+  };
+
+  const selectLanguage = (lang) => {
+    const rawVal = input.value;
+    let tokens = rawVal.split(",").map(t => t.trim()).filter(Boolean);
+    
+    if (tokens.length > 0) {
+      const lastToken = tokens[tokens.length - 1].toLowerCase();
+      if (!ALL_LANGUAGES.map(l => l.toLowerCase()).includes(lastToken)) {
+        tokens.pop();
+      }
+    }
+    
+    const exists = tokens.some(t => t.toLowerCase() === lang.toLowerCase());
+    if (!exists) {
+      tokens.push(lang);
+    }
+    
+    input.value = tokens.join(", ") + ", ";
+    dropdown.hidden = true;
+    selectedIndex = -1;
+    input.focus();
+  };
+
+  input.addEventListener("input", () => {
+    selectedIndex = -1;
+    renderSuggestions();
+  });
+
+  input.addEventListener("focus", () => {
+    renderSuggestions();
+  });
+
+  input.addEventListener("keydown", (e) => {
+    const items = dropdown.querySelectorAll(".lang-dropdown-item");
+    if (dropdown.hidden || items.length === 0) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      selectedIndex = (selectedIndex + 1) % items.length;
+      renderSuggestions();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+      renderSuggestions();
+    } else if (e.key === "Enter" || e.key === "Tab") {
+      if (selectedIndex >= 0 && items[selectedIndex]) {
+        e.preventDefault();
+        selectLanguage(items[selectedIndex].dataset.lang);
+      }
+    } else if (e.key === "Escape") {
+      dropdown.hidden = true;
+      selectedIndex = -1;
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+      dropdown.hidden = true;
+      selectedIndex = -1;
+    }
+  });
+}
+
+const NotificationsManager = (() => {
+  let notifications = JSON.parse(localStorage.getItem("vm_notifications") || "[]");
+
+  function save() {
+    localStorage.setItem("vm_notifications", JSON.stringify(notifications.slice(0, 30)));
+    render();
+  }
+
+  function add(icon, text) {
+    notifications.unshift({
+      id: Date.now(),
+      icon,
+      text,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      read: false
+    });
+    save();
+  }
+
+  function markAllRead() {
+    notifications.forEach(n => n.read = true);
+    save();
+  }
+
+  function render() {
+    const badge = document.getElementById("notification-badge");
+    const list = document.getElementById("notification-list");
+    if (!badge || !list) return;
+
+    const unreadCount = notifications.filter(n => !n.read).length;
+    if (unreadCount > 0) {
+      badge.textContent = unreadCount > 9 ? "9+" : unreadCount;
+      badge.style.display = "flex";
+    } else {
+      badge.style.display = "none";
+    }
+
+    if (notifications.length === 0) {
+      list.innerHTML = `<div class="notif-empty">No new notifications</div>`;
+      return;
+    }
+
+    list.innerHTML = notifications.map(n => `
+      <div class="notif-item ${n.read ? '' : 'unread'}" data-id="${n.id}">
+        <span class="notif-icon">${n.icon}</span>
+        <div class="notif-content">
+          <p class="notif-text">${n.text}</p>
+          <span class="notif-time">${n.time}</span>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  function initUI() {
+    const bell = document.getElementById("notification-bell");
+    const dropdown = document.getElementById("notification-dropdown");
+    const markReadBtn = document.getElementById("mark-all-read-btn");
+
+    if (bell && dropdown) {
+      bell.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.style.display === "block";
+        dropdown.style.display = isOpen ? "none" : "block";
+      });
+
+      document.addEventListener("click", (e) => {
+        if (dropdown && !dropdown.contains(e.target) && e.target !== bell) {
+          dropdown.style.display = "none";
+        }
+      });
+    }
+
+    if (markReadBtn) {
+      markReadBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        markAllRead();
+      });
+    }
+
+    render();
+  }
+
+  return { add, markAllRead, render, initUI };
+})();
+
+function initRealtimeSync() {
+  if (window.NotificationsManager) {
+    NotificationsManager.initUI();
+  } else {
+    NotificationsManager.initUI();
+  }
+
+  if (!window.sseClient) return;
+
+  window.sseClient.connect();
+
+  window.sseClient.on("BOOKING_CREATED", (data) => {
+    SoundNotifier.playChime();
+    const msg = `New consultation booked by ${data.client_name || "Client"}`;
+    toast(`🎉 ${msg}!`);
+    NotificationsManager.add("🎉", msg);
+    loadData();
+  });
+
+  window.sseClient.on("DRAFT_REQUEST_SUBMITTED", (data) => {
+    SoundNotifier.playChime();
+    const msg = `New document drafting request: "${data.title || "Request"}"`;
+    toast(`📑 ${msg}`);
+    NotificationsManager.add("📑", msg);
+    const portal = document.getElementById("lawyer-drafting-portal");
+    if (portal && !portal.hidden) {
+      loadDraftingPortal();
+    }
+  });
+
+  window.sseClient.on("PROPOSAL_ACCEPTED", (data) => {
+    SoundNotifier.playChime();
+    const msg = `Proposal for "${data.title}" accepted by ${data.client_name || "Client"}`;
+    toast(`✨ ${msg}!`);
+    NotificationsManager.add("✨", msg);
+    loadData();
+    loadDraftingPortal();
+  });
+
+  window.sseClient.on("CHAT_MESSAGE_RECEIVED", (data) => {
+    SoundNotifier.playChime();
+    const msg = `New message from ${data.sender_name || "Client"}`;
+    if (data && data.booking_id === activeBookingId) {
+      loadMessages();
+    } else {
+      toast(`💬 ${msg}`);
+    }
+    NotificationsManager.add("💬", msg);
+  });
+}
+
 // Initial triggers
 if (LexAPI.getCurrentUser()?.role === "lawyer") {
   loadData();
+  initLanguageSuggestions();
+  initRealtimeSync();
 }
 
 
@@ -2995,7 +3653,7 @@ window.payForDrafting = async function(reqId) {
 
         <div style="background:#f4f7f5; padding:12px 14px; border-radius:10px; font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:24px; display:flex; align-items:flex-start; gap:8px;">
           <span style="font-size:16px;">🛡️</span>
-          <span><strong>Buyer Protection:</strong> Your payment will be safely held in LawyerGrid Escrow and only released after you review and approve the finalized draft.</span>
+          <span><strong>Buyer Protection:</strong> Your payment will be safely held in VidhiMeet Escrow and only released after you review and approve the finalized draft.</span>
         </div>
 
         <div id="drafting-pay-error-lawyer" style="color:var(--terra); font-size:13px; margin-bottom:12px; font-weight:600;" hidden></div>

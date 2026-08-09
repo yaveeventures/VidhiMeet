@@ -1,4 +1,4 @@
-import os
+﻿import os
 from sqlalchemy import select
 from backend.db import Base, SessionLocal, engine
 from backend.models import LawyerProfile, Practice, Role, User
@@ -11,10 +11,10 @@ Base.metadata.create_all(engine)
 db = SessionLocal()
 try:
     records = [
-        ("admin@lawyergrid.com", "LawyerGrid Admin", Role.ADMIN, None),
+        ("admin@VidhiMeet.com", "VidhiMeet Admin", Role.ADMIN, None),
         ("surajgundi1@gmail.com", "Suraj Gundi", Role.ADMIN, None),
-        ("aanya@lawyergrid.com", "Adv. Aanya Rao", Role.LAWYER, Practice.FAMILY),
-        ("client@lawyergrid.com", "Demo Client", Role.CLIENT, None),
+        ("aanya@VidhiMeet.com", "Adv. Aanya Rao", Role.LAWYER, Practice.FAMILY),
+        ("client@VidhiMeet.com", "Demo Client", Role.CLIENT, None),
     ]
     for email, name, role, practice in records:
         if db.scalar(select(User).where(User.email == email)):

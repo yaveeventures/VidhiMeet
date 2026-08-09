@@ -45,8 +45,9 @@ body.sidebar-locked {
   height:100dvh}
 .brand {
   display:flex;
+  justify-content:center;
   align-items:center;
-  gap:10px;
+  padding:24px 16px 16px;
   color:white;
   text-decoration:none;
   font:700 23px "Playfair Display"}

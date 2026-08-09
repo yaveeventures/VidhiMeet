@@ -1,4 +1,4 @@
-# LawyerGrid
+﻿# VidhiMeet
 
 A full-stack legal marketplace foundation with:
 

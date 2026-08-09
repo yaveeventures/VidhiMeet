@@ -36,6 +36,7 @@ class SlidingWindowRateLimiter:
             "auth": s.rate_limit_auth_per_min,
             "public": s.rate_limit_public_per_min,
             "authenticated": s.rate_limit_authenticated_per_min,
+            "admin": s.rate_limit_admin_per_min,
             "uploads": s.rate_limit_uploads_per_min,
             "strict": s.rate_limit_strict_per_min,
             "global": s.rate_limit_global_per_min,

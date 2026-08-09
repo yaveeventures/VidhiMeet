@@ -12,6 +12,10 @@ from sqlalchemy.orm import Session
 from .config import get_settings
 from .db import get_db
 
+if TYPE_CHECKING:
+    from .models import Role, User
+
+
 
 
 bearer = HTTPBearer(auto_error=False)
@@ -69,9 +73,40 @@ def create_access_token(user: Union["User", dict]) -> str:
 
 
 
+_REVOKED_JTIS: set[str] = set()
+
+def revoke_jti(jti: str, exp_timestamp: float | None = None) -> None:
+    """Revoke a JWT by adding its jti to the revocation blocklist."""
+    if not jti:
+        return
+    _REVOKED_JTIS.add(jti)
+    try:
+        from .rate_limiter import rate_limiter
+        if rate_limiter.redis:
+            ttl = int(exp_timestamp - datetime.now(timezone.utc).timestamp()) if exp_timestamp else 3600
+            if ttl > 0:
+                rate_limiter.redis.setex(f"revoked_jti:{jti}", ttl, "1")
+    except Exception:
+        pass
+
+
 def decode_token(token: str) -> dict:
     try:
-        return jwt.decode(token, settings.jwt_secret, algorithms=["HS256"], issuer=settings.jwt_issuer)
+        payload = jwt.decode(token, settings.jwt_secret, algorithms=["HS256"], issuer=settings.jwt_issuer)
+        jti = payload.get("jti")
+        if jti:
+            if jti in _REVOKED_JTIS:
+                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="token has been revoked")
+            try:
+                from .rate_limiter import rate_limiter
+                if rate_limiter.redis and rate_limiter.redis.get(f"revoked_jti:{jti}"):
+                    _REVOKED_JTIS.add(jti)
+                    raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="token has been revoked")
+            except HTTPException:
+                raise
+            except Exception:
+                pass
+        return payload
     except jwt.PyJWTError as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid or expired token") from exc
 
@@ -128,8 +163,11 @@ def encrypt_field(val: str | None) -> str | None:
     try:
         cipher = _get_fernet_cipher()
         return cipher.encrypt(val.encode("utf-8")).decode("utf-8")
-    except Exception:
-        return val
+    except Exception as exc:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Field encryption failure. Operation aborted for data safety."
+        ) from exc
 
 
 def decrypt_field(val: str | None) -> str | None:
@@ -138,7 +176,24 @@ def decrypt_field(val: str | None) -> str | None:
     try:
         cipher = _get_fernet_cipher()
         return cipher.decrypt(val.encode("utf-8")).decode("utf-8")
-    except Exception:
-        # Fallback to plain text if decryption fails (e.g. legacy plain text data)
-        return val
+    except Exception as exc:
+        # Fail closed: Do NOT fallback to raw text if decryption fails
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Secure storage decryption error. Access denied."
+        ) from exc
+
+
+def validate_participant_access(resource_client_id: str, resource_lawyer_id: str | None, current_user: "User") -> None:
+    """Enforce strict participant boundary isolation (BOLA/IDOR defense)."""
+    from .models import Role
+    if current_user.role == Role.ADMIN:
+        return
+    user_id_str = str(current_user.id)
+    if user_id_str != str(resource_client_id) and (not resource_lawyer_id or user_id_str != str(resource_lawyer_id)):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="record unavailable"
+        )
+
 

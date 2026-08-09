@@ -58,6 +58,10 @@ function close() {
   }
 }
 
+function closeModal() {
+  close();
+}
+
 function mapPracticeToBackend(p) {
   if (!p) return "property";
   if (Array.isArray(p)) return mapPracticeToBackend(p[0]);
@@ -216,6 +220,7 @@ async function loadLawyers() {
       languages: x.languages.join(", "),
       fee: x.hourly_fee_minor / 100,
       available: true,
+      availability: x.availability || {},
       color: getColorForName(x.full_name),
       initials: x.full_name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()
     }));
@@ -339,13 +344,40 @@ function bookingView() {
   }
   
   if (s === 2) {
+    const l = booking.lawyer || {};
+    const avail = l.availability || {};
+
+    const getDayConfig = (dateObj) => {
+      const dayKey = dateObj.toLocaleDateString("en-US", { weekday: "long" }).toLowerCase();
+      if (!avail || Object.keys(avail).length === 0) {
+        const isWeekday = dateObj.getDay() >= 1 && dateObj.getDay() <= 5;
+        return isWeekday ? { active: true, start: "09:00 AM", end: "06:00 PM" } : { active: false };
+      }
+      return avail[dayKey] || { active: false };
+    };
+
     const now = new Date();
-    const dates = Array.from({length: 4}, (_, i) => {
+    const activeDates = [];
+    for (let i = 1; i <= 14; i++) {
       let d = new Date(now);
-      d.setDate(d.getDate() + i + 1);
-      return `<option value="${d.toISOString().slice(0, 10)}">${d.toLocaleDateString("en-IN", {weekday: "short", day: "numeric", month: "short"})}</option>`;
-    }).join("");
-    
+      d.setDate(d.getDate() + i);
+      const cfg = getDayConfig(d);
+      if (cfg && cfg.active) {
+        activeDates.push(d);
+      }
+    }
+
+    let datesHtml = "";
+    if (activeDates.length === 0) {
+      datesHtml = `<option value="">No available dates in next 14 days</option>`;
+    } else {
+      datesHtml = activeDates.map(d => {
+        const val = d.toISOString().slice(0, 10);
+        const label = d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" });
+        return `<option value="${val}">${label}</option>`;
+      }).join("");
+    }
+
     content.innerHTML = `
       <span class="kicker">Choose your slot</span>
       <h2>When works for you?</h2>
@@ -354,16 +386,11 @@ function bookingView() {
       <form class="form two" id="schedule-form">
         <div class="field">
           <label>Date</label>
-          <select id="date">${dates}</select>
+          <select id="date" ${activeDates.length === 0 ? "disabled" : ""}>${datesHtml}</select>
         </div>
         <div class="field">
           <label>Time</label>
-          <select id="time">
-            <option>10:00 AM</option>
-            <option>12:30 PM</option>
-            <option>3:00 PM</option>
-            <option>5:30 PM</option>
-          </select>
+          <select id="time" ${activeDates.length === 0 ? "disabled" : ""}></select>
         </div>
         <div class="field">
           <label>Consultation mode</label>
@@ -378,10 +405,74 @@ function bookingView() {
         </div>
         <div class="actions" style="grid-column:1/-1">
           <button type="button" class="ghost secondary" data-back>Back</button>
-          <button class="primary" type="submit">Review booking →</button>
+          <button class="primary" type="submit" ${activeDates.length === 0 ? "disabled" : ""}>Review booking →</button>
         </div>
       </form>
     `;
+
+    const populateTimeSlots = (dateStr) => {
+      const timeSelect = document.querySelector("#time");
+      if (!timeSelect || !dateStr) return;
+      
+      const parts = dateStr.split("-");
+      const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+      const cfg = getDayConfig(d);
+      
+      if (!cfg || !cfg.active) {
+        timeSelect.innerHTML = `<option value="">Unavailable on this day</option>`;
+        return;
+      }
+
+      const parseTimeMinutes = (timeStr) => {
+        if (!timeStr) return null;
+        const p = timeStr.trim().split(" ");
+        const hhmm = p[0].split(":");
+        let h = parseInt(hhmm[0], 10);
+        const m = parseInt(hhmm[1], 10);
+        if (p[1] === "PM" && h < 12) h += 12;
+        if (p[1] === "AM" && h === 12) h = 0;
+        return h * 60 + m;
+      };
+
+      const formatTimeStr = (minutes) => {
+        let h = Math.floor(minutes / 60);
+        const m = minutes % 60;
+        const ampm = h >= 12 ? "PM" : "AM";
+        if (h > 12) h -= 12;
+        if (h === 0) h = 12;
+        const mm = m < 10 ? `0${m}` : `${m}`;
+        return `${h}:${mm} ${ampm}`;
+      };
+
+      const startMins = parseTimeMinutes(cfg.start || "09:00 AM") || (9 * 60);
+      const endMins = parseTimeMinutes(cfg.end || "06:00 PM") || (18 * 60);
+      const minNoticeHours = avail._min_notice || 12;
+      const bufferMins = avail._buffer || 15;
+      const slotStepMins = 45 + bufferMins; // 45 min consultation + buffer break
+
+      const now = new Date();
+      const minNoticeCutoff = new Date(now.getTime() + minNoticeHours * 60 * 60 * 1000);
+
+      const slots = [];
+      for (let m = startMins; m + 45 <= endMins; m += slotStepMins) {
+        const slotDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60, 0);
+        if (slotDate >= minNoticeCutoff) {
+          slots.push(formatTimeStr(m));
+        }
+      }
+
+      if (slots.length === 0) {
+        timeSelect.innerHTML = `<option value="">No slots available (min ${minNoticeHours}h notice)</option>`;
+      } else {
+        timeSelect.innerHTML = slots.map(s => `<option>${s}</option>`).join("");
+      }
+    };
+
+    const dateSelect = document.querySelector("#date");
+    if (dateSelect && dateSelect.value) {
+      populateTimeSlots(dateSelect.value);
+      dateSelect.onchange = (e) => populateTimeSlots(e.target.value);
+    }
   }
   
   if (s === 3) {
@@ -402,7 +493,7 @@ function bookingView() {
       </div>
       <label class="disclaimer">
         <input type="checkbox" id="ack"> 
-        <span>I understand LawyerGrid is an Electronic Marketplace Intermediary under Section 79 of the IT Act and does not itself provide legal advice. Legal advice is provided directly and solely by the verified lawyer. <strong>Metadata Waiver:</strong> I agree that in the event of a dispute, automated room connection logs (timestamps and participant durations) serve as sole definitive evidence for refund eligibility.</span>
+        <span>I understand VidhiMeet is an Electronic Marketplace Intermediary under Section 79 of the IT Act and does not itself provide legal advice. Legal advice is provided directly and solely by the verified lawyer. <strong>Metadata Waiver:</strong> I agree that in the event of a dispute, automated room connection logs (timestamps and participant durations) serve as sole definitive evidence for refund eligibility.</span>
       </label>
       <div id="booking-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:10px;"></div>
       <div class="actions">
@@ -417,15 +508,83 @@ function bookingView() {
   }
   
   if (s === 4) {
-    content.innerHTML = `
-      <div class="success">
-        <div class="success-mark">✓</div>
-        <span class="kicker">Booking confirmed</span>
-        <h2>You're all set.</h2>
-        <p class="lead">Your private consultation room is ready.</p>
-        <button class="primary" id="join">Enter secure room →</button>
-      </div>
-    `;
+    let dateFormatted = "";
+    let isStartingSoon = true;
+
+    let dt = null;
+    if (booking && booking.starts_at) {
+      const rawDt = booking.starts_at;
+      const dtStr = rawDt && !rawDt.endsWith("Z") && !rawDt.includes("+") ? rawDt + "Z" : rawDt;
+      dt = new Date(dtStr);
+    } else if (booking && booking.date) {
+      let hour = 10, min = 0;
+      if (booking.time) {
+        const parts = booking.time.split(":");
+        hour = parseInt(parts[0], 10);
+        const subparts = parts[1].split(" ");
+        min = parseInt(subparts[0], 10);
+        if (subparts[1] === "PM" && hour < 12) hour += 12;
+        if (subparts[1] === "AM" && hour === 12) hour = 0;
+      }
+      dt = new Date(booking.date);
+      dt.setHours(hour, min, 0, 0);
+    }
+
+    if (dt && !isNaN(dt.getTime())) {
+      const now = new Date();
+      const diffMs = dt.getTime() - now.getTime();
+      const diffMins = diffMs / (1000 * 60);
+
+      // Starting soon if meeting starts within 15 minutes or already started/ongoing
+      isStartingSoon = diffMins <= 15;
+
+      dateFormatted = dt.toLocaleDateString("en-IN", {
+        weekday: "short",
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      }) + " at " + dt.toLocaleTimeString("en-IN", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+      });
+    }
+
+    if (isStartingSoon) {
+      content.innerHTML = `
+        <div class="success">
+          <div class="success-mark">✓</div>
+          <span class="kicker">Booking confirmed</span>
+          <h2>You're all set.</h2>
+          <p class="lead">Your private consultation room is ready.</p>
+          <button class="primary" id="join">Enter secure room →</button>
+        </div>
+      `;
+    } else {
+      content.innerHTML = `
+        <div class="success">
+          <div class="success-mark">✓</div>
+          <span class="kicker">Booking confirmed</span>
+          <h2>You're all set.</h2>
+          <p class="lead">Your consultation is scheduled for <strong>${dateFormatted}</strong>.</p>
+          <p style="font-size:13.5px;color:var(--text-muted);margin:-8px 0 20px;">You can join your private video room when your scheduled session starts.</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+            <button class="primary" id="go-my-meetings">View My Consultations</button>
+            <button class="ghost secondary" data-action="close-modal">Done</button>
+          </div>
+        </div>
+      `;
+      setTimeout(() => {
+        const goBtn = document.querySelector("#go-my-meetings");
+        if (goBtn) {
+          goBtn.onclick = () => {
+            closeModal();
+            const btn = document.querySelector("#my-meetings-btn");
+            if (btn) btn.click();
+          };
+        }
+      }, 50);
+    }
   }
 }
 
@@ -552,6 +711,7 @@ async function handlePay() {
     await LexAPI.confirmPayment(res.id);
     
     booking.id = res.id;
+    booking.starts_at = res.starts_at;
     booking.step = 4;
     bookingView();
   } catch (err) {
@@ -1079,10 +1239,20 @@ function openAuthModal(redirect = null) {
 function renderLogin(redirect = null, fromBooking = false) {
   const heading = fromBooking
     ? `<span class="kicker">One step away</span><h2>Sign in to book</h2><p class="lead">Sign in or create a free account to continue with your consultation booking.</p>`
-    : `<span class="kicker">Secure Access</span><h2>Sign In</h2><p class="lead">Welcome back to LawyerGrid.</p>`;
+    : `<span class="kicker">Secure Access</span><h2>Sign In</h2><p class="lead">Welcome back to VidhiMeet.</p>`;
 
   content.innerHTML = `
     ${heading}
+    <button type="button" class="btn-google-auth" id="btn-google-login">
+      <svg width="18" height="18" viewBox="0 0 18 18">
+        <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l-.01.12 2.67 2.07.18.02c1.7-1.57 2.68-3.88 2.68-6.63z"/>
+        <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.21c-.76.53-1.78.9-3.12.9-2.38 0-4.41-1.57-5.13-3.74l-.11.01-2.75 2.13-.03.11C2.43 15.93 5.46 18 9 18z"/>
+        <path fill="#FBBC05" d="M3.87 10.77c-.19-.58-.3-1.2-.3-1.77s.11-1.19.3-1.77l-.01-.13-2.76-2.14-.09.04C.35 6.24 0 7.58 0 9s.35 2.76 1.01 4.01l2.86-2.24z"/>
+        <path fill="#EA4335" d="M9 3.58c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.96 11.43 0 9 0 5.46 0 2.43 2.07 1.01 5.06l2.85 2.24c.72-2.17 2.75-3.72 5.14-3.72z"/>
+      </svg>
+      <span>Sign in with Google</span>
+    </button>
+    <div class="auth-divider"><span>or sign in with email</span></div>
     <form class="form" id="login-form" autocomplete="off">
 
       <div class="field">
@@ -1100,6 +1270,34 @@ function renderLogin(redirect = null, fromBooking = false) {
     </form>
     <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--ink-light);">New here? <button type="button" id="switch-to-register" style="background:none;border:none;color:var(--forest);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Create a free account →</button></p>
   `;
+
+  const btnG = document.querySelector("#btn-google-login");
+  if (btnG) {
+    btnG.onclick = async () => {
+      try {
+        let email = "client@VidhiMeet.com";
+        let fullName = "Demo Client";
+        if (window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
+          try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const res = await firebase.auth().signInWithPopup(provider);
+            if (res && res.user) {
+              email = res.user.email;
+              fullName = res.user.displayName || email.split("@")[0];
+            }
+          } catch (e) { console.warn("Google popup fallback:", e); }
+        }
+        await LexAPI.googleLogin({ email, full_name: fullName, role: "client" });
+        toast(`Welcome back, ${fullName}!`);
+        close();
+        updateHeader();
+        if (redirect) window.location.href = redirect;
+      } catch (err) {
+        const errDiv = document.querySelector("#auth-error");
+        if (errDiv) errDiv.textContent = err.message || "Google auth failed";
+      }
+    };
+  }
 
   document.querySelector("#switch-to-register").onclick = () => renderRegister(redirect, fromBooking);
 
@@ -1164,6 +1362,16 @@ function renderRegister(redirect = null, fromBooking = false) {
 
   content.innerHTML = `
     ${heading}
+    <button type="button" class="btn-google-auth" id="btn-google-register">
+      <svg width="18" height="18" viewBox="0 0 18 18">
+        <path fill="#4285F4" d="M17.64 9.2c0-.74-.06-1.28-.19-1.84H9v3.34h4.96c-.1.83-.64 2.08-1.84 2.92l-.01.12 2.67 2.07.18.02c1.7-1.57 2.68-3.88 2.68-6.63z"/>
+        <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.84-2.21c-.76.53-1.78.9-3.12.9-2.38 0-4.41-1.57-5.13-3.74l-.11.01-2.75 2.13-.03.11C2.43 15.93 5.46 18 9 18z"/>
+        <path fill="#FBBC05" d="M3.87 10.77c-.19-.58-.3-1.2-.3-1.77s.11-1.19.3-1.77l-.01-.13-2.76-2.14-.09.04C.35 6.24 0 7.58 0 9s.35 2.76 1.01 4.01l2.86-2.24z"/>
+        <path fill="#EA4335" d="M9 3.58c1.69 0 2.83.73 3.48 1.34l2.54-2.48C13.46.96 11.43 0 9 0 5.46 0 2.43 2.07 1.01 5.06l2.85 2.24c.72-2.17 2.75-3.72 5.14-3.72z"/>
+      </svg>
+      <span>Sign in with Google</span>
+    </button>
+    <div class="auth-divider"><span>or register with email</span></div>
     <form class="form" id="register-form">
       <div class="field">
         <label>Full Name</label>
@@ -1201,6 +1409,34 @@ function renderRegister(redirect = null, fromBooking = false) {
     <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--ink-light);">Already have an account? <button type="button" id="switch-to-login" style="background:none;border:none;color:var(--forest);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Sign in →</button></p>
   `;
   
+  const btnGR = document.querySelector("#btn-google-register");
+  if (btnGR) {
+    btnGR.onclick = async () => {
+      try {
+        let email = "client@VidhiMeet.com";
+        let fullName = "Demo Client";
+        if (window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
+          try {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const res = await firebase.auth().signInWithPopup(provider);
+            if (res && res.user) {
+              email = res.user.email;
+              fullName = res.user.displayName || email.split("@")[0];
+            }
+          } catch (e) { console.warn("Google popup fallback:", e); }
+        }
+        await LexAPI.googleLogin({ email, full_name: fullName, role: "client" });
+        toast(`Welcome, ${fullName}!`);
+        close();
+        updateHeader();
+        if (redirect) window.location.href = redirect;
+      } catch (err) {
+        const errDiv = document.querySelector("#auth-error");
+        if (errDiv) errDiv.textContent = err.message || "Google auth failed";
+      }
+    };
+  }
+
   document.querySelector("#switch-to-login").onclick = () => renderLogin(redirect, fromBooking);
   
   document.querySelector("#register-form").onsubmit = async (e) => {
@@ -1262,27 +1498,64 @@ function updateHeader() {
   const headerActions = document.querySelector(".header-actions");
   if (user) {
     const controlConsole = user.role === "admin" 
-      ? `<a class="ghost" href="admin.html">Admin console</a>` 
-      : (user.role === "lawyer" ? `<a class="ghost" href="lawyer.html">Lawyer portal</a>` : "");
+      ? `<a href="admin.html" class="user-dropdown-item"><span class="dropdown-icon">⚙️</span> Admin console</a>` 
+      : (user.role === "lawyer" ? `<a href="lawyer.html" class="user-dropdown-item"><span class="dropdown-icon">⚖️</span> Lawyer portal</a>` : "");
       
     const userName = user.full_name || user.name || "Client";
     const initial = escapeHtml(userName.charAt(0).toUpperCase());
 
     headerActions.innerHTML = `
-      <div class="user-badge" style="display:flex; align-items:center; gap:8px; padding:6px 14px; background:var(--mint); border-radius:99px; font-weight:700; font-size:13px; color:var(--forest); border:1px solid var(--sage);">
-        <span style="display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; background:var(--forest); color:white; border-radius:50%; font-size:12px; font-weight:700;">${initial}</span>
-        <span>${escapeHtml(userName)}</span>
+      <div class="user-dropdown-wrapper">
+        <button type="button" class="user-dropdown-trigger" id="user-menu-btn" title="Account Menu">
+          <span class="user-avatar-circle">${initial}</span>
+          <span class="user-name-text">${escapeHtml(userName)}</span>
+          <span class="user-chevron">▾</span>
+        </button>
+        <div class="user-dropdown-menu" id="user-dropdown-menu" hidden>
+          <div class="user-dropdown-header">
+            <div class="user-name-title">${escapeHtml(userName)}</div>
+            <div class="user-email-subtitle">${escapeHtml(user.email || "")}</div>
+          </div>
+          <a href="#my-meetings" data-view="my-meetings" class="user-dropdown-item">
+            <span class="dropdown-icon">📅</span> My Meetings
+          </a>
+          <a href="#drafting" data-view="drafting" class="user-dropdown-item">
+            <span class="dropdown-icon">📄</span> Drafting Desk
+          </a>
+          ${controlConsole}
+          <div class="dropdown-divider"></div>
+          <button type="button" id="signout-btn" class="user-dropdown-item signout-item">
+            <span class="dropdown-icon">🚪</span> Sign out
+          </button>
+        </div>
       </div>
-      ${controlConsole}
-      <button class="ghost" id="signout-btn">Sign out</button>
     `;
-    document.querySelector("#signout-btn").onclick = () => {
-      LexAPI.logout();
-      toast("Signed out securely.");
-      setTimeout(() => {
-        window.location.href = "index.html";
-      }, 800);
-    };
+
+    const menuBtn = document.querySelector("#user-menu-btn");
+    const menu = document.querySelector("#user-dropdown-menu");
+    if (menuBtn && menu) {
+      menuBtn.onclick = (e) => {
+        e.stopPropagation();
+        menu.hidden = !menu.hidden;
+      };
+      menu.onclick = (e) => {
+        if (e.target.closest(".user-dropdown-item")) {
+          menu.hidden = true;
+        }
+      };
+    }
+
+    const signoutBtn = document.querySelector("#signout-btn");
+    if (signoutBtn) {
+      signoutBtn.onclick = (e) => {
+        e.preventDefault();
+        LexAPI.logout();
+        toast("Signed out securely.");
+        setTimeout(() => {
+          window.location.href = "index.html";
+        }, 600);
+      };
+    }
   } else {
     headerActions.innerHTML = `
         <a class="ghost" href="lawyer.html">Lawyer portal</a>
@@ -1583,6 +1856,22 @@ const STATUS_LABEL = {
   refunded:        { text: "Refunded",        cls: "status-cancelled" },
 };
 
+function isRoomActive(startsAt, durationMinutes = 45, status = "") {
+  if (status === "in_progress") return true;
+  if (status !== "confirmed") return false;
+  if (!startsAt) return false;
+  
+  const rawDt = typeof startsAt === "string" && !startsAt.endsWith("Z") && !startsAt.includes("+") ? startsAt + "Z" : startsAt;
+  const startMs = new Date(rawDt).getTime();
+  if (isNaN(startMs)) return false;
+
+  const nowMs = Date.now();
+  const windowStart = startMs - 15 * 60 * 1000;
+  const windowEnd = startMs + (durationMinutes || 45) * 60 * 1000;
+
+  return nowMs >= windowStart && nowMs <= windowEnd;
+}
+
 async function showMyMeetings() {
   if (!LexAPI.authenticated()) {
     window.location.hash = "";
@@ -1623,8 +1912,9 @@ async function showMyMeetings() {
 
     listEl.innerHTML = bookings.map(b => {
       const sl = STATUS_LABEL[b.status] || { text: b.status, cls: "status-pending" };
-      const canJoin = b.status === "confirmed" || b.status === "in_progress";
-      const rawDt = b.starts_at || "";
+      const canJoin = isRoomActive(b.starts_at, b.duration_minutes, b.status);
+      const isConfirmed = b.status === "confirmed" || b.status === "in_progress";
+      const rawDt = b.starts_at || b.original_starts_at || "";
       const dtStr = rawDt && !rawDt.endsWith("Z") && !rawDt.includes("+") ? rawDt + "Z" : rawDt;
       const dt = dtStr ? new Date(dtStr) : null;
       const dateStr = dt ? dt.toLocaleDateString("en-IN", {weekday:"short", day:"numeric", month:"short", year:"numeric"}) : "—";
@@ -1635,14 +1925,71 @@ async function showMyMeetings() {
       // BCI Rule 36: Star ratings and client reviews are excluded
       let reviewHTML = "";
 
+      // Build Google Calendar quick-add link
+      let gcalUrl = "";
+      if (dt && ["confirmed", "in_progress"].includes(b.status)) {
+        const dtEnd = new Date(dt.getTime() + (b.duration_minutes || 45) * 60000);
+        const fmt = d => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+        gcalUrl = `https://calendar.google.com/calendar/event?action=TEMPLATE` +
+          `&text=${encodeURIComponent(`Legal Consultation (—${b.lawyer_name || "Advocate"})`)}`+
+          `&dates=${fmt(dt)}/${fmt(dtEnd)}`+
+          `&details=${encodeURIComponent(`VidhiMeet consultation. Ref: ${b.id.slice(0,8).toUpperCase()}. Join room after lawyer confirms.`)}`+
+          `&location=${encodeURIComponent("VidhiMeet Secure Video Room")}`;
+      }
+
       return `
         <article class="meeting-card">
           <div class="meeting-card-top">
             <div class="meeting-meta">
-              <span class="meeting-practice">${practice}</span>
-              <span class="meeting-status ${sl.cls}">${sl.text}</span>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="meeting-practice">${practice}</span>
+                <span class="meeting-status ${sl.cls}">${sl.text}</span>
+              </div>
+
+              <!-- 3-Dots Options Menu Trigger & Dropdown -->
+              <div class="card-dots-wrapper">
+                <button class="card-dots-btn" data-menu-toggle="${b.id}" title="More options" aria-label="More options">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="5" r="2.2"/>
+                    <circle cx="12" cy="12" r="2.2"/>
+                    <circle cx="12" cy="19" r="2.2"/>
+                  </svg>
+                </button>
+                <div class="card-dots-menu" id="card-menu-${b.id}" hidden>
+                  ${["confirmed","in_progress","pending_payment"].includes(b.status) ? `
+                    <button class="card-menu-item" data-upload-booking="${b.id}">
+                      <span class="menu-icon">📎</span> Upload case related documents
+                    </button>
+                  ` : ""}
+                  ${isConfirmed ? `
+                    <div class="card-menu-divider"></div>
+                    <div class="card-menu-subhead">Add to Calendar</div>
+                    <a href="${gcalUrl}" target="_blank" rel="noopener" class="card-menu-item sub">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#4285F4"/><path d="M12 6v6l4 2" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+                      Google Calendar
+                    </a>
+                    <button class="card-menu-item sub" data-ics-booking="${b.id}">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1E4D3B"/><path d="M5 10h14M5 14h14M10 6v12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+                      Apple / Outlook (.ics)
+                    </button>
+                  ` : ""}
+                  ${["confirmed", "in_progress"].includes(b.status) ? `
+                    <div class="card-menu-divider"></div>
+                    <button class="card-menu-item warning" data-dispute-booking="${b.id}">
+                      <span class="menu-icon">⚠️</span> Dispute
+                    </button>
+                  ` : ""}
+                  ${["confirmed", "pending_payment"].includes(b.status) ? `
+                    <div class="card-menu-divider"></div>
+                    <button class="card-menu-item danger" data-cancel-booking="${b.id}">
+                      <span class="menu-icon">🚫</span> Cancel consultation
+                    </button>
+                  ` : ""}
+                </div>
+              </div>
             </div>
-            <div class="meeting-lawyer-name" style="font-size: 18px; font-weight: 700; color: var(--forest); margin: 4px 0 2px;">
+            
+            <div class="meeting-lawyer-name" style="font-size: 18px; font-weight: 700; color: var(--forest); margin: 6px 0 2px;">
               ${b.lawyer_name || "Assigned Lawyer"}
             </div>
             <div class="meeting-datetime">
@@ -1655,22 +2002,148 @@ async function showMyMeetings() {
             <div class="meeting-id">Ref: <code>${b.id.slice(0, 8).toUpperCase()}</code></div>
           </div>
           <div class="meeting-card-actions">
-            ${canJoin ? `<button class="primary" data-join-booking="${b.id}">Join Secure Room →</button>` : ""}
+            ${canJoin 
+              ? `<button class="primary" data-join-booking="${b.id}">Join Secure Room →</button>` 
+              : (isConfirmed ? `<button class="primary" disabled title="Room opens 15 minutes before scheduled session time" style="opacity:0.55; cursor:not-allowed; background:#8a9f93; border-color:#8a9f93;">Room opens 15m before start</button>` : "")}
             ${b.status === "pending_payment" ? `<span class="meeting-hint">⏳ Awaiting payment confirmation</span>` : ""}
             ${reviewHTML}
             ${b.status === "cancelled" || b.status === "refunded" ? `<span class="meeting-hint">✗ Booking ${b.status}</span>` : ""}
-          </div>
-          ${["confirmed","in_progress","completed","disputed"].includes(b.status) ? `
-          <div class="meeting-card-secondary-actions">
-            <button class="btn-chat-meeting" data-chat-booking="${b.id}" data-chat-lawyer="${b.lawyer_name || 'Your Lawyer'}" data-chat-salt="${b.chat_key_salt || ''}">💬 Chat</button>
-            <button class="btn-upload-docs" data-upload-booking="${b.id}">📎 Upload case docs</button>
-            ${["confirmed", "in_progress"].includes(b.status) ? `<button class="btn-dispute-meeting" data-dispute-booking="${b.id}">⚠️ Dispute</button>` : ""}
+            ${["confirmed","in_progress","pending_payment"].includes(b.status) ? `
+              <button class="btn-chat-meeting" data-chat-booking="${b.id}" data-chat-lawyer="${b.lawyer_name || 'Your Lawyer'}" data-chat-salt="${b.chat_key_salt || ''}">💬 Chat</button>
+            ` : ""}
             <input type="file" id="doc-file-${b.id}" accept=".pdf,.jpg,.jpeg,.png,.docx" hidden>
-          </div>` : ""}
+          </div>
         </article>`;
     }).join("");
+
+    // Bind 3-dots options menu toggles
+    document.querySelectorAll("[data-menu-toggle]").forEach(btn => {
+      btn.onclick = (e) => {
+        e.stopPropagation();
+        const menuId = btn.dataset.menuToggle;
+        const menu = document.getElementById(`card-menu-${menuId}`);
+        if (!menu) return;
+        const isHidden = menu.hidden;
+        document.querySelectorAll(".card-dots-menu").forEach(m => m.hidden = true);
+        menu.hidden = !isHidden;
+      };
+    });
+
+    // Close 3-dots menu when clicking an item inside or clicking outside
+    document.querySelectorAll(".card-dots-menu button, .card-dots-menu a").forEach(item => {
+      item.onclick = (e) => {
+        const menu = item.closest(".card-dots-menu");
+        if (menu) menu.hidden = true;
+      };
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".card-dots-wrapper")) {
+        document.querySelectorAll(".card-dots-menu").forEach(m => m.hidden = true);
+      }
+    });
+
+    // Bind cancellation buttons
+    document.querySelectorAll("[data-cancel-booking]").forEach(btn => {
+      btn.onclick = () => openCancelModal(btn.dataset.cancelBooking);
+    });
+
+    // Bind .ics download buttons
+    document.querySelectorAll("[data-ics-booking]").forEach(btn => {
+      btn.onclick = () => downloadBookingIcs(btn.dataset.icsBooking);
+    });
   } catch (err) {
     listEl.innerHTML = `<div class="meetings-empty"><div class="empty-icon">⚠️</div><h3>Could not load meetings</h3><p>${err.message}</p><button class="primary" id="back-to-home">Go back</button></div>`;
+  }
+}
+
+// ── Calendar Download Helper ─────────────────────────────────────────────────
+
+function downloadBookingIcs(bookingId) {
+  const token = LexAPI.getAccessToken();
+  if (!token) { toast("Please log in to download calendar event."); return; }
+  const base = window.location.origin;
+  const a = document.createElement("a");
+  a.href = `${base}/api/v1/bookings/${bookingId}/calendar.ics`;
+  a.download = `VidhiMeet-${bookingId.slice(0,8).toLowerCase()}.ics`;
+  // Pass auth token via query param (calendar clients can't set headers)
+  a.href += `?token=${encodeURIComponent(token)}`;
+  a.click();
+}
+
+// ── Client Cancellation Modal ────────────────────────────────────────────────
+
+async function openCancelModal(bookingId) {
+  open();
+  content.innerHTML = `<div class="meetings-loading"><div class="spinner"></div><p>Calculating cancellation refund preview…</p></div>`;
+
+  try {
+    const preview = await LexAPI.getCancellationPreview(bookingId);
+    const refundRs = (preview.refund_amount_minor / 100).toFixed(2);
+    const penaltyRs = (preview.penalty_amount_minor / 100).toFixed(2);
+    const totalRs = (preview.total_amount_minor / 100).toFixed(2);
+
+    let tierLabel = "Free Cancellation (100% Refund)";
+    if (preview.policy_tier === "client_between_2h_and_24h") {
+      tierLabel = "Late Cancellation (75% Refund / 25% Short-Notice Fee)";
+    } else if (preview.policy_tier === "client_under_2h_or_noshow") {
+      tierLabel = "Short-Notice Cancellation (<2 Hours: 0% Refund)";
+    } else if (preview.policy_tier === "lawyer_cancellation") {
+      tierLabel = "Lawyer Cancellation (100% Refund + Voucher)";
+    }
+
+    content.innerHTML = `
+      <span class="kicker">Cancel Consultation</span>
+      <h2>Confirm Cancellation</h2>
+      <p class="lead">${tierLabel}</p>
+
+      <div style="background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.08);border-radius:10px;padding:16px;margin:16px 0;text-align:left;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+          <span>Total Paid:</span>
+          <strong>₹${totalRs}</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;color:${preview.penalty_amount_minor > 0 ? '#b30000' : '#1e7e34'};">
+          <span>Cancellation Fee (${preview.penalty_pct}%):</span>
+          <span>- ₹${penaltyRs}</span>
+        </div>
+        <hr style="border:0;border-top:1px solid rgba(0,0,0,0.1);margin:8px 0;">
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:700;color:var(--forest);">
+          <span>Eligible Refund Amount:</span>
+          <span>₹${refundRs}</span>
+        </div>
+      </div>
+
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;text-align:left;">
+        💡 <strong>Reversal Timeline:</strong> ${preview.reversal_timeline_notice}
+      </p>
+
+      <div class="form-group" style="text-align:left;">
+        <label style="display:block;font-size:13px;font-weight:600;margin-bottom:4px;">Reason for cancellation (optional)</label>
+        <textarea id="cancel-reason" rows="2" placeholder="e.g. Schedule conflict..." style="width:100%;padding:8px;border-radius:6px;border:1px solid #ccc;"></textarea>
+      </div>
+
+      <div class="actions" style="margin-top:20px;">
+        <button class="ghost secondary" data-action="close-modal">Keep Booking</button>
+        <button class="primary" id="confirm-cancel-btn" style="background:#8b0000;border-color:#8b0000;">Confirm Cancellation</button>
+      </div>
+    `;
+
+    document.getElementById("confirm-cancel-btn").onclick = async () => {
+      const reason = document.getElementById("cancel-reason").value;
+      document.getElementById("confirm-cancel-btn").disabled = true;
+      document.getElementById("confirm-cancel-btn").textContent = "Processing refund...";
+      try {
+        const res = await LexAPI.cancelBooking(bookingId, reason);
+        closeModal();
+        toast(res.message || "Booking cancelled successfully.");
+        showMyMeetings();
+      } catch (err) {
+        toast("Cancellation failed: " + err.message);
+        document.getElementById("confirm-cancel-btn").disabled = false;
+        document.getElementById("confirm-cancel-btn").textContent = "Confirm Cancellation";
+      }
+    };
+  } catch (err) {
+    content.innerHTML = `<div class="meetings-empty"><h3>Error</h3><p>${err.message}</p><button class="primary" data-action="close-modal">Close</button></div>`;
   }
 }
 
@@ -1761,6 +2234,15 @@ async function openChatModal(bookingId, lawyerName, chatKeySalt) {
   
   if (clientChatInterval) clearInterval(clientChatInterval);
   clientChatInterval = setInterval(loadMessages, 5000);
+
+  if (window.clientChatWS) window.clientChatWS.disconnect();
+  if (window.WebSocketChatClient) {
+    window.clientChatWS = new WebSocketChatClient(bookingId, async () => {
+      SoundNotifier.playChime();
+      await loadMessages();
+    });
+    window.clientChatWS.connect();
+  }
 
   document.getElementById("client-chat-form").onsubmit = async (e) => {
     e.preventDefault();
@@ -1972,6 +2454,7 @@ async function initBookingLanding() {
         const l = lawyers.find(x => String(x.id) === String(matched.lawyer_id));
         booking = {
           id: matched.id,
+          starts_at: matched.starts_at,
           lawyer: l || { id: matched.lawyer_id, name: matched.lawyer_name || "Your Lawyer", specialty: getSpecialty(matched.practice), practice: mapPracticeToFrontend(matched.practice) },
           step: 4
         };
@@ -1993,6 +2476,8 @@ const loginRedirect = urlParams.get("login_redirect");
 if (loginRedirect) {
   if (loginRedirect === "lawyer") {
     window.location.href = "lawyer.html";
+  } else if (loginRedirect === "admin") {
+    window.location.href = "admin-login.html";
   } else {
     const existingUser = LexAPI.getCurrentUser();
     if (existingUser && existingUser.role === loginRedirect) {
@@ -2506,7 +2991,7 @@ window.payForDrafting = async function(reqId) {
 
         <div style="background:#f4f7f5; padding:12px 14px; border-radius:10px; font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:24px; display:flex; align-items:flex-start; gap:8px;">
           <span style="font-size:16px;">🛡️</span>
-          <span><strong>Buyer Protection:</strong> Your payment will be safely held in LawyerGrid Escrow and only released to the lawyer after you review and approve the finalized draft.</span>
+          <span><strong>Buyer Protection:</strong> Your payment will be safely held in VidhiMeet Escrow and only released to the lawyer after you review and approve the finalized draft.</span>
         </div>
 
         <div id="drafting-pay-error" style="color:var(--terra); font-size:13px; margin-bottom:12px; font-weight:600;" hidden></div>
@@ -2657,10 +3142,10 @@ function openContactModal() {
     <div style="padding: 24px; max-width: 500px; margin: 0 auto; text-align: left;">
       <small class="eyebrow" style="color: #4f46e5; text-transform: uppercase; font-weight: 700; letter-spacing: 0.12em;">GET IN TOUCH</small>
       <h2 style="font-family: var(--font-display, sans-serif); font-size: 26px; margin: 8px 0 16px; color: #1e293b;">Contact Us</h2>
-      <p style="color: #64748b; font-size: 14px; margin-bottom: 20px; line-height: 1.5;">Have questions about LawyerGrid or need assistance with your booking? We are here to help.</p>
+      <p style="color: #64748b; font-size: 14px; margin-bottom: 20px; line-height: 1.5;">Have questions about VidhiMeet or need assistance with your booking? We are here to help.</p>
       
       <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 14px;">
-        <div><strong>📧 Email Support:</strong> <a href="mailto:support@lawyergrid.in" style="color: #4f46e5; font-weight: 600;">support@lawyergrid.in</a></div>
+        <div><strong>📧 Email Support:</strong> <a href="mailto:support@VidhiMeet.in" style="color: #4f46e5; font-weight: 600;">support@VidhiMeet.in</a></div>
         <div><strong>📞 Toll-Free Phone:</strong> +91 (800) 539-4743 (Mon - Sat, 9 AM - 7 PM IST)</div>
       </div>
 
@@ -2689,7 +3174,7 @@ function openFeedbackModal() {
     <div style="padding: 24px; max-width: 500px; margin: 0 auto; text-align: left;">
       <small class="eyebrow" style="color: #4f46e5; text-transform: uppercase; font-weight: 700; letter-spacing: 0.12em;">YOUR OPINION MATTERS</small>
       <h2 style="font-family: var(--font-display, sans-serif); font-size: 26px; margin: 8px 0 16px; color: #1e293b;">Share Your Feedback</h2>
-      <p style="color: #64748b; font-size: 14px; margin-bottom: 20px; line-height: 1.5;">Help us improve LawyerGrid. Tell us about your consultation experience or suggest features.</p>
+      <p style="color: #64748b; font-size: 14px; margin-bottom: 20px; line-height: 1.5;">Help us improve VidhiMeet. Tell us about your consultation experience or suggest features.</p>
       
       <form id="feedback-form" style="display: flex; flex-direction: column; gap: 14px;">
         <label style="font-size: 14px; font-weight: 600; color: #334155;">Overall Satisfaction
@@ -2822,7 +3307,7 @@ document.addEventListener("click", async e => {
       if (window.viewDraftingDetails) window.viewDraftingDetails(id);
       break;
     case "close-modal":
-      if (window.close) window.close();
+      closeModal();
       break;
   }
 });

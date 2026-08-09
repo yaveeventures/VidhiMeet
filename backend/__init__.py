@@ -1,1 +1,1 @@
-"""LawyerGrid backend package."""
+﻿"""VidhiMeet backend package."""

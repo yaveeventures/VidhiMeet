@@ -1,5 +1,5 @@
-/**
- * LawyerGrid Client-Side PushState Router
+﻿/**
+ * VidhiMeet Client-Side PushState Router
  * Provides clean URL routing, browser history back/forward handling, and deep linking.
  */
 

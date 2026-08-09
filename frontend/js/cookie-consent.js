@@ -1,12 +1,12 @@
-/**
- * LawyerGrid Cookie Consent & Privacy Preference Manager
+﻿/**
+ * VidhiMeet Cookie Consent & Privacy Preference Manager
  * Compliant with DPDP Act 2023 & GDPR Standards
  */
 
 (function () {
   'use strict';
 
-  const STORAGE_KEY = 'lawyergrid_cookie_consent';
+  const STORAGE_KEY = 'VidhiMeet_cookie_consent';
 
   const defaultConsent = {
     necessary: true,
@@ -62,7 +62,7 @@
           <h3 class="lg-cookie-title">We value your privacy</h3>
         </div>
         <p class="lg-cookie-text">
-          LawyerGrid uses essential cookies for secure login and platform operations. With your consent, we also use analytical cookies to improve performance. Read our <a href="privacy.html" target="_blank">Privacy Policy</a>.
+          VidhiMeet uses essential cookies for secure login and platform operations. With your consent, we also use analytical cookies to improve performance. Read our <a href="privacy.html" target="_blank">Privacy Policy</a>.
         </p>
         <div class="lg-cookie-actions">
           <button id="lg-cookie-accept-all" class="lg-cookie-btn lg-cookie-btn-primary">Accept All</button>
@@ -72,7 +72,7 @@
       </div>
 
       <!-- Cookie Preferences Modal -->
-      <div id="lg-cookie-modal-backdrop" class="lg-cookie-modal-backdrop">
+      <div id="lg-cookie-modal-backdrop" class="lg-cookie-modal-backdrop" style="display:none;">
         <div class="lg-cookie-modal" role="dialog" aria-modal="true" aria-labelledby="lg-cookie-modal-title">
           <div class="lg-cookie-modal-header">
             <h3 id="lg-cookie-modal-title" class="lg-cookie-modal-title">Cookie Preferences</h3>
@@ -191,11 +191,23 @@
       const saved = getSavedConsent() || defaultConsent;
       if (toggleAnalytics) toggleAnalytics.checked = saved.analytics !== false;
       if (togglePreferences) togglePreferences.checked = saved.preferences !== false;
-      modalBackdrop?.classList.add('open');
+      if (modalBackdrop) {
+        modalBackdrop.style.display = 'flex';
+        // Force reflow so transition works smoothly
+        void modalBackdrop.offsetWidth;
+        modalBackdrop.classList.add('open');
+      }
     }
 
     function closeModal() {
-      modalBackdrop?.classList.remove('open');
+      if (modalBackdrop) {
+        modalBackdrop.classList.remove('open');
+        setTimeout(() => {
+          if (!modalBackdrop.classList.contains('open')) {
+            modalBackdrop.style.display = 'none';
+          }
+        }, 260);
+      }
     }
 
     // Attach click triggers to any link/button with href="#cookie-settings" or class .cookie-settings-btn

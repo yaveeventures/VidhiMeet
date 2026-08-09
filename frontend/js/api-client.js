@@ -26,13 +26,21 @@ const LexAPI = (() => {
   }
 
   async function request(path, options = {}) {
-    const headers = {"Content-Type": "application/json", ...(options.headers || {})};
+    if (!accessToken) {
+      accessToken = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
+    }
+    const headers = {
+      "Content-Type": "application/json",
+      "ngrok-skip-browser-warning": "true",
+      ...(options.headers || {})
+    };
     if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
     let response = await fetch(base + path, {...options, headers});
     
     if (response.status === 401 && path !== "/auth/login" && path !== "/auth/refresh") {
       const refreshToken = localStorage.getItem("lex_refresh_token");
       if (refreshToken) {
+        let retryToken = null;
         if (!isRefreshing) {
           isRefreshing = true;
           try {
@@ -48,22 +56,25 @@ const LexAPI = (() => {
               localStorage.setItem("lex_access_token", accessToken);
               localStorage.setItem("lex_refresh_token", tokens.refresh_token);
               isRefreshing = false;
+              retryToken = accessToken;
               onRefreshed(accessToken);
             } else {
               isRefreshing = false;
+              onRefreshed(null);
               LexAPI.logout();
               return response;
             }
           } catch (err) {
             isRefreshing = false;
+            onRefreshed(null);
             LexAPI.logout();
             throw err;
           }
+        } else {
+          retryToken = await new Promise(resolve => {
+            subscribeTokenRefresh(token => resolve(token));
+          });
         }
-        
-        const retryToken = await new Promise(resolve => {
-          subscribeTokenRefresh(token => resolve(token));
-        });
         
         if (retryToken) {
           headers.Authorization = `Bearer ${retryToken}`;
@@ -74,7 +85,8 @@ const LexAPI = (() => {
 
     if (!response.ok) {
       const body = await response.json().catch(() => ({detail: "Request failed"}));
-      const errorMsg = typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail);
+      const rawDetail = body.detail || body.message || (body.errors ? JSON.stringify(body.errors) : null) || `Request failed (${response.status})`;
+      const errorMsg = typeof rawDetail === "string" ? rawDetail : JSON.stringify(rawDetail);
       emit("error", { path, error: errorMsg });
       throw new Error(errorMsg);
     }
@@ -115,6 +127,21 @@ const LexAPI = (() => {
       emit("auth:change", { authenticated: true, user: this.getCurrentUser() });
       return tokens;
     },
+    async googleLogin(payload) {
+      const tokens = await request("/auth/google", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
+      accessToken = tokens.access_token;
+      sessionStorage.setItem("lex_access_token", accessToken);
+      localStorage.setItem("lex_access_token", accessToken);
+      localStorage.setItem("lex_refresh_token", tokens.refresh_token);
+      emit("auth:change", { authenticated: true, user: this.getCurrentUser() });
+      return tokens;
+    },
+    async health() {
+      return request("/health");
+    },
     async register(email, password, fullName, role, extra = {}) {
       const tokens = await request("/auth/register", {
         method: "POST", 
@@ -136,6 +163,9 @@ const LexAPI = (() => {
       emit("auth:change", { authenticated: false, user: null });
     },
     getCurrentUser() {
+      if (!accessToken) {
+        accessToken = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
+      }
       if (!accessToken) return null;
       try {
         const base64Url = accessToken.split('.')[1];
@@ -145,7 +175,8 @@ const LexAPI = (() => {
         const payload = JSON.parse(atob(padded));
         const fullName = payload.full_name || payload.name || localStorage.getItem("lex_user_name") || null;
         if (fullName) localStorage.setItem("lex_user_name", fullName);
-        return { id: payload.sub, role: payload.role, full_name: fullName };
+        const role = payload.role ? String(payload.role).toLowerCase() : null;
+        return { id: payload.sub, role: role, full_name: fullName };
       } catch (e) {
         console.error("JWT decoding failed:", e);
         return null;
@@ -168,6 +199,8 @@ const LexAPI = (() => {
     completeBooking: id => request(`/bookings/${id}/complete`, {method:"POST"}),
     disputeBooking: (id, payload) => request(`/bookings/${id}/dispute`, {method:"POST", body: payload ? JSON.stringify(payload) : null}),
     confirmPayment: id => request(`/bookings/${id}/confirm-payment`, {method:"POST"}),
+    getCancellationPreview: id => request(`/bookings/${id}/cancellation-preview`),
+    cancelBooking: (id, reason) => request(`/bookings/${id}/cancel`, {method:"POST", body: JSON.stringify({reason})}),
     
     // Messages
     getMessages: id => request(`/bookings/${id}/messages`),
@@ -195,6 +228,7 @@ const LexAPI = (() => {
     verifyLawyer: (id, approved) => request(`/admin/lawyers/${id}/verification?approved=${approved}`, {method:"PATCH"}),
     getAdminPayouts: () => request("/admin/payouts"),
     getPlatformFeedback: () => request("/admin/feedback"),
+    submitPlatformFeedback: (payload) => request("/public/feedback", {method:"POST", body:JSON.stringify(payload)}),
     
     // Reviews
     submitReview: (bookingId, rating, comment) => request(`/bookings/${bookingId}/review`, {method:"POST", body:JSON.stringify({rating, comment})}),
@@ -202,7 +236,11 @@ const LexAPI = (() => {
     getLawyerReviews: lawyerId => request(`/lawyers/${lawyerId}/reviews`),
 
     // Bank Account & UPI Verification
-    getBankAccount: () => request("/lawyers/me/bank-account").catch(e => (e.message?.includes("404") || e.message?.includes("no bank account")) ? null : Promise.reject(e)),
+    getBankAccount: () => request("/lawyers/me/bank-account").catch(e => {
+      const msg = String(e.message || "").toLowerCase();
+      if (msg.includes("404") || msg.includes("not found") || msg.includes("no bank account")) return null;
+      return Promise.reject(e);
+    }),
     addBankAccount: payload => request("/lawyers/me/bank-account", {method:"POST", body:JSON.stringify(payload)}),
     updateBankAccount: payload => request("/lawyers/me/bank-account", {method:"PUT", body:JSON.stringify(payload)}),
     deleteBankAccount: () => request("/lawyers/me/bank-account", {method:"DELETE"}),
@@ -224,6 +262,12 @@ const LexAPI = (() => {
     addDraftComment: (id, payload) => request(`/drafting/${id}/comments`, {method: "POST", body: JSON.stringify(payload)}),
     deleteDraftComment: (id, commentId) => request(`/drafting/${id}/comments/${commentId}`, {method: "DELETE"}),
     requestDraftRevisions: id => request(`/drafting/${id}/request-revisions`, {method: "POST"}),
+
+    // Calendar Integration
+    getIcalToken: () => request("/calendar/token"),
+    rotateIcalToken: () => request("/calendar/token/rotate", {method: "POST"}),
+    // getBookingIcs triggers a download via anchor — no fetch needed
+    // Use downloadBookingIcs(bookingId) helper defined in app.js
 
     authenticated: () => Boolean(accessToken),
     getAccessToken: () => accessToken

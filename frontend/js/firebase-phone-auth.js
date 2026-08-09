@@ -1,6 +1,6 @@
-/**
+﻿/**
  * firebase-phone-auth.js
- * LawyerGrid — Mobile OTP Verification via Firebase Phone Auth (compat SDK).
+ * VidhiMeet — Mobile OTP Verification via Firebase Phone Auth (compat SDK).
  *
  * Depends on firebase-app-compat.js and firebase-auth-compat.js being loaded first.
  * Exposes: window.__firebasePhoneAuth = { startPhoneVerification, confirmOtp }
@@ -12,9 +12,9 @@
   // ── Firebase project config ──────────────────────────────────────────────
   const FIREBASE_CONFIG = {
     apiKey:            "AIzaSyByF4rlJiSdCUhl4Pbnue45q8DwlgdRVO0",
-    authDomain:        "lawyergrid.firebaseapp.com",
-    projectId:         "lawyergrid",
-    storageBucket:     "lawyergrid.firebasestorage.app",
+    authDomain:        "VidhiMeet.firebaseapp.com",
+    projectId:         "VidhiMeet",
+    storageBucket:     "VidhiMeet.firebasestorage.app",
     messagingSenderId: "229849535757",
     appId:             "1:229849535757:web:7142d9b2cd7365c53d8c44",
     measurementId:     "G-BZNQD0KNH3"
@@ -162,5 +162,5 @@
     confirmOtp: confirmOtp
   };
 
-  console.log("[LawyerGrid] Firebase Phone Auth ready.");
+  console.log("[VidhiMeet] Firebase Phone Auth ready.");
 })();

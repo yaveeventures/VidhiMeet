@@ -12,7 +12,7 @@ from .config import get_settings
 from .db import Base, engine, async_engine
 from .logging_config import setup_logging
 from .rate_limiter import rate_limiter
-from .routers import admin, auth, bank_accounts, bookings, drafting, lawyers, public, webhooks
+from .routers import admin, auth, bank_accounts, bookings, calendar, drafting, events, lawyers, public, webhooks, websocket_chat
 
 from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -61,7 +61,7 @@ async def lifespan(app: FastAPI):
     await async_engine.dispose()
 
 app = FastAPI(
-    title="LawyerGrid API",
+    title="VidhiMeet API",
     version="1.0.0",
     docs_url=None if settings.production else "/docs",
     lifespan=lifespan
@@ -89,7 +89,7 @@ async def security_headers_and_rate_limit(request: Request, call_next):
     elif path.startswith("/api/v1/public") or path == "/api/v1/lawyers" or path == "/api/v1/health":
         category = "public"
     elif path.startswith("/api/v1/admin"):
-        category = "strict"
+        category = "admin"
     elif "authorization" in request.headers or "Authorization" in request.headers:
         category = "authenticated"
 
@@ -106,13 +106,15 @@ async def security_headers_and_rate_limit(request: Request, call_next):
     daily_url = "https://*.daily.co"
     daily_wss = "wss://*.daily.co"
     response.headers.update({
-        "X-Request-ID": request_id, "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY", "Referrer-Policy": "strict-origin-when-cross-origin",
+        "X-Request-ID": request_id,
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "X-XSS-Protection": "1; mode=block",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
         "Permissions-Policy": f'camera=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), microphone=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), display-capture=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), geolocation=()',
-        "Content-Security-Policy": f"default-src 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://cdnjs.cloudflare.com https://meet.jit.si https://8x8.vc; frame-src {daily_url} https://daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc https://lawyergrid.firebaseapp.com https://www.google.com; connect-src 'self' {daily_url} {daily_wss} https://api.daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc wss://*.meet.jit.si wss://*.8x8.vc https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src *; object-src 'none'; base-uri 'self'; worker-src blob: https://cdnjs.cloudflare.com;",
+        "Content-Security-Policy": f"default-src 'self'; script-src 'self' https://www.gstatic.com https://www.google.com https://cdnjs.cloudflare.com https://meet.jit.si https://8x8.vc; frame-src {daily_url} https://daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc https://VidhiMeet.firebaseapp.com https://www.google.com; connect-src 'self' {daily_url} {daily_wss} https://api.daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc wss://*.meet.jit.si wss://*.8x8.vc https://*.googleapis.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src *; object-src 'none'; base-uri 'self'; worker-src blob: https://cdnjs.cloudflare.com;",
     })
-    if settings.production:
-        response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
     return response
 
 # ── Two-Layer Exception Handlers ──────────────────────────────────────────────
@@ -217,9 +219,9 @@ async def metrics():
     body = f"""# HELP process_uptime_seconds Total process uptime in seconds
 # TYPE process_uptime_seconds counter
 process_uptime_seconds {uptime:.2f}
-# HELP lawyergrid_api_status API operational status (1 = healthy)
-# TYPE lawyergrid_api_status gauge
-lawyergrid_api_status 1
+# HELP VidhiMeet_api_status API operational status (1 = healthy)
+# TYPE VidhiMeet_api_status gauge
+VidhiMeet_api_status 1
 """
     return PlainTextResponse(body, media_type="text/plain")
 
@@ -229,8 +231,11 @@ app.include_router(auth.router)
 app.include_router(lawyers.router)
 app.include_router(bank_accounts.router)
 app.include_router(bookings.router)
+app.include_router(calendar.router)
 app.include_router(drafting.router)
 app.include_router(webhooks.router)
+app.include_router(events.router)
+app.include_router(websocket_chat.router)
 app.include_router(admin.router)
 
 # ── Serve frontend static files ───────────────────────────────────────────────
