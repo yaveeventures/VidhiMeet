@@ -138,7 +138,7 @@ def get_daily_meeting_details(booking: Booking, user: User) -> dict:
                 "room_name": room_name,
                 "display_name": user.full_name
             }
-    except (httpx.HTTPError, httpx.TimeoutException) as e:
+    except httpx.HTTPError as e:
         logger.error("Error connecting to Daily.co API", error=str(e))
         return {
             "url": f"https://{domain}.daily.co/{room_name}",
@@ -177,7 +177,7 @@ def verify_daily_meeting_duration(room_name: str) -> float:
             else:
                 logger.warning(f"Daily meetings API returned status {res.status_code}: {res.text}")
                 return 0.0
-    except (httpx.HTTPError, httpx.TimeoutException) as e:
+    except httpx.HTTPError as e:
         logger.error("Error checking Daily meeting duration", error=str(e))
         return 0.0
 

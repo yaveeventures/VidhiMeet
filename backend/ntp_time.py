@@ -67,7 +67,7 @@ def _query_ntp_server(host: str, timeout: float) -> datetime | None:
         return datetime(1970, 1, 1, tzinfo=timezone.utc) + timedelta(
             seconds=tx_seconds, microseconds=tx_microseconds
         )
-    except (OSError, socket.timeout, struct.error) as exc:
+    except (OSError, struct.error) as exc:
         log.debug("NTP query failed", host=host, error=str(exc))
         return None
 

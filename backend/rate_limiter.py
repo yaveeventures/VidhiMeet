@@ -6,6 +6,12 @@ from threading import Lock
 from fastapi import HTTPException, Request, status
 from .config import get_settings
 
+try:
+    from redis.exceptions import RedisError
+except ImportError:
+    class RedisError(Exception):  # type: ignore[no-redef]
+        pass
+
 log = structlog.get_logger("rate_limiter")
 
 
@@ -30,7 +36,7 @@ class SlidingWindowRateLimiter:
                 self._redis_client = redis.from_url(s.redis_url, decode_responses=True)
                 await self._redis_client.ping()
                 log.info("Redis rate limiter connected successfully")
-            except (ImportError, RuntimeError, OSError, Exception) as e:
+            except (ImportError, RuntimeError, OSError, RedisError) as e:
                 log.warning("Redis connection failed for rate limiter, falling back to in-memory", error=str(e))
                 self._redis_client = None
 
@@ -125,7 +131,7 @@ class SlidingWindowRateLimiter:
                 return
             except HTTPException:
                 raise
-            except (AttributeError, RuntimeError, OSError, Exception) as exc:
+            except (AttributeError, RuntimeError, OSError, RedisError) as exc:
                 log.warning("Redis rate limiter error, using in-memory fallback", error=str(exc))
 
         # In-memory fallback

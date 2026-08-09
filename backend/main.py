@@ -35,7 +35,7 @@ async def lifespan(app: FastAPI):
     await rate_limiter.init_redis()
 
     # ── NTP clock synchronization (CERT-In / DPDP forensic timestamp compliance) ─
-    if settings.ntp_check_on_startup:
+    if settings.ntp_sync_on_startup:
         try:
             from .ntp_time import check_clock_drift
             status = check_clock_drift()
@@ -179,7 +179,7 @@ async def integrity_exception_handler(request: Request, exc: IntegrityError):
     request_id = getattr(request.state, "request_id", "unknown")
     log.error(
         "DATABASE_INTEGRITY_ERROR | request_id=%s path=%s method=%s exc=%s",
-        request_id, request.url.path, request.method, exc, exc_info=True
+        request_id, request.url.path, request.method, exc, exc_info=exc
     )
     return JSONResponse(
         status_code=409,
@@ -200,7 +200,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
     request_id = getattr(request.state, "request_id", "unknown")
     log.error(
         "UNHANDLED_EXCEPTION | request_id=%s path=%s method=%s exc_type=%s exc=%s",
-        request_id, request.url.path, request.method, type(exc).__name__, exc, exc_info=True
+        request_id, request.url.path, request.method, type(exc).__name__, str(exc).encode("ascii", "backslashreplace").decode("ascii"), exc_info=exc
     )
     return JSONResponse(
         status_code=500,

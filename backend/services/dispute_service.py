@@ -42,7 +42,7 @@ def evaluate_daily_meeting_logs(booking: Booking, db: Session) -> dict:
                                 lawyer_duration_sec += duration
                             elif user_id == booking.client_id:
                                 client_duration_sec += duration
-        except (httpx.HTTPError, httpx.TimeoutException) as exc:
+        except httpx.HTTPError as exc:
             logger.warning("Failed to fetch Daily.co room logs", room_name=room_name, error=str(exc))
 
     # Fallback / Simulated telemetry if no external Daily API key or zero recorded

@@ -82,7 +82,7 @@ def create_phonepe_payment(booking: Booking, base_url: str) -> str | None:
                     redirect_info = instrument_resp.get("redirectInfo", {})
                     return redirect_info.get("url")
             logger.error(f"PhonePe pay API returned status {res.status_code}: {res.text}")
-    except (httpx.HTTPError, httpx.TimeoutException) as e:
+    except httpx.HTTPError as e:
         logger.error("Error calling PhonePe pay API", error=str(e))
         
     return None
@@ -101,33 +101,29 @@ def create_phonepe_verification_payment(bank_account, base_url: str) -> str | No
     else:
         api_url = "https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay"
 
-    transaction_id = f"VERIFY-{bank_account.user_id.replace('-', '')[:16]}"
-    bank_account.phonepe_txn_id = transaction_id
-
-    redirect_url = f"{base_url.rstrip('/')}/lawyer.html?upi_verified=1"
-    callback_url = f"{base_url.rstrip('/')}/api/v1/webhooks/phonepe"
+    import uuid
+    txn_id = f"VER-{uuid.uuid4().hex[:16].upper()}"
 
     payload = {
         "merchantId": merchant_id,
-        "merchantTransactionId": transaction_id,
-        "merchantUserId": f"USER{bank_account.user_id.replace('-', '')[:22]}",
-        "amount": 100,          # ₹1 = 100 paise
-        "redirectUrl": redirect_url,
+        "merchantTransactionId": txn_id,
+        "merchantUserId": f"LAW-{bank_account.lawyer_id}",
+        "amount": 100,  # ₹1 verification micro-deposit
+        "redirectUrl": f"{base_url}/lawyer.html?tab=payouts&verify=phonepe",
         "redirectMode": "REDIRECT",
-        "callbackUrl": callback_url,
-        "paymentInstrument": {"type": "PAY_PAGE"},
-        "description": "VidhiMeet identity verification (₹1 refundable)"
+        "callbackUrl": f"{base_url}/api/v1/webhooks/phonepe",
+        "paymentInstrument": {"type": "PAY_PAGE"}
     }
 
     json_bytes = json.dumps(payload).encode("utf-8")
     base64_payload = base64.b64encode(json_bytes).decode("utf-8")
-
     hash_str = base64_payload + "/pg/v1/pay" + salt_key
     sha256_hash = hashlib.sha256(hash_str.encode("utf-8")).hexdigest()
     x_verify = f"{sha256_hash}###{salt_index}"
 
-    req_body = {"request": base64_payload}
     headers = {"Content-Type": "application/json", "X-VERIFY": x_verify}
+
+    req_body = {"request": base64_payload}
 
     try:
         with httpx.Client() as client:
@@ -139,7 +135,7 @@ def create_phonepe_verification_payment(bank_account, base_url: str) -> str | No
                     redirect_info = instrument_resp.get("redirectInfo", {})
                     return redirect_info.get("url")
             logger.error(f"PhonePe verify payment returned status {res.status_code}: {res.text}")
-    except (httpx.HTTPError, httpx.TimeoutException) as e:
+    except httpx.HTTPError as e:
         logger.error("Error calling PhonePe verify payment API", error=str(e))
 
     return None
@@ -198,12 +194,8 @@ def initiate_refund(booking: Booking, refund_amount_minor: int, reason: str = "C
                     if data.get("success"):
                         return refund_txn_id
                 logger.error(f"PhonePe refund failed with status {res.status_code}: {res.text}")
-        except (httpx.HTTPError, httpx.TimeoutException) as e:
+        except httpx.HTTPError as e:
             logger.error("Error calling PhonePe refund API", error=str(e))
 
     # 3. Fallback mock refund ID for local dev/testing
     return refund_txn_id
-
-    # 3. Fallback mock refund ID for local dev/testing
-    return refund_txn_id
-
