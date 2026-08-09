@@ -1,17 +1,34 @@
 import os
-os.environ["DATABASE_URL"] = "sqlite:///./test_lexconnect.db"
+os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 os.environ["JWT_SECRET"] = "test-secret-that-is-at-least-thirty-two-characters"
 
+from backend.config import get_settings
+get_settings.cache_clear()
+
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 from fastapi.testclient import TestClient
 from httpx import AsyncClient, ASGITransport
 import pytest
-from backend.db import Base, SessionLocal, engine, get_db
+import backend.db as db_module
+from backend.db import Base, get_db
 from backend.main import app
+
+test_engine = create_engine(
+    "sqlite:///:memory:",
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
+TestingSessionLocal = sessionmaker(bind=test_engine, autoflush=False, expire_on_commit=False)
+
+# Point module engine and SessionLocal to in-memory test engine for threads & direct SessionLocal calls
+db_module.engine = test_engine
+db_module.SessionLocal = TestingSessionLocal
 
 @pytest.fixture(autouse=True)
 def reset_rate_limiter():
     from backend.rate_limiter import rate_limiter
-    from backend.config import get_settings
     settings = get_settings()
     with rate_limiter._lock:
         rate_limiter._requests.clear()
@@ -28,13 +45,8 @@ def reset_rate_limiter():
 
 @pytest.fixture(autouse=True)
 def database():
-    engine.dispose()
-    try:
-        Base.metadata.drop_all(bind=engine)
-    except Exception:
-        pass
-    Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
+    Base.metadata.create_all(bind=test_engine)
+    db = TestingSessionLocal()
     def _override_get_db():
         try:
             yield db
@@ -46,7 +58,7 @@ def database():
     finally:
         app.dependency_overrides.clear()
         db.close()
-        engine.dispose()
+        Base.metadata.drop_all(bind=test_engine)
 
 @pytest.fixture
 def client():

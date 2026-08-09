@@ -30,8 +30,8 @@
     "semantic_hash": ""
   },
   "backend/security.py": {
-    "mtime": 1786269554.1726494,
-    "ast_hash": "6591e5e470271e410ef4b2adaf791a10",
+    "mtime": 1786272627.7640915,
+    "ast_hash": "6a63b9fbb1809b3651352ebbb272ed95",
     "semantic_hash": ""
   },
   "backend/services.py": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1786188432.165905,
-    "ast_hash": "a43a0bd087ad9876047302ca82d9064e",
+    "mtime": 1786275768.66514,
+    "ast_hash": "0cdc47ad96b359538699cb7e02f82059",
     "semantic_hash": ""
   },
   "docker-compose.yml": {

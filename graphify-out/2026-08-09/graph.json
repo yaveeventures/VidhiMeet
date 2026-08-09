@@ -30,7 +30,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_py",
-      "community": 24,
+      "community": 23,
       "norm_label": "config.py"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings",
-      "community": 21,
+      "community": 6,
       "norm_label": "settings"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "basesettings",
-      "community": 21,
+      "community": 6,
       "norm_label": "basesettings"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_secure_secret",
-      "community": 21,
+      "community": 6,
       "norm_label": ".secure_secret()"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_supported_video_provider",
-      "community": 21,
+      "community": 6,
       "norm_label": ".supported_video_provider()"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_production_safety_checks",
-      "community": 21,
+      "community": 6,
       "norm_label": ".production_safety_checks()"
     },
     {
@@ -90,7 +90,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_origins",
-      "community": 21,
+      "community": 6,
       "norm_label": ".origins()"
     },
     {
@@ -100,7 +100,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_production",
-      "community": 21,
+      "community": 6,
       "norm_label": ".production()"
     },
     {
@@ -110,7 +110,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_get_settings",
-      "community": 35,
+      "community": 6,
       "norm_label": "get_settings()"
     },
     {
@@ -120,7 +120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "community": 27,
+      "community": 23,
       "norm_label": "db.py"
     },
     {
@@ -130,7 +130,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_db_safe_json_deserializer",
-      "community": 27,
+      "community": 23,
       "norm_label": "safe_json_deserializer()"
     },
     {
@@ -140,7 +140,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
-      "community": 22,
+      "community": 19,
       "norm_label": "base"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "declarativebase",
-      "community": 22,
+      "community": 19,
       "norm_label": "declarativebase"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_db_get_async_db",
-      "community": 27,
+      "community": 23,
       "norm_label": "get_async_db()"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "fastapi",
-      "community": 61,
+      "community": 57,
       "norm_label": "fastapi"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_models",
-      "community": 61,
+      "community": 19,
       "norm_label": "models.py"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "backend_models_now",
-      "community": 61,
+      "community": 19,
       "norm_label": "now()"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_models_py_datetime",
-      "community": 61,
+      "community": 19,
       "norm_label": "datetime"
     },
     {
@@ -520,7 +520,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "backend_models_user",
-      "community": 19,
+      "community": 38,
       "norm_label": "user"
     },
     {
@@ -630,7 +630,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "backend_models_booking_last_message_at",
-      "community": 61,
+      "community": 19,
       "norm_label": ".last_message_at()"
     },
     {
@@ -660,7 +660,7 @@
       "source_location": "L224",
       "_origin": "ast",
       "id": "backend_models_webhookevent",
-      "community": 22,
+      "community": 19,
       "norm_label": "webhookevent"
     },
     {
@@ -670,7 +670,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "backend_models_message",
-      "community": 61,
+      "community": 9,
       "norm_label": "message"
     },
     {
@@ -680,7 +680,7 @@
       "source_location": "L245",
       "_origin": "ast",
       "id": "backend_models_message_sender_name",
-      "community": 61,
+      "community": 9,
       "norm_label": ".sender_name()"
     },
     {
@@ -710,7 +710,7 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "backend_models_userconsent",
-      "community": 38,
+      "community": 19,
       "norm_label": "userconsent"
     },
     {
@@ -790,7 +790,7 @@
       "source_location": "L341",
       "_origin": "ast",
       "id": "backend_models_draftingrequest_auto_approve_at",
-      "community": 61,
+      "community": 19,
       "norm_label": ".auto_approve_at()"
     },
     {
@@ -870,7 +870,7 @@
       "source_location": "L403",
       "_origin": "ast",
       "id": "backend_models_voucher",
-      "community": 84,
+      "community": 9,
       "norm_label": "voucher"
     },
     {
@@ -880,7 +880,7 @@
       "source_location": "L417",
       "_origin": "ast",
       "id": "backend_models_voucher_user_email",
-      "community": 84,
+      "community": 9,
       "norm_label": ".user_email()"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_ntpstatus",
-      "community": 23,
+      "community": 11,
       "norm_label": "ntpstatus"
     },
     {
@@ -920,7 +920,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "typeddict",
-      "community": 23,
+      "community": 11,
       "norm_label": "typeddict"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_ntp_now",
-      "community": 23,
+      "community": 9,
       "norm_label": "ntp_now()"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_check_clock_drift",
-      "community": 20,
+      "community": 11,
       "norm_label": "check_clock_drift()"
     },
     {
@@ -1020,7 +1020,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_rationale_82",
-      "community": 23,
+      "community": 9,
       "norm_label": "return the current time as a utc-aware datetime sourced from the first     reach"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_rationale_115",
-      "community": 20,
+      "community": 11,
       "norm_label": "compare the system clock against the first reachable ntp server.      returns a"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_py",
-      "community": 24,
+      "community": 23,
       "norm_label": "rate_limiter.py"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter",
-      "community": 35,
+      "community": 6,
       "norm_label": "slidingwindowratelimiter"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_init",
-      "community": 35,
+      "community": 6,
       "norm_label": ".__init__()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_init_redis",
-      "community": 35,
+      "community": 6,
       "norm_label": ".init_redis()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_get_tier_limit",
-      "community": 35,
+      "community": 6,
       "norm_label": "._get_tier_limit()"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_get_client_ip",
-      "community": 35,
+      "community": 6,
       "norm_label": "._get_client_ip()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_extract_account_id",
-      "community": 35,
+      "community": 6,
       "norm_label": "._extract_account_id()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_check_async",
-      "community": 35,
+      "community": 6,
       "norm_label": ".check_async()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_check",
-      "community": 35,
+      "community": 6,
       "norm_label": ".check()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L227",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_rate_limit_dependency",
-      "community": 24,
+      "community": 23,
       "norm_label": "rate_limit_dependency()"
     },
     {
@@ -1170,7 +1170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_py",
-      "community": 19,
+      "community": 15,
       "norm_label": "admin.py"
     },
     {
@@ -1180,7 +1180,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_admin_metrics",
-      "community": 19,
+      "community": 15,
       "norm_label": "admin_metrics()"
     },
     {
@@ -1210,7 +1210,7 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_list_pending_lawyers",
-      "community": 19,
+      "community": 15,
       "norm_label": "list_pending_lawyers()"
     },
     {
@@ -1220,7 +1220,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_list_rejected_lawyers",
-      "community": 19,
+      "community": 15,
       "norm_label": "list_rejected_lawyers()"
     },
     {
@@ -1230,7 +1230,7 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_list_users",
-      "community": 19,
+      "community": 15,
       "norm_label": "list_users()"
     },
     {
@@ -1240,7 +1240,7 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_toggle_user_active",
-      "community": 19,
+      "community": 15,
       "norm_label": "toggle_user_active()"
     },
     {
@@ -1260,7 +1260,7 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_list_drafting_transactions",
-      "community": 19,
+      "community": 15,
       "norm_label": "list_drafting_transactions()"
     },
     {
@@ -1300,7 +1300,7 @@
       "source_location": "L221",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_update_fees",
-      "community": 19,
+      "community": 15,
       "norm_label": "update_fees()"
     },
     {
@@ -1310,7 +1310,7 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_trigger_data_retention_purge",
-      "community": 6,
+      "community": 15,
       "norm_label": "trigger_data_retention_purge()"
     },
     {
@@ -1320,7 +1320,7 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_get_ntp_status",
-      "community": 20,
+      "community": 11,
       "norm_label": "get_ntp_status()"
     },
     {
@@ -1350,7 +1350,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_rationale_137",
-      "community": 19,
+      "community": 15,
       "norm_label": "return all drafting requests for admin transaction monitoring."
     },
     {
@@ -1360,7 +1360,7 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_rationale_234",
-      "community": 6,
+      "community": 15,
       "norm_label": "dpdp act 2023, section 8(7) \u2014 trigger data retention purge.      deletes:     -"
     },
     {
@@ -1370,7 +1370,7 @@
       "source_location": "L257",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_rationale_257",
-      "community": 20,
+      "community": 11,
       "norm_label": "cert-in / dpdp forensic compliance \u2014 ntp clock synchronization status.      retu"
     },
     {
@@ -1500,7 +1500,7 @@
       "source_location": "L191",
       "_origin": "ast",
       "id": "backend_routers_auth_request_erasure",
-      "community": 38,
+      "community": 19,
       "norm_label": "request_erasure()"
     },
     {
@@ -1710,7 +1710,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "backend_routers_bookings_create_booking",
-      "community": 24,
+      "community": 9,
       "norm_label": "create_booking()"
     },
     {
@@ -1720,7 +1720,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_bookings_py_request",
-      "community": 24,
+      "community": 9,
       "norm_label": "request"
     },
     {
@@ -1870,7 +1870,7 @@
       "source_location": "L395",
       "_origin": "ast",
       "id": "backend_routers_bookings_cancel_booking",
-      "community": 84,
+      "community": 9,
       "norm_label": "cancel_booking()"
     },
     {
@@ -1970,7 +1970,7 @@
       "source_location": "L163",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_routers_calendar_lawyer_ical_feed",
-      "community": 15,
+      "community": 27,
       "norm_label": "lawyer_ical_feed()"
     },
     {
@@ -2070,7 +2070,7 @@
       "source_location": "L167",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_routers_calendar_rationale_167",
-      "community": 15,
+      "community": 27,
       "norm_label": "public token-based ical feed for a lawyer.     subscribe this url in google cale"
     },
     {
@@ -2180,7 +2180,7 @@
       "source_location": "L263",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_mock_upload",
-      "community": 19,
+      "community": 13,
       "norm_label": "drafting_document_mock_upload()"
     },
     {
@@ -2190,7 +2190,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_drafting_py_uploadfile",
-      "community": 19,
+      "community": 13,
       "norm_label": "uploadfile"
     },
     {
@@ -2340,7 +2340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_events",
-      "community": 61,
+      "community": 38,
       "norm_label": "events.py"
     },
     {
@@ -2350,7 +2350,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_events_authenticate_stream_user",
-      "community": 83,
+      "community": 38,
       "norm_label": "authenticate_stream_user()"
     },
     {
@@ -2360,7 +2360,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_request",
-      "community": 83,
+      "community": 38,
       "norm_label": "request"
     },
     {
@@ -2370,7 +2370,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_session",
-      "community": 83,
+      "community": 38,
       "norm_label": "session"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "backend_routers_events_sse_event_stream",
-      "community": 83,
+      "community": 38,
       "norm_label": "sse_event_stream()"
     },
     {
@@ -2390,7 +2390,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_routers_events_rationale_35",
-      "community": 83,
+      "community": 38,
       "norm_label": "server-sent events (sse) stream endpoint for real-time notifications and ui auto"
     },
     {
@@ -2400,7 +2400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_py",
-      "community": 15,
+      "community": 13,
       "norm_label": "lawyers.py"
     },
     {
@@ -2410,7 +2410,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_lawyers",
-      "community": 15,
+      "community": 13,
       "norm_label": "lawyers()"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_get_my_profile",
-      "community": 15,
+      "community": 13,
       "norm_label": "get_my_profile()"
     },
     {
@@ -2440,7 +2440,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_update_my_profile",
-      "community": 15,
+      "community": 13,
       "norm_label": "update_my_profile()"
     },
     {
@@ -2480,7 +2480,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_lawyer_document_confirm",
-      "community": 15,
+      "community": 13,
       "norm_label": "lawyer_document_confirm()"
     },
     {
@@ -2490,7 +2490,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_download_lawyer_document",
-      "community": 83,
+      "community": 13,
       "norm_label": "download_lawyer_document()"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_public_stats",
-      "community": 22,
+      "community": 15,
       "norm_label": "public_stats()"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_rationale_23",
-      "community": 22,
+      "community": 15,
       "norm_label": "public endpoint \u2014 no auth required. returns live platform statistics for the hom"
     },
     {
@@ -2570,7 +2570,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_webhooks_py",
-      "community": 22,
+      "community": 19,
       "norm_label": "webhooks.py"
     },
     {
@@ -2580,7 +2580,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_webhooks_stripe_webhook",
-      "community": 22,
+      "community": 19,
       "norm_label": "stripe_webhook()"
     },
     {
@@ -2610,7 +2610,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_webhooks_phonepe_webhook",
-      "community": 22,
+      "community": 19,
       "norm_label": "phonepe_webhook()"
     },
     {
@@ -2630,7 +2630,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager",
-      "community": 85,
+      "community": 61,
       "norm_label": "connectionmanager"
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_init",
-      "community": 85,
+      "community": 61,
       "norm_label": ".__init__()"
     },
     {
@@ -2650,7 +2650,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_connect",
-      "community": 85,
+      "community": 61,
       "norm_label": ".connect()"
     },
     {
@@ -2660,7 +2660,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "websocket",
-      "community": 85,
+      "community": 61,
       "norm_label": "websocket"
     },
     {
@@ -2670,7 +2670,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_disconnect",
-      "community": 85,
+      "community": 61,
       "norm_label": ".disconnect()"
     },
     {
@@ -2680,7 +2680,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_broadcast",
-      "community": 85,
+      "community": 61,
       "norm_label": ".broadcast()"
     },
     {
@@ -2690,7 +2690,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_validate_ws_user_and_booking",
-      "community": 15,
+      "community": 61,
       "norm_label": "_validate_ws_user_and_booking()"
     },
     {
@@ -2710,7 +2710,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_websocket_chat_endpoint",
-      "community": 85,
+      "community": 61,
       "norm_label": "websocket_chat_endpoint()"
     },
     {
@@ -3420,14 +3420,14 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_security",
-      "community": 61,
+      "community": 38,
       "norm_label": "security.py"
     },
     {
       "label": "hash_password()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L21",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "backend_security_hash_password",
       "community": 38,
@@ -3437,7 +3437,7 @@
       "label": "verify_password()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L27",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "backend_security_verify_password",
       "community": 38,
@@ -3447,7 +3447,7 @@
       "label": "create_access_token()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L36",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "backend_security_create_access_token",
       "community": 38,
@@ -3457,7 +3457,7 @@
       "label": "revoke_jti()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L74",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "backend_security_revoke_jti",
       "community": 38,
@@ -3467,20 +3467,20 @@
       "label": "decode_token()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L89",
+      "source_location": "L93",
       "_origin": "ast",
       "id": "backend_security_decode_token",
-      "community": 83,
+      "community": 38,
       "norm_label": "decode_token()"
     },
     {
       "label": "current_user()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L110",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "backend_security_current_user",
-      "community": 83,
+      "community": 38,
       "norm_label": "current_user()"
     },
     {
@@ -3490,7 +3490,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "httpauthorizationcredentials",
-      "community": 83,
+      "community": 38,
       "norm_label": "httpauthorizationcredentials"
     },
     {
@@ -3500,24 +3500,24 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_security_py_session",
-      "community": 83,
+      "community": 38,
       "norm_label": "session"
     },
     {
       "label": "optional_user()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L121",
+      "source_location": "L125",
       "_origin": "ast",
       "id": "backend_security_optional_user",
-      "community": 83,
+      "community": 38,
       "norm_label": "optional_user()"
     },
     {
       "label": "require_roles()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L136",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "backend_security_require_roles",
       "community": 9,
@@ -3527,7 +3527,7 @@
       "label": "_get_fernet_cipher()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L146",
+      "source_location": "L150",
       "_origin": "ast",
       "id": "backend_security_get_fernet_cipher",
       "community": 61,
@@ -3547,7 +3547,7 @@
       "label": "encrypt_field()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L156",
+      "source_location": "L160",
       "_origin": "ast",
       "id": "backend_security_encrypt_field",
       "community": 61,
@@ -3557,7 +3557,7 @@
       "label": "decrypt_field()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L169",
+      "source_location": "L173",
       "_origin": "ast",
       "id": "backend_security_decrypt_field",
       "community": 61,
@@ -3567,7 +3567,7 @@
       "label": "validate_participant_access()",
       "file_type": "code",
       "source_file": "backend/security.py",
-      "source_location": "L183",
+      "source_location": "L187",
       "_origin": "ast",
       "id": "backend_security_validate_participant_access",
       "community": 61,
@@ -3577,9 +3577,9 @@
       "label": "Revoke a JWT by adding its jti to the revocation blocklist.",
       "file_type": "rationale",
       "source_file": "backend/security.py",
-      "source_location": "L75",
+      "source_location": "L79",
       "_origin": "ast",
-      "id": "backend_security_rationale_75",
+      "id": "backend_security_rationale_79",
       "community": 38,
       "norm_label": "revoke a jwt by adding its jti to the revocation blocklist."
     },
@@ -3587,9 +3587,9 @@
       "label": "Enforce strict participant boundary isolation (BOLA/IDOR defense).",
       "file_type": "rationale",
       "source_file": "backend/security.py",
-      "source_location": "L184",
+      "source_location": "L188",
       "_origin": "ast",
-      "id": "backend_security_rationale_184",
+      "id": "backend_security_rationale_188",
       "community": 61,
       "norm_label": "enforce strict participant boundary isolation (bola/idor defense)."
     },
@@ -3600,7 +3600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_py",
-      "community": 24,
+      "community": 9,
       "norm_label": "services.py"
     },
     {
@@ -3610,7 +3610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_init_py",
-      "community": 24,
+      "community": 9,
       "norm_label": "__init__.py"
     },
     {
@@ -3680,7 +3680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_py",
-      "community": 24,
+      "community": 9,
       "norm_label": "booking_service.py"
     },
     {
@@ -3690,7 +3690,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_validate_intake",
-      "community": 24,
+      "community": 9,
       "norm_label": "validate_intake()"
     },
     {
@@ -3700,7 +3700,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_get_jitsi_meeting_details",
-      "community": 24,
+      "community": 9,
       "norm_label": "get_jitsi_meeting_details()"
     },
     {
@@ -3710,7 +3710,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_get_daily_meeting_details",
-      "community": 24,
+      "community": 9,
       "norm_label": "get_daily_meeting_details()"
     },
     {
@@ -3720,7 +3720,7 @@
       "source_location": "L150",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_verify_daily_meeting_duration",
-      "community": 24,
+      "community": 9,
       "norm_label": "verify_daily_meeting_duration()"
     },
     {
@@ -3730,7 +3730,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_calculate_cancellation_policy",
-      "community": 84,
+      "community": 9,
       "norm_label": "calculate_cancellation_policy()"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_rationale_24",
-      "community": 24,
+      "community": 9,
       "norm_label": "return browser-embeddable jitsi meeting details scoped to a booking."
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L186",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_booking_service_rationale_186",
-      "community": 84,
+      "community": 9,
       "norm_label": "calculate refund and penalty breakdown based on policy matrix:     - lawyer canc"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_py",
-      "community": 20,
+      "community": 11,
       "norm_label": "compliance_service.py"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_verify_ntp_compliance",
-      "community": 20,
+      "community": 11,
       "norm_label": "verify_ntp_compliance()"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_rationale_7",
-      "community": 20,
+      "community": 11,
       "norm_label": "run cert-in / dpdp compliant ntp clock drift check."
     },
     {
@@ -3800,7 +3800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_dispute_service_py",
-      "community": 87,
+      "community": 9,
       "norm_label": "dispute_service.py"
     },
     {
@@ -3810,7 +3810,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_dispute_service_evaluate_daily_meeting_logs",
-      "community": 87,
+      "community": 9,
       "norm_label": "evaluate_daily_meeting_logs()"
     },
     {
@@ -3830,7 +3830,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_dispute_service_rationale_13",
-      "community": 87,
+      "community": 9,
       "norm_label": "queries daily.co rest api or room session logs for the booking's room,     calcu"
     },
     {
@@ -3840,7 +3840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_drafting_service_py",
-      "community": 9,
+      "community": 57,
       "norm_label": "drafting_service.py"
     },
     {
@@ -3870,7 +3870,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus",
-      "community": 11,
+      "community": 61,
       "norm_label": "eventbus"
     },
     {
@@ -3880,7 +3880,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_init",
-      "community": 11,
+      "community": 61,
       "norm_label": ".__init__()"
     },
     {
@@ -3890,7 +3890,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_subscribe_user",
-      "community": 11,
+      "community": 61,
       "norm_label": ".subscribe_user()"
     },
     {
@@ -3900,7 +3900,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "queue",
-      "community": 11,
+      "community": 61,
       "norm_label": "queue"
     },
     {
@@ -3910,7 +3910,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_unsubscribe_user",
-      "community": 11,
+      "community": 61,
       "norm_label": ".unsubscribe_user()"
     },
     {
@@ -3920,7 +3920,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_subscribe_role",
-      "community": 11,
+      "community": 61,
       "norm_label": ".subscribe_role()"
     },
     {
@@ -3930,7 +3930,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_unsubscribe_role",
-      "community": 11,
+      "community": 61,
       "norm_label": ".unsubscribe_role()"
     },
     {
@@ -3940,7 +3940,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_publish_user",
-      "community": 11,
+      "community": 61,
       "norm_label": ".publish_user()"
     },
     {
@@ -3950,7 +3950,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_publish_role",
-      "community": 11,
+      "community": 61,
       "norm_label": ".publish_role()"
     },
     {
@@ -3960,7 +3960,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_broadcast",
-      "community": 11,
+      "community": 61,
       "norm_label": ".broadcast()"
     },
     {
@@ -3970,7 +3970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_malware_scanner",
-      "community": 76,
+      "community": 57,
       "norm_label": "malware_scanner.py"
     },
     {
@@ -4000,7 +4000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_payment_service_py",
-      "community": 24,
+      "community": 9,
       "norm_label": "payment_service.py"
     },
     {
@@ -4010,7 +4010,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_payment_service_create_payment_intent",
-      "community": 24,
+      "community": 9,
       "norm_label": "create_payment_intent()"
     },
     {
@@ -4020,7 +4020,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_payment_service_create_phonepe_payment",
-      "community": 24,
+      "community": 9,
       "norm_label": "create_phonepe_payment()"
     },
     {
@@ -4040,7 +4040,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_payment_service_initiate_refund",
-      "community": 84,
+      "community": 9,
       "norm_label": "initiate_refund()"
     },
     {
@@ -4050,7 +4050,7 @@
       "source_location": "L149",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_payment_service_rationale_149",
-      "community": 84,
+      "community": 9,
       "norm_label": "trigger payment refund via phonepe, stripe, or mock fallback."
     },
     {
@@ -4130,7 +4130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_admin_login",
-      "community": 68,
+      "community": 1,
       "norm_label": "admin-login.js"
     },
     {
@@ -4140,7 +4140,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "frontend_js_admin_login_doadminlogin",
-      "community": 68,
+      "community": 1,
       "norm_label": "doadminlogin()"
     },
     {
@@ -4310,7 +4310,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "frontend_js_admin_checkadminsession",
-      "community": 68,
+      "community": 5,
       "norm_label": "checkadminsession()"
     },
     {
@@ -4350,7 +4350,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "frontend_js_admin_loaddata",
-      "community": 68,
+      "community": 5,
       "norm_label": "loaddata()"
     },
     {
@@ -4410,7 +4410,7 @@
       "source_location": "L507",
       "_origin": "ast",
       "id": "frontend_js_admin_decideverification",
-      "community": 68,
+      "community": 5,
       "norm_label": "decideverification()"
     },
     {
@@ -4450,7 +4450,7 @@
       "source_location": "L685",
       "_origin": "ast",
       "id": "frontend_js_admin_resolvedispute",
-      "community": 68,
+      "community": 5,
       "norm_label": "resolvedispute()"
     },
     {
@@ -4470,7 +4470,7 @@
       "source_location": "L761",
       "_origin": "ast",
       "id": "frontend_js_admin_toggleuserstatus",
-      "community": 68,
+      "community": 5,
       "norm_label": "toggleuserstatus()"
     },
     {
@@ -4500,7 +4500,7 @@
       "source_location": "L910",
       "_origin": "ast",
       "id": "frontend_js_admin_handlesavefees",
-      "community": 68,
+      "community": 5,
       "norm_label": "handlesavefees()"
     },
     {
@@ -4560,7 +4560,7 @@
       "source_location": "L1227",
       "_origin": "ast",
       "id": "frontend_js_admin_toast",
-      "community": 68,
+      "community": 5,
       "norm_label": "toast()"
     },
     {
@@ -4570,7 +4570,7 @@
       "source_location": "L1239",
       "_origin": "ast",
       "id": "frontend_js_admin_updatebadgecounts",
-      "community": 68,
+      "community": 5,
       "norm_label": "updatebadgecounts()"
     },
     {
@@ -4600,7 +4600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_api_client",
-      "community": 68,
+      "community": 1,
       "norm_label": "api-client.js"
     },
     {
@@ -4610,7 +4610,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_api_client_lexapi",
-      "community": 68,
+      "community": 1,
       "norm_label": "lexapi"
     },
     {
@@ -4620,7 +4620,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "frontend_js_api_client_resettimer",
-      "community": 68,
+      "community": 1,
       "norm_label": "resettimer()"
     },
     {
@@ -4630,7 +4630,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "frontend_js_api_client_checkinactivity",
-      "community": 68,
+      "community": 1,
       "norm_label": "checkinactivity()"
     },
     {
@@ -4770,7 +4770,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "frontend_js_app_close",
-      "community": 17,
+      "community": 3,
       "norm_label": "close()"
     },
     {
@@ -4780,7 +4780,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "frontend_js_app_closemodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "closemodal()"
     },
     {
@@ -4940,7 +4940,7 @@
       "source_location": "L724",
       "_origin": "ast",
       "id": "frontend_js_app_room",
-      "community": 17,
+      "community": 3,
       "norm_label": "room()"
     },
     {
@@ -4960,7 +4960,7 @@
       "source_location": "L863",
       "_origin": "ast",
       "id": "frontend_js_app_showreconnectoverlay",
-      "community": 17,
+      "community": 3,
       "norm_label": "_showreconnectoverlay()"
     },
     {
@@ -4970,7 +4970,7 @@
       "source_location": "L926",
       "_origin": "ast",
       "id": "frontend_js_app_clearreconnectoverlay",
-      "community": 17,
+      "community": 3,
       "norm_label": "_clearreconnectoverlay()"
     },
     {
@@ -4980,7 +4980,7 @@
       "source_location": "L931",
       "_origin": "ast",
       "id": "frontend_js_app_attemptreconnect",
-      "community": 17,
+      "community": 3,
       "norm_label": "_attemptreconnect()"
     },
     {
@@ -4990,7 +4990,7 @@
       "source_location": "L971",
       "_origin": "ast",
       "id": "frontend_js_app_launchclientdaily",
-      "community": 17,
+      "community": 3,
       "norm_label": "_launchclientdaily()"
     },
     {
@@ -5000,7 +5000,7 @@
       "source_location": "L1234",
       "_origin": "ast",
       "id": "frontend_js_app_openauthmodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "openauthmodal()"
     },
     {
@@ -5010,7 +5010,7 @@
       "source_location": "L1239",
       "_origin": "ast",
       "id": "frontend_js_app_renderlogin",
-      "community": 17,
+      "community": 3,
       "norm_label": "renderlogin()"
     },
     {
@@ -5020,7 +5020,7 @@
       "source_location": "L1358",
       "_origin": "ast",
       "id": "frontend_js_app_renderregister",
-      "community": 17,
+      "community": 3,
       "norm_label": "renderregister()"
     },
     {
@@ -5030,7 +5030,7 @@
       "source_location": "L1496",
       "_origin": "ast",
       "id": "frontend_js_app_updateheader",
-      "community": 17,
+      "community": 3,
       "norm_label": "updateheader()"
     },
     {
@@ -5040,7 +5040,7 @@
       "source_location": "L1576",
       "_origin": "ast",
       "id": "frontend_js_app_restorehomeview",
-      "community": 17,
+      "community": 3,
       "norm_label": "restorehomeview()"
     },
     {
@@ -5050,7 +5050,7 @@
       "source_location": "L1818",
       "_origin": "ast",
       "id": "frontend_js_app_toast",
-      "community": 17,
+      "community": 3,
       "norm_label": "toast()"
     },
     {
@@ -5090,7 +5090,7 @@
       "source_location": "L1859",
       "_origin": "ast",
       "id": "frontend_js_app_isroomactive",
-      "community": 17,
+      "community": 3,
       "norm_label": "isroomactive()"
     },
     {
@@ -5100,7 +5100,7 @@
       "source_location": "L1875",
       "_origin": "ast",
       "id": "frontend_js_app_showmymeetings",
-      "community": 17,
+      "community": 3,
       "norm_label": "showmymeetings()"
     },
     {
@@ -5110,7 +5110,7 @@
       "source_location": "L2061",
       "_origin": "ast",
       "id": "frontend_js_app_downloadbookingics",
-      "community": 17,
+      "community": 3,
       "norm_label": "downloadbookingics()"
     },
     {
@@ -5120,7 +5120,7 @@
       "source_location": "L2075",
       "_origin": "ast",
       "id": "frontend_js_app_opencancelmodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "opencancelmodal()"
     },
     {
@@ -5130,7 +5130,7 @@
       "source_location": "L2152",
       "_origin": "ast",
       "id": "frontend_js_app_openchatmodal",
-      "community": 64,
+      "community": 1,
       "norm_label": "openchatmodal()"
     },
     {
@@ -5140,7 +5140,7 @@
       "source_location": "L2271",
       "_origin": "ast",
       "id": "frontend_js_app_joinmeeting",
-      "community": 17,
+      "community": 3,
       "norm_label": "joinmeeting()"
     },
     {
@@ -5150,7 +5150,7 @@
       "source_location": "L2283",
       "_origin": "ast",
       "id": "frontend_js_app_opendisputemodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "opendisputemodal()"
     },
     {
@@ -5180,7 +5180,7 @@
       "source_location": "L2368",
       "_origin": "ast",
       "id": "frontend_js_app_openreviewmodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "openreviewmodal()"
     },
     {
@@ -5240,7 +5240,7 @@
       "source_location": "L2572",
       "_origin": "ast",
       "id": "frontend_js_app_showdraftingview",
-      "community": 17,
+      "community": 3,
       "norm_label": "showdraftingview()"
     },
     {
@@ -5260,7 +5260,7 @@
       "source_location": "L3140",
       "_origin": "ast",
       "id": "frontend_js_app_opencontactmodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "opencontactmodal()"
     },
     {
@@ -5270,7 +5270,7 @@
       "source_location": "L3172",
       "_origin": "ast",
       "id": "frontend_js_app_openfeedbackmodal",
-      "community": 17,
+      "community": 3,
       "norm_label": "openfeedbackmodal()"
     },
     {
@@ -5280,7 +5280,7 @@
       "source_location": "L3230",
       "_origin": "ast",
       "id": "frontend_js_app_checkhashroute",
-      "community": 17,
+      "community": 3,
       "norm_label": "checkhashroute()"
     },
     {
@@ -5510,7 +5510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_y",
-      "community": 18,
+      "community": 2,
       "norm_label": "y()"
     },
     {
@@ -5540,7 +5540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_n",
-      "community": 18,
+      "community": 40,
       "norm_label": "n()"
     },
     {
@@ -5680,7 +5680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ce",
-      "community": 4,
+      "community": 18,
       "norm_label": "ce()"
     },
     {
@@ -5750,7 +5750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ve",
-      "community": 26,
+      "community": 41,
       "norm_label": "ve()"
     },
     {
@@ -5820,7 +5820,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ke",
-      "community": 4,
+      "community": 18,
       "norm_label": "ke()"
     },
     {
@@ -5950,7 +5950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_setuser",
-      "community": 7,
+      "community": 40,
       "norm_label": ".setuser()"
     },
     {
@@ -6070,7 +6070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_setsession",
-      "community": 7,
+      "community": 40,
       "norm_label": ".setsession()"
     },
     {
@@ -6190,7 +6190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_getpropagationcontext",
-      "community": 7,
+      "community": 26,
       "norm_label": ".getpropagationcontext()"
     },
     {
@@ -6200,7 +6200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_captureexception",
-      "community": 0,
+      "community": 7,
       "norm_label": ".captureexception()"
     },
     {
@@ -6210,7 +6210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_capturemessage",
-      "community": 0,
+      "community": 7,
       "norm_label": ".capturemessage()"
     },
     {
@@ -6220,7 +6220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_captureevent",
-      "community": 0,
+      "community": 7,
       "norm_label": ".captureevent()"
     },
     {
@@ -6800,7 +6800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pn",
-      "community": 18,
+      "community": 41,
       "norm_label": "pn()"
     },
     {
@@ -6810,7 +6810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vn",
-      "community": 2,
+      "community": 41,
       "norm_label": "vn()"
     },
     {
@@ -6830,7 +6830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yn",
-      "community": 18,
+      "community": 40,
       "norm_label": "yn()"
     },
     {
@@ -6880,7 +6880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xn",
-      "community": 86,
+      "community": 18,
       "norm_label": "xn()"
     },
     {
@@ -6900,7 +6900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_jn",
-      "community": 18,
+      "community": 40,
       "norm_label": "jn()"
     },
     {
@@ -6930,7 +6930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zn",
-      "community": 86,
+      "community": 2,
       "norm_label": "zn()"
     },
     {
@@ -6940,7 +6940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_er",
-      "community": 86,
+      "community": 18,
       "norm_label": "er()"
     },
     {
@@ -6980,7 +6980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_or",
-      "community": 2,
+      "community": 18,
       "norm_label": "or()"
     },
     {
@@ -7010,7 +7010,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_cr",
-      "community": 86,
+      "community": 18,
       "norm_label": "cr()"
     },
     {
@@ -7030,7 +7030,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_lr",
-      "community": 86,
+      "community": 18,
       "norm_label": "lr()"
     },
     {
@@ -7050,7 +7050,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_hr",
-      "community": 86,
+      "community": 18,
       "norm_label": "hr()"
     },
     {
@@ -7280,7 +7280,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_recorddroppedevent",
-      "community": 86,
+      "community": 18,
       "norm_label": ".recorddroppedevent()"
     },
     {
@@ -7430,7 +7430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_constructor",
-      "community": 4,
+      "community": 0,
       "norm_label": ".constructor()"
     },
     {
@@ -7450,7 +7450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_eventfrommessage",
-      "community": 0,
+      "community": 40,
       "norm_label": ".eventfrommessage()"
     },
     {
@@ -7750,7 +7750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ya",
-      "community": 2,
+      "community": 18,
       "norm_label": "ya()"
     },
     {
@@ -7950,7 +7950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ws",
-      "community": 18,
+      "community": 2,
       "norm_label": "ws()"
     },
     {
@@ -7960,7 +7960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qs",
-      "community": 2,
+      "community": 18,
       "norm_label": "qs()"
     },
     {
@@ -8000,7 +8000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_e2ee",
-      "community": 64,
+      "community": 1,
       "norm_label": "e2ee.js"
     },
     {
@@ -8010,7 +8010,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "frontend_js_e2ee_lexe2ee",
-      "community": 64,
+      "community": 1,
       "norm_label": "lexe2ee"
     },
     {
@@ -8120,7 +8120,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
-      "community": 36,
+      "community": 1,
       "norm_label": "$()"
     },
     {
@@ -8130,7 +8130,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "frontend_js_lawyer_money",
-      "community": 60,
+      "community": 1,
       "norm_label": "money()"
     },
     {
@@ -8140,7 +8140,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_js_lawyer_parseutcdate",
-      "community": 60,
+      "community": 1,
       "norm_label": "parseutcdate()"
     },
     {
@@ -8150,7 +8150,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_js_lawyer_isroomactive",
-      "community": 60,
+      "community": 1,
       "norm_label": "isroomactive()"
     },
     {
@@ -8200,7 +8200,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "frontend_js_lawyer_checklawyersession",
-      "community": 36,
+      "community": 1,
       "norm_label": "checklawyersession()"
     },
     {
@@ -8210,7 +8210,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initlawyerauth",
-      "community": 55,
+      "community": 1,
       "norm_label": "initlawyerauth()"
     },
     {
@@ -8220,7 +8220,7 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "frontend_js_lawyer_mappracticetobackend",
-      "community": 55,
+      "community": 1,
       "norm_label": "mappracticetobackend()"
     },
     {
@@ -8230,7 +8230,7 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "frontend_js_lawyer_mappracticetofrontend",
-      "community": 36,
+      "community": 1,
       "norm_label": "mappracticetofrontend()"
     },
     {
@@ -8240,7 +8240,7 @@
       "source_location": "L210",
       "_origin": "ast",
       "id": "frontend_js_lawyer_getspecialty",
-      "community": 64,
+      "community": 1,
       "norm_label": "getspecialty()"
     },
     {
@@ -8250,7 +8250,7 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "frontend_js_lawyer_escapehtml",
-      "community": 60,
+      "community": 1,
       "norm_label": "escapehtml()"
     },
     {
@@ -8260,7 +8260,7 @@
       "source_location": "L227",
       "_origin": "ast",
       "id": "frontend_js_lawyer_loaddata",
-      "community": 55,
+      "community": 1,
       "norm_label": "loaddata()"
     },
     {
@@ -8270,7 +8270,7 @@
       "source_location": "L255",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderall",
-      "community": 36,
+      "community": 1,
       "norm_label": "renderall()"
     },
     {
@@ -8280,7 +8280,7 @@
       "source_location": "L294",
       "_origin": "ast",
       "id": "frontend_js_lawyer_updatebadgecounts",
-      "community": 36,
+      "community": 1,
       "norm_label": "updatebadgecounts()"
     },
     {
@@ -8290,7 +8290,7 @@
       "source_location": "L312",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderoverview",
-      "community": 60,
+      "community": 1,
       "norm_label": "renderoverview()"
     },
     {
@@ -8300,7 +8300,7 @@
       "source_location": "L378",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderactivity",
-      "community": 60,
+      "community": 1,
       "norm_label": "renderactivity()"
     },
     {
@@ -8310,7 +8310,7 @@
       "source_location": "L445",
       "_origin": "ast",
       "id": "frontend_js_lawyer_rendersessiontable",
-      "community": 60,
+      "community": 1,
       "norm_label": "rendersessiontable()"
     },
     {
@@ -8410,7 +8410,7 @@
       "source_location": "L737",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initicalpanel",
-      "community": 36,
+      "community": 1,
       "norm_label": "initicalpanel()"
     },
     {
@@ -8430,7 +8430,7 @@
       "source_location": "L799",
       "_origin": "ast",
       "id": "frontend_js_lawyer_getchatkey",
-      "community": 64,
+      "community": 1,
       "norm_label": "getchatkey()"
     },
     {
@@ -8440,7 +8440,7 @@
       "source_location": "L808",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderthreads",
-      "community": 64,
+      "community": 1,
       "norm_label": "renderthreads()"
     },
     {
@@ -8450,7 +8450,7 @@
       "source_location": "L845",
       "_origin": "ast",
       "id": "frontend_js_lawyer_selectthread",
-      "community": 64,
+      "community": 1,
       "norm_label": "selectthread()"
     },
     {
@@ -8460,7 +8460,7 @@
       "source_location": "L886",
       "_origin": "ast",
       "id": "frontend_js_lawyer_loadmessages",
-      "community": 64,
+      "community": 1,
       "norm_label": "loadmessages()"
     },
     {
@@ -8470,7 +8470,7 @@
       "source_location": "L937",
       "_origin": "ast",
       "id": "frontend_js_lawyer_sendchatmessage",
-      "community": 64,
+      "community": 1,
       "norm_label": "sendchatmessage()"
     },
     {
@@ -8480,7 +8480,7 @@
       "source_location": "L959",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderdocs",
-      "community": 60,
+      "community": 1,
       "norm_label": "renderdocs()"
     },
     {
@@ -8490,7 +8490,7 @@
       "source_location": "L1003",
       "_origin": "ast",
       "id": "frontend_js_lawyer_handlefileupload",
-      "community": 55,
+      "community": 1,
       "norm_label": "handlefileupload()"
     },
     {
@@ -8500,7 +8500,7 @@
       "source_location": "L1047",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderearnings",
-      "community": 60,
+      "community": 1,
       "norm_label": "renderearnings()"
     },
     {
@@ -8510,7 +8510,7 @@
       "source_location": "L1195",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderbankaccount",
-      "community": 55,
+      "community": 1,
       "norm_label": "renderbankaccount()"
     },
     {
@@ -8520,7 +8520,7 @@
       "source_location": "L1266",
       "_origin": "ast",
       "id": "frontend_js_lawyer_openbankmodal",
-      "community": 55,
+      "community": 1,
       "norm_label": "openbankmodal()"
     },
     {
@@ -8530,7 +8530,7 @@
       "source_location": "L1294",
       "_origin": "ast",
       "id": "frontend_js_lawyer_handlebankformsubmit",
-      "community": 55,
+      "community": 1,
       "norm_label": "handlebankformsubmit()"
     },
     {
@@ -8540,7 +8540,7 @@
       "source_location": "L1342",
       "_origin": "ast",
       "id": "frontend_js_lawyer_confirmdeletebankaccount",
-      "community": 55,
+      "community": 1,
       "norm_label": "confirmdeletebankaccount()"
     },
     {
@@ -8550,7 +8550,7 @@
       "source_location": "L1354",
       "_origin": "ast",
       "id": "frontend_js_lawyer_openupiverifymodal",
-      "community": 60,
+      "community": 1,
       "norm_label": "openupiverifymodal()"
     },
     {
@@ -8560,7 +8560,7 @@
       "source_location": "L1369",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initiateupiverification",
-      "community": 55,
+      "community": 1,
       "norm_label": "initiateupiverification()"
     },
     {
@@ -8570,7 +8570,7 @@
       "source_location": "L1448",
       "_origin": "ast",
       "id": "frontend_js_lawyer_calculateexperience",
-      "community": 36,
+      "community": 1,
       "norm_label": "calculateexperience()"
     },
     {
@@ -8580,7 +8580,7 @@
       "source_location": "L1473",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderprofile",
-      "community": 36,
+      "community": 1,
       "norm_label": "renderprofile()"
     },
     {
@@ -8590,7 +8590,7 @@
       "source_location": "L1563",
       "_origin": "ast",
       "id": "frontend_js_lawyer_handlesaveprofile",
-      "community": 55,
+      "community": 1,
       "norm_label": "handlesaveprofile()"
     },
     {
@@ -8600,7 +8600,7 @@
       "source_location": "L1714",
       "_origin": "ast",
       "id": "frontend_js_lawyer_view",
-      "community": 60,
+      "community": 1,
       "norm_label": "view()"
     },
     {
@@ -8610,7 +8610,7 @@
       "source_location": "L1725",
       "_origin": "ast",
       "id": "frontend_js_lawyer_joinroom",
-      "community": 36,
+      "community": 1,
       "norm_label": "joinroom()"
     },
     {
@@ -8620,7 +8620,7 @@
       "source_location": "L1863",
       "_origin": "ast",
       "id": "frontend_js_lawyer_launchdaily",
-      "community": 36,
+      "community": 1,
       "norm_label": "_launchdaily()"
     },
     {
@@ -8630,7 +8630,7 @@
       "source_location": "L2060",
       "_origin": "ast",
       "id": "frontend_js_lawyer_closecall",
-      "community": 36,
+      "community": 1,
       "norm_label": "closecall()"
     },
     {
@@ -8640,7 +8640,7 @@
       "source_location": "L2070",
       "_origin": "ast",
       "id": "frontend_js_lawyer_openintakemodal",
-      "community": 36,
+      "community": 1,
       "norm_label": "openintakemodal()"
     },
     {
@@ -8660,7 +8660,7 @@
       "source_location": "L2144",
       "_origin": "ast",
       "id": "frontend_js_lawyer_setsidebaropen",
-      "community": 36,
+      "community": 1,
       "norm_label": "setsidebaropen()"
     },
     {
@@ -8740,7 +8740,7 @@
       "source_location": "L2493",
       "_origin": "ast",
       "id": "frontend_js_lawyer_toast",
-      "community": 55,
+      "community": 1,
       "norm_label": "toast()"
     },
     {
@@ -8760,7 +8760,7 @@
       "source_location": "L2511",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initlanguagesuggestions",
-      "community": 36,
+      "community": 1,
       "norm_label": "initlanguagesuggestions()"
     },
     {
@@ -8770,7 +8770,7 @@
       "source_location": "L2630",
       "_origin": "ast",
       "id": "frontend_js_lawyer_notificationsmanager",
-      "community": 55,
+      "community": 1,
       "norm_label": "notificationsmanager"
     },
     {
@@ -8780,7 +8780,7 @@
       "source_location": "L2715",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initrealtimesync",
-      "community": 55,
+      "community": 1,
       "norm_label": "initrealtimesync()"
     },
     {
@@ -8790,7 +8790,7 @@
       "source_location": "L2788",
       "_origin": "ast",
       "id": "frontend_js_lawyer_loaddraftingportal",
-      "community": 60,
+      "community": 1,
       "norm_label": "loaddraftingportal()"
     },
     {
@@ -8830,7 +8830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_modules_router",
-      "community": 65,
+      "community": 3,
       "norm_label": "router.js"
     },
     {
@@ -8840,7 +8840,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter",
-      "community": 65,
+      "community": 3,
       "norm_label": "clientrouter"
     },
     {
@@ -8850,7 +8850,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_constructor",
-      "community": 65,
+      "community": 3,
       "norm_label": ".constructor()"
     },
     {
@@ -8860,7 +8860,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_register",
-      "community": 65,
+      "community": 3,
       "norm_label": ".register()"
     },
     {
@@ -8870,7 +8870,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_navigate",
-      "community": 65,
+      "community": 3,
       "norm_label": ".navigate()"
     },
     {
@@ -8880,7 +8880,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_resolve",
-      "community": 65,
+      "community": 3,
       "norm_label": ".resolve()"
     },
     {
@@ -8890,7 +8890,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_handlepopstate",
-      "community": 65,
+      "community": 3,
       "norm_label": ".handlepopstate()"
     },
     {
@@ -8900,7 +8900,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "frontend_js_modules_router_router",
-      "community": 65,
+      "community": 3,
       "norm_label": "router"
     },
     {
@@ -9200,7 +9200,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_js_realtime_soundnotifier",
-      "community": 64,
+      "community": 1,
       "norm_label": "soundnotifier"
     },
     {
@@ -9340,7 +9340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_py",
-      "community": 57,
+      "community": 24,
       "norm_label": "env.py"
     },
     {
@@ -9350,7 +9350,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_offline",
-      "community": 57,
+      "community": 24,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -9360,7 +9360,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_online",
-      "community": 57,
+      "community": 24,
       "norm_label": "run_migrations_online()"
     },
     {
@@ -9460,7 +9460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_py",
-      "community": 58,
+      "community": 19,
       "norm_label": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
     },
     {
@@ -9470,7 +9470,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_upgrade",
-      "community": 58,
+      "community": 19,
       "norm_label": "upgrade()"
     },
     {
@@ -9480,7 +9480,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_downgrade",
-      "community": 58,
+      "community": 19,
       "norm_label": "downgrade()"
     },
     {
@@ -9770,7 +9770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_py",
-      "community": 61,
+      "community": 19,
       "norm_label": "reset_users.py"
     },
     {
@@ -9780,7 +9780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_rationale_1",
-      "community": 61,
+      "community": 19,
       "norm_label": "reset script: delete all users (lawyers, clients, admin) and related data, then"
     },
     {
@@ -9790,7 +9790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_seed_py",
-      "community": 61,
+      "community": 19,
       "norm_label": "seed.py"
     },
     {
@@ -9800,7 +9800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 35,
+      "community": 6,
       "norm_label": "conftest.py"
     },
     {
@@ -9810,7 +9810,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "tests_conftest_reset_rate_limiter",
-      "community": 35,
+      "community": 6,
       "norm_label": "reset_rate_limiter()"
     },
     {
@@ -9820,7 +9820,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_conftest_database",
-      "community": 35,
+      "community": 6,
       "norm_label": "database()"
     },
     {
@@ -9830,7 +9830,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "tests_conftest_client",
-      "community": 35,
+      "community": 6,
       "norm_label": "client()"
     },
     {
@@ -9840,7 +9840,7 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "tests_conftest_async_client",
-      "community": 35,
+      "community": 6,
       "norm_label": "async_client()"
     },
     {
@@ -9990,7 +9990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_py",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_api.py"
     },
     {
@@ -10000,7 +10000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_health",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_health()"
     },
     {
@@ -10010,7 +10010,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_register_login_and_role_protection",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_register_login_and_role_protection()"
     },
     {
@@ -10020,7 +10020,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_rejects_admin_self_registration",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_rejects_admin_self_registration()"
     },
     {
@@ -10030,7 +10030,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_booking_requires_authentication",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_booking_requires_authentication()"
     },
     {
@@ -10040,7 +10040,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_refresh_token_rotation",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_refresh_token_rotation()"
     },
     {
@@ -10050,7 +10050,7 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_lawyer_profile_update",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_lawyer_profile_update()"
     },
     {
@@ -10080,7 +10080,7 @@
       "source_location": "L206",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_booking_duration_validation",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_booking_duration_validation()"
     },
     {
@@ -10100,7 +10100,7 @@
       "source_location": "L290",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_video_consultation_dual_platform_fee",
-      "community": 15,
+      "community": 21,
       "norm_label": "test_video_consultation_dual_platform_fee()"
     },
     {
@@ -10190,7 +10190,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_phonepe_verify_webhook_routes_correctly",
-      "community": 19,
+      "community": 15,
       "norm_label": "test_phonepe_verify_webhook_routes_correctly()"
     },
     {
@@ -10280,7 +10280,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_179",
-      "community": 19,
+      "community": 15,
       "norm_label": "phonepe webhook with verify- prefix updates lawyerbankaccount, not a booking."
     },
     {
@@ -10420,7 +10420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_dispute_workflow_py",
-      "community": 15,
+      "community": 38,
       "norm_label": "test_dispute_workflow.py"
     },
     {
@@ -10430,7 +10430,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_dispute_workflow_test_dispute_workflow_matrix",
-      "community": 15,
+      "community": 38,
       "norm_label": "test_dispute_workflow_matrix()"
     },
     {
@@ -10440,7 +10440,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "testclient",
-      "community": 15,
+      "community": 38,
       "norm_label": "testclient"
     },
     {
@@ -10460,7 +10460,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_dispute_workflow_test_dispute_intermediary_shield",
-      "community": 15,
+      "community": 38,
       "norm_label": "test_dispute_intermediary_shield()"
     },
     {
@@ -10780,7 +10780,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_ntp_now_ist_returns_ist_offset",
-      "community": 23,
+      "community": 20,
       "norm_label": "test_ntp_now_ist_returns_ist_offset()"
     },
     {
@@ -10800,7 +10800,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_check_clock_drift_returns_expected_keys",
-      "community": 20,
+      "community": 11,
       "norm_label": "test_check_clock_drift_returns_expected_keys()"
     },
     {
@@ -10810,7 +10810,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_check_clock_drift_within_tolerance_type",
-      "community": 20,
+      "community": 11,
       "norm_label": "test_check_clock_drift_within_tolerance_type()"
     },
     {
@@ -10830,7 +10830,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_check_clock_drift_all_servers_unreachable",
-      "community": 20,
+      "community": 11,
       "norm_label": "test_check_clock_drift_all_servers_unreachable()"
     },
     {
@@ -10900,7 +10900,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_24",
-      "community": 23,
+      "community": 20,
       "norm_label": "ntp_now_ist() must return a datetime in ist (utc+05:30)."
     },
     {
@@ -10920,7 +10920,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_58",
-      "community": 20,
+      "community": 11,
       "norm_label": "check_clock_drift() must return a dict with all required ntpstatus keys."
     },
     {
@@ -10930,7 +10930,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_67",
-      "community": 20,
+      "community": 11,
       "norm_label": "within_tolerance must be a boolean."
     },
     {
@@ -10950,7 +10950,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_81",
-      "community": 20,
+      "community": 11,
       "norm_label": "when all ntp servers fail, within_tolerance must be false and server must be 'un"
     },
     {
@@ -11220,7 +11220,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_realtime",
-      "community": 61,
+      "community": 38,
       "norm_label": "test_realtime.py"
     },
     {
@@ -11230,7 +11230,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_test_realtime_test_event_bus_pub_sub",
-      "community": 61,
+      "community": 38,
       "norm_label": "test_event_bus_pub_sub()"
     },
     {
@@ -11240,7 +11240,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_realtime_test_websocket_chat",
-      "community": 15,
+      "community": 38,
       "norm_label": "test_websocket_chat()"
     },
     {
@@ -11480,7 +11480,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_security_medium",
-      "community": 76,
+      "community": 57,
       "norm_label": "test_security_medium.py"
     },
     {
@@ -11490,7 +11490,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_structlog_pii_scrubbing_processor",
-      "community": 76,
+      "community": 57,
       "norm_label": "test_structlog_pii_scrubbing_processor()"
     },
     {
@@ -11540,7 +11540,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_16",
-      "community": 76,
+      "community": 57,
       "norm_label": "verify structlog processor scrubs sensitive pii fields and credentials from log"
     },
     {
@@ -11709,59 +11709,149 @@
       "source_file": "README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_readme_md",
-      "community": 47,
+      "id": "readme",
+      "community": 17,
       "norm_label": "readme.md"
     },
     {
-      "label": "Production architecture",
+      "label": "\u2696\ufe0f VidhiMeet \u2014 Enterprise Legal Marketplace & Consultation Platform",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L14",
+      "source_location": "L1",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_readme_production_architecture",
-      "community": 47,
-      "norm_label": "production architecture"
+      "id": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "community": 17,
+      "norm_label": "\u2696\ufe0f vidhimeet \u2014 enterprise legal marketplace & consultation platform"
     },
     {
-      "label": "Local static preview",
+      "label": "\ud83c\udf1f Key Features",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L25",
+      "source_location": "L7",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_readme_local_static_preview",
-      "community": 47,
-      "norm_label": "local static preview"
+      "id": "readme_key_features",
+      "community": 17,
+      "norm_label": "\ud83c\udf1f key features"
     },
     {
-      "label": "Full-stack development",
+      "label": "\ud83d\udd0d **Client Portal & Legal Marketplace**",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L39",
+      "source_location": "L9",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_readme_full_stack_development",
-      "community": 47,
-      "norm_label": "full-stack development"
+      "id": "readme_client_portal_legal_marketplace",
+      "community": 17,
+      "norm_label": "\ud83d\udd0d **client portal & legal marketplace**"
     },
     {
-      "label": "Required before launch",
+      "label": "\ud83d\udcbc **Lawyer Portal**",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L61",
+      "source_location": "L15",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_readme_required_before_launch",
-      "community": 47,
-      "norm_label": "required before launch"
+      "id": "readme_lawyer_portal",
+      "community": 17,
+      "norm_label": "\ud83d\udcbc **lawyer portal**"
     },
     {
-      "label": "Production note",
+      "label": "\ud83d\udee1\ufe0f **Admin Console**",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L72",
+      "source_location": "L22",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_readme_production_note",
-      "community": 47,
-      "norm_label": "production note"
+      "id": "readme_admin_console",
+      "community": 17,
+      "norm_label": "\ud83d\udee1\ufe0f **admin console**"
+    },
+    {
+      "label": "\ud83d\udee0\ufe0f Architecture & Tech Stack",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "readme_architecture_tech_stack",
+      "community": 17,
+      "norm_label": "\ud83d\udee0\ufe0f architecture & tech stack"
+    },
+    {
+      "label": "\ud83d\udcc1 Project Structure",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "readme_project_structure",
+      "community": 17,
+      "norm_label": "\ud83d\udcc1 project structure"
+    },
+    {
+      "label": "\ud83d\ude80 Getting Started",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "readme_getting_started",
+      "community": 17,
+      "norm_label": "\ud83d\ude80 getting started"
+    },
+    {
+      "label": "Prerequisites",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L107",
+      "_origin": "ast",
+      "id": "readme_prerequisites",
+      "community": 17,
+      "norm_label": "prerequisites"
+    },
+    {
+      "label": "Option A: Quickstart with Docker Compose (Recommended)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L114",
+      "_origin": "ast",
+      "id": "readme_option_a_quickstart_with_docker_compose_recommended",
+      "community": 17,
+      "norm_label": "option a: quickstart with docker compose (recommended)"
+    },
+    {
+      "label": "Option B: Local Development Setup",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "readme_option_b_local_development_setup",
+      "community": 17,
+      "norm_label": "option b: local development setup"
+    },
+    {
+      "label": "\ud83e\uddea Testing & Quality Assurance",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L171",
+      "_origin": "ast",
+      "id": "readme_testing_quality_assurance",
+      "community": 17,
+      "norm_label": "\ud83e\uddea testing & quality assurance"
+    },
+    {
+      "label": "\ud83d\udd12 Production Hardening Checklist",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L181",
+      "_origin": "ast",
+      "id": "readme_production_hardening_checklist",
+      "community": 17,
+      "norm_label": "\ud83d\udd12 production hardening checklist"
+    },
+    {
+      "label": "\ud83d\udcc4 License & Legal Notice",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L193",
+      "_origin": "ast",
+      "id": "readme_license_legal_notice",
+      "community": 17,
+      "norm_label": "\ud83d\udcc4 license & legal notice"
     },
     {
       "label": "ntp_compliance.md",
@@ -14459,7 +14549,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L185",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_models_role",
@@ -15943,7 +16033,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L111",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_models_user",
@@ -15955,7 +16045,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/security.py",
-      "source_location": "L115",
+      "source_location": "L119",
       "weight": 1.0,
       "source": "backend_security_current_user",
       "target": "backend_models_user"
@@ -15966,7 +16056,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/security.py",
-      "source_location": "L127",
+      "source_location": "L131",
       "weight": 1.0,
       "source": "backend_security_optional_user",
       "target": "backend_models_user"
@@ -25048,7 +25138,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L36",
+      "source_location": "L40",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_create_access_token",
@@ -25058,7 +25148,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L110",
+      "source_location": "L114",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_current_user",
@@ -25068,7 +25158,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L89",
+      "source_location": "L93",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_decode_token",
@@ -25078,7 +25168,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L169",
+      "source_location": "L173",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_decrypt_field",
@@ -25088,7 +25178,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L156",
+      "source_location": "L160",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_encrypt_field",
@@ -25098,7 +25188,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L146",
+      "source_location": "L150",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_get_fernet_cipher",
@@ -25108,7 +25198,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L21",
+      "source_location": "L25",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_hash_password",
@@ -25118,7 +25208,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L121",
+      "source_location": "L125",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_optional_user",
@@ -25128,7 +25218,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L136",
+      "source_location": "L140",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_require_roles",
@@ -25138,7 +25228,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L74",
+      "source_location": "L78",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_revoke_jti",
@@ -25148,7 +25238,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L183",
+      "source_location": "L187",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_validate_participant_access",
@@ -25158,7 +25248,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L27",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "backend_security",
       "target": "backend_security_verify_password",
@@ -25619,9 +25709,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L75",
+      "source_location": "L79",
       "weight": 1.0,
-      "source": "backend_security_rationale_75",
+      "source": "backend_security_rationale_79",
       "target": "backend_security_revoke_jti",
       "confidence_score": 1.0
     },
@@ -25652,7 +25742,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L114",
+      "source_location": "L118",
       "weight": 1.0,
       "source": "backend_security_current_user",
       "target": "backend_security_decode_token",
@@ -25663,7 +25753,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L126",
+      "source_location": "L130",
       "weight": 1.0,
       "source": "backend_security_optional_user",
       "target": "backend_security_decode_token",
@@ -25696,7 +25786,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L110",
+      "source_location": "L114",
       "weight": 1.0,
       "source": "backend_security_current_user",
       "target": "backend_security_py_session",
@@ -25707,7 +25797,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L110",
+      "source_location": "L114",
       "weight": 1.0,
       "source": "backend_security_current_user",
       "target": "httpauthorizationcredentials",
@@ -25718,7 +25808,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L121",
+      "source_location": "L125",
       "weight": 1.0,
       "source": "backend_security_optional_user",
       "target": "httpauthorizationcredentials",
@@ -25729,7 +25819,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L121",
+      "source_location": "L125",
       "weight": 1.0,
       "source": "backend_security_optional_user",
       "target": "backend_security_py_session",
@@ -25740,7 +25830,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L173",
+      "source_location": "L177",
       "weight": 1.0,
       "source": "backend_security_decrypt_field",
       "target": "backend_security_get_fernet_cipher",
@@ -25751,7 +25841,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L160",
+      "source_location": "L164",
       "weight": 1.0,
       "source": "backend_security_encrypt_field",
       "target": "backend_security_get_fernet_cipher",
@@ -25762,7 +25852,7 @@
       "context": "return_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L146",
+      "source_location": "L150",
       "weight": 1.0,
       "source": "backend_security_get_fernet_cipher",
       "target": "fernet",
@@ -25827,9 +25917,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/security.py",
-      "source_location": "L184",
+      "source_location": "L188",
       "weight": 1.0,
-      "source": "backend_security_rationale_184",
+      "source": "backend_security_rationale_188",
       "target": "backend_security_validate_participant_access",
       "confidence_score": 1.0
     },
@@ -44170,50 +44260,140 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L39",
+      "source_location": "L1",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_readme_md",
-      "target": "d_yavee_ventures_projects_lawyergrid_readme_full_stack_development",
+      "source": "readme",
+      "target": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L25",
+      "source_location": "L30",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_readme_md",
-      "target": "d_yavee_ventures_projects_lawyergrid_readme_local_static_preview",
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_architecture_tech_stack",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L14",
+      "source_location": "L105",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_readme_md",
-      "target": "d_yavee_ventures_projects_lawyergrid_readme_production_architecture",
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_getting_started",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L72",
+      "source_location": "L7",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_readme_md",
-      "target": "d_yavee_ventures_projects_lawyergrid_readme_production_note",
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_key_features",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L61",
+      "source_location": "L193",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_readme_md",
-      "target": "d_yavee_ventures_projects_lawyergrid_readme_required_before_launch",
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_license_legal_notice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L181",
+      "weight": 1.0,
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_production_hardening_checklist",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_project_structure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L171",
+      "weight": 1.0,
+      "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "readme_testing_quality_assurance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "readme_key_features",
+      "target": "readme_admin_console",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "readme_key_features",
+      "target": "readme_client_portal_legal_marketplace",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "readme_key_features",
+      "target": "readme_lawyer_portal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "readme_getting_started",
+      "target": "readme_option_a_quickstart_with_docker_compose_recommended",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L141",
+      "weight": 1.0,
+      "source": "readme_getting_started",
+      "target": "readme_option_b_local_development_setup",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "readme_getting_started",
+      "target": "readme_prerequisites",
       "confidence_score": 1.0
     },
     {
@@ -44347,5 +44527,6 @@
       "confidence_score": 1.0
     }
   ],
-  "hyperedges": []
+  "hyperedges": [],
+  "built_at_commit": "ee2f1da67b24e79f3576926ff6ab80878f5ba6fa"
 }

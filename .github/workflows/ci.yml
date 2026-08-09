@@ -1,4 +1,4 @@
-name: LawyerGrid CI/CD Pipeline
+name: VidhiMeet CI/CD Pipeline
 
 on:
   push:
@@ -48,4 +48,5 @@ jobs:
         with:
           context: .
           push: false
-          tags: lawyergrid-api:latest
+          tags: vidhimeet-api:latest
+

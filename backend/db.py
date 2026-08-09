@@ -21,7 +21,7 @@ if raw_url.startswith("postgresql://"):
 else:
     sync_db_url = raw_url
 
-connect_args = {"check_same_thread": False} if sync_db_url.startswith("sqlite") else {}
+connect_args = {"check_same_thread": False, "timeout": 30} if sync_db_url.startswith("sqlite") else {}
 engine = create_engine(
     sync_db_url,
     pool_pre_ping=True,
@@ -36,7 +36,7 @@ if sync_db_url.startswith("sqlite:///"):
 else:
     async_db_url = sync_db_url
 
-async_connect_args = {"check_same_thread": False} if "sqlite" in async_db_url else {}
+async_connect_args = {"check_same_thread": False, "timeout": 30} if "sqlite" in async_db_url else {}
 async_engine = create_async_engine(
     async_db_url,
     pool_pre_ping=True,
