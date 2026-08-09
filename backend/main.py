@@ -18,7 +18,9 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
-log = logging.getLogger("main")
+import structlog
+
+log = structlog.get_logger("main")
 settings = get_settings()
 
 @asynccontextmanager
@@ -33,27 +35,25 @@ async def lifespan(app: FastAPI):
     await rate_limiter.init_redis()
 
     # ── NTP clock synchronization (CERT-In / DPDP forensic timestamp compliance) ─
-    if settings.ntp_sync_on_startup:
+    if settings.ntp_check_on_startup:
         try:
             from .ntp_time import check_clock_drift
             status = check_clock_drift()
             if status["within_tolerance"]:
                 log.info(
-                    "NTP_STARTUP_OK | server=%s drift=%.3fs synced_at=%s",
-                    status["ntp_server"],
-                    status["drift_seconds"],
-                    status["synced_at"],
+                    "NTP startup check succeeded",
+                    server=status["ntp_server"],
+                    drift_seconds=status["drift_seconds"],
+                    synced_at=status["synced_at"],
                 )
             else:
                 log.critical(
-                    "NTP_STARTUP_DRIFT_ALERT | server=%s drift=%.3fs "
-                    "Timestamps may not be forensically authoritative. "
-                    "Ensure the host is configured to sync with NPL/NIC NTP servers.",
-                    status["ntp_server"],
-                    status["drift_seconds"],
+                    "NTP startup drift alert: Timestamps may not be forensically authoritative",
+                    server=status["ntp_server"],
+                    drift_seconds=status["drift_seconds"],
                 )
-        except Exception as exc:  # pragma: no cover
-            log.error("NTP startup check raised an unexpected error: %s", exc)
+        except (OSError, RuntimeError, KeyError, ValueError) as exc:  # pragma: no cover
+            log.error("NTP startup check raised an error", error=str(exc))
 
     yield
 

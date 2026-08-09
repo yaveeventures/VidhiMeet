@@ -208,11 +208,12 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
     if not raw_token:
         raise HTTPException(status_code=401, detail="authentication required")
 
+    import jwt
     from ..security import decode_token
     try:
         payload = decode_token(raw_token)
-    except Exception:
-        raise HTTPException(status_code=401, detail="invalid token")
+    except (HTTPException, jwt.PyJWTError, KeyError, ValueError) as exc:
+        raise HTTPException(status_code=401, detail="invalid token") from exc
 
     user = db.get(User, payload["sub"])
     if not user or not user.active:

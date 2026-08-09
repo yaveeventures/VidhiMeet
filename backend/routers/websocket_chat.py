@@ -1,17 +1,18 @@
 import asyncio
 import json
-import logging
+import jwt
+import structlog
 from typing import Dict
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect, status
+from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect, status
 from fastapi.concurrency import run_in_threadpool
 from sqlalchemy.orm import Session
 
-from ..db import engine
+from .. import db as db_module
 from ..models import Booking, Message, User
 from ..security import decode_token, encrypt_field, decrypt_field
 from ..services.event_bus import event_bus
 
-log = logging.getLogger("websocket_chat")
+log = structlog.get_logger("websocket_chat")
 router = APIRouter(tags=["chat"])
 
 class ConnectionManager:
@@ -39,13 +40,13 @@ class ConnectionManager:
             for ws in list(self.active_connections[booking_id].keys()):
                 try:
                     await ws.send_json(message_data)
-                except Exception as exc:
-                    log.error(f"Error sending WS message to client in booking {booking_id}: {exc}")
+                except (RuntimeError, OSError) as exc:
+                    log.error("Error sending WS message to client in booking", booking_id=booking_id, error=str(exc))
 
 ws_manager = ConnectionManager()
 
 def _validate_ws_user_and_booking(user_id: str, booking_id: str):
-    with Session(engine) as db:
+    with db_module.SessionLocal() as db:
         user = db.get(User, user_id)
         booking = db.get(Booking, booking_id)
         if not user or not user.active or not booking:
@@ -67,7 +68,7 @@ def _validate_ws_user_and_booking(user_id: str, booking_id: str):
         return user, booking, user_info
 
 def _save_ws_message(booking_id: str, user_id: str, content: str, encrypted: bool, iv: str, sender_name: str, sender_role: str):
-    with Session(engine) as db:
+    with db_module.SessionLocal() as db:
         stored_content = content if encrypted else encrypt_field(content)
         msg = Message(
             booking_id=booking_id,
@@ -103,7 +104,7 @@ async def websocket_chat_endpoint(websocket: WebSocket, booking_id: str):
     try:
         payload = decode_token(token)
         user_id = payload["sub"]
-    except Exception:
+    except (HTTPException, jwt.PyJWTError, KeyError, ValueError):
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION, reason="Invalid token")
         return
 
@@ -120,7 +121,7 @@ async def websocket_chat_endpoint(websocket: WebSocket, booking_id: str):
             raw_text = await websocket.receive_text()
             try:
                 msg_payload = json.loads(raw_text)
-            except Exception:
+            except (json.JSONDecodeError, UnicodeDecodeError):
                 continue
 
             content = msg_payload.get("content", "").strip()
@@ -153,6 +154,6 @@ async def websocket_chat_endpoint(websocket: WebSocket, booking_id: str):
 
     except WebSocketDisconnect:
         ws_manager.disconnect(booking_id, websocket)
-    except Exception as exc:
-        log.error(f"WebSocket error for booking {booking_id}: {exc}")
+    except (RuntimeError, OSError) as exc:
+        log.error("WebSocket error for booking", booking_id=booking_id, error=str(exc))
         ws_manager.disconnect(booking_id, websocket)

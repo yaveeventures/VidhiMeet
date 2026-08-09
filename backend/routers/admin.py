@@ -1,4 +1,5 @@
 import stripe
+import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session, selectinload
@@ -11,6 +12,7 @@ from ..schemas import AdminPayoutAccountOut, AuditLogOut, BookingOut, DraftingRe
 from ..security import require_roles
 from ..services import audit
 
+log = structlog.get_logger("admin")
 settings = get_settings()
 
 router = APIRouter(prefix="/api/v1/admin", tags=["admin"])
@@ -174,8 +176,8 @@ def resolve_dispute(booking_id: str, outcome: str, strike_lawyer: bool = False, 
             try:
                 stripe.api_key = settings.stripe_secret_key
                 stripe.Refund.create(payment_intent=booking.stripe_payment_intent_id)
-            except Exception:
-                pass
+            except stripe.error.StripeError as exc:
+                log.error("Stripe dispute refund failed", booking_id=booking_id, error=str(exc))
         if strike_lawyer:
             lawyer_profile = db.query(LawyerProfile).filter(LawyerProfile.user_id == booking.lawyer_id).first()
             if lawyer_profile:

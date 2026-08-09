@@ -30,7 +30,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_py",
-      "community": 23,
+      "community": 13,
       "norm_label": "config.py"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings",
-      "community": 6,
+      "community": 13,
       "norm_label": "settings"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "basesettings",
-      "community": 6,
+      "community": 13,
       "norm_label": "basesettings"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_secure_secret",
-      "community": 6,
+      "community": 13,
       "norm_label": ".secure_secret()"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_supported_video_provider",
-      "community": 6,
+      "community": 13,
       "norm_label": ".supported_video_provider()"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_production_safety_checks",
-      "community": 6,
+      "community": 13,
       "norm_label": ".production_safety_checks()"
     },
     {
@@ -90,7 +90,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_origins",
-      "community": 6,
+      "community": 13,
       "norm_label": ".origins()"
     },
     {
@@ -100,7 +100,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_production",
-      "community": 6,
+      "community": 13,
       "norm_label": ".production()"
     },
     {
@@ -110,7 +110,7 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_config_get_settings",
-      "community": 6,
+      "community": 11,
       "norm_label": "get_settings()"
     },
     {
@@ -119,8 +119,8 @@
       "source_file": "backend/db.py",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "community": 23,
+      "id": "backend_db",
+      "community": 61,
       "norm_label": "db.py"
     },
     {
@@ -129,8 +129,8 @@
       "source_file": "backend/db.py",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_backend_db_safe_json_deserializer",
-      "community": 23,
+      "id": "backend_db_safe_json_deserializer",
+      "community": 61,
       "norm_label": "safe_json_deserializer()"
     },
     {
@@ -139,7 +139,7 @@
       "source_file": "backend/db.py",
       "source_location": "L48",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "id": "backend_db_base",
       "community": 19,
       "norm_label": "base"
     },
@@ -159,7 +159,7 @@
       "source_file": "backend/db.py",
       "source_location": "L51",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "id": "backend_db_get_db",
       "community": 15,
       "norm_label": "get_db()"
     },
@@ -169,8 +169,8 @@
       "source_file": "backend/db.py",
       "source_location": "L58",
       "_origin": "ast",
-      "id": "d_yavee_ventures_projects_lawyergrid_backend_db_get_async_db",
-      "community": 23,
+      "id": "backend_db_get_async_db",
+      "community": 61,
       "norm_label": "get_async_db()"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_models",
-      "community": 19,
+      "community": 61,
       "norm_label": "models.py"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "backend_models_now",
-      "community": 19,
+      "community": 15,
       "norm_label": "now()"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_models_py_datetime",
-      "community": 19,
+      "community": 15,
       "norm_label": "datetime"
     },
     {
@@ -630,7 +630,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "backend_models_booking_last_message_at",
-      "community": 19,
+      "community": 15,
       "norm_label": ".last_message_at()"
     },
     {
@@ -670,7 +670,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "backend_models_message",
-      "community": 9,
+      "community": 61,
       "norm_label": "message"
     },
     {
@@ -680,7 +680,7 @@
       "source_location": "L245",
       "_origin": "ast",
       "id": "backend_models_message_sender_name",
-      "community": 9,
+      "community": 61,
       "norm_label": ".sender_name()"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L249",
       "_origin": "ast",
       "id": "backend_models_review",
-      "community": 9,
+      "community": 19,
       "norm_label": "review"
     },
     {
@@ -700,7 +700,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "backend_models_review_client_name",
-      "community": 9,
+      "community": 19,
       "norm_label": ".client_name()"
     },
     {
@@ -710,7 +710,7 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "backend_models_userconsent",
-      "community": 19,
+      "community": 38,
       "norm_label": "userconsent"
     },
     {
@@ -790,7 +790,7 @@
       "source_location": "L341",
       "_origin": "ast",
       "id": "backend_models_draftingrequest_auto_approve_at",
-      "community": 19,
+      "community": 15,
       "norm_label": ".auto_approve_at()"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_ntpstatus",
-      "community": 11,
+      "community": 23,
       "norm_label": "ntpstatus"
     },
     {
@@ -920,7 +920,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "typeddict",
-      "community": 11,
+      "community": 23,
       "norm_label": "typeddict"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_check_clock_drift",
-      "community": 11,
+      "community": 20,
       "norm_label": "check_clock_drift()"
     },
     {
@@ -1040,7 +1040,7 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_ntp_time_rationale_115",
-      "community": 11,
+      "community": 20,
       "norm_label": "compare the system clock against the first reachable ntp server.      returns a"
     },
     {
@@ -1050,7 +1050,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_py",
-      "community": 23,
+      "community": 13,
       "norm_label": "rate_limiter.py"
     },
     {
@@ -1060,7 +1060,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter",
-      "community": 6,
+      "community": 11,
       "norm_label": "slidingwindowratelimiter"
     },
     {
@@ -1070,7 +1070,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_init",
-      "community": 6,
+      "community": 11,
       "norm_label": ".__init__()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_init_redis",
-      "community": 6,
+      "community": 11,
       "norm_label": ".init_redis()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_get_tier_limit",
-      "community": 6,
+      "community": 11,
       "norm_label": "._get_tier_limit()"
     },
     {
@@ -1100,7 +1100,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_get_client_ip",
-      "community": 6,
+      "community": 11,
       "norm_label": "._get_client_ip()"
     },
     {
@@ -1120,7 +1120,7 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_extract_account_id",
-      "community": 6,
+      "community": 11,
       "norm_label": "._extract_account_id()"
     },
     {
@@ -1130,7 +1130,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_check_async",
-      "community": 6,
+      "community": 11,
       "norm_label": ".check_async()"
     },
     {
@@ -1140,7 +1140,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_slidingwindowratelimiter_check",
-      "community": 6,
+      "community": 11,
       "norm_label": ".check()"
     },
     {
@@ -1150,7 +1150,7 @@
       "source_location": "L227",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_rate_limiter_rate_limit_dependency",
-      "community": 23,
+      "community": 13,
       "norm_label": "rate_limit_dependency()"
     },
     {
@@ -1320,7 +1320,7 @@
       "source_location": "L256",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_get_ntp_status",
-      "community": 11,
+      "community": 20,
       "norm_label": "get_ntp_status()"
     },
     {
@@ -1370,7 +1370,7 @@
       "source_location": "L257",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_admin_rationale_257",
-      "community": 11,
+      "community": 20,
       "norm_label": "cert-in / dpdp forensic compliance \u2014 ntp clock synchronization status.      retu"
     },
     {
@@ -1710,7 +1710,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "backend_routers_bookings_create_booking",
-      "community": 9,
+      "community": 15,
       "norm_label": "create_booking()"
     },
     {
@@ -1720,7 +1720,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_bookings_py_request",
-      "community": 9,
+      "community": 15,
       "norm_label": "request"
     },
     {
@@ -2180,7 +2180,7 @@
       "source_location": "L263",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_mock_upload",
-      "community": 13,
+      "community": 57,
       "norm_label": "drafting_document_mock_upload()"
     },
     {
@@ -2190,7 +2190,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_drafting_py_uploadfile",
-      "community": 13,
+      "community": 57,
       "norm_label": "uploadfile"
     },
     {
@@ -2340,7 +2340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_events",
-      "community": 38,
+      "community": 61,
       "norm_label": "events.py"
     },
     {
@@ -2350,7 +2350,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_events_authenticate_stream_user",
-      "community": 38,
+      "community": 61,
       "norm_label": "authenticate_stream_user()"
     },
     {
@@ -2360,7 +2360,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_request",
-      "community": 38,
+      "community": 61,
       "norm_label": "request"
     },
     {
@@ -2370,7 +2370,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_session",
-      "community": 38,
+      "community": 61,
       "norm_label": "session"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "backend_routers_events_sse_event_stream",
-      "community": 38,
+      "community": 61,
       "norm_label": "sse_event_stream()"
     },
     {
@@ -2390,7 +2390,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_routers_events_rationale_35",
-      "community": 38,
+      "community": 61,
       "norm_label": "server-sent events (sse) stream endpoint for real-time notifications and ui auto"
     },
     {
@@ -2400,7 +2400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_py",
-      "community": 13,
+      "community": 15,
       "norm_label": "lawyers.py"
     },
     {
@@ -2410,7 +2410,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_lawyers",
-      "community": 13,
+      "community": 15,
       "norm_label": "lawyers()"
     },
     {
@@ -2430,7 +2430,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_get_my_profile",
-      "community": 13,
+      "community": 15,
       "norm_label": "get_my_profile()"
     },
     {
@@ -2440,7 +2440,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_update_my_profile",
-      "community": 13,
+      "community": 15,
       "norm_label": "update_my_profile()"
     },
     {
@@ -2450,7 +2450,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_lawyer_document_presign",
-      "community": 13,
+      "community": 9,
       "norm_label": "lawyer_document_presign()"
     },
     {
@@ -2460,7 +2460,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_lawyer_document_mock_upload",
-      "community": 13,
+      "community": 9,
       "norm_label": "lawyer_document_mock_upload()"
     },
     {
@@ -2480,7 +2480,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_lawyer_document_confirm",
-      "community": 13,
+      "community": 15,
       "norm_label": "lawyer_document_confirm()"
     },
     {
@@ -2490,7 +2490,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_routers_lawyers_download_lawyer_document",
-      "community": 13,
+      "community": 15,
       "norm_label": "download_lawyer_document()"
     },
     {
@@ -2500,7 +2500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_py",
-      "community": 22,
+      "community": 57,
       "norm_label": "public.py"
     },
     {
@@ -2510,7 +2510,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_health",
-      "community": 22,
+      "community": 57,
       "norm_label": "health()"
     },
     {
@@ -2530,7 +2530,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_public_stats",
-      "community": 15,
+      "community": 57,
       "norm_label": "public_stats()"
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_rationale_23",
-      "community": 15,
+      "community": 57,
       "norm_label": "public endpoint \u2014 no auth required. returns live platform statistics for the hom"
     },
     {
@@ -2630,7 +2630,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager",
-      "community": 61,
+      "community": 35,
       "norm_label": "connectionmanager"
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_init",
-      "community": 61,
+      "community": 35,
       "norm_label": ".__init__()"
     },
     {
@@ -2650,7 +2650,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_connect",
-      "community": 61,
+      "community": 35,
       "norm_label": ".connect()"
     },
     {
@@ -2660,7 +2660,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "websocket",
-      "community": 61,
+      "community": 35,
       "norm_label": "websocket"
     },
     {
@@ -2670,7 +2670,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_disconnect",
-      "community": 61,
+      "community": 35,
       "norm_label": ".disconnect()"
     },
     {
@@ -2680,7 +2680,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_broadcast",
-      "community": 61,
+      "community": 35,
       "norm_label": ".broadcast()"
     },
     {
@@ -2690,7 +2690,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_validate_ws_user_and_booking",
-      "community": 61,
+      "community": 15,
       "norm_label": "_validate_ws_user_and_booking()"
     },
     {
@@ -2710,7 +2710,7 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_websocket_chat_endpoint",
-      "community": 61,
+      "community": 35,
       "norm_label": "websocket_chat_endpoint()"
     },
     {
@@ -2720,7 +2720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_py",
-      "community": 13,
+      "community": 9,
       "norm_label": "sanitizer.py"
     },
     {
@@ -2740,7 +2740,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_sanitize_filename",
-      "community": 13,
+      "community": 9,
       "norm_label": "sanitize_filename()"
     },
     {
@@ -2750,7 +2750,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_sanitize_key",
-      "community": 13,
+      "community": 9,
       "norm_label": "sanitize_key()"
     },
     {
@@ -2770,7 +2770,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_rationale_18",
-      "community": 13,
+      "community": 9,
       "norm_label": "sanitize a filename by removing directory traversal patterns, null bytes,     an"
     },
     {
@@ -2780,7 +2780,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_rationale_32",
-      "community": 13,
+      "community": 9,
       "norm_label": "sanitize object storage keys to prevent path traversal.     ensures relative key"
     },
     {
@@ -3350,7 +3350,7 @@
       "source_location": "L511",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_key",
-      "community": 13,
+      "community": 9,
       "norm_label": ".clean_key()"
     },
     {
@@ -3360,7 +3360,7 @@
       "source_location": "L516",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_filename",
-      "community": 13,
+      "community": 9,
       "norm_label": ".clean_filename()"
     },
     {
@@ -3420,7 +3420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_security",
-      "community": 38,
+      "community": 61,
       "norm_label": "security.py"
     },
     {
@@ -3470,7 +3470,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "backend_security_decode_token",
-      "community": 38,
+      "community": 61,
       "norm_label": "decode_token()"
     },
     {
@@ -3480,7 +3480,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "backend_security_current_user",
-      "community": 38,
+      "community": 61,
       "norm_label": "current_user()"
     },
     {
@@ -3490,7 +3490,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "httpauthorizationcredentials",
-      "community": 38,
+      "community": 61,
       "norm_label": "httpauthorizationcredentials"
     },
     {
@@ -3500,7 +3500,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_security_py_session",
-      "community": 38,
+      "community": 61,
       "norm_label": "session"
     },
     {
@@ -3510,7 +3510,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "backend_security_optional_user",
-      "community": 38,
+      "community": 61,
       "norm_label": "optional_user()"
     },
     {
@@ -3520,7 +3520,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "backend_security_require_roles",
-      "community": 9,
+      "community": 61,
       "norm_label": "require_roles()"
     },
     {
@@ -3770,7 +3770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_py",
-      "community": 11,
+      "community": 20,
       "norm_label": "compliance_service.py"
     },
     {
@@ -3780,7 +3780,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_verify_ntp_compliance",
-      "community": 11,
+      "community": 20,
       "norm_label": "verify_ntp_compliance()"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_rationale_7",
-      "community": 11,
+      "community": 20,
       "norm_label": "run cert-in / dpdp compliant ntp clock drift check."
     },
     {
@@ -3840,7 +3840,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_drafting_service_py",
-      "community": 57,
+      "community": 9,
       "norm_label": "drafting_service.py"
     },
     {
@@ -3870,7 +3870,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus",
-      "community": 61,
+      "community": 12,
       "norm_label": "eventbus"
     },
     {
@@ -3880,7 +3880,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_init",
-      "community": 61,
+      "community": 12,
       "norm_label": ".__init__()"
     },
     {
@@ -3890,7 +3890,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_subscribe_user",
-      "community": 61,
+      "community": 12,
       "norm_label": ".subscribe_user()"
     },
     {
@@ -3900,7 +3900,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "queue",
-      "community": 61,
+      "community": 12,
       "norm_label": "queue"
     },
     {
@@ -3910,7 +3910,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_unsubscribe_user",
-      "community": 61,
+      "community": 12,
       "norm_label": ".unsubscribe_user()"
     },
     {
@@ -3920,7 +3920,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_subscribe_role",
-      "community": 61,
+      "community": 12,
       "norm_label": ".subscribe_role()"
     },
     {
@@ -3930,7 +3930,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_unsubscribe_role",
-      "community": 61,
+      "community": 12,
       "norm_label": ".unsubscribe_role()"
     },
     {
@@ -3940,7 +3940,7 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_publish_user",
-      "community": 61,
+      "community": 12,
       "norm_label": ".publish_user()"
     },
     {
@@ -3950,7 +3950,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_publish_role",
-      "community": 61,
+      "community": 12,
       "norm_label": ".publish_role()"
     },
     {
@@ -3960,7 +3960,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_services_event_bus_eventbus_broadcast",
-      "community": 61,
+      "community": 12,
       "norm_label": ".broadcast()"
     },
     {
@@ -3980,7 +3980,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "backend_services_malware_scanner_scan_document_payload",
-      "community": 76,
+      "community": 57,
       "norm_label": "scan_document_payload()"
     },
     {
@@ -3990,7 +3990,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "backend_services_malware_scanner_rationale_23",
-      "community": 76,
+      "community": 57,
       "norm_label": "perform deep structural payload inspection on document uploads.     detects embe"
     },
     {
@@ -4010,7 +4010,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_backend_services_payment_service_create_payment_intent",
-      "community": 9,
+      "community": 15,
       "norm_label": "create_payment_intent()"
     },
     {
@@ -5600,7 +5600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_x",
-      "community": 4,
+      "community": 18,
       "norm_label": "x()"
     },
     {
@@ -5710,7 +5710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_de",
-      "community": 4,
+      "community": 18,
       "norm_label": "de()"
     },
     {
@@ -5750,7 +5750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ve",
-      "community": 41,
+      "community": 26,
       "norm_label": "ve()"
     },
     {
@@ -6800,7 +6800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pn",
-      "community": 41,
+      "community": 18,
       "norm_label": "pn()"
     },
     {
@@ -6810,7 +6810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vn",
-      "community": 41,
+      "community": 18,
       "norm_label": "vn()"
     },
     {
@@ -6930,7 +6930,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zn",
-      "community": 2,
+      "community": 18,
       "norm_label": "zn()"
     },
     {
@@ -6980,7 +6980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_or",
-      "community": 18,
+      "community": 2,
       "norm_label": "or()"
     },
     {
@@ -8830,7 +8830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_modules_router",
-      "community": 3,
+      "community": 24,
       "norm_label": "router.js"
     },
     {
@@ -8840,7 +8840,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter",
-      "community": 3,
+      "community": 24,
       "norm_label": "clientrouter"
     },
     {
@@ -8850,7 +8850,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_constructor",
-      "community": 3,
+      "community": 24,
       "norm_label": ".constructor()"
     },
     {
@@ -8860,7 +8860,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_register",
-      "community": 3,
+      "community": 24,
       "norm_label": ".register()"
     },
     {
@@ -8870,7 +8870,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_navigate",
-      "community": 3,
+      "community": 24,
       "norm_label": ".navigate()"
     },
     {
@@ -8880,7 +8880,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_resolve",
-      "community": 3,
+      "community": 24,
       "norm_label": ".resolve()"
     },
     {
@@ -8890,7 +8890,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_handlepopstate",
-      "community": 3,
+      "community": 24,
       "norm_label": ".handlepopstate()"
     },
     {
@@ -8900,7 +8900,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "frontend_js_modules_router_router",
-      "community": 3,
+      "community": 24,
       "norm_label": "router"
     },
     {
@@ -9340,7 +9340,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_py",
-      "community": 24,
+      "community": 57,
       "norm_label": "env.py"
     },
     {
@@ -9350,7 +9350,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_offline",
-      "community": 24,
+      "community": 57,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -9360,7 +9360,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_online",
-      "community": 24,
+      "community": 57,
       "norm_label": "run_migrations_online()"
     },
     {
@@ -9460,7 +9460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_py",
-      "community": 19,
+      "community": 36,
       "norm_label": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
     },
     {
@@ -9470,7 +9470,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_upgrade",
-      "community": 19,
+      "community": 36,
       "norm_label": "upgrade()"
     },
     {
@@ -9480,7 +9480,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_downgrade",
-      "community": 19,
+      "community": 36,
       "norm_label": "downgrade()"
     },
     {
@@ -9770,7 +9770,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_py",
-      "community": 19,
+      "community": 61,
       "norm_label": "reset_users.py"
     },
     {
@@ -9780,7 +9780,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_rationale_1",
-      "community": 19,
+      "community": 61,
       "norm_label": "reset script: delete all users (lawyers, clients, admin) and related data, then"
     },
     {
@@ -9790,7 +9790,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_seed_py",
-      "community": 19,
+      "community": 61,
       "norm_label": "seed.py"
     },
     {
@@ -9800,47 +9800,47 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 6,
+      "community": 11,
       "norm_label": "conftest.py"
     },
     {
       "label": "reset_rate_limiter()",
       "file_type": "code",
       "source_file": "tests/conftest.py",
-      "source_location": "L12",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "tests_conftest_reset_rate_limiter",
-      "community": 6,
+      "community": 11,
       "norm_label": "reset_rate_limiter()"
     },
     {
       "label": "database()",
       "file_type": "code",
       "source_file": "tests/conftest.py",
-      "source_location": "L30",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "tests_conftest_database",
-      "community": 6,
+      "community": 11,
       "norm_label": "database()"
     },
     {
       "label": "client()",
       "file_type": "code",
       "source_file": "tests/conftest.py",
-      "source_location": "L52",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "tests_conftest_client",
-      "community": 6,
+      "community": 11,
       "norm_label": "client()"
     },
     {
       "label": "async_client()",
       "file_type": "code",
       "source_file": "tests/conftest.py",
-      "source_location": "L56",
+      "source_location": "L68",
       "_origin": "ast",
       "id": "tests_conftest_async_client",
-      "community": 6,
+      "community": 11,
       "norm_label": "async_client()"
     },
     {
@@ -10110,7 +10110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_py",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_bank_account.py"
     },
     {
@@ -10120,7 +10120,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_add_bank_account",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_add_bank_account()"
     },
     {
@@ -10130,7 +10130,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_get_bank_account",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_get_bank_account()"
     },
     {
@@ -10140,7 +10140,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_update_bank_account_resets_verification",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_update_bank_account_resets_verification()"
     },
     {
@@ -10150,7 +10150,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_delete_bank_account",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_delete_bank_account()"
     },
     {
@@ -10160,7 +10160,7 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_duplicate_add_returns_409",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_duplicate_add_returns_409()"
     },
     {
@@ -10170,7 +10170,7 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_upi_verification_demo_mode",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_upi_verification_demo_mode()"
     },
     {
@@ -10180,7 +10180,7 @@
       "source_location": "L165",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_verify_requires_bank_account",
-      "community": 12,
+      "community": 25,
       "norm_label": "test_verify_requires_bank_account()"
     },
     {
@@ -10190,7 +10190,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_test_phonepe_verify_webhook_routes_correctly",
-      "community": 15,
+      "community": 25,
       "norm_label": "test_phonepe_verify_webhook_routes_correctly()"
     },
     {
@@ -10200,7 +10200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_1",
-      "community": 12,
+      "community": 25,
       "norm_label": "tests for lawyer bank account management and upi reverse penny drop verification"
     },
     {
@@ -10210,7 +10210,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_7",
-      "community": 12,
+      "community": 25,
       "norm_label": "lawyer can add a bank account; account number is masked in response."
     },
     {
@@ -10220,7 +10220,7 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_36",
-      "community": 12,
+      "community": 25,
       "norm_label": "lawyer can retrieve their bank account."
     },
     {
@@ -10230,7 +10230,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_62",
-      "community": 12,
+      "community": 25,
       "norm_label": "editing ifsc resets the verified flag."
     },
     {
@@ -10240,7 +10240,7 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_91",
-      "community": 12,
+      "community": 25,
       "norm_label": "lawyer can delete their bank account."
     },
     {
@@ -10250,7 +10250,7 @@
       "source_location": "L115",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_115",
-      "community": 12,
+      "community": 25,
       "norm_label": "adding a second bank account returns 409 conflict."
     },
     {
@@ -10260,7 +10260,7 @@
       "source_location": "L137",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_137",
-      "community": 12,
+      "community": 25,
       "norm_label": "in demo mode (no phonepe creds), verify auto-verifies the account."
     },
     {
@@ -10270,7 +10270,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_166",
-      "community": 12,
+      "community": 25,
       "norm_label": "calling /verify without a bank account returns 404."
     },
     {
@@ -10280,7 +10280,7 @@
       "source_location": "L179",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_bank_account_rationale_179",
-      "community": 15,
+      "community": 25,
       "norm_label": "phonepe webhook with verify- prefix updates lawyerbankaccount, not a booking."
     },
     {
@@ -10380,7 +10380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_compliance_py",
-      "community": 19,
+      "community": 61,
       "norm_label": "test_compliance.py"
     },
     {
@@ -10390,7 +10390,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_compliance_test_dpdpa_consent_enforcement_and_logging",
-      "community": 19,
+      "community": 38,
       "norm_label": "test_dpdpa_consent_enforcement_and_logging()"
     },
     {
@@ -10400,7 +10400,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_compliance_test_pii_encryption_at_rest",
-      "community": 19,
+      "community": 61,
       "norm_label": "test_pii_encryption_at_rest()"
     },
     {
@@ -10420,7 +10420,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_dispute_workflow_py",
-      "community": 38,
+      "community": 61,
       "norm_label": "test_dispute_workflow.py"
     },
     {
@@ -10780,7 +10780,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_ntp_now_ist_returns_ist_offset",
-      "community": 20,
+      "community": 23,
       "norm_label": "test_ntp_now_ist_returns_ist_offset()"
     },
     {
@@ -10800,7 +10800,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_check_clock_drift_returns_expected_keys",
-      "community": 11,
+      "community": 20,
       "norm_label": "test_check_clock_drift_returns_expected_keys()"
     },
     {
@@ -10810,7 +10810,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_check_clock_drift_within_tolerance_type",
-      "community": 11,
+      "community": 20,
       "norm_label": "test_check_clock_drift_within_tolerance_type()"
     },
     {
@@ -10830,7 +10830,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_check_clock_drift_all_servers_unreachable",
-      "community": 11,
+      "community": 20,
       "norm_label": "test_check_clock_drift_all_servers_unreachable()"
     },
     {
@@ -10900,7 +10900,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_24",
-      "community": 20,
+      "community": 23,
       "norm_label": "ntp_now_ist() must return a datetime in ist (utc+05:30)."
     },
     {
@@ -10920,7 +10920,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_58",
-      "community": 11,
+      "community": 20,
       "norm_label": "check_clock_drift() must return a dict with all required ntpstatus keys."
     },
     {
@@ -10930,7 +10930,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_67",
-      "community": 11,
+      "community": 20,
       "norm_label": "within_tolerance must be a boolean."
     },
     {
@@ -10950,7 +10950,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_81",
-      "community": 11,
+      "community": 20,
       "norm_label": "when all ntp servers fail, within_tolerance must be false and server must be 'un"
     },
     {
@@ -11000,7 +11000,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_py",
-      "community": 38,
+      "community": 61,
       "norm_label": "test_payout_masking.py"
     },
     {
@@ -11270,7 +11270,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_sanitizer_test_sanitize_filename",
-      "community": 13,
+      "community": 9,
       "norm_label": "test_sanitize_filename()"
     },
     {
@@ -11280,7 +11280,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_sanitizer_test_sanitize_key",
-      "community": 13,
+      "community": 9,
       "norm_label": "test_sanitize_key()"
     },
     {
@@ -11500,7 +11500,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_rejects_malicious_pdf_js",
-      "community": 76,
+      "community": 57,
       "norm_label": "test_malware_scanner_rejects_malicious_pdf_js()"
     },
     {
@@ -11510,7 +11510,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_rejects_vba_macro_binaries",
-      "community": 76,
+      "community": 57,
       "norm_label": "test_malware_scanner_rejects_vba_macro_binaries()"
     },
     {
@@ -11520,7 +11520,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_accepts_clean_pdf",
-      "community": 76,
+      "community": 57,
       "norm_label": "test_malware_scanner_accepts_clean_pdf()"
     },
     {
@@ -11550,7 +11550,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_42",
-      "community": 76,
+      "community": 57,
       "norm_label": "verify scan_document_payload rejects pdf files containing embedded javascript tr"
     },
     {
@@ -11560,7 +11560,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_58",
-      "community": 76,
+      "community": 57,
       "norm_label": "verify scan_document_payload rejects office document archives containing vba mac"
     },
     {
@@ -11570,7 +11570,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_70",
-      "community": 76,
+      "community": 57,
       "norm_label": "verify scan_document_payload accepts clean pdf files."
     },
     {
@@ -12029,17 +12029,6 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "backend/db.py",
-      "source_location": "L5",
-      "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_config_py",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
       "source_file": "backend/ntp_time.py",
       "source_location": "L25",
       "weight": 1.0,
@@ -12149,6 +12138,17 @@
       "weight": 1.0,
       "source": "d_yavee_ventures_projects_lawyergrid_backend_config_settings",
       "target": "d_yavee_ventures_projects_lawyergrid_backend_config_settings_supported_video_provider",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "backend_db",
+      "target": "d_yavee_ventures_projects_lawyergrid_backend_config_get_settings",
       "confidence_score": 1.0
     },
     {
@@ -12321,7 +12321,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L14",
+      "source_location": "L5",
       "weight": 1.0,
       "source": "tests_conftest",
       "target": "d_yavee_ventures_projects_lawyergrid_backend_config_get_settings",
@@ -12333,7 +12333,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "tests/conftest.py",
-      "source_location": "L15",
+      "source_location": "L32",
       "weight": 1.0,
       "source": "tests_conftest_reset_rate_limiter",
       "target": "d_yavee_ventures_projects_lawyergrid_backend_config_get_settings"
@@ -12344,8 +12344,8 @@
       "source_file": "backend/db.py",
       "source_location": "L48",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "source": "backend_db",
+      "target": "backend_db_base",
       "confidence_score": 1.0
     },
     {
@@ -12354,8 +12354,8 @@
       "source_file": "backend/db.py",
       "source_location": "L58",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_async_db",
+      "source": "backend_db",
+      "target": "backend_db_get_async_db",
       "confidence_score": 1.0
     },
     {
@@ -12364,8 +12364,8 @@
       "source_file": "backend/db.py",
       "source_location": "L51",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "source": "backend_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -12374,19 +12374,205 @@
       "source_file": "backend/db.py",
       "source_location": "L9",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_safe_json_deserializer",
+      "source": "backend_db",
+      "target": "backend_db_safe_json_deserializer",
       "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "backend/routers/calendar.py",
-      "source_location": "L19",
+      "source_file": "backend/main.py",
+      "source_location": "L12",
       "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_routers_calendar_py",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_py",
+      "source": "backend_main",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/models.py",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "backend_models",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/auth.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "backend_routers_auth",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/bookings.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "backend_routers_bookings",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/drafting.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "backend_routers_drafting",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/events.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "backend_routers_events",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/websocket_chat.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "backend_routers_websocket_chat",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/security.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "backend_security",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/data_retention_purge.py",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "c_users_suraj_documents_new_project_scripts_data_retention_purge_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_compliance.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "c_users_suraj_documents_new_project_tests_test_compliance_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_drafting.py",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "c_users_suraj_documents_new_project_tests_test_drafting_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_payout_masking.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "c_users_suraj_documents_new_project_tests_test_payout_masking_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_phonepe.py",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "c_users_suraj_documents_new_project_tests_test_phonepe_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "migrations/env.py",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "d_yavee_ventures_projects_lawyergrid_migrations_env_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/reset_users.py",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/seed.py",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "d_yavee_ventures_projects_lawyergrid_scripts_seed_py",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/conftest.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "tests_conftest",
+      "target": "backend_db",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/db.py",
+      "source_location": "L48",
+      "weight": 1.0,
+      "source": "backend_db_base",
+      "target": "declarativebase",
       "confidence_score": 1.0
     },
     {
@@ -12397,7 +12583,7 @@
       "source_location": "L12",
       "weight": 1.0,
       "source": "backend_main",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 1.0
     },
     {
@@ -12408,7 +12594,7 @@
       "source_location": "L7",
       "weight": 1.0,
       "source": "backend_models",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 1.0
     },
     {
@@ -12418,7 +12604,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_auditlog",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12428,7 +12614,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_booking",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12438,7 +12624,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_bookingstatus",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12448,7 +12634,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_draftcomment",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12458,7 +12644,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_draftingproposal",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12468,7 +12654,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_draftingrequest",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12478,7 +12664,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_draftingstatus",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12488,7 +12674,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_encryptedstring",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12498,7 +12684,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_lawyerbankaccount",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12508,7 +12694,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_lawyerprofile",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12518,7 +12704,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_message",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12528,7 +12714,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_platformfeedback",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12538,7 +12724,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_practice",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12548,7 +12734,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_proposalstatus",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12558,7 +12744,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_refreshtoken",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12568,7 +12754,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_review",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12578,7 +12764,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_role",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12588,7 +12774,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_user",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12598,7 +12784,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_userconsent",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12608,7 +12794,7 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_voucher",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
     },
     {
@@ -12618,28 +12804,18 @@
       "source_location": "L7",
       "weight": 0.8,
       "source": "backend_models_webhookevent",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 0.5
-    },
-    {
-      "relation": "inherits",
-      "confidence": "EXTRACTED",
-      "source_file": "backend/db.py",
-      "source_location": "L48",
-      "weight": 1.0,
-      "source": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
-      "target": "declarativebase",
-      "confidence_score": 1.0
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L8",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "tests_conftest",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_base",
+      "target": "backend_db_base",
       "confidence_score": 1.0
     },
     {
@@ -12650,7 +12826,7 @@
       "source_location": "L8",
       "weight": 1.0,
       "source": "backend_routers_auth",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -12661,7 +12837,7 @@
       "source_location": "L10",
       "weight": 1.0,
       "source": "backend_routers_bookings",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -12672,7 +12848,7 @@
       "source_location": "L5",
       "weight": 1.0,
       "source": "backend_routers_drafting",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -12683,7 +12859,7 @@
       "source_location": "L9",
       "weight": 1.0,
       "source": "backend_routers_events",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -12694,7 +12870,7 @@
       "source_location": "L13",
       "weight": 1.0,
       "source": "backend_security",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -12706,40 +12882,40 @@
       "source_location": "L209",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_bank_account_test_phonepe_verify_webhook_routes_correctly",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
       "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "C:/Users/suraj/Documents/New project/tests/test_compliance.py",
       "source_location": "L32",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_compliance_test_dpdpa_consent_enforcement_and_logging",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
       "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "C:/Users/suraj/Documents/New project/tests/test_compliance.py",
       "source_location": "L119",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_compliance_test_right_to_erasure",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
       "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "C:/Users/suraj/Documents/New project/tests/test_drafting.py",
       "source_location": "L377",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_drafting_test_7day_auto_approval_window",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
@@ -12750,29 +12926,29 @@
       "source_location": "L137",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_ntp_test_admin_ntp_status_endpoint_accessible_by_admin",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
       "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "C:/Users/suraj/Documents/New project/tests/test_phonepe.py",
       "source_location": "L30",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_phonepe_test_get_booking_by_id",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
       "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "C:/Users/suraj/Documents/New project/tests/test_phonepe.py",
       "source_location": "L62",
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_phonepe_test_phonepe_webhook_verification",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
@@ -12783,7 +12959,7 @@
       "source_location": "L253",
       "weight": 1.0,
       "source": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_lawyer_complete_booking_duration_restriction",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
@@ -12794,7 +12970,7 @@
       "source_location": "L114",
       "weight": 1.0,
       "source": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_meeting_token_endpoint",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "calls",
@@ -12805,17 +12981,17 @@
       "source_location": "L175",
       "weight": 1.0,
       "source": "d_yavee_ventures_projects_lawyergrid_tests_test_api_test_verified_reviews_only",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db"
+      "target": "backend_db_get_db"
     },
     {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L8",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "tests_conftest",
-      "target": "d_yavee_ventures_projects_lawyergrid_backend_db_get_db",
+      "target": "backend_db_get_db",
       "confidence_score": 1.0
     },
     {
@@ -13109,7 +13285,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L9",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "tests_conftest",
       "target": "backend_main",
@@ -42105,7 +42281,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L56",
+      "source_location": "L68",
       "weight": 1.0,
       "source": "tests_conftest",
       "target": "tests_conftest_async_client",
@@ -42115,7 +42291,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L52",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "tests_conftest",
       "target": "tests_conftest_client",
@@ -42125,7 +42301,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L30",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "tests_conftest",
       "target": "tests_conftest_database",
@@ -42135,7 +42311,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/conftest.py",
-      "source_location": "L12",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "tests_conftest",
       "target": "tests_conftest_reset_rate_limiter",
@@ -42147,7 +42323,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "tests/conftest.py",
-      "source_location": "L53",
+      "source_location": "L65",
       "weight": 1.0,
       "source": "tests_conftest_client",
       "target": "testclient"

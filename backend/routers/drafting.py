@@ -1,6 +1,11 @@
+import asyncio
+import jwt
+import structlog
 from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
 from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session
+
+log = structlog.get_logger("drafting")
 
 from ..db import get_db
 from ..models import (
@@ -47,14 +52,15 @@ def create_drafting_request(payload: DraftingRequestCreate, user: User = Depends
     db.refresh(req)
 
     try:
-        asyncio.create_task(event_bus.publish_role("lawyer", "DRAFT_REQUEST_SUBMITTED", {
+        loop = asyncio.get_running_loop()
+        loop.create_task(event_bus.publish_role("lawyer", "DRAFT_REQUEST_SUBMITTED", {
             "request_id": req.id,
             "title": req.title,
             "price_minor": req.price_minor,
             "creator_name": user.full_name
         }))
-    except Exception:
-        pass
+    except (RuntimeError, OSError) as exc:
+        log.debug("Event bus notification for draft request skipped", error=str(exc))
 
     return req
 
@@ -165,8 +171,8 @@ def download_drafting_document(key: str, token: str | None = None,
                 raise HTTPException(401, "document access link has expired")
     except HTTPException:
         raise
-    except Exception:
-        raise HTTPException(401, "invalid session token")
+    except (jwt.PyJWTError, KeyError, ValueError) as exc:
+        raise HTTPException(401, "invalid session token") from exc
 
     user = db.get(User, user_data["sub"])
     if not user:
@@ -430,14 +436,15 @@ def accept_drafting_proposal(request_id: str, proposal_id: str, user: User = Dep
     db.refresh(req)
 
     try:
-        asyncio.create_task(event_bus.publish_user(str(proposal.lawyer_id), "PROPOSAL_ACCEPTED", {
+        loop = asyncio.get_running_loop()
+        loop.create_task(event_bus.publish_user(str(proposal.lawyer_id), "PROPOSAL_ACCEPTED", {
             "request_id": req.id,
             "title": req.title,
             "agreed_price_minor": req.agreed_price_minor,
             "client_name": user.full_name
         }))
-    except Exception:
-        pass
+    except (RuntimeError, OSError) as exc:
+        log.debug("Event bus notification for proposal acceptance skipped", error=str(exc))
 
     return req
 

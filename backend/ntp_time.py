@@ -16,7 +16,7 @@ All application timestamps intended for audit logs, payment records, and
 forensic evidence should use ntp_now() from this module.
 """
 
-import logging
+import structlog
 import socket
 import struct
 from datetime import datetime, timedelta, timezone
@@ -24,7 +24,7 @@ from typing import TypedDict
 
 from .config import get_settings
 
-log = logging.getLogger("ntp_time")
+log = structlog.get_logger("ntp_time")
 
 # ── NTP Protocol Constants (RFC 5905) ─────────────────────────────────────────
 _NTP_PORT = 123
@@ -67,8 +67,8 @@ def _query_ntp_server(host: str, timeout: float) -> datetime | None:
         return datetime(1970, 1, 1, tzinfo=timezone.utc) + timedelta(
             seconds=tx_seconds, microseconds=tx_microseconds
         )
-    except Exception as exc:
-        log.debug("NTP query to %s failed: %s", host, exc)
+    except (OSError, socket.timeout, struct.error) as exc:
+        log.debug("NTP query failed", host=host, error=str(exc))
         return None
 
 

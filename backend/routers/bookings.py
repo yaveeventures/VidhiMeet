@@ -2,9 +2,12 @@ import asyncio
 import secrets
 from datetime import datetime, timedelta, timezone
 
+import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
+
+log = structlog.get_logger("bookings")
 
 from ..config import get_settings
 from ..db import get_db
@@ -66,7 +69,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         try:
             from zoneinfo import ZoneInfo
             tz = ZoneInfo("Asia/Kolkata")
-        except Exception:
+        except (ImportError, KeyError):
             tz = timezone.utc
         
         local_starts = starts.astimezone(tz)
@@ -120,14 +123,15 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
     booking.payment_url = payment_url
 
     try:
-        asyncio.create_task(event_bus.publish_user(str(payload.lawyer_id), "BOOKING_CREATED", {
+        loop = asyncio.get_running_loop()
+        loop.create_task(event_bus.publish_user(str(payload.lawyer_id), "BOOKING_CREATED", {
             "booking_id": booking.id,
             "client_name": user.full_name,
             "practice": payload.practice,
             "starts_at": booking.starts_at.isoformat() if booking.starts_at else None
         }))
-    except Exception:
-        pass
+    except (RuntimeError, OSError) as exc:
+        log.debug("Event bus notification for booking creation skipped", error=str(exc))
 
     return booking
 
@@ -325,7 +329,8 @@ def send_message(booking_id: str, payload: MessageCreate, user: User = Depends(c
 
     recipient_user_id = str(booking.lawyer_id) if user.id == booking.client_id else str(booking.client_id)
     try:
-        asyncio.create_task(event_bus.publish_user(recipient_user_id, "CHAT_MESSAGE_RECEIVED", {
+        loop = asyncio.get_running_loop()
+        loop.create_task(event_bus.publish_user(recipient_user_id, "CHAT_MESSAGE_RECEIVED", {
             "booking_id": booking_id,
             "sender_name": user.full_name,
             "message": {
@@ -338,8 +343,8 @@ def send_message(booking_id: str, payload: MessageCreate, user: User = Depends(c
                 "created_at": msg.created_at.isoformat() if msg.created_at else None
             }
         }))
-    except Exception:
-        pass
+    except (RuntimeError, OSError) as exc:
+        log.debug("Event bus notification for chat message skipped", error=str(exc))
 
     return msg
 

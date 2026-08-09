@@ -1,6 +1,6 @@
 import asyncio
 import json
-import logging
+import structlog
 from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 from fastapi.responses import StreamingResponse
@@ -11,7 +11,7 @@ from ..models import User
 from ..security import decode_token
 from ..services.event_bus import event_bus
 
-log = logging.getLogger("events_router")
+log = structlog.get_logger("events")
 router = APIRouter(tags=["events"])
 
 def authenticate_stream_user(token: Optional[str] = Query(None), request: Request = None, db: Session = Depends(get_db)) -> User:
@@ -82,8 +82,8 @@ async def sse_event_stream(request: Request, user: User = Depends(authenticate_s
 
                 except asyncio.CancelledError:
                     break
-                except Exception as exc:
-                    log.error(f"Error in SSE generator for user {user_id}: {exc}")
+                except (RuntimeError, OSError) as exc:
+                    log.error("Error in SSE generator", user_id=user_id, error=str(exc))
                     break
         finally:
             event_bus.unsubscribe_user(user_id, user_queue)

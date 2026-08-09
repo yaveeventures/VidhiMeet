@@ -1,13 +1,13 @@
-﻿import base64
+import base64
 import hashlib
 import json
-import logging
+import structlog
 import stripe
 import httpx
 from ..config import get_settings
 from ..models import Booking, LawyerProfile
 
-logger = logging.getLogger("fastapi")
+logger = structlog.get_logger("payment_service")
 settings = get_settings()
 
 def create_payment_intent(booking: Booking, lawyer: LawyerProfile) -> str | None:
@@ -82,8 +82,8 @@ def create_phonepe_payment(booking: Booking, base_url: str) -> str | None:
                     redirect_info = instrument_resp.get("redirectInfo", {})
                     return redirect_info.get("url")
             logger.error(f"PhonePe pay API returned status {res.status_code}: {res.text}")
-    except Exception as e:
-        logger.error(f"Error calling PhonePe pay API: {e}")
+    except (httpx.HTTPError, httpx.TimeoutException) as e:
+        logger.error("Error calling PhonePe pay API", error=str(e))
         
     return None
 
@@ -139,8 +139,8 @@ def create_phonepe_verification_payment(bank_account, base_url: str) -> str | No
                     redirect_info = instrument_resp.get("redirectInfo", {})
                     return redirect_info.get("url")
             logger.error(f"PhonePe verify payment returned status {res.status_code}: {res.text}")
-    except Exception as e:
-        logger.error(f"Error calling PhonePe verify payment API: {e}")
+    except (httpx.HTTPError, httpx.TimeoutException) as e:
+        logger.error("Error calling PhonePe verify payment API", error=str(e))
 
     return None
 
@@ -163,8 +163,8 @@ def initiate_refund(booking: Booking, refund_amount_minor: int, reason: str = "C
                 reason="requested_by_customer"
             )
             return refund.id
-        except Exception as e:
-            logger.error(f"Stripe refund error for booking {booking.id}: {e}")
+        except stripe.error.StripeError as e:
+            logger.error("Stripe refund error", booking_id=booking.id, error=str(e))
 
     # 2. PhonePe Refund Execution
     if booking.phonepe_transaction_id and settings.phonepe_merchant_id and settings.phonepe_salt_key:
@@ -198,8 +198,11 @@ def initiate_refund(booking: Booking, refund_amount_minor: int, reason: str = "C
                     if data.get("success"):
                         return refund_txn_id
                 logger.error(f"PhonePe refund failed with status {res.status_code}: {res.text}")
-        except Exception as e:
-            logger.error(f"Error calling PhonePe refund API: {e}")
+        except (httpx.HTTPError, httpx.TimeoutException) as e:
+            logger.error("Error calling PhonePe refund API", error=str(e))
+
+    # 3. Fallback mock refund ID for local dev/testing
+    return refund_txn_id
 
     # 3. Fallback mock refund ID for local dev/testing
     return refund_txn_id

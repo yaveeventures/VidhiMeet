@@ -73,6 +73,10 @@ def create_access_token(user: Union["User", dict]) -> str:
 
 
 
+import structlog
+
+log = structlog.get_logger("security")
+
 _REVOKED_JTIS: set[str] = set()
 
 def revoke_jti(jti: str, exp_timestamp: float | None = None) -> None:
@@ -86,8 +90,8 @@ def revoke_jti(jti: str, exp_timestamp: float | None = None) -> None:
             ttl = int(exp_timestamp - datetime.now(timezone.utc).timestamp()) if exp_timestamp else 3600
             if ttl > 0:
                 rate_limiter.redis.setex(f"revoked_jti:{jti}", ttl, "1")
-    except Exception:
-        pass
+    except (AttributeError, TypeError, OSError) as exc:
+        log.debug("Redis revocation failed, using memory blocklist", error=str(exc))
 
 
 def decode_token(token: str) -> dict:
@@ -104,8 +108,8 @@ def decode_token(token: str) -> dict:
                     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="token has been revoked")
             except HTTPException:
                 raise
-            except Exception:
-                pass
+            except (AttributeError, TypeError, OSError) as exc:
+                log.debug("Redis revocation check failed, using memory blocklist", error=str(exc))
         return payload
     except jwt.PyJWTError as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid or expired token") from exc
@@ -131,7 +135,7 @@ def optional_user(credentials: HTTPAuthorizationCredentials = Depends(bearer), d
         user = db.get(User, payload["sub"])
         if user and user.active:
             return user
-    except Exception:
+    except (HTTPException, jwt.PyJWTError, KeyError, ValueError):
         pass
     return None
 
@@ -145,7 +149,7 @@ def require_roles(*roles: "Role"):
     return dependency
 
 
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 
 def _get_fernet_cipher() -> Fernet:
     key = settings.data_encryption_key
@@ -163,7 +167,8 @@ def encrypt_field(val: str | None) -> str | None:
     try:
         cipher = _get_fernet_cipher()
         return cipher.encrypt(val.encode("utf-8")).decode("utf-8")
-    except Exception as exc:
+    except (ValueError, TypeError, InvalidToken) as exc:
+        log.error("Field encryption failure", error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Field encryption failure. Operation aborted for data safety."
@@ -176,8 +181,9 @@ def decrypt_field(val: str | None) -> str | None:
     try:
         cipher = _get_fernet_cipher()
         return cipher.decrypt(val.encode("utf-8")).decode("utf-8")
-    except Exception as exc:
+    except (ValueError, TypeError, InvalidToken) as exc:
         # Fail closed: Do NOT fallback to raw text if decryption fails
+        log.error("Field decryption error", error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Secure storage decryption error. Access denied."

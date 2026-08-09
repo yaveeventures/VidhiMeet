@@ -1,11 +1,11 @@
-import logging
+import structlog
 from datetime import datetime, timezone
 import httpx
 from sqlalchemy.orm import Session
 from ..config import get_settings
 from ..models import Booking, BookingStatus, LawyerProfile, User
 
-logger = logging.getLogger("fastapi")
+logger = structlog.get_logger("dispute_service")
 settings = get_settings()
 
 
@@ -42,8 +42,8 @@ def evaluate_daily_meeting_logs(booking: Booking, db: Session) -> dict:
                                 lawyer_duration_sec += duration
                             elif user_id == booking.client_id:
                                 client_duration_sec += duration
-        except Exception as exc:
-            logger.warning("Failed to fetch Daily.co room logs for %s: %s", room_name, exc)
+        except (httpx.HTTPError, httpx.TimeoutException) as exc:
+            logger.warning("Failed to fetch Daily.co room logs", room_name=room_name, error=str(exc))
 
     # Fallback / Simulated telemetry if no external Daily API key or zero recorded
     if lawyer_duration_sec == 0 and client_duration_sec == 0:

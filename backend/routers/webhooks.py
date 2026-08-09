@@ -1,7 +1,9 @@
 import hashlib
+import json
 import secrets
 
 import stripe
+import structlog
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -11,6 +13,7 @@ from ..db import get_db
 from ..models import Booking, BookingStatus, LawyerBankAccount, WebhookEvent
 from ..services import audit
 
+log = structlog.get_logger("webhooks")
 settings = get_settings()
 
 router = APIRouter(prefix="/api/v1/webhooks", tags=["webhooks"], include_in_schema=False)
@@ -58,7 +61,7 @@ async def phonepe_webhook(request: Request, x_verify: str = Header(alias="X-VERI
     try:
         body_json = json.loads(payload_str)
         base64_response = body_json.get("response", "")
-    except Exception:
+    except (json.JSONDecodeError, UnicodeDecodeError, AttributeError):
         base64_response = ""
 
     hash_input_2 = base64_response + settings.phonepe_salt_key
@@ -73,7 +76,7 @@ async def phonepe_webhook(request: Request, x_verify: str = Header(alias="X-VERI
     try:
         decoded_bytes = base64.b64decode(base64_response)
         response_data = json.loads(decoded_bytes.decode("utf-8"))
-    except Exception as exc:
+    except (ValueError, TypeError, json.JSONDecodeError) as exc:
         raise HTTPException(400, "invalid payload encoding") from exc
 
     event_id = response_data.get("data", {}).get("transactionId", secrets.token_hex(8))

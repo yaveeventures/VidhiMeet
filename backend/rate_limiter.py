@@ -1,12 +1,12 @@
 import time
-import logging
+import structlog
 import json
 from collections import defaultdict
 from threading import Lock
 from fastapi import HTTPException, Request, status
 from .config import get_settings
 
-log = logging.getLogger("fastapi")
+log = structlog.get_logger("rate_limiter")
 
 
 class SlidingWindowRateLimiter:
@@ -18,6 +18,10 @@ class SlidingWindowRateLimiter:
         self._blocked_ips = {}  # ip -> block_until_timestamp
         self._redis_client = None
 
+    @property
+    def redis(self):
+        return self._redis_client
+
     async def init_redis(self):
         s = get_settings()
         if s.redis_url:
@@ -26,8 +30,8 @@ class SlidingWindowRateLimiter:
                 self._redis_client = redis.from_url(s.redis_url, decode_responses=True)
                 await self._redis_client.ping()
                 log.info("Redis rate limiter connected successfully")
-            except Exception as e:
-                log.warning("Redis connection failed for rate limiter, falling back to in-memory: %s", e)
+            except (ImportError, RuntimeError, OSError, Exception) as e:
+                log.warning("Redis connection failed for rate limiter, falling back to in-memory", error=str(e))
                 self._redis_client = None
 
     def _get_tier_limit(self, category: str) -> int:
@@ -58,7 +62,7 @@ class SlidingWindowRateLimiter:
                     data = json.loads(body_bytes)
                     if isinstance(data, dict):
                         account = data.get("email") or data.get("username") or data.get("account")
-            except Exception:
+            except (json.JSONDecodeError, UnicodeDecodeError, ValueError, TypeError):
                 pass
         return str(account).lower().strip() if account else None
 
@@ -121,8 +125,8 @@ class SlidingWindowRateLimiter:
                 return
             except HTTPException:
                 raise
-            except Exception as exc:
-                log.warning("Redis rate limiter error, using in-memory fallback: %s", exc)
+            except (AttributeError, RuntimeError, OSError, Exception) as exc:
+                log.warning("Redis rate limiter error, using in-memory fallback", error=str(exc))
 
         # In-memory fallback
         account_id = None
