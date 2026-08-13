@@ -178,15 +178,16 @@ pytest
 
 ---
 
-## 🔒 Production Hardening Checklist
+## 🔒 Production Hardening & Pre-Deployment Checklist
 
 Before deploying VidhiMeet to production:
-- [ ] **Database & Caching**: Use managed PostgreSQL and Redis instances with automated backups, private VPC peering, and SSL connections.
-- [ ] **TLS & WAF**: Deploy behind a TLS 1.3 terminating Load Balancer or Cloudflare WAF.
-- [ ] **Secret Storage**: Replace all default `.env` credentials with cryptographically secure secrets from AWS Secrets Manager or HashiCorp Vault.
-- [ ] **Stripe Connect**: Configure live Stripe account keys and register signed webhook endpoints.
-- [ ] **Jitsi Server**: Replace public Jitsi room URLs with an authenticated, JWT-backed self-hosted Jitsi instance or 8x8 JaaS tenant.
-- [ ] **Storage Bucket**: Use private AWS S3 bucket with KMS server-side encryption, CORS restrictions, and presigned URLs.
+- [x] **Cryptographic JWT Secret**: Default `jwt_secret` replaced with a 64-character cryptographically secure secret in `backend/config.py` & `.env`.
+- [ ] **Database & Caching**: Deploy PostgreSQL 16 and Redis 7 instances with automated backups, connection pooling, and TLS connections.
+- [ ] **Domain & TLS Hardening**: Configure Nginx reverse proxy (`nginx/vidhimeet.conf`) with Let's Encrypt TLS 1.3 SSL certs and set up DNS A records for subdomains (`lawyer.vidhimeet.in`, `admin.vidhimeet.in`).
+- [ ] **PhonePe Payment Gateway**: Set live `PHONEPE_MERCHANT_ID`, `PHONEPE_SALT_KEY`, and `PHONEPE_SALT_INDEX` in production `.env` and configure `/api/v1/webhooks/phonepe`.
+- [ ] **Video Server Integration**: Configure authenticated Jitsi / Daily.co API tokens (`JITSI_APP_ID`, `JITSI_APP_SECRET`) for secure video room generation.
+- [ ] **Private Document Storage**: Use S3/Cloudflare R2 bucket with KMS server-side encryption, CORS restrictions, and presigned URL access limits.
+- [ ] **DPDPA & Forensic Compliance**: Verify NTP time sync server connectivity (`time.nplindia.org`) and audit log immutability.
 
 ---
 
