@@ -1274,6 +1274,10 @@ function renderLogin(redirect = null, fromBooking = false) {
   const btnG = document.querySelector("#btn-google-login");
   if (btnG) {
     btnG.onclick = async () => {
+      const origG = btnG.innerHTML;
+      btnG.disabled = true;
+      btnG.style.pointerEvents = "none";
+      btnG.innerHTML = `<span class="btn-spinner"></span> <span>Signing in with Google...</span>`;
       try {
         let email = "client@VidhiMeet.com";
         let fullName = "Demo Client";
@@ -1295,6 +1299,9 @@ function renderLogin(redirect = null, fromBooking = false) {
       } catch (err) {
         const errDiv = document.querySelector("#auth-error");
         if (errDiv) errDiv.textContent = err.message || "Google auth failed";
+        btnG.disabled = false;
+        btnG.style.pointerEvents = "";
+        btnG.innerHTML = origG;
       }
     };
   }
@@ -1311,6 +1318,14 @@ function renderLogin(redirect = null, fromBooking = false) {
   
   document.querySelector("#login-form").onsubmit = async (e) => {
     e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.innerHTML : "Sign In";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.style.pointerEvents = "none";
+      submitBtn.innerHTML = `<span class="btn-spinner"></span> Signing In...`;
+    }
+
     const email = document.querySelector("#login-email").value;
     const password = document.querySelector("#login-password").value;
     const errDiv = document.querySelector("#auth-error");
@@ -1321,6 +1336,11 @@ function renderLogin(redirect = null, fromBooking = false) {
       if (user && user.role === "lawyer") {
         LexAPI.logout();
         errDiv.textContent = "This portal is for clients only. Lawyers must log in via the Lawyer Portal.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.style.pointerEvents = "";
+          submitBtn.innerHTML = originalText;
+        }
         return;
       }
       
@@ -1351,6 +1371,11 @@ function renderLogin(redirect = null, fromBooking = false) {
       }
     } catch (err) {
       errDiv.textContent = err.message || "Login failed";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.pointerEvents = "";
+        submitBtn.innerHTML = originalText;
+      }
     }
   };
 }
@@ -3202,25 +3227,11 @@ function openFeedbackModal() {
       if (!comments) return;
 
       try {
-        const token = localStorage.getItem("token");
-        const headers = { "Content-Type": "application/json" };
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-
-        const res = await fetch("/api/v1/public/feedback", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ rating, comments })
-        });
-        if (res.ok) {
-          close();
-          toast("Thank you for your valuable feedback!");
-        } else {
-          const err = await res.json();
-          toast("Error submitting feedback: " + (err.detail || "Please try again"));
-        }
-      } catch (err) {
+        await LexAPI.submitPlatformFeedback({ rating, comments });
         close();
         toast("Thank you for your valuable feedback!");
+      } catch (err) {
+        toast("Error submitting feedback: " + (err.message || "Please try again"));
       }
     };
   }

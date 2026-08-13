@@ -21,8 +21,6 @@ router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 @router.post("/register", response_model=TokenResponse, status_code=201, dependencies=[Depends(rate_limit_dependency("auth"))])
 def register(payload: RegisterRequest, db: Session = Depends(get_db)):
     email = payload.email.lower()
-    if not payload.consent_privacy_policy or not payload.consent_terms:
-        raise HTTPException(422, "consent to both privacy policy and terms is mandatory under DPDPA")
 
     if db.scalar(select(User).where(User.email == email)):
         raise HTTPException(409, "account already exists")

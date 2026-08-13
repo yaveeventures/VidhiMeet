@@ -44,6 +44,13 @@ class RegisterRequest(BaseModel):
             raise ValueError("admin accounts cannot self-register")
         return value
 
+    @field_validator("consent_privacy_policy", "consent_terms")
+    @classmethod
+    def validate_consent(cls, v: bool) -> bool:
+        if not v:
+            raise ValueError("consent to both privacy policy and terms is mandatory under DPDPA")
+        return v
+
     @field_validator("date_of_birth")
     @classmethod
     def must_be_adult(cls, dob: date) -> date:

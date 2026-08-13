@@ -20,7 +20,7 @@ from ..schemas import (
 )
 from ..security import current_user, require_roles
 from ..services import (
-    audit, calculate_cancellation_policy, create_payment_intent, evaluate_daily_meeting_logs,
+    audit, calculate_cancellation_policy, create_phonepe_payment, evaluate_daily_meeting_logs,
     get_daily_meeting_details, initiate_refund, presign_document, validate_intake
 )
 from ..services.event_bus import event_bus
@@ -111,12 +111,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                       jitsi_room=f"lc-{secrets.token_urlsafe(24)}")
     db.add(booking); db.flush()
 
-    payment_url = None
-    if settings.phonepe_merchant_id and settings.phonepe_salt_key:
-        from ..services import create_phonepe_payment
-        payment_url = create_phonepe_payment(booking, str(request.base_url))
-    else:
-        booking.stripe_payment_intent_id = create_payment_intent(booking, lawyer)
+    payment_url = create_phonepe_payment(booking, str(request.base_url))
 
     audit(db, user, "booking.created", "booking", booking.id, {"disclaimer": payload.disclaimer_version})
     db.commit(); db.refresh(booking)
@@ -241,7 +236,7 @@ def complete_booking(booking_id: str, user: User = Depends(current_user), db: Se
     # Enforce minimum call duration of 15 minutes when completed by the lawyer
     if user.role == Role.LAWYER:
         from ..services import verify_daily_meeting_duration
-        room_name = booking.jitsi_room or f"lc-{booking.id}"
+        room_name = booking.room_name
         duration_mins = verify_daily_meeting_duration(room_name)
         if duration_mins < 15.0:
             raise HTTPException(400, f"Consultation duration is too short ({duration_mins:.1f} mins). A minimum call duration of 15 minutes is required before completing a booking.")

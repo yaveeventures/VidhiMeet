@@ -14,7 +14,8 @@ async function doAdminLogin() {
 
   errorEl.style.display = "none";
   btn.disabled = true;
-  btn.textContent = "Authenticating\u2026";
+  btn.style.pointerEvents = "none";
+  btn.innerHTML = `<span class="btn-spinner"></span> Authenticating\u2026`;
 
   try {
     await LexAPI.login(email, password);
@@ -26,7 +27,8 @@ async function doAdminLogin() {
       errorEl.textContent = "Access Denied: This portal is restricted to authorized administrators only.";
       errorEl.style.display = "block";
       btn.disabled = false;
-      btn.textContent = "Sign In to Admin Console \u2192";
+      btn.style.pointerEvents = "";
+      btn.innerHTML = "Sign In to Admin Console &rarr;";
       return;
     }
 
@@ -35,7 +37,8 @@ async function doAdminLogin() {
     errorEl.textContent = err.detail || err.message || "Invalid credentials. Please try again.";
     errorEl.style.display = "block";
     btn.disabled = false;
-    btn.textContent = "Sign In to Admin Console \u2192";
+    btn.style.pointerEvents = "";
+    btn.innerHTML = "Sign In to Admin Console &rarr;";
   }
 }
 

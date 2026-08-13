@@ -9,7 +9,6 @@ from .booking_service import (
 )
 from .drafting_service import presign_document
 from .payment_service import (
-    create_payment_intent,
     create_phonepe_payment,
     create_phonepe_verification_payment,
     initiate_refund,
@@ -27,7 +26,6 @@ __all__ = [
     "verify_daily_meeting_duration",
     "calculate_cancellation_policy",
     "presign_document",
-    "create_payment_intent",
     "create_phonepe_payment",
     "create_phonepe_verification_payment",
     "initiate_refund",

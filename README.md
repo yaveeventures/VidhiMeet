@@ -16,7 +16,7 @@
 - **Consultation Management**: View upcoming, in-progress, and past video meetings.
 - **Embedded Jitsi Video Rooms**: Secure, zero-installation video consultation room powered by Jitsi Meet API with JWT room tokens.
 - **Real-Time Client Chat**: WebSocket-powered live chat during and before consultations.
-- **Earnings & Payouts**: Bank account management, Stripe Connect onboarding, transaction history, and payout tracking.
+- **Earnings & Payouts**: Bank account management, UPI VPA verification, transaction history, and payout tracking.
 - **Availability Calendar**: Custom block-out times and recurring weekly availability rules.
 
 ### 🛡️ **Admin Console**
@@ -45,7 +45,7 @@
           ┌────────────────────┘          │           └────────────────────┐
           ▼                               ▼                                ▼
 ┌──────────────────┐            ┌──────────────────┐             ┌──────────────────┐
-│ PostgreSQL DB    │            │  Redis Service   │             │ Stripe / Storage │
+│ PostgreSQL DB    │            │  Redis Service   │             │ PhonePe / Storage│
 │ (SQLAlchemy ORM) │            │ (Cache & Limits) │             │ (Payments & S3)  │
 └──────────────────┘            └──────────────────┘             └──────────────────┘
 ```
@@ -53,7 +53,7 @@
 * **Backend Framework**: Python 3.11+, [FastAPI](https://fastapi.tiangolo.com/), Uvicorn async ASGI server.
 * **Database & Migration**: PostgreSQL with [SQLAlchemy 2.0](https://www.sqlalchemy.org/) ORM & [Alembic](https://alembic.sqlalchemy.org/) migrations (SQLite supported for dev).
 * **Real-time & Caching**: WebSockets for live chat, Server-Sent Events (SSE), and Redis for session caching & rate limiting.
-* **Payments & Escrow**: Stripe Connect payment intent workflows with signed webhook verification.
+* **Payments & Escrow**: PhonePe Gateway payment workflows with signed checksum webhook verification.
 * **Security & Auth**: PBKDF2 password hashing, short-lived JWT tokens, security headers, XSS sanitization, and NTP time verification.
 * **Frontend**: Responsive HTML5, Modern CSS custom design system, Vanilla JavaScript ES6+, and Jitsi External API integration.
 

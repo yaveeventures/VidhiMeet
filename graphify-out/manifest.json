@@ -5,28 +5,28 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1786174643.7182307,
-    "ast_hash": "8e5d31432217304fc7e231d7e55c77aa",
+    "mtime": 1786610423.1078932,
+    "ast_hash": "9ec5f829dba505cd1f4b5557db98d796",
     "semantic_hash": ""
   },
   "backend/db.py": {
-    "mtime": 1786276441.7446585,
-    "ast_hash": "4b8fb259d4f36c23de6a66b50f5cccfb",
+    "mtime": 1786531560.692092,
+    "ast_hash": "a08243bef047f4b5bf4b1ee7a0902e24",
     "semantic_hash": ""
   },
   "backend/main.py": {
-    "mtime": 1786282332.9530435,
-    "ast_hash": "c08eb26296b36d02862c77eefac1279d",
+    "mtime": 1786543249.5343661,
+    "ast_hash": "a3f7f4cc59eca6fd8a2e034e4c1b3e66",
     "semantic_hash": ""
   },
   "backend/models.py": {
-    "mtime": 1786269534.1202786,
-    "ast_hash": "e6f85b60ef2126abf47d69c635017f49",
+    "mtime": 1786374261.7088878,
+    "ast_hash": "ed7a81da9ea9e0441756247065d49923",
     "semantic_hash": ""
   },
   "backend/schemas.py": {
-    "mtime": 1786269600.1947875,
-    "ast_hash": "2549f361722f402a0491ab6c1a6f520a",
+    "mtime": 1786374303.4826891,
+    "ast_hash": "e025112a34fa1c6967be953260cef209",
     "semantic_hash": ""
   },
   "backend/security.py": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1786275768.66514,
-    "ast_hash": "0cdc47ad96b359538699cb7e02f82059",
+    "mtime": 1786610475.54494,
+    "ast_hash": "fda4a33bb23df8467616522ac70bc0e0",
     "semantic_hash": ""
   },
   "docker-compose.yml": {
@@ -95,8 +95,8 @@
     "semantic_hash": ""
   },
   "requirements.txt": {
-    "mtime": 1786282203.7323003,
-    "ast_hash": "f69db502960c739258fced94a9060bcd",
+    "mtime": 1786610404.1027472,
+    "ast_hash": "9ab834bcfad72003547faf70d2ea2302",
     "semantic_hash": ""
   },
   "tests/test_compliance.py": {
@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "backend/routers/auth.py": {
-    "mtime": 1786269645.8324246,
-    "ast_hash": "d17f38d3132308926b537412d4cb4ef6",
+    "mtime": 1786374313.931772,
+    "ast_hash": "7f1bc4b37775e44a5212a58cea9a0c87",
     "semantic_hash": ""
   },
   "backend/routers/bank_accounts.py": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "backend/routers/bookings.py": {
-    "mtime": 1786278423.926751,
-    "ast_hash": "1384829eaf2b3de2898baa56dd106cdc",
+    "mtime": 1786610924.9297447,
+    "ast_hash": "56cf3024bee7bf1bff81d4d961eb152d",
     "semantic_hash": ""
   },
   "backend/routers/drafting.py": {
@@ -175,13 +175,13 @@
     "semantic_hash": ""
   },
   "backend/routers/webhooks.py": {
-    "mtime": 1786277803.649242,
-    "ast_hash": "ff0c749ab675209ab0dc8ff5f4423e57",
+    "mtime": 1786610442.6847098,
+    "ast_hash": "19e24cc365ad40de81d1e2fbb48ccbc5",
     "semantic_hash": ""
   },
   "frontend/js/admin.js": {
-    "mtime": 1786262495.7562592,
-    "ast_hash": "d5666580d18fa4c5c0714f4ca2c6a3f1",
+    "mtime": 1786330698.533825,
+    "ast_hash": "40def65cfe6b336f4a25fc479e7d5999",
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
@@ -190,8 +190,8 @@
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1786257708.519159,
-    "ast_hash": "047111b0e25570a6aebd02f20b24f273",
+    "mtime": 1786374338.5918407,
+    "ast_hash": "e80e7ed86f213cfd76f7b85c4510e207",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.js": {
@@ -210,8 +210,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1786261893.2228374,
-    "ast_hash": "5d5a1a4e92d884aa247431bdc0600db5",
+    "mtime": 1786330683.0440676,
+    "ast_hash": "eb8a1f05737249f1fd114fd736e1c266",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "frontend/admin.html": {
-    "mtime": 1786262994.489699,
-    "ast_hash": "ad4cc32f7bdc318ef7ddf67148800de9",
+    "mtime": 1786610463.5665596,
+    "ast_hash": "dbffb4e84bc8e6bcfc660ff807138ea1",
     "semantic_hash": ""
   },
   "frontend/index.html": {
@@ -250,18 +250,18 @@
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
-    "mtime": 1786263014.9120944,
-    "ast_hash": "57bf25c93ea3a7147ad676ef715ec27e",
+    "mtime": 1786610459.3281944,
+    "ast_hash": "a42ee03c166a9027d8c9c62c0dd51004",
     "semantic_hash": ""
   },
   "frontend/privacy.html": {
-    "mtime": 1786189832.001356,
-    "ast_hash": "10dc1ca190c3c33acc59036926cdf54e",
+    "mtime": 1786338900.538234,
+    "ast_hash": "a42561cf6056a327091ad2650a14320f",
     "semantic_hash": ""
   },
   "frontend/terms.html": {
-    "mtime": 1786189832.0056348,
-    "ast_hash": "6f66f24554e6d1dcaec60345e5911c35",
+    "mtime": 1786610467.685577,
+    "ast_hash": "ff0507ddb67ebea6ce166a0829a29f1e",
     "semantic_hash": ""
   },
   "backend/sanitizer.py": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "backend/services/__init__.py": {
-    "mtime": 1786085076.3629122,
-    "ast_hash": "57ae8ddfda8aed09057348744aeb322d",
+    "mtime": 1786610877.4006333,
+    "ast_hash": "1a0f83b09f6c589ed2280665b15f4ed1",
     "semantic_hash": ""
   },
   "backend/services/auth_service.py": {
@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "backend/services/booking_service.py": {
-    "mtime": 1786282592.7265675,
-    "ast_hash": "3246e46f6d91be27bcd193b76d584ba2",
+    "mtime": 1786374271.0875862,
+    "ast_hash": "af34c547761e5343d730574c2dc854bd",
     "semantic_hash": ""
   },
   "backend/services/compliance_service.py": {
@@ -330,8 +330,8 @@
     "semantic_hash": ""
   },
   "backend/services/payment_service.py": {
-    "mtime": 1786282583.4673762,
-    "ast_hash": "fc24e448a53c40039588ac57af61cd24",
+    "mtime": 1786610436.2719364,
+    "ast_hash": "ff05252802ff0e506a47cf51b8aca358",
     "semantic_hash": ""
   },
   "backend/tasks.py": {
@@ -370,8 +370,8 @@
     "semantic_hash": ""
   },
   "backend/services/dispute_service.py": {
-    "mtime": 1786282587.5658576,
-    "ast_hash": "46fa5009a268739adb208f5fd9f3f053",
+    "mtime": 1786374280.4572418,
+    "ast_hash": "e2b585882d459a186940278d20387726",
     "semantic_hash": ""
   },
   "tests/test_dispute_workflow.py": {
@@ -405,8 +405,8 @@
     "semantic_hash": ""
   },
   "frontend/admin-login.html": {
-    "mtime": 1786208962.0499413,
-    "ast_hash": "9e92c5649f9632b175f2ff7eaf680db1",
+    "mtime": 1786329814.7223027,
+    "ast_hash": "6f48ae3793a3c2082bbc775ea5bafdae",
     "semantic_hash": ""
   },
   "backend/routers/events.py": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.js": {
-    "mtime": 1786208947.1404867,
-    "ast_hash": "98813d95291e1de0221beb1a1f9512f6",
+    "mtime": 1786329821.9119604,
+    "ast_hash": "2f93c28978bea087ca9658ef76b55fb2",
     "semantic_hash": ""
   },
   "frontend/js/realtime.js": {
@@ -477,6 +477,11 @@
   "tests/test_security_medium.py": {
     "mtime": 1786270836.1516714,
     "ast_hash": "a8750a25ff8c3526234bfd2179147e9d",
+    "semantic_hash": ""
+  },
+  "scripts/setup_domain_ssl.sh": {
+    "mtime": 1786604381.8864007,
+    "ast_hash": "a79b4345906a153ebfe9a7045b3799e6",
     "semantic_hash": ""
   }
 }

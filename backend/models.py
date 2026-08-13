@@ -193,6 +193,10 @@ class Booking(Base):
         return self.base_price_minor - self.lawyer_platform_fee_minor
 
     @property
+    def room_name(self) -> str:
+        return self.jitsi_room or f"lc-{self.id}"
+
+    @property
     def last_message_at(self) -> datetime:
         if self.messages:
             return max(m.created_at for m in self.messages)

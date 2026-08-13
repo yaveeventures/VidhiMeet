@@ -12,9 +12,7 @@ class Settings(BaseSettings):
     access_token_minutes: int = 60
     refresh_token_days: int = 14
     allowed_origins: str = "http://localhost:8080"
-    stripe_secret_key: str = ""
-    stripe_webhook_secret: str = ""
-    stripe_platform_fee_percent: int = 5
+    platform_fee_percent: int = 5
     video_provider: str = "jitsi"
     jitsi_app_id: str = ""
     jitsi_app_secret: str = ""
@@ -90,8 +88,8 @@ class Settings(BaseSettings):
             raise ValueError("DATA_ENCRYPTION_KEY is required in production")
         if not self.document_bucket:
             raise ValueError("DOCUMENT_BUCKET is required in production")
-        if not self.stripe_secret_key or not self.stripe_webhook_secret:
-            raise ValueError("Stripe keys and webhook secret are required in production")
+        if not self.phonepe_merchant_id or not self.phonepe_salt_key:
+            raise ValueError("PhonePe merchant ID and salt key are required in production")
         if self.video_provider == "jitsi" and (not self.jitsi_app_id or not self.jitsi_app_secret):
             raise ValueError("JITSI_APP_ID and JITSI_APP_SECRET are required for production Jitsi rooms")
         if self.video_provider == "daily" and not self.daily_api_key:

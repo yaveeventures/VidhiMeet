@@ -22,7 +22,7 @@ def validate_intake(practice: Practice, intake: dict):
 
 def get_jitsi_meeting_details(booking: Booking, user: User) -> dict:
     """Return browser-embeddable Jitsi meeting details scoped to a booking."""
-    room_name = booking.jitsi_room or f"lc-{booking.id}"
+    room_name = booking.room_name
     domain = (settings.jitsi_domain or "meet.jit.si").strip().strip("/")
     app_id = settings.jitsi_app_id.strip()
     token = None
@@ -65,7 +65,7 @@ def get_jitsi_meeting_details(booking: Booking, user: User) -> dict:
 def get_daily_meeting_details(booking: Booking, user: User) -> dict:
     api_key = settings.daily_api_key
     domain = settings.daily_domain or "lexconnect"
-    room_name = booking.jitsi_room or f"lc-{booking.id}"
+    room_name = booking.room_name
     
     if not api_key:
         demo_room = "https://demo.daily.co/hello"

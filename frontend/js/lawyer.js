@@ -55,6 +55,11 @@ function checkLawyerSession() {
   $("#sidebar").style.display = "flex";
   $(".app").style.display = "block";
   $("#lawyer-auth-page").style.display = "none";
+
+  const initialHash = window.location.hash.replace("#", "");
+  if (initialHash && document.getElementById(initialHash)) {
+    view(initialHash, false);
+  }
   return true;
 }
 
@@ -80,7 +85,14 @@ function initLawyerAuth() {
     loginSection.style.display = "block";
   };
 
-  const handleLawyerGoogleAuth = async () => {
+  const handleLawyerGoogleAuth = async (e) => {
+    const btnTarget = (e && e.currentTarget) ? e.currentTarget : $("#btn-lawyer-google-login");
+    const origHtml = btnTarget ? btnTarget.innerHTML : "";
+    if (btnTarget) {
+      btnTarget.disabled = true;
+      btnTarget.style.pointerEvents = "none";
+      btnTarget.innerHTML = `<span class="btn-spinner"></span> <span>Signing in with Google...</span>`;
+    }
     try {
       let email = "aanya@VidhiMeet.com";
       let fullName = "Adv. Aanya Rao";
@@ -99,6 +111,11 @@ function initLawyerAuth() {
       if (!user || user.role !== "lawyer") {
         LexAPI.logout();
         toast("Access denied. Only lawyers can access this portal.", true);
+        if (btnTarget) {
+          btnTarget.disabled = false;
+          btnTarget.style.pointerEvents = "";
+          btnTarget.innerHTML = origHtml;
+        }
         return;
       }
       toast(`Welcome, ${fullName}!`);
@@ -106,6 +123,11 @@ function initLawyerAuth() {
       loadData();
     } catch (err) {
       toast(err.message || "Google auth failed", true);
+      if (btnTarget) {
+        btnTarget.disabled = false;
+        btnTarget.style.pointerEvents = "";
+        btnTarget.innerHTML = origHtml;
+      }
     }
   };
 
@@ -116,6 +138,14 @@ function initLawyerAuth() {
 
   $("#lawyer-login-form").onsubmit = async (e) => {
     e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.innerHTML : "Sign In";
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.style.pointerEvents = "none";
+      submitBtn.innerHTML = `<span class="btn-spinner"></span> Signing In...`;
+    }
+
     const email = $("#lawyer-login-email").value;
     const password = $("#lawyer-login-password").value;
     const errDiv = $("#lawyer-login-error");
@@ -127,6 +157,11 @@ function initLawyerAuth() {
       if (!user || user.role !== "lawyer") {
         LexAPI.logout();
         errDiv.textContent = "Access denied. Only lawyers can access this portal.";
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.style.pointerEvents = "";
+          submitBtn.innerHTML = originalText;
+        }
         return;
       }
       toast("Welcome back!");
@@ -134,6 +169,11 @@ function initLawyerAuth() {
       loadData();
     } catch (err) {
       errDiv.textContent = err.message || "Invalid credentials";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.pointerEvents = "";
+        submitBtn.innerHTML = originalText;
+      }
     }
   };
 
@@ -1710,16 +1750,34 @@ async function handleSaveProfile(e) {
   }
 }
 
-// Navigation View Switcher
-function view(id) {
+// Navigation View Switcher with Browser History Support
+function view(id, pushState = true) {
+  const targetView = document.getElementById(id);
+  if (!targetView) return;
+
   document.querySelectorAll(".view").forEach(x => x.classList.toggle("active", x.id === id));
   document.querySelectorAll("nav button").forEach(x => x.classList.toggle("active", x.dataset.view === id));
   if (id === "drafting") {
     loadDraftingPortal();
   }
-  $("#sidebar").classList.remove("open");
+
+  if (pushState && window.location.hash !== `#${id}`) {
+    history.pushState({ view: id }, "", `#${id}`);
+  }
+
+  $("#sidebar")?.classList.remove("open");
   scrollTo(0, 0);
 }
+
+// Handle Browser Back / Forward Button Navigation inside Lawyer Portal
+window.addEventListener("popstate", () => {
+  const user = LexAPI.getCurrentUser();
+  if (!user || user.role !== "lawyer") return;
+  const hash = window.location.hash.replace("#", "") || "overview";
+  if (document.getElementById(hash)) {
+    view(hash, false);
+  }
+});
 
 // Meeting room initiation
 async function joinRoom(bookingId, clientName) {

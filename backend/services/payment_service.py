@@ -2,28 +2,12 @@ import base64
 import hashlib
 import json
 import structlog
-import stripe
 import httpx
 from ..config import get_settings
 from ..models import Booking, LawyerProfile
 
 logger = structlog.get_logger("payment_service")
 settings = get_settings()
-
-def create_payment_intent(booking: Booking, lawyer: LawyerProfile) -> str | None:
-    if not settings.stripe_secret_key:
-        return None
-    stripe.api_key = settings.stripe_secret_key
-    fee = booking.platform_fee_minor
-    params = {
-        "amount": booking.amount_minor, "currency": booking.currency.lower(),
-        "capture_method": "automatic", "metadata": {"booking_id": booking.id},
-        "application_fee_amount": fee,
-    }
-    if lawyer.stripe_account_id:
-        params["transfer_data"] = {"destination": lawyer.stripe_account_id}
-    intent = stripe.PaymentIntent.create(**params, idempotency_key=f"booking:{booking.id}")
-    return intent.id
 
 def create_phonepe_payment(booking: Booking, base_url: str) -> str | None:
     if not settings.phonepe_merchant_id or not settings.phonepe_salt_key:
@@ -149,20 +133,7 @@ def initiate_refund(booking: Booking, refund_amount_minor: int, reason: str = "C
     if refund_amount_minor <= 0:
         return refund_txn_id
 
-    # 1. Stripe Refund Execution
-    if booking.stripe_payment_intent_id and settings.stripe_secret_key:
-        try:
-            stripe.api_key = settings.stripe_secret_key
-            refund = stripe.Refund.create(
-                payment_intent=booking.stripe_payment_intent_id,
-                amount=refund_amount_minor,
-                reason="requested_by_customer"
-            )
-            return refund.id
-        except stripe.error.StripeError as e:
-            logger.error("Stripe refund error", booking_id=booking.id, error=str(e))
-
-    # 2. PhonePe Refund Execution
+    # PhonePe Refund Execution
     if booking.phonepe_transaction_id and settings.phonepe_merchant_id and settings.phonepe_salt_key:
         merchant_id = settings.phonepe_merchant_id
         salt_key = settings.phonepe_salt_key

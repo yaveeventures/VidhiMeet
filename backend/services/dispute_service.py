@@ -15,7 +15,7 @@ def evaluate_daily_meeting_logs(booking: Booking, db: Session) -> dict:
     calculates active presence duration for lawyer and client,
     and applies the 3-Step Dispute Matrix rules.
     """
-    room_name = booking.jitsi_room or f"lc-{booking.id}"
+    room_name = booking.room_name
     api_key = getattr(settings, "daily_api_key", None)
     
     lawyer_duration_sec = 0

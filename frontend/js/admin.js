@@ -126,6 +126,11 @@ function renderAll() {
   renderPayouts();
   renderFeedback();
   restoreFeeConfig();
+
+  const initialHash = window.location.hash.replace("#", "");
+  if (initialHash && document.getElementById(initialHash)) {
+    switchView(initialHash, false);
+  }
 }
 
 function renderMarketplaceChart(days) {
@@ -1044,15 +1049,33 @@ async function refreshSystemStatusHealth() {
   }
 }
 
-function switchView(id) {
+function switchView(id, pushState = true) {
+  const targetView = document.getElementById(id);
+  if (!targetView) return;
+
   document.querySelectorAll(".view").forEach(x => x.classList.toggle("active", x.id === id));
   document.querySelectorAll("nav button").forEach(x => x.classList.toggle("active", x.dataset.view === id));
   if (id === "security") {
     refreshSystemStatusHealth();
   }
+
+  if (pushState && window.location.hash !== `#${id}`) {
+    history.pushState({ view: id }, "", `#${id}`);
+  }
+
   setAdminSidebarOpen(false);
   scrollTo(0, 0);
 }
+
+// Handle Browser Back / Forward Button Navigation inside Admin Portal
+window.addEventListener("popstate", () => {
+  const currentUser = LexAPI.getCurrentUser();
+  if (!currentUser || String(currentUser.role).toLowerCase() !== "admin") return;
+  const hash = window.location.hash.replace("#", "") || "overview";
+  if (document.getElementById(hash)) {
+    switchView(hash, false);
+  }
+});
 
 function setAdminSidebarOpen(open) {
   const sidebar = $("#sidebar");

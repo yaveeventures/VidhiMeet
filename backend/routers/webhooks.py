@@ -2,7 +2,6 @@ import hashlib
 import json
 import secrets
 
-import stripe
 import structlog
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from sqlalchemy import select
@@ -17,30 +16,6 @@ log = structlog.get_logger("webhooks")
 settings = get_settings()
 
 router = APIRouter(prefix="/api/v1/webhooks", tags=["webhooks"], include_in_schema=False)
-
-
-@router.post("/stripe")
-async def stripe_webhook(request: Request, stripe_signature: str = Header(alias="Stripe-Signature"),
-                         db: Session = Depends(get_db)):
-    if not settings.stripe_webhook_secret:
-        raise HTTPException(503, "webhook not configured")
-    payload = await request.body()
-    try:
-        event = stripe.Webhook.construct_event(payload, stripe_signature, settings.stripe_webhook_secret)
-    except (ValueError, stripe.error.SignatureVerificationError) as exc:
-        raise HTTPException(400, "invalid webhook") from exc
-    if db.get(WebhookEvent, event["id"]):
-        return {"received": True, "duplicate": True}
-    db.add(WebhookEvent(provider_id=event["id"], event_type=event["type"]))
-    obj = event["data"]["object"]
-    booking = db.scalar(select(Booking).where(Booking.stripe_payment_intent_id == obj.get("id")))
-    if booking and event["type"] == "payment_intent.succeeded":
-        booking.status = BookingStatus.CONFIRMED
-    elif booking and event["type"] == "payment_intent.payment_failed":
-        booking.status = BookingStatus.CANCELLED
-    audit(db, None, f"stripe.{event['type']}", "booking", booking.id if booking else None)
-    db.commit()
-    return {"received": True}
 
 
 @router.post("/phonepe")

@@ -543,6 +543,25 @@ h1 {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+button:disabled, .btn:disabled, .btn-admin-submit:disabled, .btn-google-auth:disabled {
+  opacity: 0.75 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}
+
 /* Empty state */
 .meetings-empty {
   grid-column: 1/-1;

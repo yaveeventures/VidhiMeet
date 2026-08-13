@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -70,42 +70,48 @@
 
   <main class="white">
     <div class="legal-content">
-      <small class="eyebrow">Trust & Privacy</small>
+      <small class="eyebrow">Data Fiduciary Protection & Privacy</small>
       <h1>Privacy Policy</h1>
-      <div class="meta">Last Updated: July 15, 2026</div>
+      <div class="meta">Last Updated: August 10, 2026</div>
 
-      <p>At <strong>VidhiMeet</strong>, we believe privacy is a fundamental promise. As a marketplace provider connecting clients with verified legal professionals, we handle highly sensitive legal matters. This policy details how we handle, secure, and protect your information, with special compliance guidelines for the <strong>Digital Personal Data Protection Act, 2023 (DPDP Act)</strong>.</p>
+      <p>At <strong>VidhiMeet</strong>, privacy and legal confidentiality are foundational obligations. As a Data Fiduciary under the <strong>Digital Personal Data Protection Act, 2023 (DPDP Act)</strong>, we process personal data with strict adherence to purpose limitation, data minimization, and field-level encryption. This Privacy Policy outlines how your personal data, consultation metadata, and legal documents are gathered, processed, secured, and purged.</p>
 
-      <h2>1. Information We Collect</h2>
-      <p>To deliver a highly functional marketplace, we collect two types of information:</p>
+      <h2>1. Information Collected & Mandatory Age Verification (DPDP Act §9)</h2>
+      <p>To operate a compliant legal marketplace, we collect the following categories of data:</p>
       <ul>
-        <li><strong>Basic Profile Data:</strong> Names, email addresses, and contact numbers. Lawyer profiles also store verified credential records, practice details, and verified government IDs.</li>
-        <li><strong>Consultation Metadata & Documents:</strong> Intake form answers, dates/times of consultations, chat messages, and legal case documents.</li>
+        <li><strong>Profile & Verification Data:</strong> User full name, email address, date of birth (stored to verify DPDP §9 18+ legal capacity), and password hash. Advocate profiles store Bar Council enrollment numbers, practice addresses, Aadhaar numbers, and verified bank account/UPI details.</li>
+        <li><strong>Consultation & Case Artifacts:</strong> Intake form responses, appointment schedules, encrypted chat transcripts, document drafting proposals, and uploaded case PDFs/DOCX files.</li>
+        <li><strong>Automated Telemetry & Network Logs:</strong> IP address, user-agent details, and video room connection durations (used solely for dispute resolution and security rate-limiting).</li>
       </ul>
 
-      <h2>2. End-to-End Encryption & Security</h2>
-      <p>Unlike standard legal directories, VidhiMeet provides integrated secure tooling:</p>
+      <h2>2. Field-Level AES-256 Encryption at Rest</h2>
+      <p>Unlike standard web directories, sensitive PII and financial records in VidhiMeet are protected by **field-level encryption at rest** using Fernet AES-256 keys (`EncryptedString` database decorator):</p>
       <ul>
-        <li><strong>Secure Video Rooms:</strong> All consultation calls are run through our custom end-to-end encrypted Daily video service, bypassing public logs.</li>
-        <li><strong>Secure Vault:</strong> All uploaded case documents and records are encrypted at rest using industry-standard keys. Access is restricted exclusively to you and your assigned lawyer.</li>
-        <li><strong>Chat Security:</strong> Instant text messaging within the app uses localized secure key derivation, meaning conversations are encrypted.</li>
+        <li><strong>Encrypted Advocate Credentials:</strong> Aadhaar numbers, practice addresses, bar license URLs, and mobile numbers are stored in encrypted format in the database engine.</li>
+        <li><strong>Encrypted Financial Records:</strong> Advocate bank account numbers and IFSC codes are encrypted at rest and masked in UI displays (`••••••••1234`).</li>
+        <li><strong>Case Document Vault:</strong> Uploaded draft documents and intake attachments are stored in private encrypted storage accessible only via short-lived, signed URLs.</li>
       </ul>
 
-      <h2>3. Consent and Data Processing (DPDP Act 2023)</h2>
-      <p>Under the DPDP Act 2023, you retain absolute authority over your personal information:</p>
+      <h2>3. Consent Management & Data Principal Rights (DPDP Act 2023)</h2>
+      <p>Under the DPDP Act 2023, clients and legal professionals retain full authority over their personal data as Data Principals:</p>
       <ul>
-        <li>We process your data strictly on the grounds of <strong>explicit consent</strong> for executing your scheduled lawyer consultations.</li>
-        <li>You have the right to withdraw consent at any time, request structural corrections, or request complete erasure of your platform records.</li>
+        <li><strong>Explicit Consent Logging:</strong> Account creation and consultation bookings log explicit consent timestamps tied to specific policy versions (`v1.0`).</li>
+        <li><strong>Right to Access & Correction:</strong> Users can inspect and update profile details, bank details, and consultation records via their portal dashboard.</li>
+        <li><strong>Right to Erasure & Consent Withdrawal:</strong> You may withdraw consent or request complete erasure of your platform data by contacting our Data Protection Officer. Upon request, automated purge routines (`data_retention_purge.py`) sanitize your account records while preserving statutory tax/escrow audit logs.</li>
       </ul>
 
-      <h2>4. Data Retention</h2>
-      <p>We retain transaction details and consultation histories to settle payouts, tax logs, and dispute records. Personal case documentation and secure chat records can be purged at any time at the request of the client.</p>
+      <h2>4. Forensic Timestamps & Automated Data Retention Purge</h2>
+      <p>In accordance with CERT-In cybersecurity directives and tax retention guidelines:</p>
+      <ul>
+        <li><strong>NTP Timestamp Verification:</strong> Consent logs, audit trails, and dispute records are timestamped using NTP-synchronized UTC/IST clocks (`ntp_time.py`) to prevent forensic alteration.</li>
+        <li><strong>Automated Retention Schedule:</strong> Revoked refresh tokens, expired session keys, and withdrawn consent data are automatically purged on a scheduled basis.</li>
+      </ul>
 
-      <h2>5. Changes to this Policy</h2>
-      <p>We may modify this policy periodically to align with updated safety policies. Changes will be updated on this page with a revised date stamp.</p>
+      <h2>5. Designated Data Protection Officer (DPO) & Incident Notification</h2>
+      <p>In compliance with DPDP Act rules and CERT-In mandates, VidhiMeet maintains a dedicated Data Protection Officer desk. In the unlikely event of a security incident affecting personal data, impacted Data Principals and the Data Protection Board of India will be notified within statutory timelines (72 hours).</p>
 
-      <h2>6. Contact Us</h2>
-      <p>For support requests or details on your data rights, contact us at <strong>privacy@vidhimeet.in</strong>.</p>
+      <h2>6. Contact Data Protection Officer</h2>
+      <p>To exercise your data rights, request data erasure, or log a privacy complaint, reach our DPO desk at <strong>dpo@vidhimeet.in</strong> or <strong>privacy@vidhimeet.in</strong>.</p>
     </div>
   </main>
 
