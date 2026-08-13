@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     database_url: str = "sqlite:///./lexconnect.db"
     redis_url: str = "redis://localhost:6379/0"
-    jwt_secret: str = "development-only-secret-change-before-production"
+    jwt_secret: str = "c9351da88dfde26f691b7c03f9cee000cec35daad7346bec8767e2ef7359f339"
     jwt_issuer: str = "lexconnect"
     access_token_minutes: int = 60
     refresh_token_days: int = 14
@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     document_bucket: str = ""
     max_document_bytes: int = 10 * 1024 * 1024
     presigned_url_expiry_seconds: int = 900  # 15 minutes max link validity
-    data_encryption_key: str = ""
+    data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
     trust_proxy: bool = False
     phonepe_merchant_id: str = ""
     phonepe_salt_key: str = ""

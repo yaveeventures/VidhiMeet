@@ -1,7 +1,7 @@
 # Graph Report - VidhiMeet  (2026-08-13)
 
 ## Corpus Check
-- 83 files · ~97,553 words
+- 83 files · ~97,586 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `884eb867`
+- Built from commit: `a50589fe`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -113,8 +113,8 @@ Cohesion: 0.07
 Nodes (70): $(), LexE2EE, aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience() (+62 more)
 
 ### Community 2 - "je"
-Cohesion: 0.07
-Nodes (36): Bo(), dr(), Ds(), dt(), ea(), Fo(), Fs(), Go() (+28 more)
+Cohesion: 0.06
+Nodes (46): Bo(), dr(), Ds(), dt(), ea(), Fo(), Fs(), g() (+38 more)
 
 ### Community 3 - "lawyer.js"
 Cohesion: 0.07
@@ -165,8 +165,8 @@ Cohesion: 0.13
 Nodes (14): 🛡️ **Admin Console**, 🛠️ Architecture & Tech Stack, 🔍 **Client Portal & Legal Marketplace**, 🚀 Getting Started, 🌟 Key Features, 💼 **Lawyer Portal**, 📄 License & Legal Notice, Option A: Quickstart with Docker Compose (Recommended) (+6 more)
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
-Cohesion: 0.13
-Nodes (23): Bt(), ce(), ct(), de(), ee(), gt(), ht(), It() (+15 more)
+Cohesion: 0.26
+Nodes (6): Message, ConnectionManager, _save_ws_message(), _validate_ws_user_and_booking(), websocket_chat_endpoint(), WebSocket
 
 ### Community 19 - "graphify.md"
 Cohesion: 0.16
@@ -245,8 +245,8 @@ Cohesion: 0.13
 Nodes (18): B(), c(), d(), f(), ge(), gn(), ie(), J() (+10 more)
 
 ### Community 41 - "register"
-Cohesion: 0.11
-Nodes (33): as(), at(), Bs(), cr(), dn(), er(), Es(), Et() (+25 more)
+Cohesion: 0.08
+Nodes (46): as(), at(), Bs(), Bt(), ce(), cr(), ct(), de() (+38 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.64
@@ -277,8 +277,8 @@ Cohesion: 0.08
 Nodes (29): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), http_exception_handler(), integrity_exception_handler(), lifespan(), Exception (+21 more)
 
 ### Community 61 - "reset_users.py"
-Cohesion: 0.10
-Nodes (22): EncryptedString, Message, ConnectionManager, _save_ws_message(), _validate_ws_user_and_booking(), websocket_chat_endpoint(), decrypt_field(), encrypt_field() (+14 more)
+Cohesion: 0.14
+Nodes (16): EncryptedString, decrypt_field(), encrypt_field(), _get_fernet_cipher(), Enforce strict participant boundary isolation (BOLA/IDOR defense)., validate_participant_access(), Fernet, Verify decrypt_field fails closed (raises HTTP 500) on invalid ciphertext instea (+8 more)
 
 ### Community 66 - "Request"
 Cohesion: 0.20
@@ -292,9 +292,9 @@ Nodes (7): get_settings(), Exception, Request, RedisError, SlidingWindowRateLimi
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `er` to `booking_service.py`, `processEvent`, `User`, `README.md`, `toast`, `LawyerGrid`, `calendar.py`, `LawyerProfile`, `__init__.py`, `LawyerBankAccount`, `LawyerBankAccount`, `reset_users.py`, `env.py`?**
+- **Why does `User` connect `er` to `booking_service.py`, `processEvent`, `User`, `README.md`, `toast`, `LawyerGrid`, `calendar.py`, `LawyerProfile`, `9d0be6640444_add_aadhaar_and_profile_picture.py`, `__init__.py`, `LawyerBankAccount`, `LawyerBankAccount`, `reset_users.py`, `env.py`?**
   _High betweenness centrality (0.050) - this node is a cross-community bridge._
-- **Why does `s()` connect `register` to `mr`, `je`, `app.js`, `daily-js.js`, `verify_ntp_compliance`, `9d0be6640444_add_aadhaar_and_profile_picture.py`, `graphify.md`?**
+- **Why does `s()` connect `register` to `mr`, `je`, `app.js`, `daily-js.js`, `verify_ntp_compliance`, `graphify.md`?**
   _High betweenness centrality (0.047) - this node is a cross-community bridge._
 - **Why does `LexAPI` connect `lawyer.js` to `mr`, `T`, `daily-js.js`?**
   _High betweenness centrality (0.034) - this node is a cross-community bridge._

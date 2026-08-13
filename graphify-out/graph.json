@@ -680,7 +680,7 @@
       "source_location": "L235",
       "_origin": "ast",
       "id": "backend_models_message",
-      "community": 61,
+      "community": 18,
       "norm_label": "message"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L249",
       "_origin": "ast",
       "id": "backend_models_message_sender_name",
-      "community": 61,
+      "community": 18,
       "norm_label": ".sender_name()"
     },
     {
@@ -2650,7 +2650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat",
-      "community": 61,
+      "community": 18,
       "norm_label": "websocket_chat.py"
     },
     {
@@ -2660,7 +2660,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager",
-      "community": 61,
+      "community": 18,
       "norm_label": "connectionmanager"
     },
     {
@@ -2670,7 +2670,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_init",
-      "community": 61,
+      "community": 18,
       "norm_label": ".__init__()"
     },
     {
@@ -2680,7 +2680,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_connect",
-      "community": 61,
+      "community": 18,
       "norm_label": ".connect()"
     },
     {
@@ -2690,7 +2690,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "websocket",
-      "community": 61,
+      "community": 18,
       "norm_label": "websocket"
     },
     {
@@ -2700,7 +2700,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_disconnect",
-      "community": 61,
+      "community": 18,
       "norm_label": ".disconnect()"
     },
     {
@@ -2710,7 +2710,7 @@
       "source_location": "L38",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_connectionmanager_broadcast",
-      "community": 61,
+      "community": 18,
       "norm_label": ".broadcast()"
     },
     {
@@ -2720,7 +2720,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_validate_ws_user_and_booking",
-      "community": 61,
+      "community": 18,
       "norm_label": "_validate_ws_user_and_booking()"
     },
     {
@@ -2730,7 +2730,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_save_ws_message",
-      "community": 61,
+      "community": 18,
       "norm_label": "_save_ws_message()"
     },
     {
@@ -2740,7 +2740,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_websocket_chat_endpoint",
-      "community": 61,
+      "community": 18,
       "norm_label": "websocket_chat_endpoint()"
     },
     {
@@ -3900,7 +3900,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_event_bus",
-      "community": 61,
+      "community": 18,
       "norm_label": "event_bus.py"
     },
     {
@@ -5410,7 +5410,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_o",
-      "community": 41,
+      "community": 2,
       "norm_label": "o()"
     },
     {
@@ -5460,7 +5460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_l",
-      "community": 18,
+      "community": 41,
       "norm_label": "l()"
     },
     {
@@ -5520,7 +5520,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_g",
-      "community": 41,
+      "community": 2,
       "norm_label": "g()"
     },
     {
@@ -5530,7 +5530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_m",
-      "community": 41,
+      "community": 2,
       "norm_label": "m()"
     },
     {
@@ -5540,7 +5540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_y",
-      "community": 41,
+      "community": 2,
       "norm_label": "y()"
     },
     {
@@ -5630,7 +5630,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_x",
-      "community": 18,
+      "community": 41,
       "norm_label": "x()"
     },
     {
@@ -5640,7 +5640,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ee",
-      "community": 18,
+      "community": 41,
       "norm_label": "ee()"
     },
     {
@@ -5700,7 +5700,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_se",
-      "community": 18,
+      "community": 41,
       "norm_label": "se()"
     },
     {
@@ -5710,7 +5710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ce",
-      "community": 18,
+      "community": 41,
       "norm_label": "ce()"
     },
     {
@@ -5740,7 +5740,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_de",
-      "community": 18,
+      "community": 41,
       "norm_label": "de()"
     },
     {
@@ -5850,7 +5850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ke",
-      "community": 18,
+      "community": 41,
       "norm_label": "ke()"
     },
     {
@@ -5870,7 +5870,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_processevent",
-      "community": 18,
+      "community": 41,
       "norm_label": "processevent()"
     },
     {
@@ -6380,7 +6380,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_setup",
-      "community": 18,
+      "community": 41,
       "norm_label": "setup()"
     },
     {
@@ -6400,7 +6400,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ct",
-      "community": 18,
+      "community": 41,
       "norm_label": "ct()"
     },
     {
@@ -6440,7 +6440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ht",
-      "community": 18,
+      "community": 41,
       "norm_label": "ht()"
     },
     {
@@ -6450,7 +6450,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_gt",
-      "community": 18,
+      "community": 41,
       "norm_label": "gt()"
     },
     {
@@ -6460,7 +6460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mt",
-      "community": 18,
+      "community": 41,
       "norm_label": "mt()"
     },
     {
@@ -6470,7 +6470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yt",
-      "community": 18,
+      "community": 41,
       "norm_label": "yt()"
     },
     {
@@ -6500,7 +6500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pt",
-      "community": 18,
+      "community": 41,
       "norm_label": "pt()"
     },
     {
@@ -6510,7 +6510,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_it",
-      "community": 18,
+      "community": 41,
       "norm_label": "it()"
     },
     {
@@ -6550,7 +6550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_bt",
-      "community": 18,
+      "community": 41,
       "norm_label": "bt()"
     },
     {
@@ -6560,7 +6560,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vt",
-      "community": 18,
+      "community": 41,
       "norm_label": "vt()"
     },
     {
@@ -6890,7 +6890,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mn",
-      "community": 18,
+      "community": 41,
       "norm_label": "mn()"
     },
     {
@@ -6910,7 +6910,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xn",
-      "community": 18,
+      "community": 41,
       "norm_label": "xn()"
     },
     {
@@ -6920,7 +6920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_rn",
-      "community": 18,
+      "community": 41,
       "norm_label": "rn()"
     },
     {
@@ -6950,7 +6950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_kn",
-      "community": 18,
+      "community": 41,
       "norm_label": "kn()"
     },
     {
@@ -6960,7 +6960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zn",
-      "community": 18,
+      "community": 41,
       "norm_label": "zn()"
     },
     {
@@ -7920,7 +7920,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xs",
-      "community": 41,
+      "community": 2,
       "norm_label": "xs()"
     },
     {
@@ -7950,7 +7950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vs",
-      "community": 41,
+      "community": 2,
       "norm_label": "vs()"
     },
     {
@@ -7970,7 +7970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ys",
-      "community": 41,
+      "community": 2,
       "norm_label": "ys()"
     },
     {
@@ -7980,7 +7980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ws",
-      "community": 41,
+      "community": 2,
       "norm_label": "ws()"
     },
     {
@@ -7990,7 +7990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qs",
-      "community": 41,
+      "community": 2,
       "norm_label": "qs()"
     },
     {
@@ -8010,7 +8010,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zs",
-      "community": 41,
+      "community": 2,
       "norm_label": "zs()"
     },
     {
@@ -11892,20 +11892,20 @@
       "norm_label": "\ud83e\uddea testing & quality assurance"
     },
     {
-      "label": "\ud83d\udd12 Production Hardening Checklist",
+      "label": "\ud83d\udd12 Production Hardening & Pre-Deployment Checklist",
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L181",
       "_origin": "ast",
-      "id": "readme_production_hardening_checklist",
+      "id": "readme_production_hardening_pre_deployment_checklist",
       "community": 17,
-      "norm_label": "\ud83d\udd12 production hardening checklist"
+      "norm_label": "\ud83d\udd12 production hardening & pre-deployment checklist"
     },
     {
       "label": "\ud83d\udcc4 License & Legal Notice",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L193",
+      "source_location": "L194",
       "_origin": "ast",
       "id": "readme_license_legal_notice",
       "community": 17,
@@ -46499,7 +46499,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L193",
+      "source_location": "L194",
       "weight": 1.0,
       "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
       "target": "readme_license_legal_notice",
@@ -46512,7 +46512,7 @@
       "source_location": "L181",
       "weight": 1.0,
       "source": "readme_vidhimeet_enterprise_legal_marketplace_consultation_platform",
-      "target": "readme_production_hardening_checklist",
+      "target": "readme_production_hardening_pre_deployment_checklist",
       "confidence_score": 1.0
     },
     {
@@ -46727,5 +46727,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "884eb8675aef71909eb9c09fbab076bac49d1059"
+  "built_at_commit": "a50589fe385fca4835663a5f06a90f09443d6731"
 }
