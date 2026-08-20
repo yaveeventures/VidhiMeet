@@ -89,7 +89,17 @@ class Settings(BaseSettings):
         return self
     @property
     def origins(self) -> list[str]:
-        return [x.strip() for x in self.allowed_origins.split(",") if x.strip()]
+        parsed = [x.strip() for x in self.allowed_origins.split(",") if x.strip()]
+        for default_origin in [
+            "https://vidhimeet.in",
+            "https://www.vidhimeet.in",
+            "https://lawyer.vidhimeet.in",
+            "https://admin.vidhimeet.in",
+            "https://vidhimeet.pages.dev"
+        ]:
+            if default_origin not in parsed:
+                parsed.append(default_origin)
+        return parsed
 
     @property
     def production(self) -> bool:

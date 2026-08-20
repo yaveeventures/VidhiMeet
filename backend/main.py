@@ -98,14 +98,19 @@ app.add_middleware(
     allow_origins=settings.origins,
     allow_origin_regex=None if settings.production else r"https://.*\.ngrok-free\.dev|https://.*\.ngrok\.app|https://.*\.ngrok\.io",
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PATCH", "DELETE", "PUT"],
-    allow_headers=["Authorization", "Content-Type", "Stripe-Signature"]
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 @app.middleware("http")
 async def security_headers_and_rate_limit(request: Request, call_next):
     request_id = request.headers.get("x-request-id", secrets.token_hex(12))
     request.state.request_id = request_id
+
+    # Bypass rate limiting and custom checks for CORS OPTIONS preflights
+    if request.method == "OPTIONS":
+        return await call_next(request)
 
     # Tiered rate limiting and IP abuse check
     path = request.url.path
