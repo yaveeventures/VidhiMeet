@@ -34,7 +34,11 @@ async function doAdminLogin() {
 
     window.location.href = "admin.html";
   } catch (err) {
-    errorEl.textContent = err.detail || err.message || "Invalid credentials. Please try again.";
+    let msg = "Invalid credentials. Please try again.";
+    if (typeof err === "string") msg = err;
+    else if (err && err.detail) msg = typeof err.detail === "string" ? err.detail : JSON.stringify(err.detail);
+    else if (err && err.message) msg = err.message;
+    errorEl.textContent = msg;
     errorEl.style.display = "block";
     btn.disabled = false;
     btn.style.pointerEvents = "";

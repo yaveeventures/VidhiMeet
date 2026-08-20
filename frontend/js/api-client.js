@@ -2,6 +2,9 @@ const LexAPI = (() => {
   const getBaseUrl = () => {
     const custom = window.API_BASE_URL || window.ENV_API_BASE_URL;
     if (custom) return custom.replace(/\/+$/, "") + "/api/v1";
+    if (typeof window !== "undefined" && window.location && (window.location.hostname.includes("vidhimeet") || window.location.hostname.includes("pages.dev"))) {
+      return "https://vidhimeet-backend.onrender.com/api/v1";
+    }
     return "/api/v1";
   };
   let accessToken = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
