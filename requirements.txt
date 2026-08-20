@@ -16,3 +16,4 @@ pyotp==2.10.0
 aiosqlite==0.21.0
 structlog==24.4.0
 argon2-cffi>=23.1.0
+stripe==11.5.0
