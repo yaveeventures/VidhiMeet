@@ -28,8 +28,33 @@ async def lifespan(app: FastAPI):
     # Setup structured telemetry logging
     setup_logging(settings.production)
 
-    if not settings.production:
-        Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
+
+    # Ensure default admin accounts exist
+    try:
+        from .models import User, Role
+        from .security import hash_password
+        from .db import SessionLocal
+        with SessionLocal() as session:
+            admin_exists = session.scalar(select(User).where(User.role == Role.ADMIN))
+            if not admin_exists:
+                default_password_hash = hash_password("ChangeMe-Immediately-123!")
+                session.add(User(
+                    email="admin@vidhimeet.com",
+                    full_name="VidhiMeet Admin",
+                    role=Role.ADMIN,
+                    password_hash=default_password_hash
+                ))
+                session.add(User(
+                    email="surajgundi1@gmail.com",
+                    full_name="Suraj Gundi",
+                    role=Role.ADMIN,
+                    password_hash=default_password_hash
+                ))
+                session.commit()
+                log.info("Initial admin accounts provisioned successfully")
+    except Exception as exc:
+        log.error("Failed to seed initial admin user", error=str(exc))
 
     # Initialize Redis rate limiter if configured
     await rate_limiter.init_redis()
