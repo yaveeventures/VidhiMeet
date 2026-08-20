@@ -3,7 +3,6 @@ from .services.auth_service import audit, issue_refresh_token
 from .services.booking_service import (
     REQUIRED_INTAKE,
     validate_intake,
-    get_jitsi_meeting_details,
     get_daily_meeting_details,
     verify_daily_meeting_duration,
     calculate_cancellation_policy,
@@ -23,7 +22,6 @@ __all__ = [
     "issue_refresh_token",
     "REQUIRED_INTAKE",
     "validate_intake",
-    "get_jitsi_meeting_details",
     "get_daily_meeting_details",
     "verify_daily_meeting_duration",
     "calculate_cancellation_policy",

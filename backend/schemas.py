@@ -95,6 +95,15 @@ class MfaVerifyRequest(BaseModel):
     code: str = Field(..., min_length=6, max_length=6)
 
 
+class ForgotPasswordRequest(BaseModel):
+    email: EmailStr = Field(..., max_length=256)
+
+
+class ResetPasswordRequest(BaseModel):
+    token: str = Field(..., min_length=16, max_length=128)
+    new_password: str = Field(..., min_length=12, max_length=128)
+
+
 
 class BookingCreate(BaseModel):
     lawyer_id: str = Field(..., max_length=128)
@@ -131,6 +140,7 @@ class BookingOut(BaseModel):
     status: BookingStatus
     intake: dict
     jitsi_room: str
+    video_room: str = ""
     client_name: str | None = None
     lawyer_name: str | None = None
     documents: list = []

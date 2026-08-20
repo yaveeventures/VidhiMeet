@@ -1,16 +1,20 @@
 import hashlib
-from datetime import datetime, timezone
+import secrets
+from datetime import datetime, timedelta, timezone
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy import select, delete, update
 from sqlalchemy.orm import Session
 
+from ..config import get_settings
 from ..db import get_db
 from ..models import (
-    AuditLog, Booking, LawyerProfile, Message, Practice, RefreshToken, Review, Role, User,
+    AuditLog, Booking, LawyerProfile, Message, PasswordResetToken, Practice, RefreshToken, Review, Role, User,
     UserConsent, LawyerBankAccount
 )
-from ..schemas import GoogleLoginRequest, LoginRequest, RefreshRequest, RegisterRequest, TokenResponse
+from ..schemas import (
+    ForgotPasswordRequest, GoogleLoginRequest, LoginRequest, RefreshRequest, RegisterRequest, ResetPasswordRequest, TokenResponse
+)
 from ..security import create_access_token, current_user, hash_password, verify_password
 from ..rate_limiter import rate_limit_dependency
 from ..services import audit, issue_refresh_token
@@ -106,6 +110,90 @@ def enable_mfa(payload: MfaEnableRequest, user: User = Depends(current_user), db
     audit(db, user, "auth.mfa_enabled", "user", user.id)
     db.commit()
     return {"status": "ok", "message": "MFA successfully enabled"}
+
+
+@router.post("/forgot-password", status_code=200, dependencies=[Depends(rate_limit_dependency("auth"))])
+def forgot_password(payload: ForgotPasswordRequest, db: Session = Depends(get_db)):
+    """
+    Request a password reset link.
+    Anti-enumeration protection: Returns 200 OK regardless of whether the email exists.
+    """
+    email = payload.email.lower().strip()
+    user = db.scalar(select(User).where(User.email == email))
+
+    debug_token = None
+    if user and user.active:
+        now_utc = datetime.now(timezone.utc)
+        # Invalidate any existing unused reset tokens for this user
+        db.execute(
+            update(PasswordResetToken)
+            .where((PasswordResetToken.user_id == user.id) & (PasswordResetToken.used == False))
+            .values(used=True)
+        )
+
+        raw_token = secrets.token_urlsafe(32)
+        digest = hashlib.sha256(raw_token.encode()).hexdigest()
+        expires_at = now_utc + timedelta(minutes=15)
+
+        reset_entry = PasswordResetToken(
+            user_id=user.id,
+            token_hash=digest,
+            expires_at=expires_at,
+            used=False
+        )
+        db.add(reset_entry)
+        audit(db, user, "auth.forgot_password_requested", "user", user.id)
+        db.commit()
+        debug_token = raw_token
+
+    res = {"status": "ok", "message": "If an account exists with that email, a password reset link has been sent."}
+    if debug_token and get_settings().environment != "production":
+        res["debug_reset_token"] = debug_token
+    return res
+
+
+@router.post("/reset-password", status_code=200, dependencies=[Depends(rate_limit_dependency("auth"))])
+def reset_password(payload: ResetPasswordRequest, db: Session = Depends(get_db)):
+    """
+    Reset password using a valid, single-use, 15-minute reset token.
+    Hashes new password with Argon2id and revokes all active sessions across devices.
+    """
+    digest = hashlib.sha256(payload.token.strip().encode()).hexdigest()
+    reset_entry = db.scalar(
+        select(PasswordResetToken).where(
+            (PasswordResetToken.token_hash == digest) & (PasswordResetToken.used == False)
+        )
+    )
+    now_utc = datetime.now(timezone.utc)
+    if not reset_entry or not reset_entry.expires_at:
+        raise HTTPException(400, "invalid or expired reset token")
+
+    token_exp = reset_entry.expires_at if reset_entry.expires_at.tzinfo else reset_entry.expires_at.replace(tzinfo=timezone.utc)
+    if token_exp < now_utc:
+        reset_entry.used = True
+        db.commit()
+        raise HTTPException(400, "invalid or expired reset token")
+
+    user = db.get(User, reset_entry.user_id)
+    if not user or not user.active:
+        raise HTTPException(400, "account unavailable")
+
+    # Mark reset token as used
+    reset_entry.used = True
+
+    # Hash new password with Argon2id
+    user.password_hash = hash_password(payload.new_password)
+
+    # Revoke all active refresh tokens across all devices
+    db.execute(
+        update(RefreshToken)
+        .where(RefreshToken.user_id == user.id)
+        .values(revoked=True)
+    )
+
+    audit(db, user, "auth.password_reset_success", "user", user.id)
+    db.commit()
+    return {"status": "ok", "message": "Password successfully reset. Please log in with your new password."}
 
 
 @router.post("/logout", status_code=204)

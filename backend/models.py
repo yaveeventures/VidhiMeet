@@ -106,12 +106,12 @@ class LawyerBankAccount(Base):
     ifsc_code: Mapped[str] = mapped_column(EncryptedString)
     bank_name: Mapped[str] = mapped_column(String(120))
     upi_vpa: Mapped[str | None] = mapped_column(String(255), nullable=True)  # e.g. lawyer@upi
-    # Verification state — populated by PhonePe Reverse Penny Drop webhook
+    # Verification state
     verified: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
-    utr: Mapped[str | None] = mapped_column(String(100), nullable=True)   # PhonePe UTR (audit trail)
-    upi_name: Mapped[str | None] = mapped_column(String(255), nullable=True)  # VPA display name from webhook
-    phonepe_txn_id: Mapped[str | None] = mapped_column(String(80), nullable=True)  # tracks ₹1 verification payment
+    utr: Mapped[str | None] = mapped_column(String(100), nullable=True)   # Verification UTR (audit trail)
+    upi_name: Mapped[str | None] = mapped_column(String(255), nullable=True)  # VPA display name
+    phonepe_txn_id: Mapped[str | None] = mapped_column(String(80), nullable=True)  # Deprecated verification txn id
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
@@ -134,7 +134,7 @@ class Booking(Base):
     disclaimer_version: Mapped[str] = mapped_column(String(30))
     disclaimer_accepted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     stripe_payment_intent_id: Mapped[str | None] = mapped_column(String(255), unique=True)
-    phonepe_transaction_id: Mapped[str | None] = mapped_column(String(255), unique=True)
+    phonepe_transaction_id: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True)
     jitsi_room: Mapped[str] = mapped_column(String(255), unique=True)
     documents: Mapped[list] = mapped_column(JSON, default=list)
     chat_key_salt: Mapped[str] = mapped_column(String(64), default=lambda: secrets.token_hex(32))
@@ -193,6 +193,10 @@ class Booking(Base):
         return self.base_price_minor - self.lawyer_platform_fee_minor
 
     @property
+    def video_room(self) -> str:
+        return self.jitsi_room or f"lc-{self.id}"
+
+    @property
     def room_name(self) -> str:
         return self.jitsi_room or f"lc-{self.id}"
 
@@ -212,6 +216,16 @@ class RefreshToken(Base):
     token_hash: Mapped[str] = mapped_column(String(64), unique=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     revoked: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    used: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
 class AuditLog(Base):

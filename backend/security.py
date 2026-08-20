@@ -22,18 +22,42 @@ bearer = HTTPBearer(auto_error=False)
 settings = get_settings()
 
 
+from argon2 import PasswordHasher
+from argon2.exceptions import InvalidHashError, VerificationError, VerifyMismatchError
+
+_ph = PasswordHasher(
+    time_cost=3,
+    memory_cost=65536,  # 64 MB RAM
+    parallelism=4,
+    hash_len=32,
+    salt_len=16,
+)
+
+
 def hash_password(password: str) -> str:
-    salt = os.urandom(16)
-    key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 600_000)
-    return f"pbkdf2_sha256$600000${base64.b64encode(salt).decode()}${base64.b64encode(key).decode()}"
+    """Hash a raw password using Argon2id (OWASP #1 recommendation)."""
+    return _ph.hash(password)
 
 
 def verify_password(password: str, stored: str) -> bool:
+    """
+    Verify raw password against stored hash.
+    Supports Argon2id natively with backward-compatible PBKDF2 fallback.
+    """
+    if not stored:
+        return False
+
+    if stored.startswith("pbkdf2_sha256$"):
+        try:
+            _, iterations, salt, expected = stored.split("$")
+            actual = hashlib.pbkdf2_hmac("sha256", password.encode(), base64.b64decode(salt), int(iterations))
+            return hmac.compare_digest(actual, base64.b64decode(expected))
+        except (ValueError, TypeError):
+            return False
+
     try:
-        _, iterations, salt, expected = stored.split("$")
-        actual = hashlib.pbkdf2_hmac("sha256", password.encode(), base64.b64decode(salt), int(iterations))
-        return hmac.compare_digest(actual, base64.b64decode(expected))
-    except (ValueError, TypeError):
+        return _ph.verify(stored, password)
+    except (VerifyMismatchError, VerificationError, InvalidHashError):
         return False
 
 

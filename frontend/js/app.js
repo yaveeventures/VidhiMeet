@@ -702,13 +702,9 @@ async function handlePay() {
     const res = await LexAPI.createBooking(payload);
     
     if (res.payment_url) {
-      // Redirect to PhonePe Checkout Page
       window.location.href = res.payment_url;
       return;
     }
-    
-    // Fallback/mock mode: confirm payment directly
-    await LexAPI.confirmPayment(res.id);
     
     booking.id = res.id;
     booking.starts_at = res.starts_at;
@@ -3000,7 +2996,7 @@ window.payForDrafting = async function(reqId) {
             <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1.5px solid var(--forest); border-radius:10px; cursor:pointer; background:#fff;">
               <input type="radio" name="drafting-payment-method" value="upi" checked style="accent-color:var(--forest);">
               <div>
-                <strong style="font-size:13px; display:block; color:var(--ink);">UPI / Instant Pay (PhonePe, GPay, Paytm)</strong>
+                <strong style="font-size:13px; display:block; color:var(--ink);">UPI / Instant Pay (BHIM, GPay, Paytm)</strong>
                 <small style="color:var(--muted); font-size:11px;">Zero transaction fees</small>
               </div>
             </label>

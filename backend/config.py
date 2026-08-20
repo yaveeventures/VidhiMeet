@@ -13,10 +13,7 @@ class Settings(BaseSettings):
     refresh_token_days: int = 14
     allowed_origins: str = "http://localhost:8080"
     platform_fee_percent: int = 5
-    video_provider: str = "jitsi"
-    jitsi_app_id: str = ""
-    jitsi_app_secret: str = ""
-    jitsi_domain: str = "meet.jit.si"
+    video_provider: str = "daily"
     daily_api_key: str = ""
     daily_domain: str = "lexconnect"
     aws_region: str = "ap-south-1"
@@ -25,10 +22,6 @@ class Settings(BaseSettings):
     presigned_url_expiry_seconds: int = 900  # 15 minutes max link validity
     data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
     trust_proxy: bool = False
-    phonepe_merchant_id: str = ""
-    phonepe_salt_key: str = ""
-    phonepe_salt_index: str = "1"
-    phonepe_env: str = "sandbox"
     # ── Rate Limiting Configurable Settings ───────────────────────────────────
     rate_limit_enabled: bool = True
     rate_limit_auth_per_min: int = 10           # Stricter: Login, register, refresh, password reset
@@ -73,8 +66,8 @@ class Settings(BaseSettings):
     @classmethod
     def supported_video_provider(cls, value: str) -> str:
         value = value.lower().strip()
-        if value not in {"jitsi", "daily"}:
-            raise ValueError("VIDEO_PROVIDER must be either 'jitsi' or 'daily'")
+        if value != "daily":
+            raise ValueError("VIDEO_PROVIDER must be 'daily'")
         return value
 
     @model_validator(mode="after")
@@ -88,12 +81,8 @@ class Settings(BaseSettings):
             raise ValueError("DATA_ENCRYPTION_KEY is required in production")
         if not self.document_bucket:
             raise ValueError("DOCUMENT_BUCKET is required in production")
-        if not self.phonepe_merchant_id or not self.phonepe_salt_key:
-            raise ValueError("PhonePe merchant ID and salt key are required in production")
-        if self.video_provider == "jitsi" and (not self.jitsi_app_id or not self.jitsi_app_secret):
-            raise ValueError("JITSI_APP_ID and JITSI_APP_SECRET are required for production Jitsi rooms")
-        if self.video_provider == "daily" and not self.daily_api_key:
-            raise ValueError("DAILY_API_KEY is required when VIDEO_PROVIDER=daily in production")
+        if not self.daily_api_key:
+            raise ValueError("DAILY_API_KEY is required in production")
         for origin in self.origins:
             if not origin.startswith("https://"):
                 raise ValueError("ALLOWED_ORIGINS must contain only HTTPS origins in production")

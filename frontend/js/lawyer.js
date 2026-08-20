@@ -1263,7 +1263,7 @@ function renderBankAccount() {
 
   const verifyBtn = bankAccount.verified ? '' : `
     <button class="btn-verify-upi" id="upi-verify-open-btn">
-      <span class="phonepe-icon">💜</span> Verify identity via UPI (₹1)
+      <span class="phonepe-icon">✓</span> Verify Bank Account
     </button>`;
 
   display.innerHTML = `
@@ -3695,7 +3695,7 @@ window.payForDrafting = async function(reqId) {
             <label style="display:flex; align-items:center; gap:10px; padding:12px 14px; border:1.5px solid var(--forest); border-radius:10px; cursor:pointer; background:#fff;">
               <input type="radio" name="drafting-payment-method-lawyer" value="upi" checked style="accent-color:var(--forest);">
               <div>
-                <strong style="font-size:13px; display:block; color:var(--ink);">UPI / Instant Pay (PhonePe, GPay, Paytm)</strong>
+                <strong style="font-size:13px; display:block; color:var(--ink);">UPI / Instant Pay (BHIM, GPay, Paytm)</strong>
                 <small style="color:var(--muted); font-size:11px;">Zero transaction fees</small>
               </div>
             </label>

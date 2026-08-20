@@ -20,7 +20,7 @@ from ..schemas import (
 )
 from ..security import current_user, require_roles
 from ..services import (
-    audit, calculate_cancellation_policy, create_phonepe_payment, evaluate_daily_meeting_logs,
+    audit, calculate_cancellation_policy, evaluate_daily_meeting_logs,
     get_daily_meeting_details, initiate_refund, presign_document, validate_intake
 )
 from ..services.event_bus import event_bus
@@ -111,11 +111,8 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                       jitsi_room=f"lc-{secrets.token_urlsafe(24)}")
     db.add(booking); db.flush()
 
-    payment_url = create_phonepe_payment(booking, str(request.base_url))
-
     audit(db, user, "booking.created", "booking", booking.id, {"disclaimer": payload.disclaimer_version})
     db.commit(); db.refresh(booking)
-    booking.payment_url = payment_url
 
     try:
         loop = asyncio.get_running_loop()

@@ -14,7 +14,7 @@
 
 ### 💼 **Lawyer Portal**
 - **Consultation Management**: View upcoming, in-progress, and past video meetings.
-- **Embedded Jitsi Video Rooms**: Secure, zero-installation video consultation room powered by Jitsi Meet API with JWT room tokens.
+- **Embedded Daily.co Video Rooms**: Secure, zero-installation video consultation rooms powered by Daily.co WebRTC API with meeting tokens.
 - **Real-Time Client Chat**: WebSocket-powered live chat during and before consultations.
 - **Earnings & Payouts**: Bank account management, UPI VPA verification, transaction history, and payout tracking.
 - **Availability Calendar**: Custom block-out times and recurring weekly availability rules.
@@ -32,7 +32,7 @@
 ```
                      ┌─────────────────────────────────────────┐
                      │          Client / Browser UI            │
-                     │  (HTML5 / JS / CSS / Jitsi Video API)   │
+                     │  (HTML5 / JS / CSS / Daily.co Video API)│
                      └────────────────────┬────────────────────┘
                                           │
                                      REST / WS
@@ -41,21 +41,21 @@
                      │           FastAPI Backend               │
                      │  (Async API Routers & Rate Limiter)     │
                      └─────────┬──────────┬───────────┬────────┘
-                               │          │           │
+                                │          │           │
           ┌────────────────────┘          │           └────────────────────┐
           ▼                               ▼                                ▼
 ┌──────────────────┐            ┌──────────────────┐             ┌──────────────────┐
-│ PostgreSQL DB    │            │  Redis Service   │             │ PhonePe / Storage│
-│ (SQLAlchemy ORM) │            │ (Cache & Limits) │             │ (Payments & S3)  │
+│ PostgreSQL DB    │            │  Redis Service   │             │ Storage & Cloud  │
+│ (SQLAlchemy ORM) │            │ (Cache & Limits) │             │ (S3 Documents)   │
 └──────────────────┘            └──────────────────┘             └──────────────────┘
 ```
 
 * **Backend Framework**: Python 3.11+, [FastAPI](https://fastapi.tiangolo.com/), Uvicorn async ASGI server.
 * **Database & Migration**: PostgreSQL with [SQLAlchemy 2.0](https://www.sqlalchemy.org/) ORM & [Alembic](https://alembic.sqlalchemy.org/) migrations (SQLite supported for dev).
 * **Real-time & Caching**: WebSockets for live chat, Server-Sent Events (SSE), and Redis for session caching & rate limiting.
-* **Payments & Escrow**: PhonePe Gateway payment workflows with signed checksum webhook verification.
+* **Payments & Escrow**: Integrated escrow workflows and payout verification management.
 * **Security & Auth**: PBKDF2 password hashing, short-lived JWT tokens, security headers, XSS sanitization, and NTP time verification.
-* **Frontend**: Responsive HTML5, Modern CSS custom design system, Vanilla JavaScript ES6+, and Jitsi External API integration.
+* **Frontend**: Responsive HTML5, Modern CSS custom design system, Vanilla JavaScript ES6+, and Daily.co JS SDK video integration.
 
 ---
 
@@ -184,8 +184,7 @@ Before deploying VidhiMeet to production:
 - [x] **Cryptographic JWT Secret**: Default `jwt_secret` replaced with a 64-character cryptographically secure secret in `backend/config.py` & `.env`.
 - [ ] **Database & Caching**: Deploy PostgreSQL 16 and Redis 7 instances with automated backups, connection pooling, and TLS connections.
 - [ ] **Domain & TLS Hardening**: Configure Nginx reverse proxy (`nginx/vidhimeet.conf`) with Let's Encrypt TLS 1.3 SSL certs and set up DNS A records for subdomains (`lawyer.vidhimeet.in`, `admin.vidhimeet.in`).
-- [ ] **PhonePe Payment Gateway**: Set live `PHONEPE_MERCHANT_ID`, `PHONEPE_SALT_KEY`, and `PHONEPE_SALT_INDEX` in production `.env` and configure `/api/v1/webhooks/phonepe`.
-- [ ] **Video Server Integration**: Configure authenticated Jitsi / Daily.co API tokens (`JITSI_APP_ID`, `JITSI_APP_SECRET`) for secure video room generation.
+- [ ] **Video Server Integration**: Configure Daily.co API key (`DAILY_API_KEY`, `DAILY_DOMAIN`) for secure video room and token generation.
 - [ ] **Private Document Storage**: Use S3/Cloudflare R2 bucket with KMS server-side encryption, CORS restrictions, and presigned URL access limits.
 - [ ] **DPDPA & Forensic Compliance**: Verify NTP time sync server connectivity (`time.nplindia.org`) and audit log immutability.
 

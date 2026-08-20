@@ -20,47 +20,7 @@ def validate_intake(practice: Practice, intake: dict):
     if missing:
         raise HTTPException(status_code=422, detail={"missing_intake_fields": sorted(missing)})
 
-def get_jitsi_meeting_details(booking: Booking, user: User) -> dict:
-    """Return browser-embeddable Jitsi meeting details scoped to a booking."""
-    room_name = booking.room_name
-    domain = (settings.jitsi_domain or "meet.jit.si").strip().strip("/")
-    app_id = settings.jitsi_app_id.strip()
-    token = None
 
-    if settings.production and (not app_id or not settings.jitsi_app_secret):
-        raise HTTPException(503, "secure Jitsi room signing is not configured")
-
-    path_room = f"{app_id}/{room_name}" if app_id else room_name
-    url = f"https://{domain}/{path_room}"
-
-    if app_id and settings.jitsi_app_secret:
-        now = datetime.now(timezone.utc)
-        payload = {
-            "aud": "jitsi",
-            "iss": "chat",
-            "sub": app_id,
-            "room": room_name,
-            "nbf": int(now.timestamp()) - 10,
-            "exp": int((now + timedelta(minutes=booking.duration_minutes + 30)).timestamp()),
-            "context": {
-                "user": {
-                    "id": user.id,
-                    "name": user.full_name,
-                    "email": user.email,
-                    "moderator": user.role.value in ("lawyer", "admin"),
-                }
-            },
-        }
-        token = jwt.encode(payload, settings.jitsi_app_secret, algorithm="HS256")
-
-    return {
-        "provider": "jitsi",
-        "domain": domain,
-        "url": url,
-        "token": token,
-        "room_name": room_name,
-        "display_name": user.full_name,
-    }
 
 def get_daily_meeting_details(booking: Booking, user: User) -> dict:
     api_key = settings.daily_api_key
@@ -89,6 +49,7 @@ def get_daily_meeting_details(booking: Booking, user: User) -> dict:
                 headers=headers,
                 json={
                     "name": room_name,
+                    "privacy": "private",
                     "properties": {
                         "enable_chat": True,
                         "enable_screenshare": True,
@@ -111,8 +72,19 @@ def get_daily_meeting_details(booking: Booking, user: User) -> dict:
                 room_url = f"https://{domain}.daily.co/{room_name}"
             else:
                 logger.warning(f"Daily room creation returned status {room_res.status_code}: {room_res.text}")
-                
+
             is_owner = user.role.value in ("lawyer", "admin")
+            now_ts = int(datetime.now(timezone.utc).timestamp())
+            starts_at = booking.starts_at or booking.original_starts_at
+            if starts_at:
+                if starts_at.tzinfo is None:
+                    starts_at = starts_at.replace(tzinfo=timezone.utc)
+                nbf = max(now_ts - 60, int((starts_at - timedelta(minutes=15)).timestamp()))
+                exp = int((starts_at + timedelta(minutes=booking.duration_minutes + 30)).timestamp())
+            else:
+                nbf = now_ts - 60
+                exp = now_ts + (booking.duration_minutes + 30) * 60
+
             token_res = client.post(
                 "https://api.daily.co/v1/meeting-tokens",
                 headers=headers,
@@ -121,6 +93,8 @@ def get_daily_meeting_details(booking: Booking, user: User) -> dict:
                         "room_name": room_name,
                         "user_name": user.full_name,
                         "is_owner": is_owner,
+                        "nbf": nbf,
+                        "exp": exp,
                         "enable_screenshare": True
                     }
                 },

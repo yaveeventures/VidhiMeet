@@ -543,7 +543,7 @@ function openVerificationPolicyModal() {
 
         <div style="background:#f4f7f4; padding:14px; border-radius:10px; border-left:4px solid var(--forest);">
           <strong style="font-size:13px; color:var(--forest);">3. Payout Bank & UPI VPA Verification</strong>
-          <p style="margin:4px 0 0; font-size:12px; color:var(--ink);">Payout account details undergo automated PhonePe Reverse Penny Drop verification to ensure bank account ownership matches the advocate's legal name.</p>
+          <p style="margin:4px 0 0; font-size:12px; color:var(--ink);">Payout account details undergo automated account holder verification to ensure bank account ownership matches the advocate's legal name.</p>
         </div>
       </div>
 

@@ -77,7 +77,7 @@ def test_update_bank_account_resets_verification(client):
 
     ver = client.post("/api/v1/lawyers/me/bank-account/verify", headers=headers)
     assert ver.status_code == 200
-    assert ver.json().get("demo_verified") is True
+    assert ver.json().get("verified") is True
 
     acct = client.get("/api/v1/lawyers/me/bank-account", headers=headers).json()
     assert acct["verified"] is True
@@ -134,7 +134,7 @@ def test_duplicate_add_returns_409(client):
 
 
 def test_upi_verification_demo_mode(client):
-    """In demo mode (no PhonePe creds), verify auto-verifies the account."""
+    """Verify bank account endpoint marks account verified."""
     reg = client.post("/api/v1/auth/register", json={
         "email": "bank_verify@example.com", "password": "secure-password-verify-123",
         "full_name": "Adv. Verify Bank", "role": "lawyer",
@@ -154,7 +154,7 @@ def test_upi_verification_demo_mode(client):
     res = client.post("/api/v1/lawyers/me/bank-account/verify", headers=headers)
     assert res.status_code == 200
     data = res.json()
-    assert data.get("demo_verified") is True
+    assert data.get("verified") is True
     assert "utr" in data
 
     acct = client.get("/api/v1/lawyers/me/bank-account", headers=headers).json()
@@ -173,82 +173,4 @@ def test_verify_requires_bank_account(client):
     res = client.post("/api/v1/lawyers/me/bank-account/verify",
                       headers={"Authorization": f"Bearer {token}"})
     assert res.status_code == 404
-
-
-def test_phonepe_verify_webhook_routes_correctly(client):
-    """PhonePe webhook with VERIFY- prefix updates LawyerBankAccount, not a Booking."""
-    import json as _json
-    import base64
-    import hashlib
-    from backend.db import get_db
-    from backend.models import LawyerBankAccount, User
-    from backend.config import get_settings
-    from sqlalchemy import select
-
-    settings = get_settings()
-    settings.phonepe_merchant_id = "MID123"
-    settings.phonepe_salt_key = "salt-key-123"
-    settings.phonepe_salt_index = "1"
-
-    try:
-        reg = client.post("/api/v1/auth/register", json={
-            "email": "bank_webhook@example.com", "password": "secure-password-webhook-123",
-            "full_name": "Adv. Webhook Test", "role": "lawyer",
-            "consent_privacy_policy": True, "consent_terms": True
-        })
-        token = reg.json()["access_token"]
-        headers = {"Authorization": f"Bearer {token}"}
-
-        client.post("/api/v1/lawyers/me/bank-account", json={
-            "account_holder_name": "Adv. Webhook Test",
-            "account_number": "333344445555",
-            "ifsc_code": "KKBK0006666",
-            "bank_name": "Kotak Mahindra Bank"
-        }, headers=headers)
-
-        db = next(get_db())
-        l_user = db.query(User).filter(User.email == "bank_webhook@example.com").first()
-        acct = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == l_user.id))
-        fake_txn_id = f"VERIFY-{l_user.id.replace('-', '')[:16]}"
-        acct.phonepe_txn_id = fake_txn_id
-        db.commit()
-
-        response_data = {
-            "success": True,
-            "code": "PAYMENT_SUCCESS",
-            "data": {
-                "merchantTransactionId": fake_txn_id,
-                "transactionId": "UTR123456789",
-                "paymentInstrument": {
-                    "type": "UPI",
-                    "vpa": "webhooktest@upi",
-                    "name": "Adv. Webhook Test"
-                }
-            }
-        }
-        json_bytes = _json.dumps(response_data).encode("utf-8")
-        base64_payload = base64.b64encode(json_bytes).decode("utf-8")
-        
-        # Verify webhook signature using salt key
-        webhook_body_dict = {"response": base64_payload}
-        webhook_body_str = _json.dumps(webhook_body_dict)
-        hash_input = webhook_body_str + "salt-key-123"
-        sha256_hash = hashlib.sha256(hash_input.encode("utf-8")).hexdigest()
-        x_verify = f"{sha256_hash}###1"
-
-        res = client.post(
-            "/api/v1/webhooks/phonepe",
-            content=webhook_body_str,
-            headers={"Content-Type": "application/json", "X-VERIFY": x_verify}
-        )
-        assert res.status_code == 200
-
-        db.expire_all()
-        acct = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == l_user.id))
-        assert acct.verified is True
-        assert acct.utr == "UTR123456789"
-        assert acct.upi_vpa == "webhooktest@upi"
-    finally:
-        settings.phonepe_merchant_id = ""
-        settings.phonepe_salt_key = ""
 

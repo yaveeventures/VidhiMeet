@@ -1,4 +1,4 @@
-﻿"""
+"""
 Calendar Integration Router — VidhiMeet
 
 Provides RFC 5545-compliant iCal endpoints for calendar sync:
@@ -81,10 +81,10 @@ def _build_vevent(booking: Booking, base_url: str = "https://VidhiMeet.in") -> s
         f"Client: {client_name}\\n"
         f"Practice: {practice}\\n"
         f"Duration: {booking.duration_minutes or 45} minutes\\n"
-        f"Secure Room: {base_url}/meet/{booking.jitsi_room}"
+        f"Secure Room: {base_url}/meet/{booking.room_name}"
     )
 
-    location = f"VidhiMeet Secure Video Room ({base_url}/meet/{booking.jitsi_room})"
+    location = f"VidhiMeet Secure Video Room ({base_url}/meet/{booking.room_name})"
 
     lines = [
         "BEGIN:VEVENT",
