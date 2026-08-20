@@ -32,6 +32,7 @@ async def lifespan(app: FastAPI):
 
     # Ensure default admin accounts exist
     try:
+        from sqlalchemy import select
         from .models import User, Role
         from .security import hash_password
         from .db import SessionLocal
