@@ -1,5 +1,9 @@
 const LexAPI = (() => {
-  const base = "/api/v1";
+  const getBaseUrl = () => {
+    const custom = window.API_BASE_URL || window.ENV_API_BASE_URL;
+    if (custom) return custom.replace(/\/+$/, "") + "/api/v1";
+    return "/api/v1";
+  };
   let accessToken = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
   
   let isRefreshing = false;
@@ -35,7 +39,7 @@ const LexAPI = (() => {
       ...(options.headers || {})
     };
     if (accessToken) headers.Authorization = `Bearer ${accessToken}`;
-    let response = await fetch(base + path, {...options, headers});
+    let response = await fetch(getBaseUrl() + path, {...options, headers});
     
     if (response.status === 401 && path !== "/auth/login" && path !== "/auth/refresh") {
       const refreshToken = localStorage.getItem("lex_refresh_token");
@@ -44,7 +48,7 @@ const LexAPI = (() => {
         if (!isRefreshing) {
           isRefreshing = true;
           try {
-            const refreshResp = await fetch(base + "/auth/refresh", {
+            const refreshResp = await fetch(getBaseUrl() + "/auth/refresh", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ refresh_token: refreshToken })
@@ -78,7 +82,7 @@ const LexAPI = (() => {
         
         if (retryToken) {
           headers.Authorization = `Bearer ${retryToken}`;
-          response = await fetch(base + path, {...options, headers});
+          response = await fetch(getBaseUrl() + path, {...options, headers});
         }
       }
     }
