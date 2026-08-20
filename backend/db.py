@@ -21,10 +21,12 @@ if raw_url.startswith("postgresql://"):
 else:
     sync_db_url = raw_url
 
+is_pooler = "pooler.supabase.com" in sync_db_url or ":6543" in sync_db_url
+
 connect_args = (
     {"check_same_thread": False, "timeout": 30}
     if sync_db_url.startswith("sqlite")
-    else {"options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=60000"}
+    else ({} if is_pooler else {"options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=60000"})
 )
 engine = create_engine(
     sync_db_url,
@@ -43,7 +45,7 @@ else:
 async_connect_args = (
     {"check_same_thread": False, "timeout": 30}
     if "sqlite" in async_db_url
-    else {"options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=60000"}
+    else ({} if is_pooler else {"options": "-c statement_timeout=30000 -c idle_in_transaction_session_timeout=60000"})
 )
 async_engine = create_async_engine(
     async_db_url,
