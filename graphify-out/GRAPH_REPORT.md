@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-08-20)
 
 ## Corpus Check
-- 83 files · ~96,808 words
+- 83 files · ~96,807 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1210 nodes · 3349 edges · 69 communities (54 shown, 15 thin omitted)
+- 1210 nodes · 3349 edges · 70 communities (55 shown, 15 thin omitted)
 - Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 490 edges (avg confidence: 0.59)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c3d0aabc`
+- Built from commit: `763fad3b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -74,6 +74,7 @@
 - reset_users.py
 - Request
 - Request
+- Request
 - Session
 - datetime
 - Session
@@ -106,7 +107,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (69 total, 15 thin omitted)
+## Communities (70 total, 15 thin omitted)
 
 ### Community 0 - "main.py"
 Cohesion: 0.18
@@ -153,8 +154,8 @@ Cohesion: 0.36
 Nodes (14): get_user_by_email(), Verify that /api/v1/drafting/documents/mock-upload requires authentication., register_user(), test_7day_auto_approval_window(), test_accept_drafting_request(), test_cancel_drafting_request(), test_counter_proposal_flow(), test_create_drafting_request() (+6 more)
 
 ### Community 15 - "calendar.py"
-Cohesion: 0.09
-Nodes (10): get_db(), AuditLog, Booking, _validate_ws_user_and_booking(), test_lawyer_complete_booking_duration_restriction(), test_meeting_token_endpoint(), test_verified_reviews_only(), test_video_consultation_dual_platform_fee() (+2 more)
+Cohesion: 0.10
+Nodes (7): get_db(), Booking, _validate_ws_user_and_booking(), test_lawyer_complete_booking_duration_restriction(), test_meeting_token_endpoint(), test_verified_reviews_only(), test_video_consultation_dual_platform_fee()
 
 ### Community 16 - "check_clock_drift"
 Cohesion: 0.38
@@ -177,16 +178,16 @@ Cohesion: 0.07
 Nodes (37): check_clock_drift(), _get_servers(), ntp_now(), ntp_now_ist(), NtpStatus, datetime, _query_ntp_server(), ntp_time.py ----------- NTP time synchronization for CERT-In and DPDP forensic t (+29 more)
 
 ### Community 21 - "__init__.py"
-Cohesion: 0.23
+Cohesion: 0.25
 Nodes (10): authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), current_user(), decode_token(), optional_user() (+2 more)
 
 ### Community 22 - "ClientRouter"
-Cohesion: 0.11
-Nodes (30): AsyncSession, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), google_auth(), login() (+22 more)
+Cohesion: 0.15
+Nodes (24): AsyncSession, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), google_auth(), login() (+16 more)
 
 ### Community 23 - "er"
-Cohesion: 0.19
-Nodes (23): User, admin_metrics(), get_admin_payouts(), get_audit_logs(), get_ntp_status(), get_platform_feedback(), list_disputes(), list_drafting_transactions() (+15 more)
+Cohesion: 0.16
+Nodes (26): AuditLog, User, admin_metrics(), get_admin_payouts(), get_audit_logs(), get_ntp_status(), get_platform_feedback(), list_disputes() (+18 more)
 
 ### Community 25 - "LawyerBankAccount"
 Cohesion: 0.25
@@ -237,8 +238,8 @@ Cohesion: 0.39
 Nodes (6): _clearRecaptcha(), confirmOtp(), _hideOtpModal(), _showModalError(), _showOtpModal(), startPhoneVerification()
 
 ### Community 38 - "booking_service.py"
-Cohesion: 0.10
-Nodes (29): create_access_token(), hash_password(), Revoke a JWT by adding its jti to the revocation blocklist., Hash a raw password using Argon2id (OWASP #1 recommendation)., revoke_jti(), test_dispute_intermediary_shield(), test_dispute_workflow_matrix(), Verify that booking document presign returns 15-minute expiry (900s). (+21 more)
+Cohesion: 0.08
+Nodes (31): create_access_token(), hash_password(), Hash a raw password using Argon2id (OWASP #1 recommendation)., test_dispute_intermediary_shield(), test_dispute_workflow_matrix(), Verify that booking document presign returns 15-minute expiry (900s)., Verify that drafting document presign returns 15-minute expiry (900s)., Verify that a document access token issued > 15 minutes ago (900s) is rejected w (+23 more)
 
 ### Community 39 - "Booking"
 Cohesion: 0.25
@@ -281,8 +282,8 @@ Cohesion: 0.20
 Nodes (14): get_settings(), rate_limit_dependency(), calculate_cancellation_policy(), get_daily_meeting_details(), datetime, Calculate refund and penalty breakdown based on policy matrix:     - Lawyer Canc, validate_intake(), verify_daily_meeting_duration() (+6 more)
 
 ### Community 57 - "env.py"
-Cohesion: 0.07
-Nodes (30): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), http_exception_handler(), integrity_exception_handler(), lifespan(), Exception (+22 more)
+Cohesion: 0.09
+Nodes (20): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), lifespan(), Revoke a JWT by adding its jti to the revocation blocklist., revoke_jti(), Perform deep structural payload inspection on document uploads.     Detects embe (+12 more)
 
 ### Community 58 - "test_bank_account.py"
 Cohesion: 0.12
@@ -295,6 +296,10 @@ Nodes (11): checkAdminSession(), decideVerification(), handleSaveFees(), loadDat
 ### Community 61 - "reset_users.py"
 Cohesion: 0.10
 Nodes (24): Base, EncryptedString, Message, now(), datetime, WebhookEvent, _save_ws_message(), decrypt_field() (+16 more)
+
+### Community 63 - "Request"
+Cohesion: 0.14
+Nodes (14): http_exception_handler(), integrity_exception_handler(), Exception, Request, HTTP Exception Handler:     - Private Layer: Log warning/info with request ID an, Validation Exception Handler:     - Private Layer: Log detailed field errors to, Database Integrity Exception Handler:     - Private Layer: Log full database err, Global Fallback Exception Handler for unexpected server failures (500):     - Pr (+6 more)
 
 ### Community 66 - "Request"
 Cohesion: 0.32
