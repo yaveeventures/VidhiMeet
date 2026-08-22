@@ -4,8 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="VidhiMeet — trusted legal advice, on your terms.">
-  <title>VidhiMeet — Legal help, made human</title>
+  <title>VidhiMeet — Legal help, made human | Verified Online Lawyers India</title>
+  <meta name="description" content="Connect with verified Advocates in India for private online legal consultations and legal document drafting. Property Law, Corporate Law, Family Law & Startup Advisory.">
+  <meta name="keywords" content="legal advice India, online lawyer consultation, verified advocate India, property lawyer, corporate lawyer, legal document drafting, DPDP Act 2023, VidhiMeet">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://vidhimeet.in/">
+
+  <!-- Open Graph / Facebook / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vidhimeet.in/">
+  <meta property="og:title" content="VidhiMeet — Legal help, made human">
+  <meta property="og:description" content="Verified Advocates, private video consultations, and instant legal document drafting across India.">
+  <meta property="og:image" content="https://vidhimeet.in/logo.png">
+  <meta property="og:site_name" content="VidhiMeet">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://vidhimeet.in/">
+  <meta name="twitter:title" content="VidhiMeet — Legal help, made human">
+  <meta name="twitter:description" content="Verified Advocates, private video consultations, and instant legal document drafting across India.">
+  <meta name="twitter:image" content="https://vidhimeet.in/logo.png">
+
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +34,55 @@
   <link rel="stylesheet" href="css/design-tokens.css">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="stylesheet" href="css/cookie-consent.css">
+
+  <!-- Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LegalService",
-    "name": "VidhiMeet",
-    "description": "Verified legal advice, confidential online consultations, and legal document drafting in India.",
-    "url": "https://vidhimeet.com",
-    "areaServed": "IN",
-    "serviceType": ["Property Law", "Corporate Law", "Family Law"]
+    "@graph": [
+      {
+        "@type": "LegalService",
+        "@id": "https://vidhimeet.in/#organization",
+        "name": "VidhiMeet",
+        "url": "https://vidhimeet.in",
+        "logo": "https://vidhimeet.in/logo.png",
+        "image": "https://vidhimeet.in/logo.png",
+        "description": "Verified legal advice, confidential online video consultations, and legal document drafting in India.",
+        "areaServed": {
+          "@type": "Country",
+          "name": "India"
+        },
+        "serviceType": ["Property Law", "Corporate Law", "Family Law", "Legal Document Drafting"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://vidhimeet.in/#website",
+        "url": "https://vidhimeet.in",
+        "name": "VidhiMeet",
+        "publisher": { "@id": "https://vidhimeet.in/#organization" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "How does online legal consultation work on VidhiMeet?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Browse verified advocates by practice area (Property, Corporate, Family Law), pick an available time slot, and consult securely via end-to-end encrypted video call."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Are lawyers on VidhiMeet verified?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, all legal experts on VidhiMeet undergo Bar Council enrollment number verification before being listed on the platform."
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>

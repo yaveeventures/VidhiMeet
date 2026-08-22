@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "backend/routers/auth.py": {
-    "mtime": 1787409263.492575,
-    "ast_hash": "0e3a09e807a6ce061af4cc64348f4a06",
+    "mtime": 1787411332.0688677,
+    "ast_hash": "fa820f822a687281a4892ded55b4b0fb",
     "semantic_hash": ""
   },
   "backend/routers/bank_accounts.py": {
@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1787392794.9443133,
-    "ast_hash": "31f09382cc72c5f0d49f6974c3f313cd",
+    "mtime": 1787411340.506702,
+    "ast_hash": "0459cf23ef42ca8e84afd6ef90cc5275",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.js": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1787390327.5446887,
-    "ast_hash": "3c50111c5bcd4ab68f53badcaa621376",
+    "mtime": 1787411349.8244228,
+    "ast_hash": "dc796d7c4eecf3305237087f2a9d2e13",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {

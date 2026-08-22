@@ -1,0 +1,14 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /lawyer.html
+Allow: /privacy.html
+Allow: /terms.html
+
+# Disallow internal admin management portals
+Disallow: /admin.html
+Disallow: /admin-login.html
+
+# Sitemap reference
+Sitemap: https://vidhimeet.in/sitemap.xml
