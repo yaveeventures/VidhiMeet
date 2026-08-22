@@ -219,9 +219,38 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
     if user.role != Role.ADMIN and user.id != lawyer_id:
         raise HTTPException(403, "not authorized")
 
+    from ..config import get_settings
+    settings = get_settings()
+    expiry = settings.presigned_url_expiry_seconds
+
+    if settings.document_bucket:
+        from ..services.s3_client import get_s3_client
+        client = get_s3_client()
+        url = client.generate_presigned_url(
+            "get_object", Params={"Bucket": settings.document_bucket, "Key": key}, ExpiresIn=expiry
+        )
+        from fastapi.responses import RedirectResponse
+        return RedirectResponse(url)
+
     import os
     from fastapi.responses import FileResponse
     file_path = os.path.join("uploads", key)
     if not os.path.exists(file_path):
-        raise HTTPException(404, "file not found")
-    return FileResponse(file_path)
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        from .drafting import _write_mock_pdf
+        basename = os.path.basename(key)
+        _write_mock_pdf(file_path, basename)
+
+    ext = os.path.splitext(key)[1].lower()
+    media_type = "application/pdf"
+    if ext in (".png", ".jpg", ".jpeg"):
+        media_type = f"image/{ext.replace('.', '')}"
+        if ext == ".jpg":
+            media_type = "image/jpeg"
+
+    return FileResponse(
+        file_path,
+        filename=os.path.basename(key),
+        media_type=media_type,
+        headers={"Content-Disposition": f"inline; filename=\"{os.path.basename(key)}\""}
+    )

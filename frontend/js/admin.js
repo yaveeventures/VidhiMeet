@@ -474,7 +474,7 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
     </div>
     <div class="review-docs">
       ${docRow('bar', 'Bar Council Certificate', 'Click View to open, then Verify to confirm', barLicenseUrl)}
-      ${docRow('id', 'Government Identity Card', 'Click View to open, then Verify to confirm', aadhaarUrl)}
+      ${docRow('id', 'Aadhaar Card', 'Click View to open, then Verify to confirm', aadhaarUrl)}
     </div>
     ${!isVerified ? `<p class="verify-hint">&#9432; Verify both documents to enable approval.</p>` : ''}
     <div class="modal-actions">

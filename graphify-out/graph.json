@@ -30,7 +30,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_config",
-      "community": 31,
+      "community": 27,
       "norm_label": "config.py"
     },
     {
@@ -110,7 +110,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "backend_config_get_settings",
-      "community": 31,
+      "community": 27,
       "norm_label": "get_settings()"
     },
     {
@@ -140,7 +140,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "backend_db_base",
-      "community": 36,
+      "community": 61,
       "norm_label": "base"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "declarativebase",
-      "community": 36,
+      "community": 61,
       "norm_label": "declarativebase"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_db_get_db",
-      "community": 13,
+      "community": 19,
       "norm_label": "get_db()"
     },
     {
@@ -260,7 +260,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "backend_main_security_headers_and_rate_limit",
-      "community": 9,
+      "community": 24,
       "norm_label": "security_headers_and_rate_limit()"
     },
     {
@@ -270,7 +270,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_main_py_request",
-      "community": 9,
+      "community": 24,
       "norm_label": "request"
     },
     {
@@ -280,7 +280,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "backend_main_http_exception_handler",
-      "community": 9,
+      "community": 24,
       "norm_label": "http_exception_handler()"
     },
     {
@@ -290,7 +290,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "starlettehttpexception",
-      "community": 9,
+      "community": 24,
       "norm_label": "starlettehttpexception"
     },
     {
@@ -300,7 +300,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "backend_main_validation_exception_handler",
-      "community": 9,
+      "community": 24,
       "norm_label": "validation_exception_handler()"
     },
     {
@@ -310,7 +310,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "requestvalidationerror",
-      "community": 9,
+      "community": 24,
       "norm_label": "requestvalidationerror"
     },
     {
@@ -320,7 +320,7 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "backend_main_integrity_exception_handler",
-      "community": 9,
+      "community": 24,
       "norm_label": "integrity_exception_handler()"
     },
     {
@@ -330,7 +330,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "integrityerror",
-      "community": 9,
+      "community": 24,
       "norm_label": "integrityerror"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "backend_main_unhandled_exception_handler",
-      "community": 9,
+      "community": 24,
       "norm_label": "unhandled_exception_handler()"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_main_py_exception",
-      "community": 9,
+      "community": 24,
       "norm_label": "exception"
     },
     {
@@ -370,7 +370,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "backend_main_rationale_155",
-      "community": 9,
+      "community": 24,
       "norm_label": "http exception handler:     - private layer: log warning/info with request id an"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "backend_main_rationale_178",
-      "community": 9,
+      "community": 24,
       "norm_label": "validation exception handler:     - private layer: log detailed field errors to"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L205",
       "_origin": "ast",
       "id": "backend_main_rationale_205",
-      "community": 9,
+      "community": 24,
       "norm_label": "database integrity exception handler:     - private layer: log full database err"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "backend_main_rationale_226",
-      "community": 9,
+      "community": 24,
       "norm_label": "global fallback exception handler for unexpected server failures (500):     - pr"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "backend_models_now",
-      "community": 61,
+      "community": 13,
       "norm_label": "now()"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_models_py_datetime",
-      "community": 61,
+      "community": 13,
       "norm_label": "datetime"
     },
     {
@@ -530,7 +530,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "backend_models_lawyerprofile",
-      "community": 47,
+      "community": 19,
       "norm_label": "lawyerprofile"
     },
     {
@@ -650,7 +650,7 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "backend_models_booking_last_message_at",
-      "community": 61,
+      "community": 13,
       "norm_label": ".last_message_at()"
     },
     {
@@ -660,7 +660,7 @@
       "source_location": "L212",
       "_origin": "ast",
       "id": "backend_models_refreshtoken",
-      "community": 36,
+      "community": 61,
       "norm_label": "refreshtoken"
     },
     {
@@ -670,7 +670,7 @@
       "source_location": "L221",
       "_origin": "ast",
       "id": "backend_models_passwordresettoken",
-      "community": 36,
+      "community": 61,
       "norm_label": "passwordresettoken"
     },
     {
@@ -680,7 +680,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "backend_models_auditlog",
-      "community": 6,
+      "community": 19,
       "norm_label": "auditlog"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "backend_models_webhookevent",
-      "community": 36,
+      "community": 61,
       "norm_label": "webhookevent"
     },
     {
@@ -720,7 +720,7 @@
       "source_location": "L267",
       "_origin": "ast",
       "id": "backend_models_review",
-      "community": 6,
+      "community": 55,
       "norm_label": "review"
     },
     {
@@ -730,7 +730,7 @@
       "source_location": "L282",
       "_origin": "ast",
       "id": "backend_models_review_client_name",
-      "community": 6,
+      "community": 55,
       "norm_label": ".client_name()"
     },
     {
@@ -740,7 +740,7 @@
       "source_location": "L286",
       "_origin": "ast",
       "id": "backend_models_userconsent",
-      "community": 6,
+      "community": 19,
       "norm_label": "userconsent"
     },
     {
@@ -820,7 +820,7 @@
       "source_location": "L359",
       "_origin": "ast",
       "id": "backend_models_draftingrequest_auto_approve_at",
-      "community": 61,
+      "community": 13,
       "norm_label": ".auto_approve_at()"
     },
     {
@@ -900,7 +900,7 @@
       "source_location": "L421",
       "_origin": "ast",
       "id": "backend_models_voucher",
-      "community": 36,
+      "community": 55,
       "norm_label": "voucher"
     },
     {
@@ -910,7 +910,7 @@
       "source_location": "L435",
       "_origin": "ast",
       "id": "backend_models_voucher_user_email",
-      "community": 36,
+      "community": 55,
       "norm_label": ".user_email()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_rate_limiter",
-      "community": 31,
+      "community": 27,
       "norm_label": "rate_limiter.py"
     },
     {
@@ -1210,7 +1210,7 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "backend_rate_limiter_rate_limit_dependency",
-      "community": 8,
+      "community": 47,
       "norm_label": "rate_limit_dependency()"
     },
     {
@@ -1520,7 +1520,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "backend_routers_auth_forgot_password",
-      "community": 60,
+      "community": 27,
       "norm_label": "forgot_password()"
     },
     {
@@ -1530,7 +1530,7 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "backend_routers_auth_reset_password",
-      "community": 36,
+      "community": 61,
       "norm_label": "reset_password()"
     },
     {
@@ -1540,7 +1540,7 @@
       "source_location": "L224",
       "_origin": "ast",
       "id": "backend_routers_auth_logout",
-      "community": 62,
+      "community": 10,
       "norm_label": "logout()"
     },
     {
@@ -1550,7 +1550,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "response",
-      "community": 62,
+      "community": 10,
       "norm_label": "response"
     },
     {
@@ -1590,7 +1590,7 @@
       "source_location": "L347",
       "_origin": "ast",
       "id": "backend_routers_auth_request_erasure",
-      "community": 6,
+      "community": 19,
       "norm_label": "request_erasure()"
     },
     {
@@ -1620,7 +1620,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_140",
-      "community": 60,
+      "community": 27,
       "norm_label": "request a password reset link.     anti-enumeration protection: returns 200 ok r"
     },
     {
@@ -1630,7 +1630,7 @@
       "source_location": "L181",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_181",
-      "community": 36,
+      "community": 61,
       "norm_label": "reset password using a valid, single-use, 15-minute reset token.     hashes new"
     },
     {
@@ -1640,7 +1640,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_225",
-      "community": 62,
+      "community": 10,
       "norm_label": "log out user and revoke current access token (jti) via redis blocklist."
     },
     {
@@ -2100,7 +2100,7 @@
       "source_location": "L227",
       "_origin": "ast",
       "id": "backend_routers_calendar_rotate_ical_token",
-      "community": 22,
+      "community": 19,
       "norm_label": "rotate_ical_token()"
     },
     {
@@ -2200,7 +2200,7 @@
       "source_location": "L231",
       "_origin": "ast",
       "id": "backend_routers_calendar_rationale_231",
-      "community": 22,
+      "community": 19,
       "norm_label": "rotate (invalidate) the lawyer's ical token and issue a new one."
     },
     {
@@ -2260,7 +2260,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "backend_routers_drafting_write_mock_pdf",
-      "community": 8,
+      "community": 47,
       "norm_label": "_write_mock_pdf()"
     },
     {
@@ -2270,7 +2270,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "backend_routers_drafting_download_drafting_document",
-      "community": 8,
+      "community": 27,
       "norm_label": "download_drafting_document()"
     },
     {
@@ -2280,7 +2280,7 @@
       "source_location": "L230",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_presign",
-      "community": 31,
+      "community": 27,
       "norm_label": "drafting_document_presign()"
     },
     {
@@ -2290,7 +2290,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_mock_upload",
-      "community": 47,
+      "community": 9,
       "norm_label": "drafting_document_mock_upload()"
     },
     {
@@ -2300,7 +2300,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_drafting_py_uploadfile",
-      "community": 47,
+      "community": 9,
       "norm_label": "uploadfile"
     },
     {
@@ -2440,7 +2440,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "backend_routers_drafting_rationale_135",
-      "community": 8,
+      "community": 47,
       "norm_label": "helper to write a mock pdf file when serving local document downloads."
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_public_stats",
-      "community": 47,
+      "community": 19,
       "norm_label": "public_stats()"
     },
     {
@@ -2660,7 +2660,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_rationale_23",
-      "community": 47,
+      "community": 19,
       "norm_label": "public endpoint \u2014 no auth required. returns live platform statistics for the hom"
     },
     {
@@ -3580,7 +3580,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "backend_security_revoke_jti",
-      "community": 38,
+      "community": 61,
       "norm_label": "revoke_jti()"
     },
     {
@@ -3640,7 +3640,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "backend_security_require_roles",
-      "community": 8,
+      "community": 22,
       "norm_label": "require_roles()"
     },
     {
@@ -3720,7 +3720,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "backend_security_rationale_107",
-      "community": 38,
+      "community": 61,
       "norm_label": "revoke a jwt by adding its jti to the revocation blocklist."
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_auth_service",
-      "community": 31,
+      "community": 27,
       "norm_label": "auth_service.py"
     },
     {
@@ -3810,7 +3810,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "backend_services_auth_service_send_password_reset_email",
-      "community": 60,
+      "community": 27,
       "norm_label": "send_password_reset_email()"
     },
     {
@@ -3830,7 +3830,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "backend_services_auth_service_rationale_43",
-      "community": 60,
+      "community": 27,
       "norm_label": "sends password reset email containing the secret token/link.     uses smtp confi"
     },
     {
@@ -3940,7 +3940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_dispute_service",
-      "community": 31,
+      "community": 21,
       "norm_label": "dispute_service.py"
     },
     {
@@ -3980,7 +3980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_drafting_service",
-      "community": 31,
+      "community": 27,
       "norm_label": "drafting_service.py"
     },
     {
@@ -3990,7 +3990,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "backend_services_drafting_service_presign_document",
-      "community": 31,
+      "community": 27,
       "norm_label": "presign_document()"
     },
     {
@@ -4170,7 +4170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_s3_client",
-      "community": 31,
+      "community": 27,
       "norm_label": "s3_client.py"
     },
     {
@@ -4180,7 +4180,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "backend_services_s3_client_get_s3_client",
-      "community": 31,
+      "community": 27,
       "norm_label": "get_s3_client()"
     },
     {
@@ -4190,7 +4190,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "backend_services_s3_client_generate_presigned_post_data",
-      "community": 31,
+      "community": 27,
       "norm_label": "generate_presigned_post_data()"
     },
     {
@@ -8677,7 +8677,7 @@
       "label": "renderEarnings()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1277",
+      "source_location": "L1278",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderearnings",
       "community": 1,
@@ -8687,7 +8687,7 @@
       "label": "renderBankAccount()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1425",
+      "source_location": "L1426",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderbankaccount",
       "community": 1,
@@ -8697,7 +8697,7 @@
       "label": "openBankModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1496",
+      "source_location": "L1497",
       "_origin": "ast",
       "id": "frontend_js_lawyer_openbankmodal",
       "community": 1,
@@ -8707,7 +8707,7 @@
       "label": "handleBankFormSubmit()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1524",
+      "source_location": "L1525",
       "_origin": "ast",
       "id": "frontend_js_lawyer_handlebankformsubmit",
       "community": 1,
@@ -8717,7 +8717,7 @@
       "label": "confirmDeleteBankAccount()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1572",
+      "source_location": "L1573",
       "_origin": "ast",
       "id": "frontend_js_lawyer_confirmdeletebankaccount",
       "community": 1,
@@ -8727,7 +8727,7 @@
       "label": "openUpiVerifyModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1584",
+      "source_location": "L1585",
       "_origin": "ast",
       "id": "frontend_js_lawyer_openupiverifymodal",
       "community": 1,
@@ -8737,7 +8737,7 @@
       "label": "initiateUpiVerification()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1599",
+      "source_location": "L1600",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initiateupiverification",
       "community": 1,
@@ -8747,7 +8747,7 @@
       "label": "calculateExperience()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1678",
+      "source_location": "L1679",
       "_origin": "ast",
       "id": "frontend_js_lawyer_calculateexperience",
       "community": 1,
@@ -8757,7 +8757,7 @@
       "label": "renderProfile()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1703",
+      "source_location": "L1704",
       "_origin": "ast",
       "id": "frontend_js_lawyer_renderprofile",
       "community": 1,
@@ -8767,7 +8767,7 @@
       "label": "handleSaveProfile()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1793",
+      "source_location": "L1794",
       "_origin": "ast",
       "id": "frontend_js_lawyer_handlesaveprofile",
       "community": 1,
@@ -8777,7 +8777,7 @@
       "label": "view()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1958",
+      "source_location": "L1959",
       "_origin": "ast",
       "id": "frontend_js_lawyer_view",
       "community": 1,
@@ -8787,7 +8787,7 @@
       "label": "joinRoom()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1987",
+      "source_location": "L1988",
       "_origin": "ast",
       "id": "frontend_js_lawyer_joinroom",
       "community": 1,
@@ -8797,7 +8797,7 @@
       "label": "_launchDaily()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2125",
+      "source_location": "L2126",
       "_origin": "ast",
       "id": "frontend_js_lawyer_launchdaily",
       "community": 1,
@@ -8807,7 +8807,7 @@
       "label": "closeCall()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2322",
+      "source_location": "L2323",
       "_origin": "ast",
       "id": "frontend_js_lawyer_closecall",
       "community": 1,
@@ -8817,7 +8817,7 @@
       "label": "openIntakeModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2332",
+      "source_location": "L2333",
       "_origin": "ast",
       "id": "frontend_js_lawyer_openintakemodal",
       "community": 1,
@@ -8827,7 +8827,7 @@
       "label": "closeIntakeModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2381",
+      "source_location": "L2382",
       "_origin": "ast",
       "id": "frontend_js_lawyer_closeintakemodal",
       "community": 1,
@@ -8837,7 +8837,7 @@
       "label": "setSidebarOpen()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2406",
+      "source_location": "L2407",
       "_origin": "ast",
       "id": "frontend_js_lawyer_setsidebaropen",
       "community": 1,
@@ -8847,7 +8847,7 @@
       "label": "openSupportModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2519",
+      "source_location": "L2520",
       "_origin": "ast",
       "id": "frontend_js_lawyer_opensupportmodal",
       "community": 1,
@@ -8857,7 +8857,7 @@
       "label": "closeSupportModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2528",
+      "source_location": "L2529",
       "_origin": "ast",
       "id": "frontend_js_lawyer_closesupportmodal",
       "community": 1,
@@ -8867,7 +8867,7 @@
       "label": "chatBackBtn",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2579",
+      "source_location": "L2580",
       "_origin": "ast",
       "id": "frontend_js_lawyer_chatbackbtn",
       "community": 1,
@@ -8877,7 +8877,7 @@
       "label": "uploadBarBtn",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2721",
+      "source_location": "L2722",
       "_origin": "ast",
       "id": "frontend_js_lawyer_uploadbarbtn",
       "community": 1,
@@ -8887,7 +8887,7 @@
       "label": "uploadIdBtn",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2722",
+      "source_location": "L2723",
       "_origin": "ast",
       "id": "frontend_js_lawyer_uploadidbtn",
       "community": 1,
@@ -8897,7 +8897,7 @@
       "label": "uploadLawyerCredentialFile()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2731",
+      "source_location": "L2732",
       "_origin": "ast",
       "id": "frontend_js_lawyer_uploadlawyercredentialfile",
       "community": 1,
@@ -8907,7 +8907,7 @@
       "label": "barLicenceFileEl",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2798",
+      "source_location": "L2802",
       "_origin": "ast",
       "id": "frontend_js_lawyer_barlicencefileel",
       "community": 1,
@@ -8917,7 +8917,7 @@
       "label": "aadhaarFileEl",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2809",
+      "source_location": "L2813",
       "_origin": "ast",
       "id": "frontend_js_lawyer_aadhaarfileel",
       "community": 1,
@@ -8927,7 +8927,7 @@
       "label": "toast()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2820",
+      "source_location": "L2824",
       "_origin": "ast",
       "id": "frontend_js_lawyer_toast",
       "community": 1,
@@ -8937,7 +8937,7 @@
       "label": "profEnrollmentEl",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2827",
+      "source_location": "L2831",
       "_origin": "ast",
       "id": "frontend_js_lawyer_profenrollmentel",
       "community": 1,
@@ -8947,7 +8947,7 @@
       "label": "initLanguageSuggestions()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2838",
+      "source_location": "L2842",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initlanguagesuggestions",
       "community": 1,
@@ -8957,7 +8957,7 @@
       "label": "NotificationsManager",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2957",
+      "source_location": "L2961",
       "_origin": "ast",
       "id": "frontend_js_lawyer_notificationsmanager",
       "community": 1,
@@ -8967,7 +8967,7 @@
       "label": "initRealtimeSync()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3042",
+      "source_location": "L3046",
       "_origin": "ast",
       "id": "frontend_js_lawyer_initrealtimesync",
       "community": 1,
@@ -8977,7 +8977,7 @@
       "label": "loadDraftingPortal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3115",
+      "source_location": "L3119",
       "_origin": "ast",
       "id": "frontend_js_lawyer_loaddraftingportal",
       "community": 1,
@@ -8987,7 +8987,7 @@
       "label": "showDraftingModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3480",
+      "source_location": "L3484",
       "_origin": "ast",
       "id": "frontend_js_lawyer_showdraftingmodal",
       "community": 1,
@@ -8997,7 +8997,7 @@
       "label": "closeDraftingModal()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3488",
+      "source_location": "L3492",
       "_origin": "ast",
       "id": "frontend_js_lawyer_closedraftingmodal",
       "community": 1,
@@ -9007,7 +9007,7 @@
       "label": "confirmAction()",
       "file_type": "code",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3583",
+      "source_location": "L3587",
       "_origin": "ast",
       "id": "frontend_js_lawyer_confirmaction",
       "community": 1,
@@ -9020,7 +9020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_modules_router",
-      "community": 24,
+      "community": 3,
       "norm_label": "router.js"
     },
     {
@@ -9030,7 +9030,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter",
-      "community": 24,
+      "community": 3,
       "norm_label": "clientrouter"
     },
     {
@@ -9040,7 +9040,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_constructor",
-      "community": 24,
+      "community": 3,
       "norm_label": ".constructor()"
     },
     {
@@ -9050,7 +9050,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_register",
-      "community": 24,
+      "community": 3,
       "norm_label": ".register()"
     },
     {
@@ -9060,7 +9060,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_navigate",
-      "community": 24,
+      "community": 3,
       "norm_label": ".navigate()"
     },
     {
@@ -9070,7 +9070,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_resolve",
-      "community": 24,
+      "community": 3,
       "norm_label": ".resolve()"
     },
     {
@@ -9080,7 +9080,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "frontend_js_modules_router_clientrouter_handlepopstate",
-      "community": 24,
+      "community": 3,
       "norm_label": ".handlepopstate()"
     },
     {
@@ -9090,7 +9090,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "frontend_js_modules_router_router",
-      "community": 24,
+      "community": 3,
       "norm_label": "router"
     },
     {
@@ -9650,7 +9650,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_py",
-      "community": 34,
+      "community": 61,
       "norm_label": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
     },
     {
@@ -9660,7 +9660,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_upgrade",
-      "community": 34,
+      "community": 61,
       "norm_label": "upgrade()"
     },
     {
@@ -9670,7 +9670,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_downgrade",
-      "community": 34,
+      "community": 61,
       "norm_label": "downgrade()"
     },
     {
@@ -10018,7 +10018,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 31,
+      "community": 9,
       "norm_label": "conftest.py"
     },
     {
@@ -10028,7 +10028,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_conftest_reset_rate_limiter",
-      "community": 31,
+      "community": 9,
       "norm_label": "reset_rate_limiter()"
     },
     {
@@ -10038,7 +10038,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "tests_conftest_database",
-      "community": 31,
+      "community": 9,
       "norm_label": "database()"
     },
     {
@@ -10048,7 +10048,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_conftest_client",
-      "community": 31,
+      "community": 9,
       "norm_label": "client()"
     },
     {
@@ -10058,7 +10058,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_conftest_async_client",
-      "community": 31,
+      "community": 9,
       "norm_label": "async_client()"
     },
     {
@@ -10278,7 +10278,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "tests_test_api_test_meeting_token_endpoint",
-      "community": 13,
+      "community": 19,
       "norm_label": "test_meeting_token_endpoint()"
     },
     {
@@ -10288,7 +10288,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "tests_test_api_test_verified_reviews_only",
-      "community": 13,
+      "community": 19,
       "norm_label": "test_verified_reviews_only()"
     },
     {
@@ -10308,7 +10308,7 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "tests_test_api_test_lawyer_complete_booking_duration_restriction",
-      "community": 13,
+      "community": 19,
       "norm_label": "test_lawyer_complete_booking_duration_restriction()"
     },
     {
@@ -10608,7 +10608,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_compliance",
-      "community": 6,
+      "community": 19,
       "norm_label": "test_compliance.py"
     },
     {
@@ -10618,7 +10618,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "tests_test_compliance_test_dpdpa_consent_enforcement_and_logging",
-      "community": 6,
+      "community": 19,
       "norm_label": "test_dpdpa_consent_enforcement_and_logging()"
     },
     {
@@ -10628,7 +10628,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_compliance_test_pii_encryption_at_rest",
-      "community": 6,
+      "community": 19,
       "norm_label": "test_pii_encryption_at_rest()"
     },
     {
@@ -10638,7 +10638,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "tests_test_compliance_test_right_to_erasure",
-      "community": 6,
+      "community": 19,
       "norm_label": "test_right_to_erasure()"
     },
     {
@@ -11228,7 +11228,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_password_reset",
-      "community": 36,
+      "community": 61,
       "norm_label": "test_password_reset.py"
     },
     {
@@ -11238,7 +11238,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_test_password_reset_test_forgot_password_flow_and_reset_success",
-      "community": 36,
+      "community": 38,
       "norm_label": "test_forgot_password_flow_and_reset_success()"
     },
     {
@@ -11248,7 +11248,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_password_reset_test_forgot_password_user_enumeration_protection",
-      "community": 36,
+      "community": 61,
       "norm_label": "test_forgot_password_user_enumeration_protection()"
     },
     {
@@ -11258,7 +11258,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "tests_test_password_reset_test_reset_password_invalid_or_used_token",
-      "community": 36,
+      "community": 38,
       "norm_label": "test_reset_password_invalid_or_used_token()"
     },
     {
@@ -11268,7 +11268,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_test_password_reset_rationale_14",
-      "community": 36,
+      "community": 38,
       "norm_label": "test full forgot password -> reset password -> login with new password workflow."
     },
     {
@@ -11278,7 +11278,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "tests_test_password_reset_rationale_65",
-      "community": 36,
+      "community": 61,
       "norm_label": "verify that forgot-password returns 200 ok without leaking non-existent user ema"
     },
     {
@@ -11288,7 +11288,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "tests_test_password_reset_rationale_74",
-      "community": 36,
+      "community": 38,
       "norm_label": "verify that reusing a reset token or passing an invalid token is rejected with 4"
     },
     {
@@ -11538,7 +11538,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_sanitizer_test_sanitize_filename",
-      "community": 10,
+      "community": 47,
       "norm_label": "test_sanitize_filename()"
     },
     {
@@ -11548,7 +11548,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_sanitizer_test_sanitize_key",
-      "community": 47,
+      "community": 10,
       "norm_label": "test_sanitize_key()"
     },
     {
@@ -12814,6 +12814,17 @@
       "source": "backend_routers_lawyers",
       "target": "backend_config_get_settings",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backend/routers/lawyers.py",
+      "source_location": "L223",
+      "weight": 1.0,
+      "source": "backend_routers_lawyers_download_lawyer_document",
+      "target": "backend_config_get_settings"
     },
     {
       "relation": "imports",
@@ -25959,6 +25970,28 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/lawyers.py",
+      "source_location": "L240",
+      "weight": 1.0,
+      "source": "backend_routers_lawyers",
+      "target": "backend_routers_drafting_write_mock_pdf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backend/routers/lawyers.py",
+      "source_location": "L242",
+      "weight": 1.0,
+      "source": "backend_routers_lawyers_download_lawyer_document",
+      "target": "backend_routers_drafting_write_mock_pdf"
+    },
+    {
       "relation": "calls",
       "context": "call",
       "confidence": "EXTRACTED",
@@ -26514,6 +26547,17 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/lawyers.py",
+      "source_location": "L227",
+      "weight": 1.0,
+      "source": "backend_routers_lawyers",
+      "target": "backend_services_s3_client_get_s3_client",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/lawyers.py",
       "source_location": "L133",
       "weight": 1.0,
       "source": "backend_routers_lawyers",
@@ -26728,6 +26772,17 @@
       "weight": 1.0,
       "source": "backend_routers_lawyers_download_lawyer_document",
       "target": "backend_security_decode_token"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "backend/routers/lawyers.py",
+      "source_location": "L228",
+      "weight": 1.0,
+      "source": "backend_routers_lawyers_download_lawyer_document",
+      "target": "backend_services_s3_client_get_s3_client"
     },
     {
       "relation": "calls",
@@ -31794,7 +31849,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1575",
+      "source_location": "L1576",
       "weight": 1.0,
       "source": "frontend_js_lawyer_confirmdeletebankaccount",
       "target": "frontend_js_api_client_lexapi"
@@ -31805,7 +31860,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1556",
+      "source_location": "L1557",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlebankformsubmit",
       "target": "frontend_js_api_client_lexapi"
@@ -31827,7 +31882,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1896",
+      "source_location": "L1897",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "frontend_js_api_client_lexapi"
@@ -31838,7 +31893,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1608",
+      "source_location": "L1609",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initiateupiverification",
       "target": "frontend_js_api_client_lexapi"
@@ -31871,7 +31926,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2137",
+      "source_location": "L2138",
       "weight": 1.0,
       "source": "frontend_js_lawyer_launchdaily",
       "target": "frontend_js_api_client_lexapi"
@@ -31893,7 +31948,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3126",
+      "source_location": "L3130",
       "weight": 1.0,
       "source": "frontend_js_lawyer_loaddraftingportal",
       "target": "frontend_js_api_client_lexapi"
@@ -31937,7 +31992,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2737",
+      "source_location": "L2738",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_api_client_lexapi"
@@ -37360,7 +37415,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1922",
+      "source_location": "L1923",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "frontend_js_daily_js_v"
@@ -37371,7 +37426,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2740",
+      "source_location": "L2741",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_daily_js_v"
@@ -37459,7 +37514,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1922",
+      "source_location": "L1923",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "frontend_js_daily_js_k"
@@ -37470,7 +37525,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2740",
+      "source_location": "L2741",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_daily_js_k"
@@ -37844,7 +37899,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2371",
+      "source_location": "L2372",
       "weight": 1.0,
       "source": "frontend_js_lawyer_openintakemodal",
       "target": "frontend_js_daily_js_q"
@@ -42735,7 +42790,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2809",
+      "source_location": "L2813",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_aadhaarfileel",
@@ -42755,7 +42810,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2798",
+      "source_location": "L2802",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_barlicencefileel",
@@ -42785,7 +42840,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1678",
+      "source_location": "L1679",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_calculateexperience",
@@ -42795,7 +42850,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2579",
+      "source_location": "L2580",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_chatbackbtn",
@@ -42825,7 +42880,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2322",
+      "source_location": "L2323",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_closecall",
@@ -42835,7 +42890,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3488",
+      "source_location": "L3492",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_closedraftingmodal",
@@ -42845,7 +42900,7 @@
       "relation": "indirect_call",
       "confidence": "INFERRED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2513",
+      "source_location": "L2514",
       "weight": 1.0,
       "context": "argument",
       "source": "frontend_js_lawyer",
@@ -42856,7 +42911,7 @@
       "relation": "indirect_call",
       "confidence": "INFERRED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2544",
+      "source_location": "L2545",
       "weight": 1.0,
       "context": "argument",
       "source": "frontend_js_lawyer",
@@ -42877,7 +42932,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3583",
+      "source_location": "L3587",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_confirmaction",
@@ -42887,7 +42942,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1572",
+      "source_location": "L1573",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_confirmdeletebankaccount",
@@ -42897,7 +42952,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3105",
+      "source_location": "L3109",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_escapehtml",
@@ -42957,7 +43012,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1524",
+      "source_location": "L1525",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_handlebankformsubmit",
@@ -42977,7 +43032,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1793",
+      "source_location": "L1794",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_handlesaveprofile",
@@ -42987,7 +43042,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1599",
+      "source_location": "L1600",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_initiateupiverification",
@@ -43007,7 +43062,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2838",
+      "source_location": "L2842",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_initlanguagesuggestions",
@@ -43027,7 +43082,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3042",
+      "source_location": "L3046",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_initrealtimesync",
@@ -43057,7 +43112,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1987",
+      "source_location": "L1988",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_joinroom",
@@ -43067,7 +43122,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2125",
+      "source_location": "L2126",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_launchdaily",
@@ -43107,7 +43162,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3115",
+      "source_location": "L3119",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_loaddraftingportal",
@@ -43157,7 +43212,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2957",
+      "source_location": "L2961",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_notificationsmanager",
@@ -43167,7 +43222,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1496",
+      "source_location": "L1497",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_openbankmodal",
@@ -43177,7 +43232,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2332",
+      "source_location": "L2333",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_openintakemodal",
@@ -43187,7 +43242,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2519",
+      "source_location": "L2520",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_opensupportmodal",
@@ -43197,7 +43252,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1584",
+      "source_location": "L1585",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_openupiverifymodal",
@@ -43217,7 +43272,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2827",
+      "source_location": "L2831",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_profenrollmentel",
@@ -43247,7 +43302,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1425",
+      "source_location": "L1426",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_renderbankaccount",
@@ -43277,7 +43332,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1277",
+      "source_location": "L1278",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_renderearnings",
@@ -43297,7 +43352,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1703",
+      "source_location": "L1704",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_renderprofile",
@@ -43367,7 +43422,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2406",
+      "source_location": "L2407",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_setsidebaropen",
@@ -43377,7 +43432,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3480",
+      "source_location": "L3484",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_showdraftingmodal",
@@ -43407,7 +43462,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2820",
+      "source_location": "L2824",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_toast",
@@ -43427,7 +43482,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2721",
+      "source_location": "L2722",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_uploadbarbtn",
@@ -43437,7 +43492,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2722",
+      "source_location": "L2723",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_uploadidbtn",
@@ -43447,7 +43502,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2731",
+      "source_location": "L2732",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_uploadlawyercredentialfile",
@@ -43467,7 +43522,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1958",
+      "source_location": "L1959",
       "weight": 1.0,
       "source": "frontend_js_lawyer",
       "target": "frontend_js_lawyer_view",
@@ -43489,7 +43544,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2327",
+      "source_location": "L2328",
       "weight": 1.0,
       "source": "frontend_js_lawyer_closecall",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43500,7 +43555,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1795",
+      "source_location": "L1796",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43522,7 +43577,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2839",
+      "source_location": "L2843",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initlanguagesuggestions",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43544,7 +43599,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1988",
+      "source_location": "L1989",
       "weight": 1.0,
       "source": "frontend_js_lawyer_joinroom",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43555,7 +43610,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2129",
+      "source_location": "L2130",
       "weight": 1.0,
       "source": "frontend_js_lawyer_launchdaily",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43610,7 +43665,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1304",
+      "source_location": "L1305",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderearnings",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43632,7 +43687,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1704",
+      "source_location": "L1705",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderprofile",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43687,7 +43742,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2407",
+      "source_location": "L2408",
       "weight": 1.0,
       "source": "frontend_js_lawyer_setsidebaropen",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43698,7 +43753,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2821",
+      "source_location": "L2825",
       "weight": 1.0,
       "source": "frontend_js_lawyer_toast",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43720,7 +43775,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1972",
+      "source_location": "L1973",
       "weight": 1.0,
       "source": "frontend_js_lawyer_view",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_lawyer",
@@ -43731,7 +43786,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3154",
+      "source_location": "L3158",
       "weight": 1.0,
       "source": "frontend_js_lawyer_loaddraftingportal",
       "target": "frontend_js_lawyer_money",
@@ -43753,7 +43808,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1285",
+      "source_location": "L1286",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderearnings",
       "target": "frontend_js_lawyer_money",
@@ -43808,7 +43863,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1340",
+      "source_location": "L1341",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderearnings",
       "target": "frontend_js_lawyer_parseutcdate",
@@ -43863,7 +43918,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1250",
+      "source_location": "L1251",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlefileupload",
       "target": "frontend_js_lawyer_uploadwithprogress",
@@ -43874,7 +43929,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2751",
+      "source_location": "L2753",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_lawyer_uploadwithprogress",
@@ -43896,7 +43951,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2733",
+      "source_location": "L2734",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_lawyer_showuploadprogressmodal",
@@ -43962,7 +44017,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1812",
+      "source_location": "L1813",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "frontend_js_lawyer_mappracticetobackend",
@@ -43973,7 +44028,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2345",
+      "source_location": "L2346",
       "weight": 1.0,
       "source": "frontend_js_lawyer_openintakemodal",
       "target": "frontend_js_lawyer_mappracticetofrontend",
@@ -43995,7 +44050,7 @@
       "context": "argument",
       "confidence": "INFERRED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1720",
+      "source_location": "L1721",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderprofile",
       "target": "frontend_js_lawyer_mappracticetofrontend",
@@ -44028,7 +44083,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3168",
+      "source_location": "L3172",
       "weight": 1.0,
       "source": "frontend_js_lawyer_loaddraftingportal",
       "target": "frontend_js_lawyer_escapehtml",
@@ -44050,7 +44105,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2371",
+      "source_location": "L2372",
       "weight": 1.0,
       "source": "frontend_js_lawyer_openintakemodal",
       "target": "frontend_js_lawyer_escapehtml",
@@ -44061,7 +44116,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1591",
+      "source_location": "L1592",
       "weight": 1.0,
       "source": "frontend_js_lawyer_openupiverifymodal",
       "target": "frontend_js_lawyer_escapehtml",
@@ -44083,7 +44138,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1448",
+      "source_location": "L1449",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderbankaccount",
       "target": "frontend_js_lawyer_escapehtml",
@@ -44116,7 +44171,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1259",
+      "source_location": "L1260",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlefileupload",
       "target": "frontend_js_lawyer_loaddata",
@@ -44127,7 +44182,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1951",
+      "source_location": "L1952",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "frontend_js_lawyer_loaddata",
@@ -44138,7 +44193,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3058",
+      "source_location": "L3062",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initrealtimesync",
       "target": "frontend_js_lawyer_loaddata",
@@ -44171,7 +44226,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2769",
+      "source_location": "L2771",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_lawyer_loaddata",
@@ -44490,7 +44545,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3085",
+      "source_location": "L3089",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initrealtimesync",
       "target": "frontend_js_lawyer_loadmessages",
@@ -44534,7 +44589,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1578",
+      "source_location": "L1579",
       "weight": 1.0,
       "source": "frontend_js_lawyer_confirmdeletebankaccount",
       "target": "frontend_js_lawyer_renderbankaccount",
@@ -44545,54 +44600,10 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1563",
+      "source_location": "L1564",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlebankformsubmit",
       "target": "frontend_js_lawyer_renderbankaccount",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1613",
-      "weight": 1.0,
-      "source": "frontend_js_lawyer_initiateupiverification",
-      "target": "frontend_js_lawyer_renderbankaccount",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1439",
-      "weight": 1.0,
-      "source": "frontend_js_lawyer_renderbankaccount",
-      "target": "frontend_js_lawyer_openbankmodal",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1557",
-      "weight": 1.0,
-      "source": "frontend_js_lawyer_handlebankformsubmit",
-      "target": "frontend_js_lawyer_toast",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1577",
-      "weight": 1.0,
-      "source": "frontend_js_lawyer_confirmdeletebankaccount",
-      "target": "frontend_js_lawyer_toast",
       "confidence_score": 1.0
     },
     {
@@ -44603,6 +44614,28 @@
       "source_location": "L1614",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initiateupiverification",
+      "target": "frontend_js_lawyer_renderbankaccount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/lawyer.js",
+      "source_location": "L1440",
+      "weight": 1.0,
+      "source": "frontend_js_lawyer_renderbankaccount",
+      "target": "frontend_js_lawyer_openbankmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/lawyer.js",
+      "source_location": "L1558",
+      "weight": 1.0,
+      "source": "frontend_js_lawyer_handlebankformsubmit",
       "target": "frontend_js_lawyer_toast",
       "confidence_score": 1.0
     },
@@ -44611,7 +44644,29 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1748",
+      "source_location": "L1578",
+      "weight": 1.0,
+      "source": "frontend_js_lawyer_confirmdeletebankaccount",
+      "target": "frontend_js_lawyer_toast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/lawyer.js",
+      "source_location": "L1615",
+      "weight": 1.0,
+      "source": "frontend_js_lawyer_initiateupiverification",
+      "target": "frontend_js_lawyer_toast",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/lawyer.js",
+      "source_location": "L1749",
       "weight": 1.0,
       "source": "frontend_js_lawyer_renderprofile",
       "target": "frontend_js_lawyer_calculateexperience",
@@ -44622,7 +44677,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1820",
+      "source_location": "L1821",
       "weight": 1.0,
       "source": "frontend_js_lawyer_handlesaveprofile",
       "target": "frontend_js_lawyer_toast",
@@ -44633,7 +44688,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L1965",
+      "source_location": "L1966",
       "weight": 1.0,
       "source": "frontend_js_lawyer_view",
       "target": "frontend_js_lawyer_loaddraftingportal",
@@ -44644,7 +44699,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2029",
+      "source_location": "L2030",
       "weight": 1.0,
       "source": "frontend_js_lawyer_joinroom",
       "target": "frontend_js_lawyer_closecall",
@@ -44655,7 +44710,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2311",
+      "source_location": "L2312",
       "weight": 1.0,
       "source": "frontend_js_lawyer_launchdaily",
       "target": "frontend_js_lawyer_closecall",
@@ -44667,7 +44722,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2158",
+      "source_location": "L2159",
       "weight": 1.0,
       "source": "frontend_js_lawyer_launchdaily",
       "target": "frontend_js_modules_router_clientrouter_resolve"
@@ -44677,7 +44732,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L2768",
+      "source_location": "L2770",
       "weight": 1.0,
       "source": "frontend_js_lawyer_uploadlawyercredentialfile",
       "target": "frontend_js_lawyer_toast",
@@ -44688,7 +44743,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3056",
+      "source_location": "L3060",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initrealtimesync",
       "target": "frontend_js_lawyer_toast",
@@ -44700,7 +44755,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3044",
+      "source_location": "L3048",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initrealtimesync",
       "target": "frontend_js_lawyer_notificationsmanager"
@@ -44710,7 +44765,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3068",
+      "source_location": "L3072",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initrealtimesync",
       "target": "frontend_js_lawyer_loaddraftingportal",
@@ -44722,7 +44777,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3054",
+      "source_location": "L3058",
       "weight": 1.0,
       "source": "frontend_js_lawyer_initrealtimesync",
       "target": "frontend_js_realtime_soundnotifier"
@@ -44732,7 +44787,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3584",
+      "source_location": "L3588",
       "weight": 1.0,
       "source": "frontend_js_lawyer_confirmaction",
       "target": "frontend_js_lawyer_showdraftingmodal",
@@ -44743,7 +44798,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/lawyer.js",
-      "source_location": "L3599",
+      "source_location": "L3603",
       "weight": 1.0,
       "source": "frontend_js_lawyer_confirmaction",
       "target": "frontend_js_lawyer_closedraftingmodal",
@@ -48629,5 +48684,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "9acccf644741ccb4bb0d431555269675f4b587d9"
+  "built_at_commit": "dbe97ec248f139ac3b7b3154113636099f050d26"
 }
