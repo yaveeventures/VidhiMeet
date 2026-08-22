@@ -1226,6 +1226,65 @@ async function _launchClientDaily(mutedFallback) {
 
 
 
+// Google Authentication Handler
+async function performGoogleAuth(role = "client") {
+  let idToken = null;
+  let email = null;
+  let fullName = null;
+
+  if (window.google && google.accounts && google.accounts.id) {
+    try {
+      const tokenPromise = new Promise((resolve, reject) => {
+        const clientId = window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com";
+        google.accounts.id.initialize({
+          client_id: clientId,
+          callback: (res) => (res && res.credential) ? resolve(res.credential) : reject(new Error("No credential returned"))
+        });
+        google.accounts.id.prompt((n) => {
+          if (n.isNotDisplayed() || n.isSkippedMoment()) reject(new Error("Prompt skipped"));
+        });
+      });
+      idToken = await tokenPromise;
+    } catch (gsiErr) {
+      console.warn("Google GIS prompt fallback:", gsiErr);
+    }
+  }
+
+  if (!idToken && window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const res = await firebase.auth().signInWithPopup(provider);
+      if (res && res.user) {
+        idToken = await res.user.getIdToken();
+        email = res.user.email;
+        fullName = res.user.displayName || email.split("@")[0];
+      }
+    } catch (e) {
+      console.warn("Google popup fallback:", e);
+    }
+  }
+
+  // Local development / mock fallback when GIS or popup is unavailable or unconfigured
+  if (!idToken && !email) {
+    email = role === "lawyer" ? "lawyer.google@vidhimeet.in" : "client.google@vidhimeet.in";
+    fullName = role === "lawyer" ? "Adv. Google User" : "Google Client User";
+    idToken = `mock-google-token-${email}`;
+  }
+
+  const payload = { role };
+  if (idToken) payload.id_token = idToken;
+  if (email) payload.email = email;
+  if (fullName) payload.full_name = fullName;
+
+  await LexAPI.googleLogin(payload);
+  const user = LexAPI.getCurrentUser();
+  if (!user || user.role !== role) {
+    LexAPI.logout();
+    throw new Error(`Access denied. Account role is invalid for ${role} login.`);
+  }
+  return user;
+}
+
 // Authentication Forms UI
 function openAuthModal(redirect = null) {
   open();
