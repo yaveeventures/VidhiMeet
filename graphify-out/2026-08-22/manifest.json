@@ -20,13 +20,13 @@
     "semantic_hash": ""
   },
   "backend/models.py": {
-    "mtime": 1787206676.7170143,
-    "ast_hash": "048d6179ddc3c1ae133f5d34f7d96a45",
+    "mtime": 1787420668.3777857,
+    "ast_hash": "efc8d737bd29133c937d24152e507bb0",
     "semantic_hash": ""
   },
   "backend/schemas.py": {
-    "mtime": 1787384611.6653764,
-    "ast_hash": "5c21235849044062e46cdf33c50cb997",
+    "mtime": 1787420675.7942853,
+    "ast_hash": "2e5f708a72cb28cffb2271d10d3a95af",
     "semantic_hash": ""
   },
   "backend/security.py": {
@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   "backend/routers/admin.py": {
-    "mtime": 1786277838.190884,
-    "ast_hash": "fdf92b470e24ec1c43614c76d77ce758",
+    "mtime": 1787420693.881479,
+    "ast_hash": "d9689038c0f59a5eb0f922e0b9bca836",
     "semantic_hash": ""
   },
   "backend/routers/auth.py": {
@@ -160,8 +160,8 @@
     "semantic_hash": ""
   },
   "backend/routers/lawyers.py": {
-    "mtime": 1787418996.926584,
-    "ast_hash": "8582e9c0f58d52b28a1c238e0945398a",
+    "mtime": 1787420718.2964656,
+    "ast_hash": "f0c938676515462834429b9df670b64d",
     "semantic_hash": ""
   },
   "backend/routers/public.py": {
@@ -175,13 +175,13 @@
     "semantic_hash": ""
   },
   "frontend/js/admin.js": {
-    "mtime": 1787419007.7453532,
-    "ast_hash": "e5f25f2e485e6a23ace2fe0832542bd8",
+    "mtime": 1787420775.7362628,
+    "ast_hash": "189d862d5321650d3295569f41f644f8",
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
-    "mtime": 1787419230.3538916,
-    "ast_hash": "cd0ebdb2652c3f62d7d051ea291a3729",
+    "mtime": 1787420733.225709,
+    "ast_hash": "36a83305bc2d8d6361a34561a39a3d32",
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1787419510.7130604,
-    "ast_hash": "9320a93f020696a8f8c1872b3fa4a7f5",
+    "mtime": 1787420791.0821595,
+    "ast_hash": "8d70e9fd55add4115939127748160d10",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {

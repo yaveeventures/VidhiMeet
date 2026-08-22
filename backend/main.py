@@ -30,6 +30,28 @@ async def lifespan(app: FastAPI):
 
     Base.metadata.create_all(engine)
 
+    # ── Auto-migrate missing columns for existing tables ─────────────────────
+    try:
+        from sqlalchemy import text
+        from .db import SessionLocal
+        with SessionLocal() as session:
+            is_sqlite = engine.dialect.name == "sqlite"
+            cols = [
+                ("bar_license_verified", "BOOLEAN DEFAULT FALSE"),
+                ("aadhaar_verified", "BOOLEAN DEFAULT FALSE")
+            ]
+            for col_name, col_def in cols:
+                try:
+                    if is_sqlite:
+                        session.execute(text(f"ALTER TABLE lawyer_profiles ADD COLUMN {col_name} {col_def};"))
+                    else:
+                        session.execute(text(f"ALTER TABLE lawyer_profiles ADD COLUMN IF NOT EXISTS {col_name} {col_def};"))
+                    session.commit()
+                except Exception as col_err:
+                    session.rollback()
+    except Exception as exc:
+        log.info("Table migration notice", error=str(exc))
+
     # Ensure default admin accounts exist
     try:
         from sqlalchemy import select
@@ -150,11 +172,21 @@ async def security_headers_and_rate_limit(request: Request, call_next):
 
 # ── Two-Layer Exception Handlers ──────────────────────────────────────────────
 
-@app.exception_handler(StarletteHTTPException)
-async def http_exception_handler(request: Request, exc: StarletteHTTPException):
+def _cors_response(response: JSONResponse, request: Request) -> JSONResponse:
+    origin = request.headers.get("origin")
+    if origin:
+        response.headers["Access-Control-Allow-Origin"] = origin
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        response.headers["Access-Control-Allow-Methods"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+    return response
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
     """
-    HTTP Exception Handler:
-    - Private Layer: Log warning/info with request ID and detail.
+    Standardized HTTP Exception Handler:
+    - Private Layer: Log operational client errors (4xx).
     - Public Layer: Return sanitized JSON message with status code and request ID.
     """
     request_id = getattr(request.state, "request_id", "unknown")
@@ -162,7 +194,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         "HTTP_EXCEPTION | status=%d request_id=%s path=%s method=%s detail=%s",
         exc.status_code, request_id, request.url.path, request.method, exc.detail
     )
-    return JSONResponse(
+    res = JSONResponse(
         status_code=exc.status_code,
         content={
             "status": "error",
@@ -172,6 +204,7 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         },
         headers=getattr(exc, "headers", None) or {}
     )
+    return _cors_response(res, request)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
@@ -190,7 +223,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
         loc = " -> ".join([str(x) for x in err.get("loc", []) if str(x) != "body"])
         clean_errors.append({"field": loc or "payload", "message": err.get("msg", "Invalid value")})
 
-    return JSONResponse(
+    res = JSONResponse(
         status_code=422,
         content={
             "status": "error",
@@ -199,6 +232,7 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
             "request_id": request_id
         }
     )
+    return _cors_response(res, request)
 
 @app.exception_handler(IntegrityError)
 async def integrity_exception_handler(request: Request, exc: IntegrityError):
@@ -212,7 +246,7 @@ async def integrity_exception_handler(request: Request, exc: IntegrityError):
         "DATABASE_INTEGRITY_ERROR | request_id=%s path=%s method=%s exc=%s",
         request_id, request.url.path, request.method, exc, exc_info=exc
     )
-    return JSONResponse(
+    res = JSONResponse(
         status_code=409,
         content={
             "status": "error",
@@ -220,6 +254,7 @@ async def integrity_exception_handler(request: Request, exc: IntegrityError):
             "request_id": request_id
         }
     )
+    return _cors_response(res, request)
 
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
@@ -233,7 +268,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
         "UNHANDLED_EXCEPTION | request_id=%s path=%s method=%s exc_type=%s exc=%s",
         request_id, request.url.path, request.method, type(exc).__name__, str(exc).encode("ascii", "backslashreplace").decode("ascii"), exc_info=exc
     )
-    return JSONResponse(
+    res = JSONResponse(
         status_code=500,
         content={
             "status": "error",
@@ -241,6 +276,7 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
             "request_id": request_id
         }
     )
+    return _cors_response(res, request)
 
 @app.get("/metrics", include_in_schema=False)
 async def metrics():
