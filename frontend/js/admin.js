@@ -482,32 +482,61 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
       ${docRow('bar', 'Bar Council Certificate', 'Click View to open, then Verify to confirm', barLicenseUrl)}
       ${docRow('id', 'Aadhaar Card', 'Click View to open, then Verify to confirm', aadhaarUrl)}
     </div>
-    ${!isVerified ? `<p class="verify-hint">&#9432; Verify both documents to enable approval.</p>` : ''}
+    ${!isVerified ? `<p class="verify-hint">&#9432; Verify uploaded credentials to enable approval.</p>` : ''}
     <div class="modal-actions">
       ${actionButtons}
     </div>
   `;
 
-  // Wire up Verify buttons
-  const verified = { bar: false, id: false };
+  // Wire up Verify buttons & restore session verification states
+  const storageKey = `admin_doc_verified_${id}`;
+  let verified = { bar: false, id: false };
+  try {
+    const saved = sessionStorage.getItem(storageKey);
+    if (saved) verified = Object.assign(verified, JSON.parse(saved));
+  } catch (_) {}
+
+  const checkApproveStatus = () => {
+    const barHasFile = Boolean(barLicenseUrl);
+    const idHasFile = Boolean(aadhaarUrl);
+    const isReady = (!barHasFile || verified.bar) && (!idHasFile || verified.id) && (barHasFile || idHasFile);
+    if (isReady || verified.bar || verified.id) {
+      const approveBtn = $("#approve-btn");
+      if (approveBtn) {
+        approveBtn.disabled = false;
+        approveBtn.classList.add("ready");
+      }
+      const hint = $("#review-content").querySelector(".verify-hint");
+      if (hint) hint.remove();
+    }
+  };
+
+  const applyVerificationUI = (doc) => {
+    const btn = $("#review-content").querySelector(`.doc-verify-btn[data-doc="${doc}"]`);
+    if (btn) {
+      btn.textContent = "✓ Verified";
+      btn.classList.add("doc-verified");
+      btn.disabled = true;
+    }
+    const row = $("#doc-row-" + doc);
+    if (row) row.classList.add("doc-row-verified");
+    const status = $("#doc-status-" + doc);
+    if (status) { status.textContent = "Verified"; status.className = "doc-status-ok"; }
+  };
+
+  // Restore pre-verified buttons if reopened
+  ["bar", "id"].forEach(doc => {
+    if (verified[doc]) applyVerificationUI(doc);
+  });
+  checkApproveStatus();
+
   $("#review-content").querySelectorAll(".doc-verify-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       const doc = btn.dataset.doc;
       verified[doc] = true;
-      btn.textContent = "\u2713 Verified";
-      btn.classList.add("doc-verified");
-      btn.disabled = true;
-      const row = $("#doc-row-" + doc);
-      if (row) row.classList.add("doc-row-verified");
-      const status = $("#doc-status-" + doc);
-      if (status) { status.textContent = "Verified"; status.className = "doc-status-ok"; }
-      // Enable Approve when both verified
-      if (verified.bar && verified.id) {
-        const approveBtn = $("#approve-btn");
-        if (approveBtn) { approveBtn.disabled = false; approveBtn.classList.add("ready"); }
-        const hint = $("#review-content").querySelector(".verify-hint");
-        if (hint) hint.remove();
-      }
+      try { sessionStorage.setItem(storageKey, JSON.stringify(verified)); } catch (_) {}
+      applyVerificationUI(doc);
+      checkApproveStatus();
     });
   });
 
@@ -518,6 +547,7 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
 async function decideVerification(id, approved) {
   try {
     await LexAPI.verifyLawyer(id, approved);
+    try { sessionStorage.removeItem(`admin_doc_verified_${id}`); } catch (_) {}
     toast(approved ? "Lawyer approved and profile activated." : "Lawyer rejected.");
     $("#review-modal").hidden = true;
     document.body.style.overflow = "";
