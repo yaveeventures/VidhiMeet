@@ -1800,6 +1800,18 @@ async function handleSaveProfile(e) {
         const uploadRes = await fetch(uploadUrl, {method: "POST", body: formData, headers});
         if (!uploadRes.ok) throw new Error(`Upload status ${uploadRes.status}`);
         await LexAPI.confirmLawyerDocumentUpload(up.file.name, presign.key, up.type);
+        if (up.type === "bar_license") {
+          lawyerProfile.bar_license_url = presign.key;
+          if (barFileEl) barFileEl.value = "";
+        }
+        if (up.type === "aadhaar") {
+          lawyerProfile.aadhaar_url = presign.key;
+          if (aadhaarFileEl) aadhaarFileEl.value = "";
+        }
+        if (up.type === "profile_picture") {
+          lawyerProfile.profile_picture_url = presign.key;
+          if (profilePicFileEl) profilePicFileEl.value = "";
+        }
         toast(`${up.type.replace('_', ' ')} uploaded successfully.`);
       } catch (err) {
         toast(`Failed to upload ${up.type}: ${err.message}`);

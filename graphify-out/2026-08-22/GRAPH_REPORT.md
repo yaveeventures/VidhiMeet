@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-08-22)
 
 ## Corpus Check
-- 84 files · ~98,440 words
+- 84 files · ~98,485 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1219 nodes · 3394 edges · 60 communities (48 shown, 12 thin omitted)
+- 1219 nodes · 3394 edges · 61 communities (49 shown, 12 thin omitted)
 - Extraction: 86% EXTRACTED · 14% INFERRED · 0% AMBIGUOUS · INFERRED: 481 edges (avg confidence: 0.59)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `507843fb`
+- Built from commit: `d885792f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -34,6 +34,7 @@
 - check_clock_drift
 - 8dcb01bed07f_initial_schema.py
 - 9d0be6640444_add_aadhaar_and_profile_picture.py
+- i
 - ntp_now
 - er
 - PlatformFeedback
@@ -97,19 +98,19 @@
 ## Import Cycles
 - None detected.
 
-## Communities (60 total, 12 thin omitted)
+## Communities (61 total, 12 thin omitted)
 
 ### Community 0 - "main.py"
-Cohesion: 0.13
-Nodes (8): Ae(), br, ee(), gt(), qn(), qt, re(), ue()
+Cohesion: 0.27
+Nodes (3): gt(), qt, re()
 
 ### Community 1 - "mr"
 Cohesion: 0.06
 Nodes (72): $(), openChatModal(), LexE2EE, aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings (+64 more)
 
 ### Community 2 - "je"
-Cohesion: 0.12
-Nodes (30): as(), cr(), ct(), dn(), er(), Es(), Et(), fe() (+22 more)
+Cohesion: 0.14
+Nodes (26): Bt(), ct(), Es(), It(), jt(), k(), Kn(), l() (+18 more)
 
 ### Community 3 - "lawyer.js"
 Cohesion: 0.07
@@ -167,6 +168,10 @@ Nodes (14): 🛡️ **Admin Console**, 🛠️ Architecture & Tech Stack, 🔍 *
 Cohesion: 0.11
 Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
 
+### Community 19 - "i"
+Cohesion: 0.12
+Nodes (16): Ae(), br, cr(), dn(), ee(), er(), Et(), fe() (+8 more)
+
 ### Community 20 - "ntp_now"
 Cohesion: 0.05
 Nodes (44): get_settings(), Settings, check_clock_drift(), _get_servers(), ntp_now(), ntp_now_ist(), NtpStatus, datetime (+36 more)
@@ -221,7 +226,7 @@ Nodes (12): a(), B(), c(), d(), f(), gn(), or(), p() (+4 more)
 
 ### Community 41 - "register"
 Cohesion: 0.06
-Nodes (44): be(), Bt(), ce(), de(), dr(), dt(), ft(), g() (+36 more)
+Nodes (37): as(), be(), ce(), de(), dr(), dt(), ft(), g() (+29 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.64
@@ -277,7 +282,7 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `User` connect `er` to `LexAPI`, `booking_service.py`, `processEvent`, `User`, `audit`, `README.md`, `LawyerGrid`, `calendar.py`, `LawyerProfile`, `ntp_now`, `calendar.py`, `LawyerBankAccount`, `decode_token`, `reset_users.py`, `pdf-annotator.js`?**
   _High betweenness centrality (0.057) - this node is a cross-community bridge._
-- **Why does `s()` connect `je` to `main.py`, `mr`, `app.js`, `daily-js.js`, `verify_ntp_compliance`, `register`, `toast`, `9d0be6640444_add_aadhaar_and_profile_picture.py`?**
+- **Why does `s()` connect `je` to `main.py`, `mr`, `app.js`, `daily-js.js`, `verify_ntp_compliance`, `register`, `toast`, `9d0be6640444_add_aadhaar_and_profile_picture.py`, `i`?**
   _High betweenness centrality (0.046) - this node is a cross-community bridge._
 - **Why does `LexAPI` connect `lawyer.js` to `mr`, `T`, `daily-js.js`?**
   _High betweenness centrality (0.035) - this node is a cross-community bridge._

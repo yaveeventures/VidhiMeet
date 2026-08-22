@@ -173,7 +173,7 @@ def lawyer_document_confirm(filename: str, key: str, doc_type: str,
                              user: User = Depends(require_roles(Role.LAWYER)),
                              db: Session = Depends(get_db)):
     from ..sanitizer import sanitize_filename, sanitize_key
-    if doc_type not in ("bar_license", "aadhaar"):
+    if doc_type not in ("bar_license", "aadhaar", "profile_picture"):
         raise HTTPException(400, "invalid document type")
     filename = sanitize_filename(filename)
     key = sanitize_key(key)
@@ -187,6 +187,8 @@ def lawyer_document_confirm(filename: str, key: str, doc_type: str,
         profile.bar_license_url = url
     elif doc_type == "aadhaar":
         profile.aadhaar_url = url
+    elif doc_type == "profile_picture":
+        profile.profile_picture_url = url
 
     audit(db, user, "lawyer.document_uploaded", "user", user.id, {"filename": filename, "key": key, "doc_type": doc_type})
     db.commit()
