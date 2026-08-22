@@ -233,18 +233,22 @@ def logout(request: Response, user: User = Depends(current_user), db: Session = 
 
 def _verify_google_id_token(id_token: str, expected_client_id: str = "") -> dict:
     if id_token.startswith("mock-google-token-"):
+        if get_settings().environment == "production":
+            raise ValueError("Mock Google authentication tokens are disabled in production environment")
         mock_email = id_token.replace("mock-google-token-", "")
         if "@" not in mock_email:
             mock_email = f"{mock_email}@example.com"
         return {"email": mock_email, "name": mock_email.split("@")[0], "email_verified": True}
 
-    url = f"https://oauth2.googleapis.com/tokeninfo?id_token={id_token}"
+    param = "access_token" if id_token.startswith("ya29.") else "id_token"
+    url = f"https://oauth2.googleapis.com/tokeninfo?{param}={id_token}"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "VidhiMeet-Auth/1.0"})
         with urllib.request.urlopen(req, timeout=5) as resp:
             if resp.status == 200:
                 data = json.loads(resp.read().decode("utf-8"))
-                if expected_client_id and data.get("aud") != expected_client_id:
+                aud = data.get("aud") or data.get("azp")
+                if expected_client_id and aud != expected_client_id:
                     raise ValueError("Token audience does not match configured GOOGLE_CLIENT_ID")
                 if str(data.get("email_verified")).lower() not in ("true", "1"):
                     raise ValueError("Google email is not verified")

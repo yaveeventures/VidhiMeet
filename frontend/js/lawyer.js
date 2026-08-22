@@ -168,61 +168,9 @@ function initLawyerAuth() {
       btnTarget.innerHTML = `<span class="btn-spinner"></span> <span>Signing in with Google...</span>`;
     }
     try {
-      let idToken = null;
-      let email = null;
-      let fullName = null;
-
-      if (window.google && google.accounts && google.accounts.id) {
-        try {
-          const tokenPromise = new Promise((resolve, reject) => {
-            google.accounts.id.initialize({
-              client_id: window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com",
-              callback: (res) => (res && res.credential) ? resolve(res.credential) : reject(new Error("No credential"))
-            });
-            google.accounts.id.prompt((n) => {
-              if (n.isNotDisplayed() || n.isSkippedMoment()) reject(new Error("Prompt bypassed"));
-            });
-          });
-          idToken = await tokenPromise;
-        } catch (gsiErr) { console.warn("Google GIS prompt fallback:", gsiErr); }
-      }
-
-      if (!idToken && window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
-        try {
-          const provider = new firebase.auth.GoogleAuthProvider();
-          const res = await firebase.auth().signInWithPopup(provider);
-          if (res && res.user) {
-            idToken = await res.user.getIdToken();
-            email = res.user.email;
-            fullName = res.user.displayName || email.split("@")[0];
-          }
-        } catch (e) { console.warn("Google popup fallback:", e); }
-      }
-
-      if (!idToken && !email) {
-        email = "lawyer.google@vidhimeet.in";
-        fullName = "Adv. Google User";
-        idToken = `mock-google-token-${email}`;
-      }
-
-      const payload = { role: "lawyer" };
-      if (idToken) payload.id_token = idToken;
-      if (email) payload.email = email;
-      if (fullName) payload.full_name = fullName;
-
-      await LexAPI.googleLogin(payload);
+      await performGoogleAuth("lawyer");
       const user = LexAPI.getCurrentUser();
-      if (!user || user.role !== "lawyer") {
-        LexAPI.logout();
-        toast("Access denied. Only lawyers can access this portal.", true);
-        if (btnTarget) {
-          btnTarget.disabled = false;
-          btnTarget.style.pointerEvents = "";
-          btnTarget.innerHTML = origHtml;
-        }
-        return;
-      }
-      fullName = user.full_name || fullName || "Lawyer";
+      const fullName = user ? user.full_name : "Lawyer";
       toast(`Welcome, ${fullName}!`);
       checkLawyerSession();
       loadData();

@@ -1231,11 +1231,36 @@ async function performGoogleAuth(role = "client") {
   let idToken = null;
   let email = null;
   let fullName = null;
+  const clientId = window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com";
 
-  if (window.google && google.accounts && google.accounts.id) {
+  // 1. Interactive Google OAuth2 Popup client (preferred on button click)
+  if (window.google && google.accounts && google.accounts.oauth2) {
+    try {
+      const popupPromise = new Promise((resolve, reject) => {
+        const client = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: "openid email profile",
+          callback: (res) => {
+            if (res && res.access_token) {
+              resolve(res.access_token);
+            } else {
+              reject(new Error("No access token returned from Google popup"));
+            }
+          },
+          error_callback: (err) => reject(err)
+        });
+        client.requestAccessToken();
+      });
+      idToken = await popupPromise;
+    } catch (popupErr) {
+      console.warn("Google OAuth2 popup attempt:", popupErr);
+    }
+  }
+
+  // 2. Google Identity Services One-Tap prompt fallback
+  if (!idToken && window.google && google.accounts && google.accounts.id) {
     try {
       const tokenPromise = new Promise((resolve, reject) => {
-        const clientId = window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com";
         google.accounts.id.initialize({
           client_id: clientId,
           callback: (res) => (res && res.credential) ? resolve(res.credential) : reject(new Error("No credential returned"))
@@ -1250,6 +1275,7 @@ async function performGoogleAuth(role = "client") {
     }
   }
 
+  // 3. Firebase Auth popup fallback
   if (!idToken && window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
     try {
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -1264,8 +1290,12 @@ async function performGoogleAuth(role = "client") {
     }
   }
 
-  // Local development / mock fallback when GIS or popup is unavailable or unconfigured
+  // 4. Local development mock fallback (STRICTLY RESTRICTED to localhost / dev environments)
+  const isLocalhost = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
   if (!idToken && !email) {
+    if (!isLocalhost) {
+      throw new Error("Google Sign-In failed or popup was closed. Please try again or sign in with email.");
+    }
     email = role === "lawyer" ? "lawyer.google@vidhimeet.in" : "client.google@vidhimeet.in";
     fullName = role === "lawyer" ? "Adv. Google User" : "Google Client User";
     idToken = `mock-google-token-${email}`;
