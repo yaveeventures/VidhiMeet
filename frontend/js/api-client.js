@@ -14,6 +14,21 @@ const LexAPI = (() => {
   const eventSubscribers = new Map();
   const cache = new Map(); // key -> {data, timestamp, ttl}
 
+  const resolveUploadUrl = (url) => {
+    if (!url) return "";
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      return url;
+    }
+    if (url.startsWith("/")) {
+      const base = getBaseUrl();
+      if (base.startsWith("http")) {
+        const origin = new URL(base).origin;
+        return origin + url;
+      }
+    }
+    return url;
+  };
+
   function subscribeTokenRefresh(cb) {
     refreshSubscribers.push(cb);
   }
@@ -286,7 +301,9 @@ const LexAPI = (() => {
     // Use downloadBookingIcs(bookingId) helper defined in app.js
 
     authenticated: () => Boolean(accessToken),
-    getAccessToken: () => accessToken
+    getAccessToken: () => accessToken,
+    resolveUploadUrl: (url) => resolveUploadUrl(url),
+    getBaseUrl: () => getBaseUrl()
   };
 })();
 

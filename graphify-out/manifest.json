@@ -240,23 +240,23 @@
     "semantic_hash": ""
   },
   "frontend/index.html": {
-    "mtime": 1787408657.961569,
-    "ast_hash": "21f61eae2905d4a826cc4effacd24d55",
+    "mtime": 1787413251.8313758,
+    "ast_hash": "9935e2e47595edbba924e45a3d1c3584",
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
-    "mtime": 1787390319.0416973,
-    "ast_hash": "5c6020f434160849723af259a387d77a",
+    "mtime": 1787413263.0215852,
+    "ast_hash": "1062acd03294ab6b0d1e45b62cac2697",
     "semantic_hash": ""
   },
   "frontend/privacy.html": {
-    "mtime": 1786338900.538234,
-    "ast_hash": "a42561cf6056a327091ad2650a14320f",
+    "mtime": 1787413278.04695,
+    "ast_hash": "4f88683fc61e9c0b51c68dd42ccb594f",
     "semantic_hash": ""
   },
   "frontend/terms.html": {
-    "mtime": 1787206737.0337977,
-    "ast_hash": "3724e285a0b950917f6a70ce42267ca2",
+    "mtime": 1787413291.7159348,
+    "ast_hash": "d82774c9c2359ada438067152b164783",
     "semantic_hash": ""
   },
   "backend/sanitizer.py": {
@@ -487,6 +487,11 @@
   "pyrightconfig.json": {
     "mtime": 1787409026.3107705,
     "ast_hash": "6d7e0c124a87fdf85f12902c446d8a48",
+    "semantic_hash": ""
+  },
+  "frontend/robots.txt": {
+    "mtime": 1787413242.5825114,
+    "ast_hash": "a13ea0a270339be61d0807e375181843",
     "semantic_hash": ""
   }
 }

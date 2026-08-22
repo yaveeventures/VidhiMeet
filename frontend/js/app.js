@@ -1956,11 +1956,17 @@ document.addEventListener("change", async e => {
 
   toast(`Uploading ${file.name}…`);
   try {
-    const presign = await LexAPI.presignDocument(bookingId, file.name, file.type);
+    const presign = await LexAPI.presignDocument(bookingId, file.name, file.type || "application/pdf");
     const formData = new FormData();
     Object.entries(presign.upload.fields || {}).forEach(([k,v]) => formData.append(k, v));
     formData.append("file", file);
-    const s3 = await fetch(presign.upload.url, { method: "POST", body: formData });
+    const headers = {};
+    const token = LexAPI.getAccessToken();
+    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+    if (token && presign.upload.url.startsWith("/")) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    const s3 = await fetch(uploadUrl, { method: "POST", body: formData, headers });
     if (s3.ok || s3.status === 201 || s3.status === 204) {
       await LexAPI.confirmDocumentUpload(bookingId, file.name, presign.key);
       toast(`✓ ${file.name} uploaded to secure vault.`);
@@ -3039,11 +3045,17 @@ window.openCreateDraftingModal = function() {
         listDiv.appendChild(item);
 
         try {
-          const presign = await LexAPI.presignDraftingDocument(file.name, file.type);
+          const presign = await LexAPI.presignDraftingDocument(file.name, file.type || "application/pdf");
           const formData = new FormData();
           Object.entries(presign.upload.fields || {}).forEach(([k,v]) => formData.append(k, v));
           formData.append("file", file);
-          const res = await fetch(presign.upload.url, { method: "POST", body: formData });
+          const headers = {};
+          const token = LexAPI.getAccessToken();
+          const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+          if (token && presign.upload.url.startsWith("/")) {
+            headers["Authorization"] = `Bearer ${token}`;
+          }
+          const res = await fetch(uploadUrl, { method: "POST", body: formData, headers });
           if (res.ok || res.status === 201 || res.status === 204) {
             uploadedFiles.push({ filename: file.name, key: presign.key });
             item.style.color = "var(--forest)";

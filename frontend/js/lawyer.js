@@ -1112,9 +1112,16 @@ async function handleFileUpload(e) {
     formData.append("file", file);
     
     toast("Uploading to secure bucket...");
-    const s3Resp = await fetch(presign.upload.url, {
+    const headers = {};
+    const token = LexAPI.getAccessToken();
+    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+    if (token && presign.upload.url.startsWith("/")) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    const s3Resp = await fetch(uploadUrl, {
       method: "POST",
-      body: formData
+      body: formData,
+      headers
     });
     
     if (s3Resp.ok || s3Resp.status === 201 || s3Resp.status === 204) {
@@ -1779,16 +1786,18 @@ async function handleSaveProfile(e) {
     if (profilePicFile) uploads.push({file: profilePicFile, type: "profile_picture"});
     for (const up of uploads) {
       try {
-        const presign = await LexAPI.presignLawyerDocument(up.file.name, up.file.type);
+        const mimeType = up.file.type || (up.file.name.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg');
+        const presign = await LexAPI.presignLawyerDocument(up.file.name, mimeType);
         const formData = new FormData();
-        Object.entries(presign.upload.fields).forEach(([k, v]) => formData.append(k, v));
+        Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
         formData.append("file", up.file);
         const headers = {};
         const token = LexAPI.getAccessToken();
+        const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
         if (token && presign.upload.url.startsWith("/")) {
           headers["Authorization"] = `Bearer ${token}`;
         }
-        const uploadRes = await fetch(presign.upload.url, {method: "POST", body: formData, headers});
+        const uploadRes = await fetch(uploadUrl, {method: "POST", body: formData, headers});
         if (!uploadRes.ok) throw new Error(`Upload status ${uploadRes.status}`);
         await LexAPI.confirmLawyerDocumentUpload(up.file.name, presign.key, up.type);
         toast(`${up.type.replace('_', ' ')} uploaded successfully.`);
@@ -3531,11 +3540,12 @@ window.openSubmitDraftModal = function(reqId, title, documents = []) {
 
       const headers = {};
       const token = LexAPI.getAccessToken();
+      const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
       if (token && presign.upload.url.startsWith("/")) {
         headers["Authorization"] = `Bearer ${token}`;
       }
 
-      const uploadRes = await fetch(presign.upload.url, { method: "POST", body: formData, headers });
+      const uploadRes = await fetch(uploadUrl, { method: "POST", body: formData, headers });
       if (!uploadRes.ok) {
         let errMsg = "Failed to upload document file.";
         try {
@@ -3617,11 +3627,17 @@ window.openCreateDraftingModal = function() {
         listDiv.appendChild(item);
 
         try {
-          const presign = await LexAPI.presignDraftingDocument(file.name, file.type);
+          const presign = await LexAPI.presignDraftingDocument(file.name, file.type || "application/pdf");
           const formData = new FormData();
           Object.entries(presign.upload.fields || {}).forEach(([k,v]) => formData.append(k, v));
           formData.append("file", file);
-          const res = await fetch(presign.upload.url, { method: "POST", body: formData });
+          const headers = {};
+          const token = LexAPI.getAccessToken();
+          const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+          if (token && presign.upload.url.startsWith("/")) {
+            headers["Authorization"] = `Bearer ${token}`;
+          }
+          const res = await fetch(uploadUrl, { method: "POST", body: formData, headers });
           if (res.ok || res.status === 201 || res.status === 204) {
             uploadedFiles.push({ filename: file.name, key: presign.key });
             item.style.color = "var(--forest)";
