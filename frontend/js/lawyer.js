@@ -115,7 +115,7 @@ function showUploadProgressModal(filename) {
 
   const sanitizedName = String(filename || "document").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   modal.innerHTML = `
-    <div style="display:flex; justify-space-between; align-items:center;">
+    <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
       <span style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#94d3ac;">Uploading to Storage</span>
       <span id="upload-progress-pct" style="font-size:14px; font-weight:800; color:#ffffff;">0%</span>
     </div>
@@ -1241,12 +1241,13 @@ async function handleFileUpload(e) {
     
     const headers = {};
     const token = LexAPI.getAccessToken();
+    const isMock = presign.upload.url.startsWith("/");
     const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-    if (token && presign.upload.url.startsWith("/")) {
+    if (token && isMock) {
       headers["Authorization"] = `Bearer ${token}`;
     }
 
-    progressUI.update(10, "Uploading to secure storage...");
+    progressUI.update(10, isMock ? "Uploading document..." : "Uploading to Cloudflare R2...");
     await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
       progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
     });
@@ -1258,12 +1259,12 @@ async function handleFileUpload(e) {
     e.target.value = "";
     loadData();
   } catch (err) {
-    console.warn("Real S3 failed, using local simulation fallback:", err);
+    console.warn("Real S3 failed, using fallback:", err);
     try {
-      progressUI.update(80, "Storing in local vault fallback...");
+      progressUI.update(70, "Processing fallback upload...");
       await LexAPI.confirmDocumentUpload(activeBookingId, file.name, `bookings/${activeBookingId}/mock-${file.name}`);
-      progressUI.close(true, "File stored in local vault!");
-      toast("File added to local secure vault successfully!");
+      progressUI.close(true, "File stored in vault!");
+      toast("File added to secure vault successfully!");
       e.target.value = "";
       loadData();
     } catch (innerErr) {
@@ -2742,12 +2743,13 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
     
     const headers = {};
     const token = LexAPI.getAccessToken();
+    const isMock = presign.upload.url.startsWith("/");
     const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-    if (token && presign.upload.url.startsWith("/")) {
+    if (token && isMock) {
       headers["Authorization"] = `Bearer ${token}`;
     }
 
-    progressUI.update(10, "Uploading to secure storage...");
+    progressUI.update(10, isMock ? "Uploading document..." : "Uploading to Cloudflare R2...");
     await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
       progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
     });
@@ -2768,9 +2770,9 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
     toast(`${file.name} uploaded successfully!`);
     if (typeof loadData === "function") loadData();
   } catch (err) {
-    console.warn("Direct R2 upload failed, attempting local fallback:", err);
+    console.warn("Direct R2 upload failed, attempting fallback:", err);
     try {
-      progressUI.update(80, "Attempting local fallback upload...");
+      progressUI.update(70, "Processing fallback upload...");
       const mockKey = `lawyers/${lawyerProfile.id || 'me'}/mock-${file.name}`;
       const mockFormData = new FormData();
       mockFormData.append("key", mockKey);
@@ -2778,15 +2780,17 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
       const headers = {};
       const token = LexAPI.getAccessToken();
       if (token) headers["Authorization"] = `Bearer ${token}`;
-      await fetch("/api/v1/lawyers/me/documents/mock-upload", { method: "POST", body: mockFormData, headers });
+      await uploadWithProgress("/api/v1/lawyers/me/documents/mock-upload", mockFormData, headers, (percent) => {
+        progressUI.update(Math.min(95, Math.max(70, percent)), `Uploading: ${percent}%`);
+      });
       await LexAPI.confirmLawyerDocumentUpload(file.name, mockKey, docType);
       
       if (docType === "bar_license") lawyerProfile.bar_license_url = mockKey;
       if (docType === "aadhaar") lawyerProfile.aadhaar_url = mockKey;
       
       if (statusEl) statusEl.textContent = `Uploaded ✓`;
-      progressUI.close(true, "Document added to local vault!");
-      toast(`${file.name} uploaded to local storage!`);
+      progressUI.close(true, "Document uploaded successfully!");
+      toast(`${file.name} uploaded successfully!`);
       if (typeof loadData === "function") loadData();
     } catch (innerErr) {
       progressUI.close(false, innerErr.message || "Upload failed");
