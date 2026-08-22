@@ -412,10 +412,16 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
   const token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token") || "";
 
   function docRow(docType, label, subtitle, fileUrl) {
+    let resolvedUrl = "";
+    if (fileUrl) {
+      const rawUrl = fileUrl.includes("?") ? `${fileUrl}&token=${encodeURIComponent(token)}` : `${fileUrl}?token=${encodeURIComponent(token)}`;
+      resolvedUrl = (typeof LexAPI !== "undefined" && LexAPI.resolveUploadUrl) ? LexAPI.resolveUploadUrl(rawUrl) : rawUrl;
+    }
+
     if (isVerified) {
       // Approved lawyer preview - show only view button if exists, no verify button
-      const viewBtn = fileUrl
-        ? `<a href="${fileUrl}&token=${encodeURIComponent(token)}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
+      const viewBtn = resolvedUrl
+        ? `<a href="${resolvedUrl}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
         : `<span class="doc-no-upload">Not on file</span>`;
       return `
         <article class="doc-row doc-row-verified" id="doc-row-${docType}">
@@ -430,8 +436,8 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
         </article>`;
     } else {
       // Pending review flow
-      const viewBtn = fileUrl
-        ? `<a href="${fileUrl}&token=${encodeURIComponent(token)}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
+      const viewBtn = resolvedUrl
+        ? `<a href="${resolvedUrl}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
         : `<span class="doc-no-upload">Not uploaded</span>`;
       const verifyBtn = `<button class="doc-verify-btn" data-doc="${docType}" title="Upload a document first" ${fileUrl ? '' : 'disabled'}>&#10003; Verify</button>`;
       return `
