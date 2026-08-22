@@ -4757,7 +4757,7 @@
       "label": "resetTimer()",
       "file_type": "code",
       "source_file": "frontend/js/api-client.js",
-      "source_location": "L318",
+      "source_location": "L321",
       "_origin": "ast",
       "id": "frontend_js_api_client_resettimer",
       "community": 3,
@@ -4767,7 +4767,7 @@
       "label": "checkInactivity()",
       "file_type": "code",
       "source_file": "frontend/js/api-client.js",
-      "source_location": "L322",
+      "source_location": "L325",
       "_origin": "ast",
       "id": "frontend_js_api_client_checkinactivity",
       "community": 3,
@@ -31575,7 +31575,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/api-client.js",
-      "source_location": "L322",
+      "source_location": "L325",
       "weight": 1.0,
       "source": "frontend_js_api_client",
       "target": "frontend_js_api_client_checkinactivity",
@@ -31595,7 +31595,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/api-client.js",
-      "source_location": "L318",
+      "source_location": "L321",
       "weight": 1.0,
       "source": "frontend_js_api_client",
       "target": "frontend_js_api_client_resettimer",
@@ -31607,7 +31607,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/js/api-client.js",
-      "source_location": "L323",
+      "source_location": "L326",
       "weight": 1.0,
       "source": "frontend_js_api_client_checkinactivity",
       "target": "frontend_js_api_client_lexapi"
@@ -48684,5 +48684,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "dbe97ec248f139ac3b7b3154113636099f050d26"
+  "built_at_commit": "77892f9618be680fd59bb57204bcbaeb49a19ac7"
 }

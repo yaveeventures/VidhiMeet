@@ -40,10 +40,10 @@ let pollingInterval = null;
 let mobileVerified = false;   // true once Firebase OTP confirmed
 
 // ── Storage Upload Progress & Percentage UI Helpers ─────────────────────────────
-function uploadWithProgress(url, formData, headers = {}, onProgress = null) {
+function uploadWithProgress(url, bodyData, method = "POST", headers = {}, onProgress = null) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
+    xhr.open(method, url, true);
 
     Object.entries(headers).forEach(([k, v]) => {
       xhr.setRequestHeader(k, v);
@@ -75,10 +75,10 @@ function uploadWithProgress(url, formData, headers = {}, onProgress = null) {
       }
     };
 
-    xhr.onerror = () => reject(new Error("Network upload error"));
+    xhr.onerror = () => reject(new Error("Network upload error. Check R2 CORS settings."));
     xhr.ontimeout = () => reject(new Error("Upload timed out"));
 
-    xhr.send(formData);
+    xhr.send(bodyData);
   });
 }
 
@@ -1233,22 +1233,32 @@ async function handleFileUpload(e) {
     progressUI.update(5, "Preparing upload presigned link...");
     const presign = await LexAPI.presignDocument(activeBookingId, file.name, file.type);
     
-    const formData = new FormData();
-    Object.entries(presign.upload.fields || {}).forEach(([k, v]) => {
-      formData.append(k, v);
-    });
-    formData.append("file", file);
-    
-    const headers = {};
-    const token = LexAPI.getAccessToken();
-    const isMock = presign.upload.url.startsWith("/");
-    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-    if (token && isMock) {
-      headers["Authorization"] = `Bearer ${token}`;
+    const method = (presign.upload && presign.upload.method) || "POST";
+    let bodyData;
+    let headers = {};
+
+    if (method === "PUT") {
+      bodyData = file;
+      headers["Content-Type"] = file.type || "application/pdf";
+      if (presign.upload.headers) {
+        Object.assign(headers, presign.upload.headers);
+      }
+    } else {
+      const formData = new FormData();
+      Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
+      formData.append("file", file);
+      bodyData = formData;
+      const token = LexAPI.getAccessToken();
+      if (token && presign.upload.url.startsWith("/")) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
     }
 
+    const isMock = presign.upload.url.startsWith("/");
+    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+
     progressUI.update(10, isMock ? "Uploading document..." : "Uploading to Cloudflare R2...");
-    await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+    await uploadWithProgress(uploadUrl, bodyData, method, headers, (percent) => {
       progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
     });
 
@@ -2737,20 +2747,32 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
     const mimeType = file.type || (file.name.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg');
     const presign = await LexAPI.presignLawyerDocument(file.name, mimeType);
     
-    const formData = new FormData();
-    Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
-    formData.append("file", file);
-    
-    const headers = {};
-    const token = LexAPI.getAccessToken();
-    const isMock = presign.upload.url.startsWith("/");
-    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-    if (token && isMock) {
-      headers["Authorization"] = `Bearer ${token}`;
+    const method = (presign.upload && presign.upload.method) || "POST";
+    let bodyData;
+    let headers = {};
+
+    if (method === "PUT") {
+      bodyData = file;
+      headers["Content-Type"] = mimeType;
+      if (presign.upload.headers) {
+        Object.assign(headers, presign.upload.headers);
+      }
+    } else {
+      const formData = new FormData();
+      Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
+      formData.append("file", file);
+      bodyData = formData;
+      const token = LexAPI.getAccessToken();
+      if (token && presign.upload.url.startsWith("/")) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
     }
 
+    const isMock = presign.upload.url.startsWith("/");
+    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+
     progressUI.update(10, isMock ? "Uploading document..." : "Uploading to Cloudflare R2...");
-    await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+    await uploadWithProgress(uploadUrl, bodyData, method, headers, (percent) => {
       progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
     });
 
@@ -2780,7 +2802,7 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
       const headers = {};
       const token = LexAPI.getAccessToken();
       if (token) headers["Authorization"] = `Bearer ${token}`;
-      await uploadWithProgress(LexAPI.resolveUploadUrl("/api/v1/lawyers/me/documents/mock-upload"), mockFormData, headers, (percent) => {
+      await uploadWithProgress(LexAPI.resolveUploadUrl("/api/v1/lawyers/me/documents/mock-upload"), mockFormData, "POST", headers, (percent) => {
         progressUI.update(Math.min(95, Math.max(70, percent)), `Uploading: ${percent}%`);
       });
       await LexAPI.confirmLawyerDocumentUpload(file.name, mockKey, docType);

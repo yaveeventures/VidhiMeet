@@ -77,7 +77,9 @@ class SSEClient {
       this.eventSource.close();
     }
 
-    const sseUrl = `/api/v1/events/stream?token=${encodeURIComponent(token)}`;
+    const sseUrl = (typeof LexAPI !== "undefined" && LexAPI.resolveUploadUrl)
+      ? LexAPI.resolveUploadUrl(`/api/v1/events/stream?token=${encodeURIComponent(token)}`)
+      : `/api/v1/events/stream?token=${encodeURIComponent(token)}`;
     this.eventSource = new EventSource(sseUrl);
 
     this.eventSource.onopen = () => {

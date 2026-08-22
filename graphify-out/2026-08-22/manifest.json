@@ -180,13 +180,13 @@
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
-    "mtime": 1787415519.342071,
-    "ast_hash": "bb1d248d10808f440458e54099b2aec7",
+    "mtime": 1787419230.3538916,
+    "ast_hash": "cd0ebdb2652c3f62d7d051ea291a3729",
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1787415603.3615277,
-    "ast_hash": "b84e5e86334385058028897535e6f8b9",
+    "mtime": 1787419267.0400362,
+    "ast_hash": "570545473dc2f6c4548b7977c13994e8",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.js": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1787418567.8228538,
-    "ast_hash": "44d287c786626c036ae6c543493deff1",
+    "mtime": 1787419258.6656153,
+    "ast_hash": "b2a9c5fe6dea422318c53def6185327e",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
