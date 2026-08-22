@@ -35,7 +35,10 @@ def lawyers(practice: Practice | None = None, language: str | None = None,
             hourly_fee_minor=p.hourly_fee_minor, rating=float(p.rating or 0),
             verified=p.verified, bar_number=p.bar_number, availability=p.availability or {},
             enrollment_date=p.enrollment_date, practice_address=p.practice_address,
-            bar_license_url=p.bar_license_url, aadhaar_url=p.aadhaar_url, mobile_number=p.mobile_number,
+            bar_license_url=p.bar_license_url, aadhaar_url=p.aadhaar_url,
+            bar_license_verified=getattr(p, "bar_license_verified", False),
+            aadhaar_verified=getattr(p, "aadhaar_verified", False),
+            mobile_number=p.mobile_number,
             created_at=u.created_at
         ))
     return results
@@ -75,6 +78,8 @@ def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session
         practice_address=profile.practice_address,
         bar_license_url=profile.bar_license_url,
         aadhaar_url=profile.aadhaar_url,
+        bar_license_verified=getattr(profile, "bar_license_verified", False),
+        aadhaar_verified=getattr(profile, "aadhaar_verified", False),
         aadhaar_number=profile.aadhaar_number,
         mobile_number=profile.mobile_number,
         created_at=user.created_at

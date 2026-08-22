@@ -260,6 +260,7 @@ const LexAPI = (() => {
     getAuditLogs: () => request("/admin/audit-logs"),
     updatePlatformFee: fee => request(`/admin/config/fees?default_fee=${fee}`, {method:"POST"}),
     verifyLawyer: (id, approved) => request(`/admin/lawyers/${id}/verification?approved=${approved}`, {method:"PATCH"}),
+    verifyLawyerDocument: (id, docType, verified = true) => request(`/admin/lawyers/${id}/documents/verify?doc_type=${docType}&verified=${verified}`, {method:"PATCH"}),
     getAdminPayouts: () => request("/admin/payouts"),
     getPlatformFeedback: () => request("/admin/feedback"),
     submitPlatformFeedback: (payload) => request("/public/feedback", {method:"POST", body:JSON.stringify(payload)}),

@@ -44,9 +44,32 @@ def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None, adm
     
     profile.verification_status = target_status
     profile.verified = (target_status == "approved")
+    if target_status == "approved":
+        profile.bar_license_verified = True
+        profile.aadhaar_verified = True
     audit(db, admin, "lawyer.verification", "user", lawyer_id, {"status": target_status, "approved": profile.verified})
     db.commit()
     return {"lawyer_id": lawyer_id, "verified": profile.verified, "verification_status": target_status}
+
+
+@router.patch("/lawyers/{lawyer_id}/documents/verify")
+def verify_lawyer_document(lawyer_id: str, doc_type: str, verified: bool = True,
+                           admin: User = Depends(require_roles(Role.ADMIN)),
+                           db: Session = Depends(get_db)):
+    profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
+    if not profile:
+        raise HTTPException(404, "Lawyer profile not found")
+
+    if doc_type in ("bar_license", "bar"):
+        profile.bar_license_verified = verified
+    elif doc_type in ("aadhaar", "id"):
+        profile.aadhaar_verified = verified
+    else:
+        raise HTTPException(400, "Invalid document type")
+
+    audit(db, admin, "lawyer.document_verified", "user", lawyer_id, {"doc_type": doc_type, "verified": verified})
+    db.commit()
+    return {"status": "success", "lawyer_id": lawyer_id, "doc_type": doc_type, "verified": verified}
 
 
 @router.get("/lawyers/pending", response_model=list[LawyerOut])
@@ -76,6 +99,8 @@ def list_pending_lawyers(_admin: User = Depends(require_roles(Role.ADMIN)), db: 
             practice_address=p.practice_address,
             bar_license_url=p.bar_license_url,
             aadhaar_url=p.aadhaar_url,
+            bar_license_verified=getattr(p, "bar_license_verified", False),
+            aadhaar_verified=getattr(p, "aadhaar_verified", False),
             mobile_number=p.mobile_number,
             created_at=u.created_at
         )
@@ -106,6 +131,8 @@ def list_rejected_lawyers(_admin: User = Depends(require_roles(Role.ADMIN)), db:
             practice_address=p.practice_address,
             bar_license_url=p.bar_license_url,
             aadhaar_url=p.aadhaar_url,
+            bar_license_verified=getattr(p, "bar_license_verified", False),
+            aadhaar_verified=getattr(p, "aadhaar_verified", False),
             mobile_number=p.mobile_number,
             created_at=u.created_at
         )

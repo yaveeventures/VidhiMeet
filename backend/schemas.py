@@ -234,6 +234,8 @@ class LawyerOut(BaseModel):
     practice_address: str | None = None
     bar_license_url: str | None = None
     aadhaar_url: str | None = None
+    bar_license_verified: bool = False
+    aadhaar_verified: bool = False
     aadhaar_number: str | None = None
     mobile_number: str | None = None
     created_at: datetime

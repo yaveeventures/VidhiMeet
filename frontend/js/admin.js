@@ -407,7 +407,7 @@ async function renderApps(filter = "pending") {
   }).join("") : `<p class="muted" style="padding:20px;">No applications found.</p>`);
 }
 
-function reviewApplication(id, name, practice, bar, isVerified = false, barLicenseUrl = null, aadhaarUrl = null) {
+function reviewApplication(id, name, practice, bar, isVerified = false, barLicenseUrl = null, aadhaarUrl = null, barVerified = false, aadhaarVerified = false) {
   const appInitials = name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
   const token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token") || "";
 
@@ -488,9 +488,9 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
     </div>
   `;
 
-  // Wire up Verify buttons & restore session verification states
+  // Wire up Verify buttons & restore session/API verification states
   const storageKey = `admin_doc_verified_${id}`;
-  let verified = { bar: false, id: false };
+  let verified = { bar: Boolean(barVerified), id: Boolean(aadhaarVerified) };
   try {
     const saved = sessionStorage.getItem(storageKey);
     if (saved) verified = Object.assign(verified, JSON.parse(saved));
@@ -531,12 +531,18 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
   checkApproveStatus();
 
   $("#review-content").querySelectorAll(".doc-verify-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const doc = btn.dataset.doc;
       verified[doc] = true;
       try { sessionStorage.setItem(storageKey, JSON.stringify(verified)); } catch (_) {}
       applyVerificationUI(doc);
       checkApproveStatus();
+      try {
+        await LexAPI.verifyLawyerDocument(id, doc, true);
+        toast(`${doc === 'id' ? 'Aadhaar Card' : 'Bar Certificate'} verified successfully!`);
+      } catch (err) {
+        console.warn("Backend document verify call failed:", err);
+      }
     });
   });
 
@@ -1194,7 +1200,9 @@ document.addEventListener("click", e => {
         a.bar_number,
         Boolean(a.verified),
         a.bar_license_url,
-        a.aadhaar_url
+        a.aadhaar_url,
+        Boolean(a.bar_license_verified),
+        Boolean(a.aadhaar_verified)
       );
     } else {
       toast("Could not load lawyer details. Please refresh and try again.");

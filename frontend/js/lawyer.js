@@ -1783,20 +1783,28 @@ function renderProfile() {
   const barLicenseStatus = $("#bar-license-status");
   const govIdStatus = $("#gov-id-status");
 
-  if (lawyerProfile.verified) {
-    if (barLicenseStatus) barLicenseStatus.textContent = "Verified";
-    if (govIdStatus) govIdStatus.textContent = "Verified";
-    if (uploadBarBtn) uploadBarBtn.style.display = "none";
-    if (uploadIdBtn) uploadIdBtn.style.display = "none";
-  } else {
-    if (uploadBarBtn) uploadBarBtn.style.display = "inline-block";
-    if (uploadIdBtn) uploadIdBtn.style.display = "inline-block";
-    
-    if (barLicenseStatus) {
+  const isBarVerified = Boolean(lawyerProfile.verified || lawyerProfile.bar_license_verified);
+  const isAadhaarVerified = Boolean(lawyerProfile.verified || lawyerProfile.aadhaar_verified);
+
+  if (barLicenseStatus) {
+    if (isBarVerified) {
+      barLicenseStatus.textContent = "Verified ✓";
+      barLicenseStatus.style.color = "var(--forest)";
+      if (uploadBarBtn) uploadBarBtn.style.display = "none";
+    } else {
       barLicenseStatus.textContent = lawyerProfile.bar_license_url ? "Uploaded (Pending Review)" : "Not uploaded";
+      if (uploadBarBtn) uploadBarBtn.style.display = "inline-block";
     }
-    if (govIdStatus) {
+  }
+
+  if (govIdStatus) {
+    if (isAadhaarVerified) {
+      govIdStatus.textContent = "Verified ✓";
+      govIdStatus.style.color = "var(--forest)";
+      if (uploadIdBtn) uploadIdBtn.style.display = "none";
+    } else {
       govIdStatus.textContent = lawyerProfile.aadhaar_url ? "Uploaded (Pending Review)" : "Not uploaded";
+      if (uploadIdBtn) uploadIdBtn.style.display = "inline-block";
     }
   }
 }

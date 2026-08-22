@@ -87,6 +87,8 @@ class LawyerProfile(Base):
     practice_address: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     bar_license_url: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     aadhaar_url: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
+    bar_license_verified: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
+    aadhaar_verified: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
     mobile_number: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     strike_count: Mapped[int] = mapped_column(Integer, default=0)
     ical_token: Mapped[str] = mapped_column(String(64), unique=True, default=lambda: secrets.token_urlsafe(48))
