@@ -160,8 +160,8 @@
     "semantic_hash": ""
   },
   "backend/routers/lawyers.py": {
-    "mtime": 1786277817.7761652,
-    "ast_hash": "699d6f99610d5cce01d30f95a938fb5d",
+    "mtime": 1787416415.8993385,
+    "ast_hash": "a8fdd58b836d0b8f4301f3c75f3c7bd5",
     "semantic_hash": ""
   },
   "backend/routers/public.py": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1787415575.632968,
-    "ast_hash": "ae62039a2c842c97346cbdcccab352b2",
+    "mtime": 1787416427.958151,
+    "ast_hash": "17259b03e4be99c8e71f8a52bbf05a33",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {

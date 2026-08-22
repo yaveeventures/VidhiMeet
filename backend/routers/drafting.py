@@ -205,8 +205,8 @@ def download_drafting_document(key: str, token: str | None = None,
     settings = get_settings()
     expiry = settings.presigned_url_expiry_seconds
     if settings.document_bucket:
-        import boto3
-        client = boto3.client("s3", region_name=settings.aws_region)
+        from ..services.s3_client import get_s3_client
+        client = get_s3_client()
         url = client.generate_presigned_url(
             "get_object", Params={"Bucket": settings.document_bucket, "Key": key}, ExpiresIn=expiry
         )
@@ -253,15 +253,10 @@ def drafting_document_presign(filename: str, content_type: str,
             "expires_in": expiry
         }
 
-    import boto3
+    from ..services.s3_client import generate_presigned_post_data
     safe_name = "".join(c for c in filename if c.isalnum() or c in "._-")[:120]
     key = f"drafting/{user.id}/{secrets.token_hex(16)}-{safe_name}"
-    client = boto3.client("s3", region_name=settings.aws_region)
-    result = client.generate_presigned_post(
-        settings.document_bucket, key,
-        Fields={"Content-Type": content_type, "x-amz-server-side-encryption": "aws:kms"},
-        Conditions=[{"Content-Type": content_type}, {"x-amz-server-side-encryption": "aws:kms"},
-                    ["content-length-range", 1, settings.max_document_bytes]], ExpiresIn=expiry)
+    result = generate_presigned_post_data(key, content_type)
     return {"upload": result, "key": key, "expires_in": expiry}
 
 

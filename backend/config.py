@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     daily_domain: str = "lexconnect"
     aws_region: str = "ap-south-1"
     document_bucket: str = ""
+    s3_endpoint_url: str = ""  # Cloudflare R2: https://<ACCOUNT_ID>.r2.cloudflarestorage.com
     max_document_bytes: int = 10 * 1024 * 1024
     presigned_url_expiry_seconds: int = 900  # 15 minutes max link validity
     data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
