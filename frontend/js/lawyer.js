@@ -39,6 +39,132 @@ let activeBookingId = null;
 let pollingInterval = null;
 let mobileVerified = false;   // true once Firebase OTP confirmed
 
+// ── Storage Upload Progress & Percentage UI Helpers ─────────────────────────────
+function uploadWithProgress(url, formData, headers = {}, onProgress = null) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+
+    Object.entries(headers).forEach(([k, v]) => {
+      xhr.setRequestHeader(k, v);
+    });
+
+    if (xhr.upload && onProgress) {
+      xhr.upload.addEventListener("progress", e => {
+        if (e.lengthComputable && e.total > 0) {
+          const percent = Math.round((e.loaded / e.total) * 100);
+          onProgress(percent, e.loaded, e.total);
+        }
+      });
+    }
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        let respData = xhr.responseText;
+        try {
+          respData = JSON.parse(xhr.responseText);
+        } catch (_) {}
+        resolve(respData);
+      } else {
+        let errMsg = `Upload failed (${xhr.status})`;
+        try {
+          const parsed = JSON.parse(xhr.responseText);
+          if (parsed && parsed.detail) errMsg = parsed.detail;
+        } catch (_) {}
+        reject(new Error(errMsg));
+      }
+    };
+
+    xhr.onerror = () => reject(new Error("Network upload error"));
+    xhr.ontimeout = () => reject(new Error("Upload timed out"));
+
+    xhr.send(formData);
+  });
+}
+
+function showUploadProgressModal(filename) {
+  let modal = document.getElementById("upload-progress-modal");
+  if (!modal) {
+    modal = document.createElement("div");
+    modal.id = "upload-progress-modal";
+    modal.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99999;
+      background: rgba(18, 38, 32, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ffffff;
+      padding: 16px 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-family: var(--font-sans, system-ui, sans-serif);
+      min-width: 290px;
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(0);
+      opacity: 1;
+    `;
+    document.body.appendChild(modal);
+  }
+
+  const sanitizedName = String(filename || "document").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  modal.innerHTML = `
+    <div style="display:flex; justify-space-between; align-items:center;">
+      <span style="font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#94d3ac;">Uploading to Storage</span>
+      <span id="upload-progress-pct" style="font-size:14px; font-weight:800; color:#ffffff;">0%</span>
+    </div>
+    <div style="font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#e0eae4;" id="upload-progress-filename">
+      📄 ${sanitizedName}
+    </div>
+    <div style="width:100%; height:6px; background:rgba(255,255,255,0.15); border-radius:99px; overflow:hidden;">
+      <div id="upload-progress-bar" style="width:0%; height:100%; background:linear-gradient(90deg, #2ecc71, #27ae60); transition:width 0.15s ease-out; border-radius:99px;"></div>
+    </div>
+    <div style="font-size:11px; color:rgba(255,255,255,0.7);" id="upload-progress-status">Uploading to secure storage...</div>
+  `;
+
+  modal.style.display = "flex";
+  modal.style.opacity = "1";
+  modal.style.transform = "translateY(0)";
+
+  return {
+    update: (percent, statusMsg) => {
+      const pctEl = document.getElementById("upload-progress-pct");
+      const barEl = document.getElementById("upload-progress-bar");
+      const statusEl = document.getElementById("upload-progress-status");
+      if (pctEl) pctEl.textContent = `${percent}%`;
+      if (barEl) barEl.style.width = `${percent}%`;
+      if (statusEl && statusMsg) statusEl.textContent = statusMsg;
+    },
+    close: (success = true, message = null) => {
+      const pctEl = document.getElementById("upload-progress-pct");
+      const barEl = document.getElementById("upload-progress-bar");
+      const statusEl = document.getElementById("upload-progress-status");
+      if (pctEl) pctEl.textContent = success ? "100%" : "Error";
+      if (barEl) {
+        barEl.style.width = "100%";
+        barEl.style.background = success ? "#2ecc71" : "#e74c3c";
+      }
+      if (statusEl) statusEl.textContent = message || (success ? "Upload completed!" : "Upload failed.");
+
+      setTimeout(() => {
+        if (modal) {
+          modal.style.opacity = "0";
+          modal.style.transform = "translateY(10px)";
+          setTimeout(() => {
+            modal.style.display = "none";
+          }, 300);
+        }
+      }, 1500);
+    }
+  };
+}
+
 // Session check — clear any stale token if not lawyer and toggle screen
 function checkLawyerSession() {
   const user = LexAPI.getCurrentUser();
@@ -1100,44 +1226,48 @@ async function handleFileUpload(e) {
     toast("Select a consultation chat thread first.");
     return;
   }
+
+  const progressUI = showUploadProgressModal(file.name);
   
   try {
-    toast(`Preparing secure upload for ${file.name}...`);
+    progressUI.update(5, "Preparing upload presigned link...");
     const presign = await LexAPI.presignDocument(activeBookingId, file.name, file.type);
     
     const formData = new FormData();
-    Object.entries(presign.upload.fields).forEach(([k, v]) => {
+    Object.entries(presign.upload.fields || {}).forEach(([k, v]) => {
       formData.append(k, v);
     });
     formData.append("file", file);
     
-    toast("Uploading to secure bucket...");
     const headers = {};
     const token = LexAPI.getAccessToken();
     const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
     if (token && presign.upload.url.startsWith("/")) {
       headers["Authorization"] = `Bearer ${token}`;
     }
-    const s3Resp = await fetch(uploadUrl, {
-      method: "POST",
-      body: formData,
-      headers
+
+    progressUI.update(10, "Uploading to secure storage...");
+    await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+      progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
     });
-    
-    if (s3Resp.ok || s3Resp.status === 201 || s3Resp.status === 204) {
-      await LexAPI.confirmDocumentUpload(activeBookingId, file.name, presign.key);
-      toast("Upload completed!");
-      loadData();
-    } else {
-      throw new Error("S3 Upload Failed");
-    }
+
+    progressUI.update(98, "Registering document in vault...");
+    await LexAPI.confirmDocumentUpload(activeBookingId, file.name, presign.key);
+    progressUI.close(true, "Document uploaded to vault!");
+    toast("Upload completed!");
+    e.target.value = "";
+    loadData();
   } catch (err) {
     console.warn("Real S3 failed, using local simulation fallback:", err);
     try {
+      progressUI.update(80, "Storing in local vault fallback...");
       await LexAPI.confirmDocumentUpload(activeBookingId, file.name, `bookings/${activeBookingId}/mock-${file.name}`);
+      progressUI.close(true, "File stored in local vault!");
       toast("File added to local secure vault successfully!");
+      e.target.value = "";
       loadData();
     } catch (innerErr) {
+      progressUI.close(false, innerErr.message || "Upload failed");
       toast("Upload failed: " + innerErr.message);
     }
   }
@@ -2598,14 +2728,80 @@ if (uploadIdBtn) {
   uploadIdBtn.onclick = () => $("#aadhaar-file").click();
 }
 
+async function uploadLawyerCredentialFile(file, docType, statusEl) {
+  if (!file) return;
+  const progressUI = showUploadProgressModal(file.name);
+  try {
+    progressUI.update(5, "Requesting upload presigned URL...");
+    const mimeType = file.type || (file.name.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg');
+    const presign = await LexAPI.presignLawyerDocument(file.name, mimeType);
+    
+    const formData = new FormData();
+    Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
+    formData.append("file", file);
+    
+    const headers = {};
+    const token = LexAPI.getAccessToken();
+    const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
+    if (token && presign.upload.url.startsWith("/")) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    progressUI.update(10, "Uploading to secure storage...");
+    await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+      progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
+    });
+
+    progressUI.update(98, "Confirming document upload...");
+    await LexAPI.confirmLawyerDocumentUpload(file.name, presign.key, docType);
+    
+    if (docType === "bar_license") {
+      lawyerProfile.bar_license_url = presign.key;
+    } else if (docType === "aadhaar") {
+      lawyerProfile.aadhaar_url = presign.key;
+    } else if (docType === "profile_picture") {
+      lawyerProfile.profile_picture_url = presign.key;
+    }
+
+    if (statusEl) statusEl.textContent = `Uploaded ✓`;
+    progressUI.close(true, "Document uploaded & verified!");
+    toast(`${file.name} uploaded successfully!`);
+    if (typeof loadData === "function") loadData();
+  } catch (err) {
+    console.warn("Direct R2 upload failed, attempting local fallback:", err);
+    try {
+      progressUI.update(80, "Attempting local fallback upload...");
+      const mockKey = `lawyers/${lawyerProfile.id || 'me'}/mock-${file.name}`;
+      const mockFormData = new FormData();
+      mockFormData.append("key", mockKey);
+      mockFormData.append("file", file);
+      const headers = {};
+      const token = LexAPI.getAccessToken();
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+      await fetch("/api/v1/lawyers/me/documents/mock-upload", { method: "POST", body: mockFormData, headers });
+      await LexAPI.confirmLawyerDocumentUpload(file.name, mockKey, docType);
+      
+      if (docType === "bar_license") lawyerProfile.bar_license_url = mockKey;
+      if (docType === "aadhaar") lawyerProfile.aadhaar_url = mockKey;
+      
+      if (statusEl) statusEl.textContent = `Uploaded ✓`;
+      progressUI.close(true, "Document added to local vault!");
+      toast(`${file.name} uploaded to local storage!`);
+      if (typeof loadData === "function") loadData();
+    } catch (innerErr) {
+      progressUI.close(false, innerErr.message || "Upload failed");
+      toast(`Upload failed: ${innerErr.message}`);
+    }
+  }
+}
+
 const barLicenceFileEl = $("#bar-licence-file");
 if (barLicenceFileEl) {
   barLicenceFileEl.onchange = e => {
     const file = e.target.files[0];
     if (file) {
       const statusEl = $("#bar-license-status");
-      if (statusEl) statusEl.textContent = `Queued: ${file.name}`;
-      toast(`${file.name} queued for verification.`);
+      uploadLawyerCredentialFile(file, "bar_license", statusEl);
     }
   };
 }
@@ -2616,8 +2812,7 @@ if (aadhaarFileEl) {
     const file = e.target.files[0];
     if (file) {
       const statusEl = $("#gov-id-status");
-      if (statusEl) statusEl.textContent = `Queued: ${file.name}`;
-      toast(`${file.name} queued for verification.`);
+      uploadLawyerCredentialFile(file, "aadhaar", statusEl);
     }
   };
 }
@@ -3540,9 +3735,10 @@ window.openSubmitDraftModal = function(reqId, title, documents = []) {
       return;
     }
 
+    const progressUI = showUploadProgressModal(file.name);
+    progressUI.update(5, "Requesting upload URL...");
     const submitBtn = e.target.querySelector("button[type='submit']");
     submitBtn.disabled = true;
-    submitBtn.textContent = "Uploading file...";
 
     try {
       const presign = await LexAPI.presignDraftingDocument(file.name, file.type || "application/octet-stream");
@@ -3557,29 +3753,23 @@ window.openSubmitDraftModal = function(reqId, title, documents = []) {
         headers["Authorization"] = `Bearer ${token}`;
       }
 
-      const uploadRes = await fetch(uploadUrl, { method: "POST", body: formData, headers });
-      if (!uploadRes.ok) {
-        let errMsg = "Failed to upload document file.";
-        try {
-          const errJson = await uploadRes.json();
-          if (errJson && errJson.detail) errMsg += ` (${errJson.detail})`;
-        } catch (_) {}
-        throw new Error(errMsg);
-      }
+      progressUI.update(10, "Uploading draft file...");
+      await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+        progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
+      });
 
+      progressUI.update(98, "Finalizing submission...");
       submitBtn.textContent = "Submitting draft...";
       await LexAPI.submitDraft(reqId, {
         draft_file_key: presign.key,
         draft_filename: file.name
       });
 
-      closeDraftingModal();
-      toast("Ready draft document uploaded successfully! Client notified.");
+      progressUI.close(true, "Draft submitted!");
       await loadDraftingPortal();
     } catch (err) {
-      document.getElementById("submit-draft-error").textContent = err.message || "Failed to submit document.";
+      progressUI.close(false, err.message || "Failed to submit document.");
       submitBtn.disabled = false;
-      submitBtn.textContent = "Upload & Submit Draft";
     }
   };
 };
@@ -3638,7 +3828,9 @@ window.openCreateDraftingModal = function() {
         item.textContent = `Uploading ${file.name}...`;
         listDiv.appendChild(item);
 
+        const progressUI = showUploadProgressModal(file.name);
         try {
+          progressUI.update(5, "Getting presigned link...");
           const presign = await LexAPI.presignDraftingDocument(file.name, file.type || "application/pdf");
           const formData = new FormData();
           Object.entries(presign.upload.fields || {}).forEach(([k,v]) => formData.append(k, v));
@@ -3649,18 +3841,19 @@ window.openCreateDraftingModal = function() {
           if (token && presign.upload.url.startsWith("/")) {
             headers["Authorization"] = `Bearer ${token}`;
           }
-          const res = await fetch(uploadUrl, { method: "POST", body: formData, headers });
-          if (res.ok || res.status === 201 || res.status === 204) {
-            uploadedFiles.push({ filename: file.name, key: presign.key });
-            item.style.color = "var(--forest)";
-            item.style.fontWeight = "bold";
-            item.textContent = `✓ ${file.name} uploaded`;
-          } else {
-            throw new Error(`Upload status ${res.status}`);
-          }
+          progressUI.update(10, "Uploading to storage...");
+          await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+            progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
+          });
+          uploadedFiles.push({ filename: file.name, key: presign.key });
+          item.style.color = "var(--forest)";
+          item.style.fontWeight = "bold";
+          item.textContent = `✓ ${file.name} uploaded`;
+          progressUI.close(true, "Reference file uploaded!");
         } catch (err) {
           const mockKey = `drafting/mock-${Date.now()}-${file.name}`;
           try {
+            progressUI.update(70, "Attempting local upload...");
             const formData = new FormData();
             formData.append("key", mockKey);
             formData.append("file", file);
@@ -3671,10 +3864,12 @@ window.openCreateDraftingModal = function() {
             uploadedFiles.push({ filename: file.name, key: mockKey });
             item.style.color = "var(--forest)";
             item.style.fontWeight = "bold";
-            item.textContent = `✓ ${file.name} uploaded`;
-          } catch (e) {
+            item.textContent = `✓ ${file.name} uploaded (local)`;
+            progressUI.close(true, "Stored in local vault!");
+          } catch (innerErr) {
             item.style.color = "var(--terra)";
-            item.textContent = `✕ Failed to upload ${file.name}`;
+            item.textContent = `✗ Upload failed: ${file.name}`;
+            progressUI.close(false, innerErr.message);
           }
         }
       }

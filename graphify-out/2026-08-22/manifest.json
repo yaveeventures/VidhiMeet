@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1787390802.4515538,
-    "ast_hash": "22e3ec572bf85a69db20d14c0c19d9a7",
+    "mtime": 1787416709.3742993,
+    "ast_hash": "5a7040180164fd149daf7bfc7088e0ea",
     "semantic_hash": ""
   },
   "backend/db.py": {
@@ -155,13 +155,13 @@
     "semantic_hash": ""
   },
   "backend/routers/drafting.py": {
-    "mtime": 1786278429.3837447,
-    "ast_hash": "b592b47c7692057fdc2d0ed84abc6cd9",
+    "mtime": 1787416744.55093,
+    "ast_hash": "7c9666efc8e930f57ace16498c9de3b7",
     "semantic_hash": ""
   },
   "backend/routers/lawyers.py": {
-    "mtime": 1786277817.7761652,
-    "ast_hash": "699d6f99610d5cce01d30f95a938fb5d",
+    "mtime": 1787416731.847562,
+    "ast_hash": "6979b05cfa037149fd8a210bea412f20",
     "semantic_hash": ""
   },
   "backend/routers/public.py": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1787415575.632968,
-    "ast_hash": "ae62039a2c842c97346cbdcccab352b2",
+    "mtime": 1787416427.958151,
+    "ast_hash": "17259b03e4be99c8e71f8a52bbf05a33",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
@@ -320,8 +320,8 @@
     "semantic_hash": ""
   },
   "backend/services/drafting_service.py": {
-    "mtime": 1785481090.9344828,
-    "ast_hash": "8506e95223e072e8c24db348451f5b4c",
+    "mtime": 1787416717.4297247,
+    "ast_hash": "3d1cc48b1ac4f29d09b0fbe1bd443e9e",
     "semantic_hash": ""
   },
   "backend/services/payment_service.py": {
@@ -492,6 +492,11 @@
   "frontend/robots.txt": {
     "mtime": 1787413242.5825114,
     "ast_hash": "a13ea0a270339be61d0807e375181843",
+    "semantic_hash": ""
+  },
+  "backend/services/s3_client.py": {
+    "mtime": 1787416691.0336888,
+    "ast_hash": "74f5cd036f359312190663e6c42e282a",
     "semantic_hash": ""
   }
 }
