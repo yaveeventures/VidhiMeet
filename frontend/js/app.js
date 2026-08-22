@@ -206,6 +206,7 @@ async function loadPublicStats() {
 }
 
 async function loadLawyers() {
+  const isLocalhost = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
   try {
     const list = await LexAPI.lawyers();
     lawyers = list.map(x => ({
@@ -224,12 +225,16 @@ async function loadLawyers() {
       color: getColorForName(x.full_name),
       initials: x.full_name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()
     }));
-    if (lawyers.length === 0) {
+    if (lawyers.length === 0 && isLocalhost) {
       lawyers = mockLawyers;
     }
   } catch (err) {
-    console.error("Failed to load lawyers, using fallback mocks:", err);
-    lawyers = mockLawyers;
+    console.error("Failed to load lawyers:", err);
+    if (isLocalhost) {
+      lawyers = mockLawyers;
+    } else {
+      lawyers = [];
+    }
   }
   render();
   // Populate live stats after lawyers are loaded (so trust faces can use real initials)
@@ -273,7 +278,11 @@ function render() {
           </div>
         </article>
       `).join("")
-    : `<p class="lead">No exact matches. Try another filter.</p>`;
+    : `<div style="grid-column:1/-1;text-align:center;padding:48px 24px;background:#f9fafb;border-radius:16px;border:1px dashed var(--line);margin:20px 0;">
+         <h4 style="font-size:18px;color:var(--forest);font-weight:700;margin-bottom:6px;">No verified lawyers available in this category yet</h4>
+         <p style="font-size:14px;color:var(--ink-light);margin-bottom:16px;">We are actively onboarding verified advocates across India.</p>
+         <a href="lawyer.html" style="display:inline-block;padding:10px 20px;background:var(--forest);color:white;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Are you a lawyer? Register as an Expert →</a>
+       </div>`;
 }
 
 function bookingView() {
