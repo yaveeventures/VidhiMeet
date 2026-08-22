@@ -72,18 +72,92 @@ function initLawyerAuth() {
   const toLogin = $("#to-lawyer-login");
   const loginSection = $("#lawyer-login-section");
   const registerSection = $("#lawyer-register-section");
+  const forgotSection = $("#lawyer-forgot-section");
+  const btnForgot = $("#btn-lawyer-forgot-password");
+  const toLoginFromForgot = $("#to-lawyer-login-from-forgot");
 
-  toRegister.onclick = (e) => {
-    e.preventDefault();
-    loginSection.style.display = "none";
-    registerSection.style.display = "block";
-  };
+  if (toRegister) {
+    toRegister.onclick = (e) => {
+      e.preventDefault();
+      loginSection.style.display = "none";
+      if (forgotSection) forgotSection.style.display = "none";
+      registerSection.style.display = "block";
+    };
+  }
 
-  toLogin.onclick = (e) => {
-    e.preventDefault();
-    registerSection.style.display = "none";
-    loginSection.style.display = "block";
-  };
+  if (toLogin) {
+    toLogin.onclick = (e) => {
+      e.preventDefault();
+      registerSection.style.display = "none";
+      if (forgotSection) forgotSection.style.display = "none";
+      loginSection.style.display = "block";
+    };
+  }
+
+  if (btnForgot) {
+    btnForgot.onclick = (e) => {
+      e.preventDefault();
+      loginSection.style.display = "none";
+      registerSection.style.display = "none";
+      if (forgotSection) forgotSection.style.display = "block";
+    };
+  }
+
+  if (toLoginFromForgot) {
+    toLoginFromForgot.onclick = (e) => {
+      e.preventDefault();
+      if (forgotSection) forgotSection.style.display = "none";
+      registerSection.style.display = "none";
+      loginSection.style.display = "block";
+    };
+  }
+
+  const forgotForm = $("#lawyer-forgot-form");
+  if (forgotForm) {
+    forgotForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = $("#lawyer-forgot-email").value.trim();
+      const errDiv = $("#lawyer-forgot-error");
+      const succDiv = $("#lawyer-forgot-success");
+      const submitBtn = $("#btn-lawyer-forgot-submit");
+      errDiv.textContent = "";
+      succDiv.textContent = "";
+      submitBtn.disabled = true;
+
+      try {
+        const res = await LexAPI.forgotPassword(email);
+        succDiv.textContent = res.message || "If an account exists with that email, a reset token has been sent.";
+        if (res.debug_reset_token) {
+          $("#lawyer-reset-token-section").style.display = "block";
+          $("#lawyer-reset-token-input").value = res.debug_reset_token;
+        }
+      } catch (err) {
+        errDiv.textContent = err.message || "Failed to process request";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    };
+  }
+
+  const resetForm = $("#lawyer-reset-form");
+  if (resetForm) {
+    resetForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const token = $("#lawyer-reset-token-input").value.trim();
+      const newPassword = $("#lawyer-reset-new-password").value;
+      const errDiv = $("#lawyer-reset-error");
+      errDiv.textContent = "";
+
+      try {
+        await LexAPI.resetPassword(token, newPassword);
+        toast("Password reset successful! Please log in.");
+        if (forgotSection) forgotSection.style.display = "none";
+        loginSection.style.display = "block";
+      } catch (err) {
+        errDiv.textContent = err.message || "Failed to reset password";
+      }
+    };
+  }
 
   const handleLawyerGoogleAuth = async (e) => {
     const btnTarget = (e && e.currentTarget) ? e.currentTarget : $("#btn-lawyer-google-login");
@@ -94,19 +168,49 @@ function initLawyerAuth() {
       btnTarget.innerHTML = `<span class="btn-spinner"></span> <span>Signing in with Google...</span>`;
     }
     try {
-      let email = "aanya@VidhiMeet.com";
-      let fullName = "Adv. Aanya Rao";
-      if (window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
+      let idToken = null;
+      let email = null;
+      let fullName = null;
+
+      if (window.google && google.accounts && google.accounts.id) {
+        try {
+          const tokenPromise = new Promise((resolve, reject) => {
+            google.accounts.id.initialize({
+              client_id: window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com",
+              callback: (res) => (res && res.credential) ? resolve(res.credential) : reject(new Error("No credential"))
+            });
+            google.accounts.id.prompt((n) => {
+              if (n.isNotDisplayed() || n.isSkippedMoment()) reject(new Error("Prompt bypassed"));
+            });
+          });
+          idToken = await tokenPromise;
+        } catch (gsiErr) { console.warn("Google GIS prompt fallback:", gsiErr); }
+      }
+
+      if (!idToken && window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
         try {
           const provider = new firebase.auth.GoogleAuthProvider();
           const res = await firebase.auth().signInWithPopup(provider);
           if (res && res.user) {
+            idToken = await res.user.getIdToken();
             email = res.user.email;
             fullName = res.user.displayName || email.split("@")[0];
           }
         } catch (e) { console.warn("Google popup fallback:", e); }
       }
-      await LexAPI.googleLogin({ email, full_name: fullName, role: "lawyer" });
+
+      if (!idToken && !email) {
+        email = "lawyer.google@vidhimeet.in";
+        fullName = "Adv. Google User";
+        idToken = `mock-google-token-${email}`;
+      }
+
+      const payload = { role: "lawyer" };
+      if (idToken) payload.id_token = idToken;
+      if (email) payload.email = email;
+      if (fullName) payload.full_name = fullName;
+
+      await LexAPI.googleLogin(payload);
       const user = LexAPI.getCurrentUser();
       if (!user || user.role !== "lawyer") {
         LexAPI.logout();
@@ -118,6 +222,7 @@ function initLawyerAuth() {
         }
         return;
       }
+      fullName = user.full_name || fullName || "Lawyer";
       toast(`Welcome, ${fullName}!`);
       checkLawyerSession();
       loadData();

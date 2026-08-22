@@ -1,17 +1,23 @@
 import enum
 from datetime import date, datetime
-from pydantic import BaseModel, EmailStr, Field, field_validator
+from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
 from .models import BookingStatus, Practice, Role, DraftingStatus, ProposalStatus
 from .sanitizer import sanitize_text, sanitize_filename, sanitize_key
 
 
 class GoogleLoginRequest(BaseModel):
     id_token: str | None = None
-    email: EmailStr
+    email: EmailStr | None = None
     full_name: str | None = None
     role: Role = Role.CLIENT
     practice: Practice | None = None
     bar_number: str | None = None
+
+    @model_validator(mode="after")
+    def check_token_or_email(self):
+        if not self.id_token and not self.email:
+            raise ValueError("Either id_token or email must be provided")
+        return self
 
 
 class RegisterRequest(BaseModel):

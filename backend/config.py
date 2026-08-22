@@ -22,6 +22,13 @@ class Settings(BaseSettings):
     presigned_url_expiry_seconds: int = 900  # 15 minutes max link validity
     data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
     trust_proxy: bool = False
+    google_client_id: str = ""
+    # ── SMTP Email Configuration ───────────────────────────────────────────
+    smtp_server: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+    smtp_from_email: str = "no-reply@vidhimeet.in"
     # ── Rate Limiting Configurable Settings ───────────────────────────────────
     rate_limit_enabled: bool = True
     rate_limit_auth_per_min: int = 10           # Stricter: Login, register, refresh, password reset

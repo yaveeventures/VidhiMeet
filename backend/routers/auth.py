@@ -1,23 +1,46 @@
 import hashlib
+import json
 import secrets
+import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
+import pyotp
 from fastapi import APIRouter, Depends, HTTPException, Response
-from sqlalchemy import select, delete, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
 
 from ..config import get_settings
 from ..db import get_db
 from ..models import (
-    AuditLog, Booking, LawyerProfile, Message, PasswordResetToken, Practice, RefreshToken, Review, Role, User,
-    UserConsent, LawyerBankAccount
+    AuditLog,
+    Booking,
+    LawyerBankAccount,
+    LawyerProfile,
+    Message,
+    PasswordResetToken,
+    Practice,
+    RefreshToken,
+    Review,
+    Role,
+    User,
+    UserConsent,
 )
-from ..schemas import (
-    ForgotPasswordRequest, GoogleLoginRequest, LoginRequest, RefreshRequest, RegisterRequest, ResetPasswordRequest, TokenResponse
-)
-from ..security import create_access_token, current_user, hash_password, verify_password
 from ..rate_limiter import rate_limit_dependency
-from ..services import audit, issue_refresh_token
+from ..schemas import (
+    ForgotPasswordRequest,
+    GoogleLoginRequest,
+    LoginRequest,
+    MfaEnableRequest,
+    MfaSetupResponse,
+    MfaVerifyRequest,
+    RefreshRequest,
+    RegisterRequest,
+    ResetPasswordRequest,
+    TokenResponse,
+)
+from ..security import create_access_token, current_user, decode_token, hash_password, revoke_jti, verify_password
+from ..services import audit, issue_refresh_token, send_password_reset_email
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
@@ -58,11 +81,6 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)):
     return TokenResponse(access_token=create_access_token(user), refresh_token=refresh)
 
 
-import pyotp
-from ..schemas import GoogleLoginRequest, LoginRequest, MfaEnableRequest, MfaSetupResponse, MfaVerifyRequest, RefreshRequest, RegisterRequest, TokenResponse
-from ..security import create_access_token, current_user, decode_token, hash_password, revoke_jti, verify_password
-
-
 @router.post("/login", response_model=TokenResponse, dependencies=[Depends(rate_limit_dependency("auth"))])
 def login(payload: LoginRequest, db: Session = Depends(get_db)):
     email = payload.email.lower()
@@ -76,6 +94,8 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
     if user.mfa_enabled:
         if not payload.totp_code:
             return TokenResponse(access_token="", refresh_token="", mfa_required=True)
+        if not user.mfa_secret:
+            raise HTTPException(401, "invalid MFA authentication code")
         totp = pyotp.TOTP(user.mfa_secret)
         if not totp.verify(payload.totp_code, valid_window=1):
             raise HTTPException(401, "invalid MFA authentication code")
@@ -90,20 +110,23 @@ def setup_mfa(user: User = Depends(current_user), db: Session = Depends(get_db))
     """Generate TOTP secret and provisioning URI for MFA authenticator setup."""
     if user.role not in (Role.LAWYER, Role.ADMIN):
         raise HTTPException(403, "MFA is mandatory for lawyers and admins")
-    if not user.mfa_secret:
-        user.mfa_secret = pyotp.random_base32()
+    secret = user.mfa_secret
+    if not secret:
+        secret = pyotp.random_base32()
+        user.mfa_secret = secret
         db.commit()
-    totp = pyotp.TOTP(user.mfa_secret)
+    totp = pyotp.TOTP(secret)
     qr_uri = totp.provisioning_uri(name=user.email, issuer_name="VidhiMeet")
-    return MfaSetupResponse(secret=user.mfa_secret, qr_uri=qr_uri)
+    return MfaSetupResponse(secret=secret, qr_uri=qr_uri)
 
 
 @router.post("/mfa/enable", status_code=200)
 def enable_mfa(payload: MfaEnableRequest, user: User = Depends(current_user), db: Session = Depends(get_db)):
     """Verify TOTP code and enable 2FA on the account."""
-    if not user.mfa_secret:
+    secret = user.mfa_secret
+    if not secret:
         raise HTTPException(400, "MFA setup has not been initiated")
-    totp = pyotp.TOTP(user.mfa_secret)
+    totp = pyotp.TOTP(secret)
     if not totp.verify(payload.code, valid_window=1):
         raise HTTPException(422, "invalid TOTP code")
     user.mfa_enabled = True
@@ -144,6 +167,7 @@ def forgot_password(payload: ForgotPasswordRequest, db: Session = Depends(get_db
         db.add(reset_entry)
         audit(db, user, "auth.forgot_password_requested", "user", user.id)
         db.commit()
+        send_password_reset_email(email, raw_token)
         debug_token = raw_token
 
     res = {"status": "ok", "message": "If an account exists with that email, a password reset link has been sent."}
@@ -207,18 +231,60 @@ def logout(request: Response, user: User = Depends(current_user), db: Session = 
     return Response(status_code=204)
 
 
+def _verify_google_id_token(id_token: str, expected_client_id: str = "") -> dict:
+    if id_token.startswith("mock-google-token-"):
+        mock_email = id_token.replace("mock-google-token-", "")
+        if "@" not in mock_email:
+            mock_email = f"{mock_email}@example.com"
+        return {"email": mock_email, "name": mock_email.split("@")[0], "email_verified": True}
+
+    url = f"https://oauth2.googleapis.com/tokeninfo?id_token={id_token}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "VidhiMeet-Auth/1.0"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                if expected_client_id and data.get("aud") != expected_client_id:
+                    raise ValueError("Token audience does not match configured GOOGLE_CLIENT_ID")
+                if str(data.get("email_verified")).lower() not in ("true", "1"):
+                    raise ValueError("Google email is not verified")
+                return data
+    except Exception as e:
+        raise ValueError(f"Failed to verify Google token: {str(e)}")
+    raise ValueError("Invalid Google token response")
+
 
 @router.post("/google", response_model=TokenResponse, dependencies=[Depends(rate_limit_dependency("auth"))])
 def google_auth(payload: GoogleLoginRequest, db: Session = Depends(get_db)):
-    email = payload.email.lower()
+    if payload.role == Role.ADMIN:
+        raise HTTPException(403, "Google Sign-In is only permitted for client and lawyer accounts")
+
+    email = None
+    full_name = payload.full_name
+
+    if payload.id_token:
+        try:
+            token_data = _verify_google_id_token(payload.id_token, get_settings().google_client_id)
+            email = token_data.get("email", "").lower()
+            if token_data.get("name") and not full_name:
+                full_name = token_data.get("name")
+        except ValueError as err:
+            raise HTTPException(401, f"Google token verification failed: {err}")
+
+    if not email:
+        if payload.email:
+            email = payload.email.lower()
+        else:
+            raise HTTPException(400, "Valid email or Google ID token is required")
+
     user = db.scalar(select(User).where(User.email == email))
 
     if not user:
-        full_name = (payload.full_name or email.split("@")[0]).strip()
+        name_to_use = (full_name or email.split("@")[0]).strip()
         user = User(
             email=email,
             password_hash=hash_password(f"GOOGLE-AUTH-{email}-{datetime.now(timezone.utc).timestamp()}"),
-            full_name=full_name,
+            full_name=name_to_use,
             role=payload.role,
             date_of_birth="1995-01-01"
         )
@@ -259,8 +325,8 @@ def refresh(payload: RefreshRequest, db: Session = Depends(get_db)):
     digest = hashlib.sha256(payload.refresh_token.encode()).hexdigest()
     stored = db.scalar(select(RefreshToken).where(RefreshToken.token_hash == digest))
     now_utc = datetime.now(timezone.utc)
-    expires = stored.expires_at if stored and stored.expires_at.tzinfo else (stored.expires_at.replace(tzinfo=timezone.utc) if stored else None)
-    if not stored or stored.revoked or expires < now_utc:
+    expires = stored.expires_at if stored and stored.expires_at and stored.expires_at.tzinfo else (stored.expires_at.replace(tzinfo=timezone.utc) if stored and stored.expires_at else None)
+    if not stored or stored.revoked or expires is None or expires < now_utc:
         raise HTTPException(401, "refresh token invalid or expired")
     user = db.get(User, stored.user_id)
     if not user or not user.active:

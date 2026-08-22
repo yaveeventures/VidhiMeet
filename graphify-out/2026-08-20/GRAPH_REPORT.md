@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-08-20)
 
 ## Corpus Check
-- 83 files · ~96,808 words
+- 83 files · ~96,958 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1210 nodes · 3349 edges · 69 communities (54 shown, 15 thin omitted)
-- Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 490 edges (avg confidence: 0.59)
+- 1210 nodes · 3354 edges · 69 communities (54 shown, 15 thin omitted)
+- Extraction: 85% EXTRACTED · 15% INFERRED · 0% AMBIGUOUS · INFERRED: 491 edges (avg confidence: 0.59)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c3d0aabc`
+- Built from commit: `93539d13`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -80,8 +80,8 @@
 - Session
 
 ## God Nodes (most connected - your core abstractions)
-1. `User` - 128 edges
-2. `Role` - 56 edges
+1. `User` - 130 edges
+2. `Role` - 57 edges
 3. `Practice` - 53 edges
 4. `audit()` - 53 edges
 5. `BookingStatus` - 48 edges
@@ -308,14 +308,14 @@ Nodes (4): Exception, Request, RedisError, SlidingWindowRateLimiter
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `er` to `booking_service.py`, `processEvent`, `README.md`, `toast`, `LawyerGrid`, `LawyerProfile`, `calendar.py`, `__init__.py`, `calendar.py`, `ClientRouter`, `LawyerBankAccount`, `LawyerBankAccount`, `reset_users.py`, `env.py`?**
-  _High betweenness centrality (0.054) - this node is a cross-community bridge._
+- **Why does `User` connect `er` to `booking_service.py`, `processEvent`, `README.md`, `toast`, `LawyerGrid`, `LawyerProfile`, `calendar.py`, `__init__.py`, `ClientRouter`, `calendar.py`, `LawyerBankAccount`, `env.py`, `reset_users.py`, `LawyerBankAccount`?**
+  _High betweenness centrality (0.056) - this node is a cross-community bridge._
 - **Why does `s()` connect `verify_ntp_compliance` to `mr`, `je`, `daily-js.js`, `register`, `graphify.md`, `er`?**
   _High betweenness centrality (0.046) - this node is a cross-community bridge._
 - **Why does `LexAPI` connect `LexAPI` to `mr`, `lawyer.js`, `toast`, `daily-js.js`, `T`?**
   _High betweenness centrality (0.039) - this node is a cross-community bridge._
-- **Are the 24 inferred relationships involving `User` (e.g. with `Base` and `forgot_password()`) actually correct?**
-  _`User` has 24 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 25 inferred relationships involving `User` (e.g. with `lifespan()` and `Base`) actually correct?**
+  _`User` has 25 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 40 inferred relationships involving `Role` (e.g. with `Base` and `AdminPayoutAccountOut`) actually correct?**
   _`Role` has 40 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 42 inferred relationships involving `Practice` (e.g. with `Base` and `AdminPayoutAccountOut`) actually correct?**

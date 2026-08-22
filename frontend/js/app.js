@@ -1256,7 +1256,10 @@ function renderLogin(redirect = null, fromBooking = false) {
         <input type="email" id="login-email" name="username" required autocomplete="username" placeholder="name@example.com" value="" />
       </div>
       <div class="field">
-        <label>Password</label>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label>Password</label>
+          <button type="button" id="btn-client-forgot-password" style="background:none;border:none;color:var(--forest);font-size:12px;font-weight:600;cursor:pointer;padding:0;">Forgot password?</button>
+        </div>
         <input type="password" id="login-password" name="password" required autocomplete="new-password" placeholder="••••••••••••" value="" />
       </div>
       <div id="auth-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
@@ -1267,6 +1270,11 @@ function renderLogin(redirect = null, fromBooking = false) {
     <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--ink-light);">New here? <button type="button" id="switch-to-register" style="background:none;border:none;color:var(--forest);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Create a free account →</button></p>
   `;
 
+  const btnClientForgot = document.querySelector("#btn-client-forgot-password");
+  if (btnClientForgot) {
+    btnClientForgot.onclick = () => renderForgotPassword(redirect, fromBooking);
+  }
+
   const btnG = document.querySelector("#btn-google-login");
   if (btnG) {
     btnG.onclick = async () => {
@@ -1275,19 +1283,9 @@ function renderLogin(redirect = null, fromBooking = false) {
       btnG.style.pointerEvents = "none";
       btnG.innerHTML = `<span class="btn-spinner"></span> <span>Signing in with Google...</span>`;
       try {
-        let email = "client@VidhiMeet.com";
-        let fullName = "Demo Client";
-        if (window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
-          try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            const res = await firebase.auth().signInWithPopup(provider);
-            if (res && res.user) {
-              email = res.user.email;
-              fullName = res.user.displayName || email.split("@")[0];
-            }
-          } catch (e) { console.warn("Google popup fallback:", e); }
-        }
-        await LexAPI.googleLogin({ email, full_name: fullName, role: "client" });
+        await performGoogleAuth("client");
+        const u = LexAPI.getCurrentUser();
+        const fullName = u ? u.full_name : "Client";
         toast(`Welcome back, ${fullName}!`);
         close();
         updateHeader();
@@ -1434,19 +1432,9 @@ function renderRegister(redirect = null, fromBooking = false) {
   if (btnGR) {
     btnGR.onclick = async () => {
       try {
-        let email = "client@VidhiMeet.com";
-        let fullName = "Demo Client";
-        if (window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
-          try {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            const res = await firebase.auth().signInWithPopup(provider);
-            if (res && res.user) {
-              email = res.user.email;
-              fullName = res.user.displayName || email.split("@")[0];
-            }
-          } catch (e) { console.warn("Google popup fallback:", e); }
-        }
-        await LexAPI.googleLogin({ email, full_name: fullName, role: "client" });
+        await performGoogleAuth("client");
+        const u = LexAPI.getCurrentUser();
+        const fullName = u ? u.full_name : "Client";
         toast(`Welcome, ${fullName}!`);
         close();
         updateHeader();
@@ -1512,6 +1500,88 @@ function renderRegister(redirect = null, fromBooking = false) {
       errDiv.textContent = err.message;
     }
   };
+}
+
+function renderForgotPassword(redirect = null, fromBooking = false) {
+  content.innerHTML = `
+    <span class="kicker">Account Recovery</span>
+    <h2>Reset Password</h2>
+    <p class="lead">Enter your registered email address to receive a password reset token.</p>
+    <form class="form" id="forgot-form" autocomplete="off">
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="forgot-email" required placeholder="name@example.com" value="" />
+      </div>
+      <div id="forgot-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
+      <div id="forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;"></div>
+      <div class="actions">
+        <button class="primary" type="submit" id="btn-forgot-submit">Send Reset Token</button>
+      </div>
+    </form>
+    <div id="reset-token-section" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);">
+      <h3 style="font-size:16px;margin-bottom:8px;color:var(--forest);">Set New Password</h3>
+      <form class="form" id="reset-form" autocomplete="off">
+        <div class="field">
+          <label>Reset Token</label>
+          <input type="text" id="reset-token-input" required placeholder="Enter token" value="" />
+        </div>
+        <div class="field">
+          <label>New Password (min 12 chars)</label>
+          <input type="password" id="reset-new-password" required minlength="12" placeholder="••••••••••••" value="" />
+        </div>
+        <div id="reset-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
+        <div class="actions">
+          <button class="primary" type="submit">Update Password</button>
+        </div>
+      </form>
+    </div>
+    <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--ink-light);">Remembered your password? <button type="button" id="switch-back-to-login" style="background:none;border:none;color:var(--forest);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Sign in →</button></p>
+  `;
+
+  document.querySelector("#switch-back-to-login").onclick = () => renderLogin(redirect, fromBooking);
+
+  document.querySelector("#forgot-form").onsubmit = async (e) => {
+    e.preventDefault();
+    const email = document.querySelector("#forgot-email").value.trim();
+    const errDiv = document.querySelector("#forgot-error");
+    const succDiv = document.querySelector("#forgot-success");
+    const submitBtn = document.querySelector("#btn-forgot-submit");
+    errDiv.textContent = "";
+    succDiv.textContent = "";
+    submitBtn.disabled = true;
+
+    try {
+      const res = await LexAPI.forgotPassword(email);
+      succDiv.textContent = res.message || "If an account exists with that email, a password reset token has been issued.";
+      if (res.debug_reset_token) {
+        document.querySelector("#reset-token-section").style.display = "block";
+        document.querySelector("#reset-token-input").value = res.debug_reset_token;
+      }
+    } catch (err) {
+      errDiv.textContent = err.message || "Failed to process request";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  };
+
+  const resetForm = document.querySelector("#reset-form");
+  if (resetForm) {
+    resetForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const token = document.querySelector("#reset-token-input").value.trim();
+      const newPassword = document.querySelector("#reset-new-password").value;
+      const errDiv = document.querySelector("#reset-error");
+      errDiv.textContent = "";
+
+      try {
+        await LexAPI.resetPassword(token, newPassword);
+        toast("Password successfully reset! Please sign in.");
+        renderLogin(redirect, fromBooking);
+      } catch (err) {
+        errDiv.textContent = err.message || "Failed to reset password";
+      }
+    };
+  }
 }
 
 function updateHeader() {

@@ -363,13 +363,45 @@
             <input type="email" id="lawyer-login-email" required placeholder="advocate@example.com">
           </div>
           <div class="field">
-            <label>Password</label>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <label>Password</label>
+              <button type="button" id="btn-lawyer-forgot-password" style="background:none;border:none;color:var(--forest);font-size:12px;font-weight:600;cursor:pointer;padding:0;">Forgot password?</button>
+            </div>
             <input type="password" id="lawyer-login-password" required placeholder="••••••••••••">
           </div>
           <div id="lawyer-login-error" class="error-message"></div>
           <button class="btn" type="submit">Sign In</button>
         </form>
         <p class="switch-text">Don't have an account? <button id="to-lawyer-register">Create account</button></p>
+      </div>
+      <div id="lawyer-forgot-section" style="display:none;">
+        <h2>Account Recovery</h2>
+        <p>Enter your advocate email address to reset your password.</p>
+        <form id="lawyer-forgot-form" autocomplete="off">
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" id="lawyer-forgot-email" required placeholder="advocate@example.com">
+          </div>
+          <div id="lawyer-forgot-error" class="error-message"></div>
+          <div id="lawyer-forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;"></div>
+          <button class="btn" type="submit" id="btn-lawyer-forgot-submit">Request Reset Link</button>
+        </form>
+        <div id="lawyer-reset-token-section" style="display:none;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);">
+          <h3 style="font-size:15px;margin-bottom:8px;color:var(--forest);">Set New Password</h3>
+          <form id="lawyer-reset-form" autocomplete="off">
+            <div class="field">
+              <label>Reset Token</label>
+              <input type="text" id="lawyer-reset-token-input" required placeholder="Enter token">
+            </div>
+            <div class="field">
+              <label>New Password</label>
+              <input type="password" id="lawyer-reset-new-password" required minlength="12" placeholder="At least 12 characters">
+            </div>
+            <div id="lawyer-reset-error" class="error-message"></div>
+            <button class="btn" type="submit">Update Password</button>
+          </form>
+        </div>
+        <p class="switch-text" style="margin-top:14px;">Remembered your password? <button id="to-lawyer-login-from-forgot">Sign in →</button></p>
       </div>
       <div id="lawyer-register-section" style="display:none;">
         <h2>Lawyer Registration</h2>
@@ -599,6 +631,7 @@
   <!-- Invisible reCAPTCHA anchor (required by Firebase) -->
   <div id="recaptcha-container"></div>
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/cookie-consent.js"></script>
   <script src="js/e2ee.js"></script>
   <script src="js/api-client.js?v=rev-30"></script>

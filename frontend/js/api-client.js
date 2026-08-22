@@ -146,8 +146,17 @@ const LexAPI = (() => {
       emit("auth:change", { authenticated: true, user: this.getCurrentUser() });
       return tokens;
     },
-    async health() {
-      return request("/health");
+    async forgotPassword(email) {
+      return request("/auth/forgot-password", {
+        method: "POST",
+        body: JSON.stringify({ email })
+      });
+    },
+    async resetPassword(token, newPassword) {
+      return request("/auth/reset-password", {
+        method: "POST",
+        body: JSON.stringify({ token, new_password: newPassword })
+      });
     },
     async register(email, password, fullName, role, extra = {}) {
       const tokens = await request("/auth/register", {

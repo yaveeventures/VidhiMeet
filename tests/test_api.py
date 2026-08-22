@@ -308,5 +308,44 @@ def test_video_consultation_dual_platform_fee():
     assert b2.lawyer_amount_minor == 95000
 
 
+def test_google_auth_client_registration_and_login(client):
+    # Registration via Google mock token
+    res = client.post("/api/v1/auth/google", json={
+        "id_token": "mock-google-token-gclient@example.com",
+        "role": "client"
+    })
+    assert res.status_code == 200
+    assert "access_token" in res.json()
+    assert "refresh_token" in res.json()
+
+    # Subsequent login with same account
+    login_res = client.post("/api/v1/auth/google", json={
+        "id_token": "mock-google-token-gclient@example.com",
+        "role": "client"
+    })
+    assert login_res.status_code == 200
+    assert "access_token" in login_res.json()
+
+
+def test_google_auth_lawyer_registration(client):
+    res = client.post("/api/v1/auth/google", json={
+        "id_token": "mock-google-token-glawyer@example.com",
+        "role": "lawyer",
+        "practice": "property"
+    })
+    assert res.status_code == 200
+    assert "access_token" in res.json()
+
+
+def test_google_auth_admin_forbidden(client):
+    res = client.post("/api/v1/auth/google", json={
+        "id_token": "mock-google-token-gadmin@example.com",
+        "role": "admin"
+    })
+    assert res.status_code == 403
+    assert "permitted for client and lawyer" in res.json()["detail"]
+
+
+
 
 

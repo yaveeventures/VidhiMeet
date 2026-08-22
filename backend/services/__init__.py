@@ -1,4 +1,4 @@
-from .auth_service import audit, issue_refresh_token
+from .auth_service import audit, issue_refresh_token, send_password_reset_email
 from .booking_service import (
     REQUIRED_INTAKE,
     validate_intake,
@@ -16,6 +16,7 @@ from .dispute_service import evaluate_daily_meeting_logs
 __all__ = [
     "audit",
     "issue_refresh_token",
+    "send_password_reset_email",
     "REQUIRED_INTAKE",
     "validate_intake",
     "get_daily_meeting_details",

@@ -1,7 +1,7 @@
 # Graph Report - VidhiMeet  (2026-08-22)
 
 ## Corpus Check
-- 84 files · ~98,249 words
+- 83 files · ~98,152 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -113,8 +113,8 @@ Cohesion: 0.07
 Nodes (70): $(), LexE2EE, aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience() (+62 more)
 
 ### Community 2 - "je"
-Cohesion: 0.18
-Nodes (19): ct(), dn(), Et(), fe(), ft(), i(), In(), It() (+11 more)
+Cohesion: 0.13
+Nodes (26): Bo(), Ds(), ea(), Fo(), Fs(), Go(), h(), Ho() (+18 more)
 
 ### Community 3 - "lawyer.js"
 Cohesion: 0.07
@@ -145,8 +145,8 @@ Cohesion: 0.07
 Nodes (84): Base, BookingStatus, DraftingStatus, PasswordResetToken, Practice, ProposalStatus, str, RefreshToken (+76 more)
 
 ### Community 11 - "toast"
-Cohesion: 0.12
-Nodes (18): be(), bn(), ge(), ie(), le(), me(), N(), ne() (+10 more)
+Cohesion: 0.16
+Nodes (11): at(), bn(), Bs(), Jn(), N(), qn(), sn(), ue() (+3 more)
 
 ### Community 13 - "sanitize_key"
 Cohesion: 0.16
@@ -193,8 +193,8 @@ Cohesion: 0.13
 Nodes (9): AuditLog, now(), datetime, UserConsent, WebhookEvent, request_erasure(), Reset script: delete ALL users (lawyers, clients, admin) and related data, then, test_dpdpa_consent_enforcement_and_logging() (+1 more)
 
 ### Community 26 - "_e"
-Cohesion: 0.18
-Nodes (11): an(), cn(), _e(), he(), nn(), on(), pe(), qe() (+3 more)
+Cohesion: 0.16
+Nodes (13): an(), cn(), dr(), _e(), he(), nn(), on(), pe() (+5 more)
 
 ### Community 27 - "security.py"
 Cohesion: 0.18
@@ -229,20 +229,20 @@ Cohesion: 0.39
 Nodes (6): _clearRecaptcha(), confirmOtp(), _hideOtpModal(), _showModalError(), _showOtpModal(), startPhoneVerification()
 
 ### Community 38 - "booking_service.py"
-Cohesion: 0.08
-Nodes (31): create_access_token(), hash_password(), Hash a raw password using Argon2id (OWASP #1 recommendation)., test_dispute_intermediary_shield(), test_dispute_workflow_matrix(), Verify that booking document presign returns 15-minute expiry (900s)., Verify that drafting document presign returns 15-minute expiry (900s)., Verify that a document access token issued > 15 minutes ago (900s) is rejected w (+23 more)
+Cohesion: 0.07
+Nodes (45): authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), create_access_token(), current_user(), decode_token() (+37 more)
 
 ### Community 39 - "Booking"
 Cohesion: 0.25
 Nodes (3): MarketplaceUser, Locust Performance & Concurrency Load Benchmark Suite for VidhiMeet. Simulates c, HttpUser
 
 ### Community 40 - "verify_ntp_compliance"
-Cohesion: 0.19
-Nodes (25): a(), c(), ce(), d(), f(), g(), gn(), gt() (+17 more)
+Cohesion: 0.15
+Nodes (33): a(), as(), c(), ce(), cr(), d(), de(), er() (+25 more)
 
 ### Community 41 - "register"
 Cohesion: 0.05
-Nodes (59): as(), at(), Bo(), Bs(), Bt(), cr(), de(), dr() (+51 more)
+Nodes (49): be(), Bt(), ct(), dn(), dt(), fe(), g(), ge() (+41 more)
 
 ### Community 42 - "README.md"
 Cohesion: 0.64
@@ -281,8 +281,8 @@ Cohesion: 0.12
 Nodes (15): Tests for Lawyer Bank Account management and UPI Reverse Penny Drop verification, Adding a second bank account returns 409 Conflict., Verify bank account endpoint marks account verified., Calling /verify without a bank account returns 404., Lawyer can retrieve their bank account., Editing IFSC resets the verified flag., Lawyer can add a bank account; account number is masked in response., Lawyer can delete their bank account. (+7 more)
 
 ### Community 61 - "reset_users.py"
-Cohesion: 0.08
-Nodes (32): EncryptedString, authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), _save_ws_message(), _validate_ws_user_and_booking() (+24 more)
+Cohesion: 0.12
+Nodes (18): EncryptedString, _save_ws_message(), _validate_ws_user_and_booking(), decrypt_field(), encrypt_field(), _get_fernet_cipher(), Enforce strict participant boundary isolation (BOLA/IDOR defense)., validate_participant_access() (+10 more)
 
 ### Community 66 - "Request"
 Cohesion: 0.32
@@ -298,7 +298,7 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `User` connect `er` to `booking_service.py`, `processEvent`, `User`, `audit`, `README.md`, `LawyerGrid`, `LawyerProfile`, `calendar.py`, `graphify.md`, `calendar.py`, `LawyerBankAccount`, `ClientRouter`, `models.py`, `security.py`, `reset_users.py`, `pdf-annotator.js`?**
   _High betweenness centrality (0.054) - this node is a cross-community bridge._
-- **Why does `s()` connect `verify_ntp_compliance` to `main.py`, `mr`, `daily-js.js`, `register`, `toast`?**
+- **Why does `s()` connect `verify_ntp_compliance` to `main.py`, `mr`, `je`, `daily-js.js`, `register`, `toast`?**
   _High betweenness centrality (0.052) - this node is a cross-community bridge._
 - **Why does `LexAPI` connect `lawyer.js` to `mr`, `T`, `daily-js.js`?**
   _High betweenness centrality (0.036) - this node is a cross-community bridge._

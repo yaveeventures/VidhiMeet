@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1787206653.5426662,
-    "ast_hash": "6f2ffff4149774466bb6442e2512884f",
+    "mtime": 1787390802.4515538,
+    "ast_hash": "22e3ec572bf85a69db20d14c0c19d9a7",
     "semantic_hash": ""
   },
   "backend/db.py": {
@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "backend/main.py": {
-    "mtime": 1787232969.621461,
-    "ast_hash": "6b5e326d00ca8cb20607876531e4f863",
+    "mtime": 1787237553.249004,
+    "ast_hash": "ad8037d437f5de74101a90f504c31d5d",
     "semantic_hash": ""
   },
   "backend/models.py": {
@@ -25,8 +25,8 @@
     "semantic_hash": ""
   },
   "backend/schemas.py": {
-    "mtime": 1786778596.6571386,
-    "ast_hash": "0372a04aa9cff37f225f0bb3a5572ae5",
+    "mtime": 1787384611.6653764,
+    "ast_hash": "5c21235849044062e46cdf33c50cb997",
     "semantic_hash": ""
   },
   "backend/security.py": {
@@ -70,8 +70,8 @@
     "semantic_hash": ""
   },
   "tests/test_api.py": {
-    "mtime": 1786172394.0619516,
-    "ast_hash": "6f542f3b5582a5866cae6621af22a977",
+    "mtime": 1787384674.3021426,
+    "ast_hash": "f6ed913ca0d4794f69633f8e067cbe4e",
     "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "backend/routers/auth.py": {
-    "mtime": 1786778617.113336,
-    "ast_hash": "ff048ae5418df0b0e39163131e06b2d9",
+    "mtime": 1787408845.687548,
+    "ast_hash": "6cc22289384f26252e4a0a6cb74ef447",
     "semantic_hash": ""
   },
   "backend/routers/bank_accounts.py": {
@@ -180,13 +180,13 @@
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
-    "mtime": 1787235451.4714174,
-    "ast_hash": "698d00e7695810dcab2a2f77820782d3",
+    "mtime": 1787390288.006817,
+    "ast_hash": "546c3271e5b54f77ecd5fb6f19b7899f",
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1787206779.8886542,
-    "ast_hash": "af034e6362fda2f776c3f5c45d83404d",
+    "mtime": 1787392794.9443133,
+    "ast_hash": "31f09382cc72c5f0d49f6974c3f313cd",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.js": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1787206763.0182228,
-    "ast_hash": "463dbbc827689d6216e8cadb2f898d30",
+    "mtime": 1787390327.5446887,
+    "ast_hash": "3c50111c5bcd4ab68f53badcaa621376",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
@@ -235,18 +235,18 @@
     "semantic_hash": ""
   },
   "frontend/admin.html": {
-    "mtime": 1787206787.205572,
-    "ast_hash": "fd0fd1d8e2a1b5a7493a638f8d77bbae",
+    "mtime": 1787241197.0899818,
+    "ast_hash": "e5320d35a483836d07a0d1a90e4f672e",
     "semantic_hash": ""
   },
   "frontend/index.html": {
-    "mtime": 1786257679.6730344,
-    "ast_hash": "c18d3cad3aa0deaa82dd8180bec1a6ba",
+    "mtime": 1787408657.961569,
+    "ast_hash": "21f61eae2905d4a826cc4effacd24d55",
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
-    "mtime": 1787206745.6014092,
-    "ast_hash": "0a9e4559acbdf5f7128ff78aaa6bd762",
+    "mtime": 1787390319.0416973,
+    "ast_hash": "5c6020f434160849723af259a387d77a",
     "semantic_hash": ""
   },
   "frontend/privacy.html": {
@@ -300,13 +300,13 @@
     "semantic_hash": ""
   },
   "backend/services/__init__.py": {
-    "mtime": 1787206696.2073042,
-    "ast_hash": "014c8c0bbb083b565505e269abe6f52a",
+    "mtime": 1787390675.0115473,
+    "ast_hash": "a8838b50d5208f7f3d1b2adad143eafa",
     "semantic_hash": ""
   },
   "backend/services/auth_service.py": {
-    "mtime": 1785481080.1906114,
-    "ast_hash": "82ac87645f2f1039c8b4add012a958e6",
+    "mtime": 1787390667.6772406,
+    "ast_hash": "14928dbf003113c00349c478a7af4ac0",
     "semantic_hash": ""
   },
   "backend/services/booking_service.py": {
@@ -482,6 +482,11 @@
   "tests/test_password_reset.py": {
     "mtime": 1786778693.6374786,
     "ast_hash": "76403f366c389fec4af8972d3ed5b68a",
+    "semantic_hash": ""
+  },
+  "pyrightconfig.json": {
+    "mtime": 1787409026.3107705,
+    "ast_hash": "6d7e0c124a87fdf85f12902c446d8a48",
     "semantic_hash": ""
   }
 }
