@@ -23,7 +23,10 @@ const LexAPI = (() => {
       const base = getBaseUrl();
       if (base.startsWith("http")) {
         const origin = new URL(base).origin;
-        return origin + url;
+        if (url.startsWith("/api/v1/")) {
+          return origin + url;
+        }
+        return base.replace(/\/+$/, "") + url;
       }
     }
     return url;

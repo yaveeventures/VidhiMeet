@@ -2780,7 +2780,7 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
       const headers = {};
       const token = LexAPI.getAccessToken();
       if (token) headers["Authorization"] = `Bearer ${token}`;
-      await uploadWithProgress("/api/v1/lawyers/me/documents/mock-upload", mockFormData, headers, (percent) => {
+      await uploadWithProgress(LexAPI.resolveUploadUrl("/api/v1/lawyers/me/documents/mock-upload"), mockFormData, headers, (percent) => {
         progressUI.update(Math.min(95, Math.max(70, percent)), `Uploading: ${percent}%`);
       });
       await LexAPI.confirmLawyerDocumentUpload(file.name, mockKey, docType);
@@ -3864,7 +3864,7 @@ window.openCreateDraftingModal = function() {
             const headers = {};
             const token = LexAPI.getAccessToken();
             if (token) headers["Authorization"] = `Bearer ${token}`;
-            await fetch("/api/v1/drafting/documents/mock-upload", { method: "POST", body: formData, headers });
+            await fetch(LexAPI.resolveUploadUrl("/api/v1/drafting/documents/mock-upload"), { method: "POST", body: formData, headers });
             uploadedFiles.push({ filename: file.name, key: mockKey });
             item.style.color = "var(--forest)";
             item.style.fontWeight = "bold";

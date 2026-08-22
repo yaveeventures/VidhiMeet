@@ -3071,7 +3071,7 @@ window.openCreateDraftingModal = function() {
             const formData = new FormData();
             formData.append("key", mockKey);
             formData.append("file", file);
-            await fetch("/api/v1/drafting/documents/mock-upload", { method: "POST", body: formData });
+            await fetch(LexAPI.resolveUploadUrl("/api/v1/drafting/documents/mock-upload"), { method: "POST", body: formData });
             uploadedFiles.push({ filename: file.name, key: mockKey });
             item.style.color = "var(--forest)";
             item.style.fontWeight = "bold";
