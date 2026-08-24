@@ -69,29 +69,46 @@ function escapeHtml(text) {
 
 async function loadData() {
   try {
-    metrics = await LexAPI.metrics();
-    pendingLawyers = await LexAPI.getPendingLawyers();
-    try {
-      rejectedLawyers = await LexAPI.getRejectedLawyers();
-      rejectedLawyersCount = rejectedLawyers.length;
-    } catch (e) {
-      console.error("Failed to load rejected lawyers:", e);
-      rejectedLawyers = [];
-      rejectedLawyersCount = 0;
-    }
-    try {
-      const approvedList = await LexAPI.lawyers();
-      approvedLawyersCount = approvedList.length;
-    } catch (e) {
-      approvedLawyersCount = 0;
-    }
-    users = await LexAPI.getAdminUsers();
-    transactions = await LexAPI.getAdminTransactions();
-    draftingTransactions = await LexAPI.getAdminDraftingTransactions().catch(err => { console.error("Failed to load drafting transactions:", err); return []; });
-    disputes = await LexAPI.getDisputes();
-    auditLogs = await LexAPI.getAuditLogs();
-    payouts = await LexAPI.getAdminPayouts().catch(err => { console.error("Failed to load payout accounts:", err); return []; });
-    userFeedbacks = await LexAPI.getPlatformFeedback().catch(err => { console.error("Failed to load user feedback:", err); return []; });
+    const [
+      metricsRes, pendingRes, rejectedRes, approvedRes, usersRes,
+      txRes, draftTxRes, disputesRes, auditRes, payoutsRes, feedbackRes
+    ] = await Promise.allSettled([
+      LexAPI.metrics(),
+      LexAPI.getPendingLawyers(),
+      LexAPI.getRejectedLawyers(),
+      LexAPI.lawyers(),
+      LexAPI.getAdminUsers(),
+      LexAPI.getAdminTransactions(),
+      LexAPI.getAdminDraftingTransactions(),
+      LexAPI.getDisputes(),
+      LexAPI.getAuditLogs(),
+      LexAPI.getAdminPayouts(),
+      LexAPI.getPlatformFeedback()
+    ]);
+
+    const val = (res, fallback) => res.status === "fulfilled" ? res.value : fallback;
+
+    // Check for critical authorization failures
+    const authFailure = [metricsRes, pendingRes, usersRes].find(
+      r => r.status === "rejected" && r.reason && r.reason.message &&
+      (r.reason.message.includes("401") || r.reason.message.includes("unauthorized") || r.reason.message.includes("authentication"))
+    );
+    if (authFailure) throw authFailure.reason;
+
+    metrics = val(metricsRes, {});
+    pendingLawyers = val(pendingRes, []);
+    rejectedLawyers = val(rejectedRes, []);
+    rejectedLawyersCount = rejectedLawyers.length;
+    const approvedList = val(approvedRes, []);
+    approvedLawyersCount = approvedList.length;
+    users = val(usersRes, []);
+    transactions = val(txRes, []);
+    draftingTransactions = val(draftTxRes, []);
+    disputes = val(disputesRes, []);
+    auditLogs = val(auditRes, []);
+    payouts = val(payoutsRes, []);
+    userFeedbacks = val(feedbackRes, []);
+
     renderAll();
     updateBadgeCounts();
   } catch (err) {

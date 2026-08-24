@@ -87,3 +87,70 @@ def test_expired_document_access_link_rejection(database, client):
     resp = client.get(f"/api/v1/drafting/documents/download?key=drafting/mock-file.pdf&token={expired_token}")
     assert resp.status_code == 401
     assert "expired" in resp.json()["detail"].lower()
+
+
+def test_lawyer_document_reupload_replaces_old_file(database, client):
+    """Verify that re-uploading a lawyer document deletes the old file and resets verification status."""
+    import os
+    from backend.models import LawyerProfile
+
+    lawyer = User(
+        email="reupload_lawyer@example.com",
+        password_hash=hash_password("Pass123!"),
+        full_name="Adv. Reupload Lawyer",
+        role=Role.LAWYER
+    )
+    database.add(lawyer)
+    database.commit()
+
+    profile = LawyerProfile(user_id=lawyer.id, bar_number="REUP12345", hourly_fee_minor=50000)
+    database.add(profile)
+    database.commit()
+
+    token = create_access_token(lawyer)
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Setup mock file 1
+    key1 = f"lawyers/{lawyer.id}/mock-license-v1.pdf"
+    path1 = os.path.join("uploads", key1)
+    os.makedirs(os.path.dirname(path1), exist_ok=True)
+    with open(path1, "w") as f:
+        f.write("Old License Content")
+
+    # Confirm doc 1 upload
+    resp1 = client.post(
+        f"/api/v1/lawyers/me/documents/confirm?filename=license-v1.pdf&key={key1}&doc_type=bar_license",
+        headers=headers
+    )
+    assert resp1.status_code == 200
+    assert os.path.exists(path1)
+
+    # Setup mock file 2
+    key2 = f"lawyers/{lawyer.id}/mock-license-v2.pdf"
+    path2 = os.path.join("uploads", key2)
+    os.makedirs(os.path.dirname(path2), exist_ok=True)
+    with open(path2, "w") as f:
+        f.write("New License Content")
+
+    # Confirm doc 2 re-upload
+    resp2 = client.post(
+        f"/api/v1/lawyers/me/documents/confirm?filename=license-v2.pdf&key={key2}&doc_type=bar_license",
+        headers=headers
+    )
+    assert resp2.status_code == 200
+
+    # Verify old file was deleted and new file exists
+    assert not os.path.exists(path1), "Old document file should be purged on re-upload"
+    assert os.path.exists(path2), "New document file should exist"
+
+    # Verify DB profile updated and status reset
+    database.refresh(profile)
+    assert key2 in profile.bar_license_url
+    assert profile.bar_license_verified is False
+    assert profile.verification_status == "pending"
+    assert profile.verified is False
+
+    # Cleanup test file
+    if os.path.exists(path2):
+        os.remove(path2)
+

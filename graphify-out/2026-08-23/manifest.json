@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "backend/main.py": {
-    "mtime": 1787556789.4952588,
-    "ast_hash": "7fc17e1e7a255411f063d6f05157ab30",
+    "mtime": 1787421163.4167328,
+    "ast_hash": "b3e33c20afa7f6f4e321e45c920ef299",
     "semantic_hash": ""
   },
   "backend/models.py": {
@@ -125,8 +125,8 @@
     "semantic_hash": ""
   },
   "backend/ntp_time.py": {
-    "mtime": 1787580432.7784257,
-    "ast_hash": "af1f408cf77b06adb0f4afe04f5f9424",
+    "mtime": 1786282426.13915,
+    "ast_hash": "b56d435ed979889024dd10f3dd4e9a73",
     "semantic_hash": ""
   },
   "backend/routers/__init__.py": {
@@ -160,8 +160,8 @@
     "semantic_hash": ""
   },
   "backend/routers/lawyers.py": {
-    "mtime": 1787496750.7438667,
-    "ast_hash": "e12e7a7118a6b498c1ae09697d6afcb3",
+    "mtime": 1787420718.2964656,
+    "ast_hash": "f0c938676515462834429b9df670b64d",
     "semantic_hash": ""
   },
   "backend/routers/public.py": {
@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "frontend/js/admin.js": {
-    "mtime": 1787580439.744895,
-    "ast_hash": "3bf4515631f033bff1138ab5c5e76b0c",
+    "mtime": 1787420775.7362628,
+    "ast_hash": "189d862d5321650d3295569f41f644f8",
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "tests/test_document_vault.py": {
-    "mtime": 1787496765.453864,
-    "ast_hash": "22d32157ff927da932f96b0f021d1d0c",
+    "mtime": 1785163978.0906057,
+    "ast_hash": "15e39e26d25929bd0dc830865cc2f097",
     "semantic_hash": ""
   },
   "backend/logging_config.py": {
@@ -495,23 +495,8 @@
     "semantic_hash": ""
   },
   "backend/services/s3_client.py": {
-    "mtime": 1787496742.0054646,
-    "ast_hash": "5dc7edbb7b6a297358e48197f8133773",
-    "semantic_hash": ""
-  },
-  "cloudflare/deploy_rules.sh": {
-    "mtime": 1787554057.5583687,
-    "ast_hash": "592265e968729554c6a747a9b150ff43",
-    "semantic_hash": ""
-  },
-  "cloudflare/main.tf": {
-    "mtime": 1787554044.8745978,
-    "ast_hash": "fd7b93ca62bfa238b9c03ed3f2ad1ac6",
-    "semantic_hash": ""
-  },
-  "scripts/deploy_cloudflare_shield.py": {
-    "mtime": 1787555106.181919,
-    "ast_hash": "3ef212c88f6c551a23f23a5d579b9f83",
+    "mtime": 1787419478.9841454,
+    "ast_hash": "3beaddb03758b8d766e4413f25fe6fd2",
     "semantic_hash": ""
   }
 }

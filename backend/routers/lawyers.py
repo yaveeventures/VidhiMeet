@@ -182,11 +182,37 @@ def lawyer_document_confirm(filename: str, key: str, doc_type: str,
     if not profile:
         raise HTTPException(404, "profile not found")
 
+    from urllib.parse import urlparse, parse_qs
+    from ..services.s3_client import delete_s3_object
+
+    # Extract existing document URL to purge old file if re-uploading
+    old_url = None
+    if doc_type == "bar_license":
+        old_url = profile.bar_license_url
+    elif doc_type == "aadhaar":
+        old_url = profile.aadhaar_url
+    elif doc_type == "profile_picture":
+        old_url = profile.profile_picture_url
+
+    if old_url:
+        parsed = urlparse(old_url)
+        old_keys = parse_qs(parsed.query).get("key", [])
+        if old_keys:
+            old_key = old_keys[0]
+            if old_key and old_key != key:
+                delete_s3_object(old_key)
+
     url = f"/api/v1/lawyers/{user.id}/documents/download?key={key}"
     if doc_type == "bar_license":
         profile.bar_license_url = url
+        profile.bar_license_verified = False
+        profile.verified = False
+        profile.verification_status = "pending"
     elif doc_type == "aadhaar":
         profile.aadhaar_url = url
+        profile.aadhaar_verified = False
+        profile.verified = False
+        profile.verification_status = "pending"
     elif doc_type == "profile_picture":
         profile.profile_picture_url = url
 

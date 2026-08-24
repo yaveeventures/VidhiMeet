@@ -183,7 +183,8 @@ def _cors_response(response: JSONResponse, request: Request) -> JSONResponse:
 
 
 @app.exception_handler(HTTPException)
-async def http_exception_handler(request: Request, exc: HTTPException):
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request: Request, exc: StarletteHTTPException):
     """
     Standardized HTTP Exception Handler:
     - Private Layer: Log operational client errors (4xx).
