@@ -1,7 +1,7 @@
-# Graph Report - VidhiMeet  (2026-08-27)
+# Graph Report - VidhiMeet  (2026-08-24)
 
 ## Corpus Check
-- 88 files · ~105,039 words
+- 88 files · ~102,773 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `b1c9b424`
+- Built from commit: `652727f3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -96,12 +96,12 @@
   tests/test_sanitizer.py → backend/sanitizer.py
 - `test_sanitize_key()` --calls--> `sanitize_key()`  [INFERRED]
   tests/test_sanitizer.py → backend/sanitizer.py
-- `reset_rate_limiter()` --calls--> `get_settings()`  [EXTRACTED]
-  tests/conftest.py → backend/config.py
 - `test_admin_ntp_status_endpoint_accessible_by_admin()` --calls--> `get_db()`  [INFERRED]
   tests/test_ntp.py → backend/db.py
 - `get_user_by_email()` --indirect_call--> `User`  [INFERRED]
   tests/test_drafting.py → backend/models.py
+- `test_admin_ntp_status_endpoint_accessible_by_admin()` --indirect_call--> `User`  [INFERRED]
+  tests/test_ntp.py → backend/models.py
 
 ## Import Cycles
 - None detected.
@@ -285,12 +285,12 @@ Cohesion: 0.70
 Nodes (4): getSavedConsent(), init(), injectDOM(), saveConsent()
 
 ### Community 66 - "test_password_reset.py"
-Cohesion: 0.09
-Nodes (23): AsyncSession, Base, AuditLog, PasswordResetToken, RefreshToken, UserConsent, WebhookEvent, google_auth() (+15 more)
+Cohesion: 0.11
+Nodes (21): AsyncSession, Base, AuditLog, PasswordResetToken, RefreshToken, UserConsent, WebhookEvent, google_auth() (+13 more)
 
 ### Community 68 - "sanitize_key"
-Cohesion: 0.14
-Nodes (25): get_settings(), rate_limit_dependency(), download_drafting_document(), drafting_document_mock_upload(), drafting_document_presign(), UploadFile, Helper to write a mock PDF file when serving local document downloads., _write_mock_pdf() (+17 more)
+Cohesion: 0.11
+Nodes (27): get_settings(), rate_limit_dependency(), download_drafting_document(), drafting_document_mock_upload(), drafting_document_presign(), UploadFile, Helper to write a mock PDF file when serving local document downloads., _write_mock_pdf() (+19 more)
 
 ## Knowledge Gaps
 - **68 isolated node(s):** `deploy_rules.sh script`, `colors`, `metrics`, `pendingLawyers`, `rejectedLawyers` (+63 more)

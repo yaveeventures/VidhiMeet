@@ -9985,7 +9985,7 @@
       "label": "make_request()",
       "file_type": "code",
       "source_file": "scripts/deploy_cloudflare_shield.py",
-      "source_location": "L21",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "scripts_deploy_cloudflare_shield_make_request",
       "community": 65,
@@ -9995,7 +9995,7 @@
       "label": "deploy()",
       "file_type": "code",
       "source_file": "scripts/deploy_cloudflare_shield.py",
-      "source_location": "L34",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "scripts_deploy_cloudflare_shield_deploy",
       "community": 65,
@@ -10146,7 +10146,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 66,
+      "community": 68,
       "norm_label": "conftest.py"
     },
     {
@@ -10156,7 +10156,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_conftest_reset_rate_limiter",
-      "community": 66,
+      "community": 68,
       "norm_label": "reset_rate_limiter()"
     },
     {
@@ -10166,7 +10166,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "tests_conftest_database",
-      "community": 66,
+      "community": 68,
       "norm_label": "database()"
     },
     {
@@ -10176,7 +10176,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_conftest_client",
-      "community": 66,
+      "community": 68,
       "norm_label": "client()"
     },
     {
@@ -10186,7 +10186,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_conftest_async_client",
-      "community": 66,
+      "community": 68,
       "norm_label": "async_client()"
     },
     {
@@ -46669,7 +46669,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/deploy_cloudflare_shield.py",
-      "source_location": "L34",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "scripts_deploy_cloudflare_shield",
       "target": "scripts_deploy_cloudflare_shield_deploy",
@@ -46679,7 +46679,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "scripts/deploy_cloudflare_shield.py",
-      "source_location": "L21",
+      "source_location": "L17",
       "weight": 1.0,
       "source": "scripts_deploy_cloudflare_shield",
       "target": "scripts_deploy_cloudflare_shield_make_request",
@@ -46690,7 +46690,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "scripts/deploy_cloudflare_shield.py",
-      "source_location": "L38",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "scripts_deploy_cloudflare_shield_deploy",
       "target": "scripts_deploy_cloudflare_shield_make_request",
@@ -49316,5 +49316,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b1c9b424eca9ecc8828e262dc6321e06a1d7d189"
+  "built_at_commit": "652727f3e8ccd18f7a6a520b69b4ac5bf35e55d5"
 }

@@ -28,9 +28,33 @@
   <!-- Terms of Service -->
   <url>
     <loc>https://vidhimeet.in/terms.html</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
+  </url>
+
+  <!-- Cancellation & Refund Policy -->
+  <url>
+    <loc>https://vidhimeet.in/cancellation-refund.html</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Shipping & Delivery Policy -->
+  <url>
+    <loc>https://vidhimeet.in/shipping-delivery.html</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Contact Us -->
+  <url>
+    <loc>https://vidhimeet.in/contact.html</loc>
+    <lastmod>2026-08-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "frontend/index.html": {
-    "mtime": 1787837399.1431847,
-    "ast_hash": "00b04fecedd2ec90faf7985921e839de",
+    "mtime": 1787474884.239607,
+    "ast_hash": "0cc0386b3569ef598910ec5d7f83619b",
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
@@ -250,13 +250,13 @@
     "semantic_hash": ""
   },
   "frontend/privacy.html": {
-    "mtime": 1787837404.1913016,
-    "ast_hash": "159527d0c71464432a98c02ccbff6b19",
+    "mtime": 1787413278.04695,
+    "ast_hash": "4f88683fc61e9c0b51c68dd42ccb594f",
     "semantic_hash": ""
   },
   "frontend/terms.html": {
-    "mtime": 1787837785.1323755,
-    "ast_hash": "7c3658dba5dcb1046fb9127fd913ff3c",
+    "mtime": 1787413291.7159348,
+    "ast_hash": "d82774c9c2359ada438067152b164783",
     "semantic_hash": ""
   },
   "backend/sanitizer.py": {
@@ -510,23 +510,8 @@
     "semantic_hash": ""
   },
   "scripts/deploy_cloudflare_shield.py": {
-    "mtime": 1787586548.1848454,
-    "ast_hash": "252ac4debfbd5c6194891d5a1bac868b",
-    "semantic_hash": ""
-  },
-  "frontend/cancellation-refund.html": {
-    "mtime": 1787837413.7564006,
-    "ast_hash": "0fc601d27419da0ee60275b9bc22b950",
-    "semantic_hash": ""
-  },
-  "frontend/contact.html": {
-    "mtime": 1787837776.2176788,
-    "ast_hash": "c0550f121c95e38071e90842c7dfdb86",
-    "semantic_hash": ""
-  },
-  "frontend/shipping-delivery.html": {
-    "mtime": 1787837419.6272385,
-    "ast_hash": "5316fff13becb11f7480aff30cd8bda4",
+    "mtime": 1787555106.181919,
+    "ast_hash": "3ef212c88f6c551a23f23a5d579b9f83",
     "semantic_hash": ""
   }
 }
