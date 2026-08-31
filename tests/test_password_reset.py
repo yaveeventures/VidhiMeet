@@ -61,13 +61,11 @@ def test_forgot_password_flow_and_reset_success(database):
     assert res_ref.status_code == 401
 
 
-def test_forgot_password_user_enumeration_protection():
-    """Verify that forgot-password returns 200 OK without leaking non-existent user email status."""
+def test_forgot_password_unregistered_user():
+    """Verify that forgot-password returns 404 when user is not registered."""
     res = client.post("/api/v1/auth/forgot-password", json={"email": "nonexistent_random_user_999@vidhimeet.in"})
-    assert res.status_code == 200
-    data = res.json()
-    assert data["status"] == "ok"
-    assert "debug_reset_token" not in data
+    assert res.status_code == 404
+    assert "not registered with us" in res.json()["detail"].lower()
 
 
 def test_reset_password_invalid_or_used_token(database):

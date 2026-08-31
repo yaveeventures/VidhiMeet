@@ -139,40 +139,49 @@ def enable_mfa(payload: MfaEnableRequest, user: User = Depends(current_user), db
 def forgot_password(payload: ForgotPasswordRequest, db: Session = Depends(get_db)):
     """
     Request a password reset link.
-    Anti-enumeration protection: Returns 200 OK regardless of whether the email exists.
+    Informs the user if no account is registered with the provided email.
     """
     email = payload.email.lower().strip()
     user = db.scalar(select(User).where(User.email == email))
 
-    debug_token = None
-    if user and user.active:
-        now_utc = datetime.now(timezone.utc)
-        # Invalidate any existing unused reset tokens for this user
-        db.execute(
-            update(PasswordResetToken)
-            .where((PasswordResetToken.user_id == user.id) & (PasswordResetToken.used == False))
-            .values(used=True)
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="This email is not registered with us. Please register first."
         )
 
-        raw_token = secrets.token_urlsafe(32)
-        digest = hashlib.sha256(raw_token.encode()).hexdigest()
-        expires_at = now_utc + timedelta(minutes=15)
-
-        reset_entry = PasswordResetToken(
-            user_id=user.id,
-            token_hash=digest,
-            expires_at=expires_at,
-            used=False
+    if not user.active:
+        raise HTTPException(
+            status_code=403,
+            detail="This account is currently deactivated or restricted."
         )
-        db.add(reset_entry)
-        audit(db, user, "auth.forgot_password_requested", "user", user.id)
-        db.commit()
-        send_password_reset_email(email, raw_token)
-        debug_token = raw_token
 
-    res = {"status": "ok", "message": "If an account exists with that email, a password reset link has been sent."}
-    if debug_token and get_settings().environment != "production":
-        res["debug_reset_token"] = debug_token
+    now_utc = datetime.now(timezone.utc)
+    # Invalidate any existing unused reset tokens for this user
+    db.execute(
+        update(PasswordResetToken)
+        .where((PasswordResetToken.user_id == user.id) & (PasswordResetToken.used == False))
+        .values(used=True)
+    )
+
+    raw_token = secrets.token_urlsafe(32)
+    digest = hashlib.sha256(raw_token.encode()).hexdigest()
+    expires_at = now_utc + timedelta(minutes=15)
+
+    reset_entry = PasswordResetToken(
+        user_id=user.id,
+        token_hash=digest,
+        expires_at=expires_at,
+        used=False
+    )
+    db.add(reset_entry)
+    audit(db, user, "auth.forgot_password_requested", "user", user.id)
+    db.commit()
+    send_password_reset_email(email, raw_token)
+
+    res = {"status": "ok", "message": "Password reset link has been sent to your email."}
+    if get_settings().environment != "production":
+        res["debug_reset_token"] = raw_token
     return res
 
 

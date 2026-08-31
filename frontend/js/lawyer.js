@@ -252,13 +252,13 @@ function initLawyerAuth() {
 
       try {
         const res = await LexAPI.forgotPassword(email);
-        succDiv.textContent = res.message || "If an account exists with that email, a reset token has been sent.";
+        succDiv.textContent = res.message || "Password reset link has been sent to your email.";
         if (res.debug_reset_token) {
           $("#lawyer-reset-token-section").style.display = "block";
           $("#lawyer-reset-token-input").value = res.debug_reset_token;
         }
       } catch (err) {
-        errDiv.textContent = err.message || "Failed to process request";
+        errDiv.textContent = err.message || "This email is not registered with us.";
       } finally {
         submitBtn.disabled = false;
       }

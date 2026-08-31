@@ -1685,13 +1685,13 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
 
     try {
       const res = await LexAPI.forgotPassword(email);
-      succDiv.textContent = res.message || "If an account exists with that email, a password reset token has been issued.";
+      succDiv.textContent = res.message || "Password reset link has been sent to your email.";
       if (res.debug_reset_token) {
         document.querySelector("#reset-token-section").style.display = "block";
         document.querySelector("#reset-token-input").value = res.debug_reset_token;
       }
     } catch (err) {
-      errDiv.textContent = err.message || "Failed to process request";
+      errDiv.textContent = err.message || "This email is not registered with us.";
     } finally {
       submitBtn.disabled = false;
     }
