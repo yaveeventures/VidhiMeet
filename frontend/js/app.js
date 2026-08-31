@@ -1358,7 +1358,13 @@ function renderLogin(redirect = null, fromBooking = false) {
           <label>Password</label>
           <button type="button" id="btn-client-forgot-password" style="background:none;border:none;color:var(--forest);font-size:12px;font-weight:600;cursor:pointer;padding:0;">Forgot password?</button>
         </div>
-        <input type="password" id="login-password" name="password" required autocomplete="new-password" placeholder="••••••••••••" value="" />
+        <div class="password-wrap">
+          <input type="password" id="login-password" name="password" required autocomplete="new-password" placeholder="••••••••••••" value="" />
+          <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+            <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <div id="auth-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
       <div class="actions">
@@ -1500,10 +1506,26 @@ function renderRegister(redirect = null, fromBooking = false) {
       </div>
       <div class="field">
         <label>Password (min 12 chars)</label>
-        <input type="password" id="reg-password" required minlength="12" placeholder="••••••••••••">
+        <div class="password-wrap">
+          <input type="password" id="reg-password" required minlength="12" placeholder="••••••••••••">
+          <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+            <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <div class="field">
-        <label>Date of Birth <span style="font-size:11px;color:var(--muted);font-weight:400;">(must be 18 or older — DPDP Act §9)</span></label>
+        <label>Re-enter Password</label>
+        <div class="password-wrap">
+          <input type="password" id="reg-confirm-password" required minlength="12" placeholder="••••••••••••">
+          <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+            <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Date of Birth</label>
         <input type="date" id="reg-dob" required
           max="${new Date(Date.now() - 18 * 365.25 * 24 * 3600 * 1000).toISOString().split('T')[0]}"
           style="font-family:inherit;">
@@ -1551,11 +1573,18 @@ function renderRegister(redirect = null, fromBooking = false) {
     const fullName = document.querySelector("#reg-name").value;
     const email = document.querySelector("#reg-email").value;
     const password = document.querySelector("#reg-password").value;
+    const confirmPassword = document.querySelector("#reg-confirm-password") ? document.querySelector("#reg-confirm-password").value : "";
     const dob = document.querySelector("#reg-dob").value;
     const consentPrivacy = document.querySelector("#reg-consent-privacy").checked;
     const consentTerms = document.querySelector("#reg-consent-terms").checked;
     const role = "client";
     const errDiv = document.querySelector("#auth-error");
+    errDiv.textContent = "";
+
+    if (password !== confirmPassword) {
+      errDiv.textContent = "Passwords do not match. Please re-enter your password.";
+      return;
+    }
 
     // Client-side age check (server also validates)
     if (dob) {
@@ -1600,7 +1629,7 @@ function renderRegister(redirect = null, fromBooking = false) {
   };
 }
 
-function renderForgotPassword(redirect = null, fromBooking = false) {
+function renderForgotPassword(redirect = null, fromBooking = false, initialToken = "") {
   content.innerHTML = `
     <span class="kicker">Account Recovery</span>
     <h2>Reset Password</h2>
@@ -1616,16 +1645,22 @@ function renderForgotPassword(redirect = null, fromBooking = false) {
         <button class="primary" type="submit" id="btn-forgot-submit">Send Reset Token</button>
       </div>
     </form>
-    <div id="reset-token-section" style="display:none;margin-top:20px;padding-top:16px;border-top:1px solid var(--line);">
+    <div id="reset-token-section" style="${initialToken ? 'display:block;' : 'display:none;'}margin-top:20px;padding-top:16px;border-top:1px solid var(--line);">
       <h3 style="font-size:16px;margin-bottom:8px;color:var(--forest);">Set New Password</h3>
       <form class="form" id="reset-form" autocomplete="off">
         <div class="field">
           <label>Reset Token</label>
-          <input type="text" id="reset-token-input" required placeholder="Enter token" value="" />
+          <input type="text" id="reset-token-input" required placeholder="Enter token" value="${escapeHtml(initialToken)}" />
         </div>
         <div class="field">
           <label>New Password (min 12 chars)</label>
-          <input type="password" id="reset-new-password" required minlength="12" placeholder="••••••••••••" value="" />
+          <div class="password-wrap">
+            <input type="password" id="reset-new-password" required minlength="12" placeholder="••••••••••••" value="" />
+            <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
         </div>
         <div id="reset-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
         <div class="actions">
@@ -1681,6 +1716,20 @@ function renderForgotPassword(redirect = null, fromBooking = false) {
     };
   }
 }
+
+// Auto-detect reset token in URL parameters on page load
+(function checkResetTokenUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get("token") || params.get("reset_token");
+  if (token) {
+    window.addEventListener("DOMContentLoaded", () => {
+      open();
+      renderForgotPassword(null, false, token);
+      const newPass = document.querySelector("#reset-new-password");
+      if (newPass) setTimeout(() => newPass.focus(), 100);
+    });
+  }
+})();
 
 function updateHeader() {
   const user = LexAPI.getCurrentUser();
@@ -3582,5 +3631,26 @@ if (document.readyState === "loading") {
 } else {
   initHeroDropdown();
 }
+
+// Universal password visibility toggle
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".password-toggle-btn");
+  if (!btn) return;
+  e.preventDefault();
+  const wrap = btn.closest(".password-wrap, .input-wrapper");
+  if (!wrap) return;
+  const input = wrap.querySelector("input");
+  if (!input) return;
+  const isPass = input.type === "password";
+  input.type = isPass ? "text" : "password";
+  const eyeOpen = btn.querySelector(".eye-open");
+  const eyeClosed = btn.querySelector(".eye-closed");
+  if (eyeOpen && eyeClosed) {
+    eyeOpen.style.display = isPass ? "none" : "block";
+    eyeClosed.style.display = isPass ? "block" : "none";
+  }
+  btn.setAttribute("aria-label", isPass ? "Hide password" : "Show password");
+  btn.setAttribute("title", isPass ? "Hide password" : "Show password");
+});
 
 

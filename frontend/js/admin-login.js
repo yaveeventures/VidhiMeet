@@ -66,3 +66,24 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.key === "Enter") document.getElementById("admin-password").focus();
   });
 });
+
+// Universal password visibility toggle
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".password-toggle-btn");
+  if (!btn) return;
+  e.preventDefault();
+  const wrap = btn.closest(".password-wrap, .input-wrapper");
+  if (!wrap) return;
+  const input = wrap.querySelector("input");
+  if (!input) return;
+  const isPass = input.type === "password";
+  input.type = isPass ? "text" : "password";
+  const eyeOpen = btn.querySelector(".eye-open");
+  const eyeClosed = btn.querySelector(".eye-closed");
+  if (eyeOpen && eyeClosed) {
+    eyeOpen.style.display = isPass ? "none" : "block";
+    eyeClosed.style.display = isPass ? "block" : "none";
+  }
+  btn.setAttribute("aria-label", isPass ? "Hide password" : "Show password");
+  btn.setAttribute("title", isPass ? "Hide password" : "Show password");
+});

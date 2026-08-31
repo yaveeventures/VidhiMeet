@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1788189759.0929708,
-    "ast_hash": "28f483c80fc7a374eb3de6c4cbdc6169",
+    "mtime": 1788189197.188838,
+    "ast_hash": "c752ce1e34835dd3116d47e9ac2f948f",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.js": {
@@ -500,13 +500,13 @@
     "semantic_hash": ""
   },
   "cloudflare/deploy_rules.sh": {
-    "mtime": 1788189911.5947375,
-    "ast_hash": "c4f07de8e2cf2b62e32f131ecc60e601",
+    "mtime": 1787554057.5583687,
+    "ast_hash": "592265e968729554c6a747a9b150ff43",
     "semantic_hash": ""
   },
   "cloudflare/main.tf": {
-    "mtime": 1788189927.8283525,
-    "ast_hash": "e74c07e30ebb3bb09d122bcb7c07a88a",
+    "mtime": 1787554044.8745978,
+    "ast_hash": "fd7b93ca62bfa238b9c03ed3f2ad1ac6",
     "semantic_hash": ""
   },
   "scripts/deploy_cloudflare_shield.py": {

@@ -4,7 +4,7 @@
   <!-- Home Page / Main Client Portal -->
   <url>
     <loc>https://vidhimeet.in/</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,7 +12,7 @@
   <!-- Lawyer Portal -->
   <url>
     <loc>https://vidhimeet.in/lawyer.html</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -20,7 +20,7 @@
   <!-- Privacy Policy (DPDP Act 2023) -->
   <url>
     <loc>https://vidhimeet.in/privacy.html</loc>
-    <lastmod>2026-08-22</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -28,7 +28,7 @@
   <!-- Terms of Service -->
   <url>
     <loc>https://vidhimeet.in/terms.html</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -36,7 +36,7 @@
   <!-- Cancellation & Refund Policy -->
   <url>
     <loc>https://vidhimeet.in/cancellation-refund.html</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -44,7 +44,7 @@
   <!-- Shipping & Delivery Policy -->
   <url>
     <loc>https://vidhimeet.in/shipping-delivery.html</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
@@ -52,7 +52,7 @@
   <!-- Contact Us -->
   <url>
     <loc>https://vidhimeet.in/contact.html</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

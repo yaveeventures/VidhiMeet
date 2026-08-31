@@ -76,11 +76,22 @@ resource "cloudflare_ruleset" "bot_management" {
   kind        = "zone"
   phase       = "http_request_firewall_custom"
 
+  # Rule 2.0: Allow Search Engine Crawlers & SEO Files (/sitemap.xml, /robots.txt)
+  rules {
+    action      = "skip"
+    action_parameters {
+      ruleset = "current"
+    }
+    description = "Allow Search Engine Crawlers & SEO Files (/sitemap.xml, /robots.txt)"
+    expression  = "(http.request.uri.path in {\"/sitemap.xml\" \"/robots.txt\"}) or cf.bot_management.verified_bot"
+    enabled     = true
+  }
+
   # Rule 2.1: Block Verified Bad Bots & Scanners globally
   rules {
     action      = "block"
     description = "Block Known Malicious Scanners & Automated Reconnaissance Bots"
-    expression  = "(cf.client.bot or http.user_agent matches \"(?i)(nikto|sqlmap|nmap|dirbuster|gobuster|wpscan|masscan|zgrab|acunetix|nessus|python-requests|aiohttp|httpx|curl|wget)\") and not cf.bot_management.verified_bot"
+    expression  = "(cf.client.bot or http.user_agent matches \"(?i)(nikto|sqlmap|nmap|dirbuster|gobuster|wpscan|masscan|zgrab|acunetix|nessus|python-requests|aiohttp|httpx|curl|wget)\") and not cf.bot_management.verified_bot and not (http.request.uri.path in {\"/sitemap.xml\" \"/robots.txt\"})"
     enabled     = true
   }
 

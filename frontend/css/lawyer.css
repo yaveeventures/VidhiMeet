@@ -3240,3 +3240,48 @@ main {
   font-size: 11px;
   color: #8fa79b;
 }
+
+/* Password view toggle */
+.password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.password-wrap input {
+  width: 100%;
+  padding-right: 42px !important;
+  box-sizing: border-box;
+}
+.password-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted, #68736d);
+  border-radius: 6px;
+  line-height: 1;
+  transition: color 0.15s ease, background-color 0.15s ease;
+  z-index: 2;
+}
+.password-toggle-btn:hover {
+  color: var(--forest, #173c30);
+  background-color: rgba(23, 60, 48, 0.08);
+}
+.password-toggle-btn:focus-visible {
+  outline: 2px solid var(--forest, #173c30);
+  outline-offset: 1px;
+}
+.password-toggle-btn svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  pointer-events: none;
+}

@@ -285,6 +285,23 @@ function initLawyerAuth() {
     };
   }
 
+  // Check if page was opened with reset token in URL
+  const resetParams = new URLSearchParams(window.location.search);
+  const resetTokenParam = resetParams.get("token") || resetParams.get("reset_token");
+  if (resetTokenParam) {
+    if (loginSection) loginSection.style.display = "none";
+    if (registerSection) registerSection.style.display = "none";
+    if (forgotSection) {
+      forgotSection.style.display = "block";
+      const tokenSection = $("#lawyer-reset-token-section");
+      const tokenInput = $("#lawyer-reset-token-input");
+      if (tokenSection) tokenSection.style.display = "block";
+      if (tokenInput) tokenInput.value = resetTokenParam;
+      const newPass = $("#lawyer-reset-new-password");
+      if (newPass) setTimeout(() => newPass.focus(), 100);
+    }
+  }
+
   const handleLawyerGoogleAuth = async (e) => {
     const btnTarget = (e && e.currentTarget) ? e.currentTarget : $("#btn-lawyer-google-login");
     const origHtml = btnTarget ? btnTarget.innerHTML : "";
@@ -4171,4 +4188,25 @@ window.viewDraftingDetails = async function(reqId) {
     toast("Error loading request details: " + err.message);
   }
 };
+
+// Universal password visibility toggle
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".password-toggle-btn");
+  if (!btn) return;
+  e.preventDefault();
+  const wrap = btn.closest(".password-wrap, .input-wrapper");
+  if (!wrap) return;
+  const input = wrap.querySelector("input");
+  if (!input) return;
+  const isPass = input.type === "password";
+  input.type = isPass ? "text" : "password";
+  const eyeOpen = btn.querySelector(".eye-open");
+  const eyeClosed = btn.querySelector(".eye-closed");
+  if (eyeOpen && eyeClosed) {
+    eyeOpen.style.display = isPass ? "none" : "block";
+    eyeClosed.style.display = isPass ? "block" : "none";
+  }
+  btn.setAttribute("aria-label", isPass ? "Hide password" : "Show password");
+  btn.setAttribute("title", isPass ? "Hide password" : "Show password");
+});
 
