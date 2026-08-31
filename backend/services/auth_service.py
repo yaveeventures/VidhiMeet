@@ -33,7 +33,10 @@ def issue_refresh_token(db: Session | AsyncSession, user: User) -> str:
     return raw
 
 
+import json
 import smtplib
+import ssl
+import urllib.request
 from email.message import EmailMessage
 import structlog
 
@@ -42,7 +45,7 @@ logger = structlog.get_logger(__name__)
 def send_password_reset_email(to_email: str, raw_token: str):
     """
     Sends password reset email containing the secret token/link.
-    Uses SMTP configuration or logs dispatch event in development mode.
+    Uses Resend HTTPS API (Port 443) or standard SMTP configuration.
     """
     from_email = getattr(settings, "smtp_from_email", "") or "no-reply@vidhimeet.in"
     reset_url = f"https://vidhimeet.in/?token={raw_token}"
@@ -99,17 +102,50 @@ def send_password_reset_email(to_email: str, raw_token: str):
 </html>"""
     msg.add_alternative(html_content, subtype="html")
 
-    smtp_server = getattr(settings, "smtp_server", "")
-    smtp_port = getattr(settings, "smtp_port", 587)
-    smtp_user = getattr(settings, "smtp_user", "")
-    smtp_password = getattr(settings, "smtp_password", "")
+    smtp_server = (getattr(settings, "smtp_server", "") or "").strip()
+    smtp_port = int(getattr(settings, "smtp_port", 587) or 587)
+    smtp_user = (getattr(settings, "smtp_user", "") or "").strip()
+    smtp_password = (getattr(settings, "smtp_password", "") or "").strip()
 
+    # 1. Resend HTTPS API (Port 443) - avoids cloud firewall timeouts on raw SMTP port 587/25
+    if smtp_password.startswith("re_") or smtp_server.lower() == "smtp.resend.com":
+        try:
+            payload = {
+                "from": f"VidhiMeet <{from_email}>",
+                "to": [to_email],
+                "subject": "VidhiMeet — Password Reset Request",
+                "html": html_content,
+                "text": plain_text
+            }
+            req = urllib.request.Request(
+                "https://api.resend.com/emails",
+                data=json.dumps(payload).encode("utf-8"),
+                headers={
+                    "Authorization": f"Bearer {smtp_password}",
+                    "Content-Type": "application/json",
+                    "User-Agent": "VidhiMeet-Backend/1.0"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                if resp.status in (200, 201):
+                    logger.info("Password reset email sent via Resend API", recipient=to_email)
+                    return
+        except Exception as err:
+            logger.error("Failed to send password reset email via Resend API", error=str(err))
+
+    # 2. Standard SMTP Dispatch (Supports SSL port 465 and STARTTLS port 587)
     if smtp_server and smtp_user:
         try:
-            with smtplib.SMTP(smtp_server, smtp_port, timeout=10) as server:
-                server.starttls()
-                server.login(smtp_user, smtp_password)
-                server.send_message(msg)
+            if smtp_port == 465:
+                context = ssl.create_default_context()
+                with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context, timeout=10) as server:
+                    server.login(smtp_user, smtp_password)
+                    server.send_message(msg)
+            else:
+                with smtplib.SMTP(smtp_server, smtp_port, timeout=10) as server:
+                    server.starttls()
+                    server.login(smtp_user, smtp_password)
+                    server.send_message(msg)
             logger.info("Password reset email sent via SMTP", recipient=to_email)
         except Exception as err:
             logger.error("Failed to send password reset email via SMTP", error=str(err))
