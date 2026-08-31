@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-08-31)
 
 ## Corpus Check
-- 88 files · ~106,802 words
+- 88 files · ~106,938 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1239 nodes · 3479 edges · 69 communities (52 shown, 17 thin omitted)
+- 1239 nodes · 3479 edges · 68 communities (51 shown, 17 thin omitted)
 - Extraction: 86% EXTRACTED · 14% INFERRED · 0% AMBIGUOUS · INFERRED: 486 edges (avg confidence: 0.59)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d13618b7`
+- Built from commit: `db52aa44`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -38,7 +38,6 @@
 - ntp_now
 - config.py
 - calendar.py
-- sanitize_text
 - PlatformFeedback
 - models.py
 - _e
@@ -106,7 +105,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (69 total, 17 thin omitted)
+## Communities (68 total, 17 thin omitted)
 
 ### Community 0 - "main.py"
 Cohesion: 0.08
@@ -121,16 +120,16 @@ Cohesion: 0.06
 Nodes (74): $(), k(), LexE2EE, aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings (+66 more)
 
 ### Community 3 - "lawyer.js"
-Cohesion: 0.05
-Nodes (51): as(), B(), Bo(), Bt(), Ds(), ea(), ee(), Fo() (+43 more)
+Cohesion: 0.06
+Nodes (47): as(), B(), Bo(), Bt(), Ds(), dt(), ea(), Fo() (+39 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.11
 Nodes (43): $(), auditLogs, checkAdminSession(), colors, decideVerification(), disputes, draftingTransactions, escapeHtml() (+35 more)
 
 ### Community 5 - "daily-js.js"
-Cohesion: 0.12
-Nodes (10): Ae(), ar(), br, fn(), hn(), ir(), mr, pr() (+2 more)
+Cohesion: 0.13
+Nodes (10): ar(), ir(), kr(), mr, pr(), q(), sr(), W() (+2 more)
 
 ### Community 6 - "main.py"
 Cohesion: 0.07
@@ -164,10 +163,6 @@ Nodes (14): Sanitize sensitive PII keys and credentials before log rendering., C
 Cohesion: 0.19
 Nodes (14): calculate_cancellation_policy(), get_daily_meeting_details(), datetime, Calculate refund and penalty breakdown based on policy matrix:     - Lawyer Canc, validate_intake(), verify_daily_meeting_duration(), evaluate_daily_meeting_logs(), Session (+6 more)
 
-### Community 15 - "calendar.py"
-Cohesion: 0.18
-Nodes (7): be(), le(), oe(), qt, re(), te(), Zt()
-
 ### Community 16 - "check_clock_drift"
 Cohesion: 0.10
 Nodes (6): get_db(), Booking, test_lawyer_complete_booking_duration_restriction(), test_meeting_token_endpoint(), test_verified_reviews_only(), test_video_consultation_dual_platform_fee()
@@ -177,12 +172,12 @@ Cohesion: 0.18
 Nodes (22): Message, Review, Voucher, booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document() (+14 more)
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
-Cohesion: 0.17
-Nodes (24): a(), bn(), c(), d(), f(), gn(), gt(), Jn() (+16 more)
+Cohesion: 0.13
+Nodes (34): a(), bn(), c(), d(), f(), ge(), gn(), gt() (+26 more)
 
 ### Community 21 - "config.py"
-Cohesion: 0.16
-Nodes (24): at(), Bs(), ct(), dn(), Es(), Et(), fe(), i() (+16 more)
+Cohesion: 0.10
+Nodes (28): Ae(), at(), br, Bs(), ct(), dn(), ee(), Es() (+20 more)
 
 ### Community 22 - "calendar.py"
 Cohesion: 0.23
@@ -193,8 +188,8 @@ Cohesion: 0.14
 Nodes (21): booking_ics(), _build_ics_calendar(), _build_vevent(), _escape(), _fmt_dt(), _fold(), get_ical_token(), lawyer_ical_feed() (+13 more)
 
 ### Community 25 - "models.py"
-Cohesion: 0.17
-Nodes (13): an(), cn(), dr(), _e(), he(), nn(), on(), pe() (+5 more)
+Cohesion: 0.15
+Nodes (15): an(), be(), cn(), dr(), _e(), he(), nn(), on() (+7 more)
 
 ### Community 26 - "_e"
 Cohesion: 0.18
@@ -241,12 +236,12 @@ Cohesion: 0.17
 Nodes (10): Verify that requests exceeding the auth limit return HTTP 429 with Retry-After h, Verify per-account and per-IP exponential backoff triggers after max free attemp, Verify that rate limit tier thresholds are dynamically configurable via Settings, Verify that 5 rate limit violations trigger a 15-minute 403 IP block., Verify that disabling rate_limit_enabled setting allows requests without limits., test_auth_exponential_backoff(), test_auth_rate_limiting(), test_configurable_tier_thresholds() (+2 more)
 
 ### Community 37 - "setup"
-Cohesion: 0.21
-Nodes (12): cr(), er(), ge(), hr(), ie(), lr(), me(), ne() (+4 more)
+Cohesion: 0.40
+Nodes (4): cr(), er(), hr(), lr()
 
 ### Community 38 - "processEvent"
-Cohesion: 0.22
-Nodes (10): ce(), de(), dt(), ft(), ht(), J(), ke(), processEvent() (+2 more)
+Cohesion: 0.16
+Nodes (13): ce(), de(), fn(), ft(), hn(), ht(), J(), ke() (+5 more)
 
 ### Community 39 - "Booking"
 Cohesion: 0.36
@@ -304,7 +299,7 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.053) - this node is a cross-community bridge._
 - **Why does `LexAPI` connect `mr` to `NTP Time Synchronization — Compliance Runbook`, `je`, `app.js`, `calendar.py`?**
   _High betweenness centrality (0.043) - this node is a cross-community bridge._
-- **Why does `s()` connect `9d0be6640444_add_aadhaar_and_profile_picture.py` to `je`, `lawyer.js`, `app.js`, `daily-js.js`, `setup`, `config.py`?**
+- **Why does `s()` connect `9d0be6640444_add_aadhaar_and_profile_picture.py` to `je`, `lawyer.js`, `app.js`, `setup`, `processEvent`, `config.py`?**
   _High betweenness centrality (0.038) - this node is a cross-community bridge._
 - **Are the 25 inferred relationships involving `User` (e.g. with `lifespan()` and `Base`) actually correct?**
   _`User` has 25 INFERRED edges - model-reasoned connections that need verification._

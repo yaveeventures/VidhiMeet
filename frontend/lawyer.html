@@ -408,32 +408,43 @@
             <input type="email" id="lawyer-forgot-email" required placeholder="advocate@example.com">
           </div>
           <div id="lawyer-forgot-error" class="error-message"></div>
-          <div id="lawyer-forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;"></div>
+          <div id="lawyer-forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;line-height:1.5;"></div>
           <button class="btn" type="submit" id="btn-lawyer-forgot-submit">Request Reset Link</button>
         </form>
-        <div id="lawyer-reset-token-section" style="display:none;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);">
-          <h3 style="font-size:15px;margin-bottom:8px;color:var(--forest);">Set New Password</h3>
-          <form id="lawyer-reset-form" autocomplete="off">
-            <div class="field">
-              <label>Reset Token</label>
-              <input type="text" id="lawyer-reset-token-input" required placeholder="Enter token">
-            </div>
-            <div class="field">
-              <label>New Password</label>
-              <div class="password-wrap">
-                <input type="password" id="lawyer-reset-new-password" required minlength="12" placeholder="At least 12 characters">
-                <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
-                  <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                  <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                </button>
-              </div>
-            </div>
-            <div id="lawyer-reset-error" class="error-message"></div>
-            <button class="btn" type="submit">Update Password</button>
-          </form>
-        </div>
-        <p class="switch-text" style="margin-top:14px;">Remembered your password? <button id="to-lawyer-login-from-forgot">Sign in →</button></p>
+        <p class="switch-text" style="margin-top:14px;">Remembered your password? <button type="button" id="to-lawyer-login-from-forgot">Sign in →</button></p>
       </div>
+
+      <div id="lawyer-reset-section" style="display:none;">
+        <h2>Set New Password</h2>
+        <p>Please choose a strong password with at least 12 characters.</p>
+        <form id="lawyer-reset-form" autocomplete="off">
+          <input type="hidden" id="lawyer-reset-token-input">
+          <div class="field">
+            <label>New Password (min 12 chars)</label>
+            <div class="password-wrap">
+              <input type="password" id="lawyer-reset-new-password" required minlength="12" placeholder="At least 12 characters">
+              <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Confirm Password</label>
+            <div class="password-wrap">
+              <input type="password" id="lawyer-reset-confirm-password" required minlength="12" placeholder="Re-enter new password">
+              <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+          <div id="lawyer-reset-error" class="error-message"></div>
+          <button class="btn" type="submit" id="btn-lawyer-reset-submit">Update Password</button>
+        </form>
+        <p class="switch-text" style="margin-top:14px;">Remembered your password? <button type="button" id="to-lawyer-login-from-reset">Sign in →</button></p>
+      </div>
+
       <div id="lawyer-register-section" style="display:none;">
         <h2>Lawyer Registration</h2>
         <p>Join VidhiMeet as a verified legal professional.</p>

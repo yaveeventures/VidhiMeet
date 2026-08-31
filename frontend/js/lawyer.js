@@ -199,14 +199,17 @@ function initLawyerAuth() {
   const loginSection = $("#lawyer-login-section");
   const registerSection = $("#lawyer-register-section");
   const forgotSection = $("#lawyer-forgot-section");
+  const resetSection = $("#lawyer-reset-section");
   const btnForgot = $("#btn-lawyer-forgot-password");
   const toLoginFromForgot = $("#to-lawyer-login-from-forgot");
+  const toLoginFromReset = $("#to-lawyer-login-from-reset");
 
   if (toRegister) {
     toRegister.onclick = (e) => {
       e.preventDefault();
       loginSection.style.display = "none";
       if (forgotSection) forgotSection.style.display = "none";
+      if (resetSection) resetSection.style.display = "none";
       registerSection.style.display = "block";
     };
   }
@@ -216,6 +219,7 @@ function initLawyerAuth() {
       e.preventDefault();
       registerSection.style.display = "none";
       if (forgotSection) forgotSection.style.display = "none";
+      if (resetSection) resetSection.style.display = "none";
       loginSection.style.display = "block";
     };
   }
@@ -225,6 +229,7 @@ function initLawyerAuth() {
       e.preventDefault();
       loginSection.style.display = "none";
       registerSection.style.display = "none";
+      if (resetSection) resetSection.style.display = "none";
       if (forgotSection) forgotSection.style.display = "block";
     };
   }
@@ -233,6 +238,17 @@ function initLawyerAuth() {
     toLoginFromForgot.onclick = (e) => {
       e.preventDefault();
       if (forgotSection) forgotSection.style.display = "none";
+      if (resetSection) resetSection.style.display = "none";
+      registerSection.style.display = "none";
+      loginSection.style.display = "block";
+    };
+  }
+
+  if (toLoginFromReset) {
+    toLoginFromReset.onclick = (e) => {
+      e.preventDefault();
+      if (forgotSection) forgotSection.style.display = "none";
+      if (resetSection) resetSection.style.display = "none";
       registerSection.style.display = "none";
       loginSection.style.display = "block";
     };
@@ -252,10 +268,17 @@ function initLawyerAuth() {
 
       try {
         const res = await LexAPI.forgotPassword(email);
-        succDiv.textContent = res.message || "Password reset link has been sent to your email.";
         if (res.debug_reset_token) {
-          $("#lawyer-reset-token-section").style.display = "block";
-          $("#lawyer-reset-token-input").value = res.debug_reset_token;
+          if (forgotSection) forgotSection.style.display = "none";
+          if (resetSection) {
+            resetSection.style.display = "block";
+            const tokenInput = $("#lawyer-reset-token-input");
+            if (tokenInput) tokenInput.value = res.debug_reset_token;
+            const newPass = $("#lawyer-reset-new-password");
+            if (newPass) setTimeout(() => newPass.focus(), 100);
+          }
+        } else {
+          succDiv.textContent = res.message || "Password reset link has been sent to your email. Please check your inbox to continue.";
         }
       } catch (err) {
         errDiv.textContent = err.message || "This email is not registered with us.";
@@ -271,16 +294,35 @@ function initLawyerAuth() {
       e.preventDefault();
       const token = $("#lawyer-reset-token-input").value.trim();
       const newPassword = $("#lawyer-reset-new-password").value;
+      const confirmPassword = $("#lawyer-reset-confirm-password").value;
       const errDiv = $("#lawyer-reset-error");
+      const submitBtn = $("#btn-lawyer-reset-submit");
       errDiv.textContent = "";
 
+      if (!token) {
+        errDiv.textContent = "Reset token is missing or invalid. Please request a new reset link.";
+        return;
+      }
+      if (newPassword.length < 12) {
+        errDiv.textContent = "Password must be at least 12 characters long.";
+        return;
+      }
+      if (newPassword !== confirmPassword) {
+        errDiv.textContent = "Passwords do not match. Please re-enter.";
+        return;
+      }
+
+      if (submitBtn) submitBtn.disabled = true;
       try {
         await LexAPI.resetPassword(token, newPassword);
         toast("Password reset successful! Please log in.");
         if (forgotSection) forgotSection.style.display = "none";
+        if (resetSection) resetSection.style.display = "none";
         loginSection.style.display = "block";
       } catch (err) {
         errDiv.textContent = err.message || "Failed to reset password";
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
       }
     };
   }
@@ -291,11 +333,10 @@ function initLawyerAuth() {
   if (resetTokenParam) {
     if (loginSection) loginSection.style.display = "none";
     if (registerSection) registerSection.style.display = "none";
-    if (forgotSection) {
-      forgotSection.style.display = "block";
-      const tokenSection = $("#lawyer-reset-token-section");
+    if (forgotSection) forgotSection.style.display = "none";
+    if (resetSection) {
+      resetSection.style.display = "block";
       const tokenInput = $("#lawyer-reset-token-input");
-      if (tokenSection) tokenSection.style.display = "block";
       if (tokenInput) tokenInput.value = resetTokenParam;
       const newPass = $("#lawyer-reset-new-password");
       if (newPass) setTimeout(() => newPass.focus(), 100);

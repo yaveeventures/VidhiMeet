@@ -1630,32 +1630,28 @@ function renderRegister(redirect = null, fromBooking = false) {
 }
 
 function renderForgotPassword(redirect = null, fromBooking = false, initialToken = "") {
-  content.innerHTML = `
-    <span class="kicker">Account Recovery</span>
-    <h2>Reset Password</h2>
-    <p class="lead">Enter your registered email address to receive a password reset token.</p>
-    <form class="form" id="forgot-form" autocomplete="off">
-      <div class="field">
-        <label>Email Address</label>
-        <input type="email" id="forgot-email" required placeholder="name@example.com" value="" />
-      </div>
-      <div id="forgot-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
-      <div id="forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;"></div>
-      <div class="actions">
-        <button class="primary" type="submit" id="btn-forgot-submit">Send Reset Token</button>
-      </div>
-    </form>
-    <div id="reset-token-section" style="${initialToken ? 'display:block;' : 'display:none;'}margin-top:20px;padding-top:16px;border-top:1px solid var(--line);">
-      <h3 style="font-size:16px;margin-bottom:8px;color:var(--forest);">Set New Password</h3>
+  if (initialToken) {
+    // Clean "Set New Password" form when token is present
+    content.innerHTML = `
+      <span class="kicker">Account Security</span>
+      <h2>Set New Password</h2>
+      <p class="lead">Please create a strong new password with at least 12 characters.</p>
       <form class="form" id="reset-form" autocomplete="off">
+        <input type="hidden" id="reset-token-input" value="${escapeHtml(initialToken)}" />
         <div class="field">
-          <label>Reset Token</label>
-          <input type="text" id="reset-token-input" required placeholder="Enter token" value="${escapeHtml(initialToken)}" />
+          <label>New Password</label>
+          <div class="password-wrap">
+            <input type="password" id="reset-new-password" required minlength="12" placeholder="At least 12 characters" value="" />
+            <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
+              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
         </div>
         <div class="field">
-          <label>New Password (min 12 chars)</label>
+          <label>Confirm Password</label>
           <div class="password-wrap">
-            <input type="password" id="reset-new-password" required minlength="12" placeholder="••••••••••••" value="" />
+            <input type="password" id="reset-confirm-password" required minlength="12" placeholder="Re-enter new password" value="" />
             <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
               <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -1664,10 +1660,69 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
         </div>
         <div id="reset-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
         <div class="actions">
-          <button class="primary" type="submit">Update Password</button>
+          <button class="primary" type="submit" id="btn-reset-submit">Update Password</button>
         </div>
       </form>
-    </div>
+      <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--ink-light);">Remembered your password? <button type="button" id="switch-back-to-login" style="background:none;border:none;color:var(--forest);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Sign in →</button></p>
+    `;
+
+    document.querySelector("#switch-back-to-login").onclick = () => renderLogin(redirect, fromBooking);
+
+    const resetForm = document.querySelector("#reset-form");
+    if (resetForm) {
+      resetForm.onsubmit = async (e) => {
+        e.preventDefault();
+        const token = document.querySelector("#reset-token-input").value.trim();
+        const newPassword = document.querySelector("#reset-new-password").value;
+        const confirmPassword = document.querySelector("#reset-confirm-password").value;
+        const errDiv = document.querySelector("#reset-error");
+        const submitBtn = document.querySelector("#btn-reset-submit");
+        errDiv.textContent = "";
+
+        if (!token) {
+          errDiv.textContent = "Reset token is missing or invalid. Please request a new reset link.";
+          return;
+        }
+        if (newPassword.length < 12) {
+          errDiv.textContent = "Password must be at least 12 characters long.";
+          return;
+        }
+        if (newPassword !== confirmPassword) {
+          errDiv.textContent = "Passwords do not match. Please re-enter.";
+          return;
+        }
+
+        submitBtn.disabled = true;
+        try {
+          await LexAPI.resetPassword(token, newPassword);
+          toast("Password successfully reset! Please sign in.");
+          renderLogin(redirect, fromBooking);
+        } catch (err) {
+          errDiv.textContent = err.message || "Failed to reset password";
+        } finally {
+          submitBtn.disabled = false;
+        }
+      };
+    }
+    return;
+  }
+
+  // Clean "Forgot Password / Send Reset Link" form
+  content.innerHTML = `
+    <span class="kicker">Account Recovery</span>
+    <h2>Reset Password</h2>
+    <p class="lead">Enter your registered email address to receive a password reset link.</p>
+    <form class="form" id="forgot-form" autocomplete="off">
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="forgot-email" required placeholder="name@example.com" value="" />
+      </div>
+      <div id="forgot-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:5px;"></div>
+      <div id="forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;line-height:1.5;"></div>
+      <div class="actions">
+        <button class="primary" type="submit" id="btn-forgot-submit">Send Reset Link</button>
+      </div>
+    </form>
     <p style="text-align:center;margin-top:16px;font-size:13px;color:var(--ink-light);">Remembered your password? <button type="button" id="switch-back-to-login" style="background:none;border:none;color:var(--forest);font-weight:600;cursor:pointer;font-size:13px;padding:0;">Sign in →</button></p>
   `;
 
@@ -1685,10 +1740,11 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
 
     try {
       const res = await LexAPI.forgotPassword(email);
-      succDiv.textContent = res.message || "Password reset link has been sent to your email.";
       if (res.debug_reset_token) {
-        document.querySelector("#reset-token-section").style.display = "block";
-        document.querySelector("#reset-token-input").value = res.debug_reset_token;
+        // In local development / debug mode, seamlessly navigate to the clean Set New Password view
+        renderForgotPassword(redirect, fromBooking, res.debug_reset_token);
+      } else {
+        succDiv.textContent = res.message || "Password reset link has been sent to your email. Please check your inbox to continue.";
       }
     } catch (err) {
       errDiv.textContent = err.message || "This email is not registered with us.";
@@ -1696,25 +1752,6 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
       submitBtn.disabled = false;
     }
   };
-
-  const resetForm = document.querySelector("#reset-form");
-  if (resetForm) {
-    resetForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const token = document.querySelector("#reset-token-input").value.trim();
-      const newPassword = document.querySelector("#reset-new-password").value;
-      const errDiv = document.querySelector("#reset-error");
-      errDiv.textContent = "";
-
-      try {
-        await LexAPI.resetPassword(token, newPassword);
-        toast("Password successfully reset! Please sign in.");
-        renderLogin(redirect, fromBooking);
-      } catch (err) {
-        errDiv.textContent = err.message || "Failed to reset password";
-      }
-    };
-  }
 }
 
 // Auto-detect reset token in URL parameters on page load
