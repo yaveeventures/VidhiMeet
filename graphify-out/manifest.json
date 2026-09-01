@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "backend/main.py": {
-    "mtime": 1788247207.8164258,
-    "ast_hash": "3e8809f2653be5d10f48c4c4559b5858",
+    "mtime": 1788278292.9754348,
+    "ast_hash": "034f29dfac933a48bab05948a93214d5",
     "semantic_hash": ""
   },
   "backend/models.py": {
@@ -380,8 +380,8 @@
     "semantic_hash": ""
   },
   "frontend/js/cookie-consent.js": {
-    "mtime": 1786188432.0833395,
-    "ast_hash": "c98e1aa79e500b78a51746b5e72c579d",
+    "mtime": 1788278320.085417,
+    "ast_hash": "f9bba1b96b936118668c4083a1d7a287",
     "semantic_hash": ""
   },
   "migrations/versions/9b17288bd3cf_add_cancellation_fields_and_vouchers.py": {
@@ -532,6 +532,11 @@
   "frontend/404.html": {
     "mtime": 1788245989.2548687,
     "ast_hash": "80ea9d989ef0f853b1a2875889e47e5c",
+    "semantic_hash": ""
+  },
+  "PRD.md": {
+    "mtime": 1788248611.0884004,
+    "ast_hash": "b4f4cb59429e37b197d70af7c0841cd2",
     "semantic_hash": ""
   }
 }

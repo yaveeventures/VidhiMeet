@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "backend/main.py": {
-    "mtime": 1787556789.4952588,
-    "ast_hash": "7fc17e1e7a255411f063d6f05157ab30",
+    "mtime": 1788247207.8164258,
+    "ast_hash": "3e8809f2653be5d10f48c4c4559b5858",
     "semantic_hash": ""
   },
   "backend/models.py": {
@@ -532,6 +532,11 @@
   "frontend/404.html": {
     "mtime": 1788245989.2548687,
     "ast_hash": "80ea9d989ef0f853b1a2875889e47e5c",
+    "semantic_hash": ""
+  },
+  "PRD.md": {
+    "mtime": 1788248611.0884004,
+    "ast_hash": "b4f4cb59429e37b197d70af7c0841cd2",
     "semantic_hash": ""
   }
 }

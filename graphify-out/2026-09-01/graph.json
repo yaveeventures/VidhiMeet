@@ -120,7 +120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_db",
-      "community": 66,
+      "community": 23,
       "norm_label": "db.py"
     },
     {
@@ -130,7 +130,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "backend_db_safe_json_deserializer",
-      "community": 66,
+      "community": 23,
       "norm_label": "safe_json_deserializer()"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_db_get_db",
-      "community": 16,
+      "community": 8,
       "norm_label": "get_db()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "backend_db_get_async_db",
-      "community": 66,
+      "community": 23,
       "norm_label": "get_async_db()"
     },
     {
@@ -230,7 +230,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_main",
-      "community": 7,
+      "community": 13,
       "norm_label": "main.py"
     },
     {
@@ -240,7 +240,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "backend_main_lifespan",
-      "community": 7,
+      "community": 13,
       "norm_label": "lifespan()"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "fastapi",
-      "community": 7,
+      "community": 13,
       "norm_label": "fastapi"
     },
     {
@@ -380,8 +380,38 @@
       "source_location": "L283",
       "_origin": "ast",
       "id": "backend_main_metrics",
-      "community": 7,
+      "community": 13,
       "norm_label": "metrics()"
+    },
+    {
+      "label": "FrontendStaticFiles",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L310",
+      "_origin": "ast",
+      "id": "backend_main_frontendstaticfiles",
+      "community": 31,
+      "norm_label": "frontendstaticfiles"
+    },
+    {
+      "label": "StaticFiles",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "staticfiles",
+      "community": 31,
+      "norm_label": "staticfiles"
+    },
+    {
+      "label": ".get_response()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L311",
+      "_origin": "ast",
+      "id": "backend_main_frontendstaticfiles_get_response",
+      "community": 31,
+      "norm_label": ".get_response()"
     },
     {
       "label": "Standardized HTTP Exception Handler:     - Private Layer: Log operational client",
@@ -570,7 +600,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "backend_models_booking",
-      "community": 16,
+      "community": 14,
       "norm_label": "booking"
     },
     {
@@ -580,7 +610,7 @@
       "source_location": "L166",
       "_origin": "ast",
       "id": "backend_models_booking_client_name",
-      "community": 16,
+      "community": 14,
       "norm_label": ".client_name()"
     },
     {
@@ -590,7 +620,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_name",
-      "community": 16,
+      "community": 14,
       "norm_label": ".lawyer_name()"
     },
     {
@@ -600,7 +630,7 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "backend_models_booking_base_price_minor",
-      "community": 16,
+      "community": 14,
       "norm_label": ".base_price_minor()"
     },
     {
@@ -610,7 +640,7 @@
       "source_location": "L181",
       "_origin": "ast",
       "id": "backend_models_booking_client_platform_fee_minor",
-      "community": 16,
+      "community": 14,
       "norm_label": ".client_platform_fee_minor()"
     },
     {
@@ -620,7 +650,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_platform_fee_minor",
-      "community": 16,
+      "community": 14,
       "norm_label": ".lawyer_platform_fee_minor()"
     },
     {
@@ -630,7 +660,7 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "backend_models_booking_platform_fee_minor",
-      "community": 16,
+      "community": 14,
       "norm_label": ".platform_fee_minor()"
     },
     {
@@ -640,7 +670,7 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_amount_minor",
-      "community": 16,
+      "community": 14,
       "norm_label": ".lawyer_amount_minor()"
     },
     {
@@ -650,7 +680,7 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "backend_models_booking_video_room",
-      "community": 16,
+      "community": 14,
       "norm_label": ".video_room()"
     },
     {
@@ -660,7 +690,7 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "backend_models_booking_room_name",
-      "community": 16,
+      "community": 14,
       "norm_label": ".room_name()"
     },
     {
@@ -740,7 +770,7 @@
       "source_location": "L269",
       "_origin": "ast",
       "id": "backend_models_review",
-      "community": 17,
+      "community": 66,
       "norm_label": "review"
     },
     {
@@ -750,7 +780,7 @@
       "source_location": "L284",
       "_origin": "ast",
       "id": "backend_models_review_client_name",
-      "community": 17,
+      "community": 66,
       "norm_label": ".client_name()"
     },
     {
@@ -890,7 +920,7 @@
       "source_location": "L404",
       "_origin": "ast",
       "id": "backend_models_platformfeedback",
-      "community": 10,
+      "community": 66,
       "norm_label": "platformfeedback"
     },
     {
@@ -900,7 +930,7 @@
       "source_location": "L415",
       "_origin": "ast",
       "id": "backend_models_platformfeedback_user_name",
-      "community": 10,
+      "community": 66,
       "norm_label": ".user_name()"
     },
     {
@@ -910,7 +940,7 @@
       "source_location": "L419",
       "_origin": "ast",
       "id": "backend_models_platformfeedback_user_email",
-      "community": 10,
+      "community": 66,
       "norm_label": ".user_email()"
     },
     {
@@ -1120,7 +1150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_rate_limiter",
-      "community": 68,
+      "community": 34,
       "norm_label": "rate_limiter.py"
     },
     {
@@ -1250,7 +1280,7 @@
       "source_location": "L237",
       "_origin": "ast",
       "id": "backend_rate_limiter_rate_limit_dependency",
-      "community": 68,
+      "community": 17,
       "norm_label": "rate_limit_dependency()"
     },
     {
@@ -1430,7 +1460,7 @@
       "source_location": "L285",
       "_origin": "ast",
       "id": "backend_routers_admin_get_ntp_status",
-      "community": 6,
+      "community": 8,
       "norm_label": "get_ntp_status()"
     },
     {
@@ -1480,7 +1510,7 @@
       "source_location": "L286",
       "_origin": "ast",
       "id": "backend_routers_admin_rationale_286",
-      "community": 6,
+      "community": 8,
       "norm_label": "cert-in / dpdp forensic compliance \u2014 ntp clock synchronization status.      retu"
     },
     {
@@ -1510,7 +1540,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_auth",
-      "community": 0,
+      "community": 66,
       "norm_label": "auth.py"
     },
     {
@@ -1530,7 +1560,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_auth_py_session",
-      "community": 0,
+      "community": 66,
       "norm_label": "session"
     },
     {
@@ -1540,7 +1570,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "backend_routers_auth_login",
-      "community": 0,
+      "community": 66,
       "norm_label": "login()"
     },
     {
@@ -1550,7 +1580,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "backend_routers_auth_setup_mfa",
-      "community": 0,
+      "community": 66,
       "norm_label": "setup_mfa()"
     },
     {
@@ -1560,7 +1590,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "backend_routers_auth_enable_mfa",
-      "community": 0,
+      "community": 66,
       "norm_label": "enable_mfa()"
     },
     {
@@ -1570,7 +1600,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "backend_routers_auth_forgot_password",
-      "community": 0,
+      "community": 66,
       "norm_label": "forgot_password()"
     },
     {
@@ -1590,7 +1620,7 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "backend_routers_auth_logout",
-      "community": 0,
+      "community": 66,
       "norm_label": "logout()"
     },
     {
@@ -1600,7 +1630,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "response",
-      "community": 0,
+      "community": 66,
       "norm_label": "response"
     },
     {
@@ -1630,7 +1660,7 @@
       "source_location": "L337",
       "_origin": "ast",
       "id": "backend_routers_auth_refresh",
-      "community": 0,
+      "community": 66,
       "norm_label": "refresh()"
     },
     {
@@ -1650,7 +1680,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_110",
-      "community": 0,
+      "community": 66,
       "norm_label": "generate totp secret and provisioning uri for mfa authenticator setup."
     },
     {
@@ -1660,7 +1690,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_125",
-      "community": 0,
+      "community": 66,
       "norm_label": "verify totp code and enable 2fa on the account."
     },
     {
@@ -1670,7 +1700,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_140",
-      "community": 0,
+      "community": 66,
       "norm_label": "request a password reset link.     informs the user if no account is registered"
     },
     {
@@ -1690,7 +1720,7 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_234",
-      "community": 0,
+      "community": 66,
       "norm_label": "log out user and revoke current access token (jti) via redis blocklist."
     },
     {
@@ -1870,7 +1900,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "backend_routers_bookings_create_booking",
-      "community": 17,
+      "community": 14,
       "norm_label": "create_booking()"
     },
     {
@@ -1880,7 +1910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_bookings_py_request",
-      "community": 17,
+      "community": 14,
       "norm_label": "request"
     },
     {
@@ -2310,7 +2340,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "backend_routers_drafting_write_mock_pdf",
-      "community": 68,
+      "community": 64,
       "norm_label": "_write_mock_pdf()"
     },
     {
@@ -2320,7 +2350,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "backend_routers_drafting_download_drafting_document",
-      "community": 68,
+      "community": 11,
       "norm_label": "download_drafting_document()"
     },
     {
@@ -2330,7 +2360,7 @@
       "source_location": "L230",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_presign",
-      "community": 68,
+      "community": 11,
       "norm_label": "drafting_document_presign()"
     },
     {
@@ -2340,7 +2370,7 @@
       "source_location": "L264",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_mock_upload",
-      "community": 68,
+      "community": 11,
       "norm_label": "drafting_document_mock_upload()"
     },
     {
@@ -2350,7 +2380,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_drafting_py_uploadfile",
-      "community": 68,
+      "community": 11,
       "norm_label": "uploadfile"
     },
     {
@@ -2490,7 +2520,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "backend_routers_drafting_rationale_135",
-      "community": 68,
+      "community": 64,
       "norm_label": "helper to write a mock pdf file when serving local document downloads."
     },
     {
@@ -2500,7 +2530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_events",
-      "community": 7,
+      "community": 23,
       "norm_label": "events.py"
     },
     {
@@ -2510,7 +2540,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_events_authenticate_stream_user",
-      "community": 7,
+      "community": 23,
       "norm_label": "authenticate_stream_user()"
     },
     {
@@ -2520,7 +2550,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_request",
-      "community": 7,
+      "community": 23,
       "norm_label": "request"
     },
     {
@@ -2530,7 +2560,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_session",
-      "community": 7,
+      "community": 23,
       "norm_label": "session"
     },
     {
@@ -2540,7 +2570,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "backend_routers_events_sse_event_stream",
-      "community": 7,
+      "community": 23,
       "norm_label": "sse_event_stream()"
     },
     {
@@ -2550,7 +2580,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_routers_events_rationale_35",
-      "community": 7,
+      "community": 23,
       "norm_label": "server-sent events (sse) stream endpoint for real-time notifications and ui auto"
     },
     {
@@ -2560,7 +2590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_lawyers",
-      "community": 68,
+      "community": 64,
       "norm_label": "lawyers.py"
     },
     {
@@ -2570,7 +2600,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyers",
-      "community": 68,
+      "community": 64,
       "norm_label": "lawyers()"
     },
     {
@@ -2580,7 +2610,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_session",
-      "community": 68,
+      "community": 64,
       "norm_label": "session"
     },
     {
@@ -2590,7 +2620,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_routers_lawyers_get_my_profile",
-      "community": 68,
+      "community": 64,
       "norm_label": "get_my_profile()"
     },
     {
@@ -2600,7 +2630,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "backend_routers_lawyers_update_my_profile",
-      "community": 68,
+      "community": 8,
       "norm_label": "update_my_profile()"
     },
     {
@@ -2610,7 +2640,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyer_document_presign",
-      "community": 68,
+      "community": 64,
       "norm_label": "lawyer_document_presign()"
     },
     {
@@ -2620,7 +2650,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyer_document_mock_upload",
-      "community": 68,
+      "community": 64,
       "norm_label": "lawyer_document_mock_upload()"
     },
     {
@@ -2630,7 +2660,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_uploadfile",
-      "community": 68,
+      "community": 64,
       "norm_label": "uploadfile"
     },
     {
@@ -2640,7 +2670,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyer_document_confirm",
-      "community": 68,
+      "community": 64,
       "norm_label": "lawyer_document_confirm()"
     },
     {
@@ -2650,7 +2680,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "backend_routers_lawyers_download_lawyer_document",
-      "community": 68,
+      "community": 64,
       "norm_label": "download_lawyer_document()"
     },
     {
@@ -2730,7 +2760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_webhooks",
-      "community": 7,
+      "community": 13,
       "norm_label": "webhooks.py"
     },
     {
@@ -2740,7 +2770,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "backend_routers_webhooks_webhook_status",
-      "community": 7,
+      "community": 13,
       "norm_label": "webhook_status()"
     },
     {
@@ -2820,7 +2850,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_validate_ws_user_and_booking",
-      "community": 35,
+      "community": 14,
       "norm_label": "_validate_ws_user_and_booking()"
     },
     {
@@ -2850,7 +2880,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_py",
-      "community": 68,
+      "community": 64,
       "norm_label": "sanitizer.py"
     },
     {
@@ -2870,7 +2900,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_sanitize_filename",
-      "community": 68,
+      "community": 64,
       "norm_label": "sanitize_filename()"
     },
     {
@@ -2880,7 +2910,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_sanitize_key",
-      "community": 68,
+      "community": 64,
       "norm_label": "sanitize_key()"
     },
     {
@@ -2900,7 +2930,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_rationale_18",
-      "community": 68,
+      "community": 64,
       "norm_label": "sanitize a filename by removing directory traversal patterns, null bytes,     an"
     },
     {
@@ -2910,7 +2940,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_sanitizer_rationale_32",
-      "community": 68,
+      "community": 64,
       "norm_label": "sanitize object storage keys to prevent path traversal.     ensures relative key"
     },
     {
@@ -3520,7 +3550,7 @@
       "source_location": "L536",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_key",
-      "community": 0,
+      "community": 64,
       "norm_label": ".clean_key()"
     },
     {
@@ -3530,7 +3560,7 @@
       "source_location": "L541",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_filename",
-      "community": 0,
+      "community": 64,
       "norm_label": ".clean_filename()"
     },
     {
@@ -3590,7 +3620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_security",
-      "community": 7,
+      "community": 23,
       "norm_label": "security.py"
     },
     {
@@ -3610,7 +3640,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "backend_security_verify_password",
-      "community": 0,
+      "community": 66,
       "norm_label": "verify_password()"
     },
     {
@@ -3640,7 +3670,7 @@
       "source_location": "L121",
       "_origin": "ast",
       "id": "backend_security_decode_token",
-      "community": 7,
+      "community": 23,
       "norm_label": "decode_token()"
     },
     {
@@ -3650,7 +3680,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "backend_security_current_user",
-      "community": 7,
+      "community": 23,
       "norm_label": "current_user()"
     },
     {
@@ -3660,7 +3690,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "httpauthorizationcredentials",
-      "community": 7,
+      "community": 23,
       "norm_label": "httpauthorizationcredentials"
     },
     {
@@ -3670,7 +3700,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_security_py_session",
-      "community": 7,
+      "community": 23,
       "norm_label": "session"
     },
     {
@@ -3680,7 +3710,7 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "backend_security_optional_user",
-      "community": 7,
+      "community": 23,
       "norm_label": "optional_user()"
     },
     {
@@ -3690,7 +3720,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "backend_security_require_roles",
-      "community": 11,
+      "community": 24,
       "norm_label": "require_roles()"
     },
     {
@@ -3760,7 +3790,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "backend_security_rationale_43",
-      "community": 0,
+      "community": 66,
       "norm_label": "verify raw password against stored hash.     supports argon2id natively with bac"
     },
     {
@@ -3910,7 +3940,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "backend_services_booking_service_get_daily_meeting_details",
-      "community": 14,
+      "community": 17,
       "norm_label": "get_daily_meeting_details()"
     },
     {
@@ -3920,7 +3950,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "backend_services_booking_service_verify_daily_meeting_duration",
-      "community": 14,
+      "community": 17,
       "norm_label": "verify_daily_meeting_duration()"
     },
     {
@@ -3960,7 +3990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_py",
-      "community": 14,
+      "community": 6,
       "norm_label": "compliance_service.py"
     },
     {
@@ -3970,7 +4000,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_verify_ntp_compliance",
-      "community": 14,
+      "community": 6,
       "norm_label": "verify_ntp_compliance()"
     },
     {
@@ -3980,7 +4010,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_backend_services_compliance_service_rationale_7",
-      "community": 14,
+      "community": 6,
       "norm_label": "run cert-in / dpdp compliant ntp clock drift check."
     },
     {
@@ -3990,7 +4020,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_dispute_service",
-      "community": 68,
+      "community": 14,
       "norm_label": "dispute_service.py"
     },
     {
@@ -4040,7 +4070,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "backend_services_drafting_service_presign_document",
-      "community": 14,
+      "community": 68,
       "norm_label": "presign_document()"
     },
     {
@@ -5738,7 +5768,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_v",
-      "community": 18,
+      "community": 3,
       "norm_label": "v()"
     },
     {
@@ -5808,7 +5838,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_b",
-      "community": 3,
+      "community": 21,
       "norm_label": "b()"
     },
     {
@@ -5818,7 +5848,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_j",
-      "community": 38,
+      "community": 5,
       "norm_label": "j()"
     },
     {
@@ -5828,7 +5858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_w",
-      "community": 23,
+      "community": 25,
       "norm_label": "w()"
     },
     {
@@ -5838,7 +5868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_q",
-      "community": 23,
+      "community": 25,
       "norm_label": "q()"
     },
     {
@@ -5868,7 +5898,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ee",
-      "community": 3,
+      "community": 21,
       "norm_label": "ee()"
     },
     {
@@ -5878,7 +5908,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_te",
-      "community": 15,
+      "community": 37,
       "norm_label": "te()"
     },
     {
@@ -5918,7 +5948,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_oe",
-      "community": 15,
+      "community": 37,
       "norm_label": "oe()"
     },
     {
@@ -5948,7 +5978,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ue",
-      "community": 18,
+      "community": 37,
       "norm_label": "ue()"
     },
     {
@@ -5958,7 +5988,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_le",
-      "community": 15,
+      "community": 37,
       "norm_label": "le()"
     },
     {
@@ -6058,7 +6088,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_be",
-      "community": 15,
+      "community": 37,
       "norm_label": "be()"
     },
     {
@@ -6068,7 +6098,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_we",
-      "community": 9,
+      "community": 21,
       "norm_label": "we()"
     },
     {
@@ -6088,7 +6118,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ae",
-      "community": 5,
+      "community": 21,
       "norm_label": "ae()"
     },
     {
@@ -6448,7 +6478,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_getpropagationcontext",
-      "community": 9,
+      "community": 25,
       "norm_label": ".getpropagationcontext()"
     },
     {
@@ -6598,7 +6628,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_setuponce",
-      "community": 21,
+      "community": 25,
       "norm_label": "setuponce()"
     },
     {
@@ -6658,7 +6688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ft",
-      "community": 38,
+      "community": 5,
       "norm_label": "ft()"
     },
     {
@@ -6828,7 +6858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qt_then",
-      "community": 5,
+      "community": 15,
       "norm_label": ".then()"
     },
     {
@@ -6838,7 +6868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qt_catch",
-      "community": 3,
+      "community": 15,
       "norm_label": ".catch()"
     },
     {
@@ -6938,7 +6968,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zt",
-      "community": 15,
+      "community": 37,
       "norm_label": "zt()"
     },
     {
@@ -6948,7 +6978,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_tn",
-      "community": 3,
+      "community": 5,
       "norm_label": "tn()"
     },
     {
@@ -7128,7 +7158,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_in",
-      "community": 21,
+      "community": 25,
       "norm_label": "in()"
     },
     {
@@ -7138,7 +7168,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xn",
-      "community": 37,
+      "community": 3,
       "norm_label": "xn()"
     },
     {
@@ -7168,7 +7198,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qn",
-      "community": 18,
+      "community": 37,
       "norm_label": "qn()"
     },
     {
@@ -7178,7 +7208,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_kn",
-      "community": 3,
+      "community": 5,
       "norm_label": "kn()"
     },
     {
@@ -7188,7 +7218,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zn",
-      "community": 37,
+      "community": 3,
       "norm_label": "zn()"
     },
     {
@@ -7198,7 +7228,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_er",
-      "community": 37,
+      "community": 70,
       "norm_label": "er()"
     },
     {
@@ -7208,7 +7238,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_preprocessevent",
-      "community": 3,
+      "community": 5,
       "norm_label": "preprocessevent()"
     },
     {
@@ -7258,7 +7288,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_sr",
-      "community": 3,
+      "community": 5,
       "norm_label": "sr()"
     },
     {
@@ -7268,7 +7298,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_cr",
-      "community": 37,
+      "community": 70,
       "norm_label": "cr()"
     },
     {
@@ -7278,7 +7308,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ur",
-      "community": 25,
+      "community": 3,
       "norm_label": "ur()"
     },
     {
@@ -7288,7 +7318,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_lr",
-      "community": 37,
+      "community": 70,
       "norm_label": "lr()"
     },
     {
@@ -7298,7 +7328,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_dr",
-      "community": 25,
+      "community": 3,
       "norm_label": "dr()"
     },
     {
@@ -7308,7 +7338,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_hr",
-      "community": 37,
+      "community": 70,
       "norm_label": "hr()"
     },
     {
@@ -7368,7 +7398,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_captureexception",
-      "community": 5,
+      "community": 21,
       "norm_label": ".captureexception()"
     },
     {
@@ -7378,7 +7408,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_capturemessage",
-      "community": 5,
+      "community": 21,
       "norm_label": ".capturemessage()"
     },
     {
@@ -7388,7 +7418,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_captureevent",
-      "community": 5,
+      "community": 21,
       "norm_label": ".captureevent()"
     },
     {
@@ -7468,7 +7498,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_geteventprocessors",
-      "community": 18,
+      "community": 5,
       "norm_label": ".geteventprocessors()"
     },
     {
@@ -7478,7 +7508,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_addeventprocessor",
-      "community": 23,
+      "community": 25,
       "norm_label": ".addeventprocessor()"
     },
     {
@@ -7508,7 +7538,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_addintegration",
-      "community": 23,
+      "community": 25,
       "norm_label": ".addintegration()"
     },
     {
@@ -7538,7 +7568,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_recorddroppedevent",
-      "community": 5,
+      "community": 70,
       "norm_label": ".recorddroppedevent()"
     },
     {
@@ -7578,7 +7608,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_setupintegrations",
-      "community": 23,
+      "community": 25,
       "norm_label": "._setupintegrations()"
     },
     {
@@ -7628,7 +7658,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_processevent",
-      "community": 5,
+      "community": 21,
       "norm_label": "._processevent()"
     },
     {
@@ -7638,7 +7668,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_process",
-      "community": 5,
+      "community": 21,
       "norm_label": "._process()"
     },
     {
@@ -7668,7 +7698,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yr",
-      "community": 3,
+      "community": 21,
       "norm_label": "yr()"
     },
     {
@@ -7678,7 +7708,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br",
-      "community": 5,
+      "community": 21,
       "norm_label": "br"
     },
     {
@@ -7688,7 +7718,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_constructor",
-      "community": 5,
+      "community": 21,
       "norm_label": ".constructor()"
     },
     {
@@ -7708,7 +7738,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_eventfrommessage",
-      "community": 18,
+      "community": 21,
       "norm_label": ".eventfrommessage()"
     },
     {
@@ -7728,7 +7758,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_prepareevent",
-      "community": 5,
+      "community": 21,
       "norm_label": "._prepareevent()"
     },
     {
@@ -7738,7 +7768,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_kr",
-      "community": 3,
+      "community": 5,
       "norm_label": "kr()"
     },
     {
@@ -9488,7 +9518,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_js_realtime_soundnotifier",
-      "community": 33,
+      "community": 2,
       "norm_label": "soundnotifier"
     },
     {
@@ -9628,7 +9658,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_py",
-      "community": 13,
+      "community": 23,
       "norm_label": "env.py"
     },
     {
@@ -9638,7 +9668,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_offline",
-      "community": 13,
+      "community": 23,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -9648,7 +9678,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_online",
-      "community": 13,
+      "community": 23,
       "norm_label": "run_migrations_online()"
     },
     {
@@ -9748,7 +9778,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_py",
-      "community": 64,
+      "community": 71,
       "norm_label": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
     },
     {
@@ -9758,7 +9788,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_upgrade",
-      "community": 64,
+      "community": 71,
       "norm_label": "upgrade()"
     },
     {
@@ -9768,7 +9798,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_downgrade",
-      "community": 64,
+      "community": 71,
       "norm_label": "downgrade()"
     },
     {
@@ -10088,7 +10118,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_py",
-      "community": 66,
+      "community": 23,
       "norm_label": "reset_users.py"
     },
     {
@@ -10098,7 +10128,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_rationale_1",
-      "community": 66,
+      "community": 23,
       "norm_label": "reset script: delete all users (lawyers, clients, admin) and related data, then"
     },
     {
@@ -10108,7 +10138,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_seed_py",
-      "community": 66,
+      "community": 23,
       "norm_label": "seed.py"
     },
     {
@@ -10406,7 +10436,7 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "tests_test_api_test_meeting_token_endpoint",
-      "community": 16,
+      "community": 8,
       "norm_label": "test_meeting_token_endpoint()"
     },
     {
@@ -10416,7 +10446,7 @@
       "source_location": "L148",
       "_origin": "ast",
       "id": "tests_test_api_test_verified_reviews_only",
-      "community": 16,
+      "community": 8,
       "norm_label": "test_verified_reviews_only()"
     },
     {
@@ -10436,7 +10466,7 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "tests_test_api_test_lawyer_complete_booking_duration_restriction",
-      "community": 16,
+      "community": 8,
       "norm_label": "test_lawyer_complete_booking_duration_restriction()"
     },
     {
@@ -10736,7 +10766,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_compliance",
-      "community": 66,
+      "community": 8,
       "norm_label": "test_compliance.py"
     },
     {
@@ -10746,7 +10776,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "tests_test_compliance_test_dpdpa_consent_enforcement_and_logging",
-      "community": 66,
+      "community": 8,
       "norm_label": "test_dpdpa_consent_enforcement_and_logging()"
     },
     {
@@ -10756,7 +10786,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_compliance_test_pii_encryption_at_rest",
-      "community": 66,
+      "community": 8,
       "norm_label": "test_pii_encryption_at_rest()"
     },
     {
@@ -10766,7 +10796,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "tests_test_compliance_test_right_to_erasure",
-      "community": 66,
+      "community": 8,
       "norm_label": "test_right_to_erasure()"
     },
     {
@@ -11246,7 +11276,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_test_admin_ntp_status_endpoint_accessible_by_admin",
-      "community": 7,
+      "community": 8,
       "norm_label": "test_admin_ntp_status_endpoint_accessible_by_admin()"
     },
     {
@@ -11366,7 +11396,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_ntp_rationale_130",
-      "community": 7,
+      "community": 8,
       "norm_label": "get /api/v1/admin/ntp-status must return 200 with the expected keys for an admin"
     },
     {
@@ -11376,7 +11406,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_password_reset",
-      "community": 7,
+      "community": 66,
       "norm_label": "test_password_reset.py"
     },
     {
@@ -11386,7 +11416,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "tests_test_password_reset_test_forgot_password_flow_and_reset_success",
-      "community": 7,
+      "community": 66,
       "norm_label": "test_forgot_password_flow_and_reset_success()"
     },
     {
@@ -11396,7 +11426,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_test_password_reset_test_forgot_password_unregistered_user",
-      "community": 7,
+      "community": 66,
       "norm_label": "test_forgot_password_unregistered_user()"
     },
     {
@@ -11406,7 +11436,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "tests_test_password_reset_test_reset_password_invalid_or_used_token",
-      "community": 7,
+      "community": 66,
       "norm_label": "test_reset_password_invalid_or_used_token()"
     },
     {
@@ -11416,7 +11446,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_test_password_reset_rationale_14",
-      "community": 7,
+      "community": 66,
       "norm_label": "test full forgot password -> reset password -> login with new password workflow."
     },
     {
@@ -11426,7 +11456,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "tests_test_password_reset_rationale_65",
-      "community": 7,
+      "community": 66,
       "norm_label": "verify that forgot-password returns 404 when user is not registered."
     },
     {
@@ -11436,7 +11466,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "tests_test_password_reset_rationale_72",
-      "community": 7,
+      "community": 66,
       "norm_label": "verify that reusing a reset token or passing an invalid token is rejected with 4"
     },
     {
@@ -11446,7 +11476,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_py",
-      "community": 66,
+      "community": 23,
       "norm_label": "test_payout_masking.py"
     },
     {
@@ -11456,7 +11486,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_test_payout_bank_account_encryption_at_rest",
-      "community": 26,
+      "community": 23,
       "norm_label": "test_payout_bank_account_encryption_at_rest()"
     },
     {
@@ -11466,7 +11496,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_test_admin_payouts_masked_endpoint",
-      "community": 26,
+      "community": 7,
       "norm_label": "test_admin_payouts_masked_endpoint()"
     },
     {
@@ -11486,7 +11516,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_rationale_9",
-      "community": 26,
+      "community": 23,
       "norm_label": "verify that both account_number and ifsc_code are encrypted at rest in the datab"
     },
     {
@@ -11496,7 +11526,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_rationale_58",
-      "community": 26,
+      "community": 7,
       "norm_label": "verify that get /api/v1/admin/payouts returns masked credentials."
     },
     {
@@ -11686,7 +11716,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_sanitizer_test_sanitize_filename",
-      "community": 0,
+      "community": 64,
       "norm_label": "test_sanitize_filename()"
     },
     {
@@ -12118,6 +12148,396 @@
       "id": "c_users_suraj_documents_new_project_agents_workflows_graphify_workflow_graphify",
       "community": 55,
       "norm_label": "workflow: graphify"
+    },
+    {
+      "label": "PRD.md",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "prd",
+      "community": 69,
+      "norm_label": "prd.md"
+    },
+    {
+      "label": "\ud83d\udcc4 Product Requirements Document (PRD)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "prd_product_requirements_document_prd",
+      "community": 69,
+      "norm_label": "\ud83d\udcc4 product requirements document (prd)"
+    },
+    {
+      "label": "VidhiMeet \u2014 Enterprise Legal Marketplace & Consultation Platform",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "community": 69,
+      "norm_label": "vidhimeet \u2014 enterprise legal marketplace & consultation platform"
+    },
+    {
+      "label": "1. Executive Summary & Vision",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "prd_1_executive_summary_vision",
+      "community": 69,
+      "norm_label": "1. executive summary & vision"
+    },
+    {
+      "label": "1.1 Product Vision",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "prd_1_1_product_vision",
+      "community": 69,
+      "norm_label": "1.1 product vision"
+    },
+    {
+      "label": "1.2 Problem Statement",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "prd_1_2_problem_statement",
+      "community": 69,
+      "norm_label": "1.2 problem statement"
+    },
+    {
+      "label": "1.3 Value Proposition",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "prd_1_3_value_proposition",
+      "community": 69,
+      "norm_label": "1.3 value proposition"
+    },
+    {
+      "label": "2. Legal Entity & Regulatory Compliance",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "prd_2_legal_entity_regulatory_compliance",
+      "community": 69,
+      "norm_label": "2. legal entity & regulatory compliance"
+    },
+    {
+      "label": "2.1 Corporate Entity Details",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L33",
+      "_origin": "ast",
+      "id": "prd_2_1_corporate_entity_details",
+      "community": 69,
+      "norm_label": "2.1 corporate entity details"
+    },
+    {
+      "label": "2.2 Bar Council of India (BCI) Compliance",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "prd_2_2_bar_council_of_india_bci_compliance",
+      "community": 69,
+      "norm_label": "2.2 bar council of india (bci) compliance"
+    },
+    {
+      "label": "2.3 DPDP Act 2023 & Privacy Architecture",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "prd_2_3_dpdp_act_2023_privacy_architecture",
+      "community": 69,
+      "norm_label": "2.3 dpdp act 2023 & privacy architecture"
+    },
+    {
+      "label": "2.4 CERT-In & Forensic Timestamp Compliance",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "prd_2_4_cert_in_forensic_timestamp_compliance",
+      "community": 69,
+      "norm_label": "2.4 cert-in & forensic timestamp compliance"
+    },
+    {
+      "label": "3. User Roles & Personas",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L66",
+      "_origin": "ast",
+      "id": "prd_3_user_roles_personas",
+      "community": 69,
+      "norm_label": "3. user roles & personas"
+    },
+    {
+      "label": "3.1 Client (Citizen / Business)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L82",
+      "_origin": "ast",
+      "id": "prd_3_1_client_citizen_business",
+      "community": 69,
+      "norm_label": "3.1 client (citizen / business)"
+    },
+    {
+      "label": "3.2 Advocate / Lawyer (Service Provider)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "prd_3_2_advocate_lawyer_service_provider",
+      "community": 69,
+      "norm_label": "3.2 advocate / lawyer (service provider)"
+    },
+    {
+      "label": "3.3 Platform Administrator",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "prd_3_3_platform_administrator",
+      "community": 69,
+      "norm_label": "3.3 platform administrator"
+    },
+    {
+      "label": "4. Functional Modules & Requirements",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L103",
+      "_origin": "ast",
+      "id": "prd_4_functional_modules_requirements",
+      "community": 69,
+      "norm_label": "4. functional modules & requirements"
+    },
+    {
+      "label": "4.1 Legal Marketplace & Discovery Engine",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "prd_4_1_legal_marketplace_discovery_engine",
+      "community": 69,
+      "norm_label": "4.1 legal marketplace & discovery engine"
+    },
+    {
+      "label": "4.2 Consultation Scheduling & Booking Workflow",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L111",
+      "_origin": "ast",
+      "id": "prd_4_2_consultation_scheduling_booking_workflow",
+      "community": 69,
+      "norm_label": "4.2 consultation scheduling & booking workflow"
+    },
+    {
+      "label": "4.3 Secure Video Consultation Engine (Daily.co)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L125",
+      "_origin": "ast",
+      "id": "prd_4_3_secure_video_consultation_engine_daily_co",
+      "community": 69,
+      "norm_label": "4.3 secure video consultation engine (daily.co)"
+    },
+    {
+      "label": "4.4 Real-Time Encrypted Chat & Notification Bus",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L130",
+      "_origin": "ast",
+      "id": "prd_4_4_real_time_encrypted_chat_notification_bus",
+      "community": 69,
+      "norm_label": "4.4 real-time encrypted chat & notification bus"
+    },
+    {
+      "label": "4.5 Legal Document Drafting & Revision Hub",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L135",
+      "_origin": "ast",
+      "id": "prd_4_5_legal_document_drafting_revision_hub",
+      "community": 69,
+      "norm_label": "4.5 legal document drafting & revision hub"
+    },
+    {
+      "label": "4.6 Cancellation & Time-Tiered Refund Policy",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L151",
+      "_origin": "ast",
+      "id": "prd_4_6_cancellation_time_tiered_refund_policy",
+      "community": 69,
+      "norm_label": "4.6 cancellation & time-tiered refund policy"
+    },
+    {
+      "label": "4.7 Three-Step Dispute Resolution Matrix & Intermediary Shield",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L159",
+      "_origin": "ast",
+      "id": "prd_4_7_three_step_dispute_resolution_matrix_intermediary_shield",
+      "community": 69,
+      "norm_label": "4.7 three-step dispute resolution matrix & intermediary shield"
+    },
+    {
+      "label": "4.8 Advocate Onboarding, Verification & Bank Payouts",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L166",
+      "_origin": "ast",
+      "id": "prd_4_8_advocate_onboarding_verification_bank_payouts",
+      "community": 69,
+      "norm_label": "4.8 advocate onboarding, verification & bank payouts"
+    },
+    {
+      "label": "5. Economic & Pricing Architecture",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L174",
+      "_origin": "ast",
+      "id": "prd_5_economic_pricing_architecture",
+      "community": 69,
+      "norm_label": "5. economic & pricing architecture"
+    },
+    {
+      "label": "5.1 Fee Breakdown",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L188",
+      "_origin": "ast",
+      "id": "prd_5_1_fee_breakdown",
+      "community": 69,
+      "norm_label": "5.1 fee breakdown"
+    },
+    {
+      "label": "6. Technical Architecture & Tech Stack",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L200",
+      "_origin": "ast",
+      "id": "prd_6_technical_architecture_tech_stack",
+      "community": 69,
+      "norm_label": "6. technical architecture & tech stack"
+    },
+    {
+      "label": "6.1 Technology Stack",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L224",
+      "_origin": "ast",
+      "id": "prd_6_1_technology_stack",
+      "community": 69,
+      "norm_label": "6.1 technology stack"
+    },
+    {
+      "label": "6.2 Database Entity Schema (High-Level)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L232",
+      "_origin": "ast",
+      "id": "prd_6_2_database_entity_schema_high_level",
+      "community": 69,
+      "norm_label": "6.2 database entity schema (high-level)"
+    },
+    {
+      "label": "7. Non-Functional Requirements (NFRs)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L249",
+      "_origin": "ast",
+      "id": "prd_7_non_functional_requirements_nfrs",
+      "community": 69,
+      "norm_label": "7. non-functional requirements (nfrs)"
+    },
+    {
+      "label": "7.1 Security & Cryptography",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L251",
+      "_origin": "ast",
+      "id": "prd_7_1_security_cryptography",
+      "community": 69,
+      "norm_label": "7.1 security & cryptography"
+    },
+    {
+      "label": "7.2 Rate Limiting & Abuse Prevention",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L261",
+      "_origin": "ast",
+      "id": "prd_7_2_rate_limiting_abuse_prevention",
+      "community": 69,
+      "norm_label": "7.2 rate limiting & abuse prevention"
+    },
+    {
+      "label": "7.3 Performance, Reliability & Availability",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L270",
+      "_origin": "ast",
+      "id": "prd_7_3_performance_reliability_availability",
+      "community": 69,
+      "norm_label": "7.3 performance, reliability & availability"
+    },
+    {
+      "label": "8. Success Metrics & Key Performance Indicators (KPIs)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L278",
+      "_origin": "ast",
+      "id": "prd_8_success_metrics_key_performance_indicators_kpis",
+      "community": 69,
+      "norm_label": "8. success metrics & key performance indicators (kpis)"
+    },
+    {
+      "label": "9. Product Roadmap",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L291",
+      "_origin": "ast",
+      "id": "prd_9_product_roadmap",
+      "community": 69,
+      "norm_label": "9. product roadmap"
+    },
+    {
+      "label": "Phase 1: Core Marketplace & Video Platform (Completed \u2705)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L293",
+      "_origin": "ast",
+      "id": "prd_phase_1_core_marketplace_video_platform_completed",
+      "community": 69,
+      "norm_label": "phase 1: core marketplace & video platform (completed \u2705)"
+    },
+    {
+      "label": "Phase 2: Document Drafting & Mobile Optimizations (Current \ud83d\ude80)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L300",
+      "_origin": "ast",
+      "id": "prd_phase_2_document_drafting_mobile_optimizations_current",
+      "community": 69,
+      "norm_label": "phase 2: document drafting & mobile optimizations (current \ud83d\ude80)"
+    },
+    {
+      "label": "Phase 3: AI Legal Assistant & Pan-India Expansion (Upcoming \ud83d\udd2e)",
+      "file_type": "document",
+      "source_file": "PRD.md",
+      "source_location": "L306",
+      "_origin": "ast",
+      "id": "prd_phase_3_ai_legal_assistant_pan_india_expansion_upcoming",
+      "community": 69,
+      "norm_label": "phase 3: ai legal assistant & pan-india expansion (upcoming \ud83d\udd2e)"
     },
     {
       "label": "README.md",
@@ -13410,6 +13830,16 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "backend/main.py",
+      "source_location": "L12",
+      "weight": 0.8,
+      "source": "backend_main_frontendstaticfiles",
+      "target": "backend_db_base",
+      "confidence_score": 0.5
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -13996,6 +14426,16 @@
       "weight": 1.0,
       "source": "backend_main",
       "target": "backend_main_cors_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L310",
+      "weight": 1.0,
+      "source": "backend_main",
+      "target": "backend_main_frontendstaticfiles",
       "confidence_score": 1.0
     },
     {
@@ -14772,6 +15212,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L314",
+      "weight": 1.0,
+      "source": "backend_main_frontendstaticfiles_get_response",
+      "target": "starlettehttpexception",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/main.py",
@@ -14832,6 +15283,46 @@
       "weight": 1.0,
       "source": "backend_main_unhandled_exception_handler",
       "target": "backend_main_py_exception",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L311",
+      "weight": 1.0,
+      "source": "backend_main_frontendstaticfiles",
+      "target": "backend_main_frontendstaticfiles_get_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "backend/main.py",
+      "source_location": "L58",
+      "weight": 0.8,
+      "source": "backend_main_frontendstaticfiles",
+      "target": "backend_models_role",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "uses",
+      "confidence": "INFERRED",
+      "source_file": "backend/main.py",
+      "source_location": "L58",
+      "weight": 0.8,
+      "source": "backend_main_frontendstaticfiles",
+      "target": "backend_models_user",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L310",
+      "weight": 1.0,
+      "source": "backend_main_frontendstaticfiles",
+      "target": "staticfiles",
       "confidence_score": 1.0
     },
     {
@@ -49058,6 +49549,386 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "prd",
+      "target": "prd_product_requirements_document_prd",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "prd",
+      "target": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_1_executive_summary_vision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_2_legal_entity_regulatory_compliance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_3_user_roles_personas",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_4_functional_modules_requirements",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L174",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_5_economic_pricing_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L200",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_6_technical_architecture_tech_stack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L249",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_7_non_functional_requirements_nfrs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L278",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_8_success_metrics_key_performance_indicators_kpis",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L291",
+      "weight": 1.0,
+      "source": "prd_vidhimeet_enterprise_legal_marketplace_consultation_platform",
+      "target": "prd_9_product_roadmap",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "prd_1_executive_summary_vision",
+      "target": "prd_1_1_product_vision",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "prd_1_executive_summary_vision",
+      "target": "prd_1_2_problem_statement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "prd_1_executive_summary_vision",
+      "target": "prd_1_3_value_proposition",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "prd_2_legal_entity_regulatory_compliance",
+      "target": "prd_2_1_corporate_entity_details",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L45",
+      "weight": 1.0,
+      "source": "prd_2_legal_entity_regulatory_compliance",
+      "target": "prd_2_2_bar_council_of_india_bci_compliance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "prd_2_legal_entity_regulatory_compliance",
+      "target": "prd_2_3_dpdp_act_2023_privacy_architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "source": "prd_2_legal_entity_regulatory_compliance",
+      "target": "prd_2_4_cert_in_forensic_timestamp_compliance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L82",
+      "weight": 1.0,
+      "source": "prd_3_user_roles_personas",
+      "target": "prd_3_1_client_citizen_business",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "prd_3_user_roles_personas",
+      "target": "prd_3_2_advocate_lawyer_service_provider",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "prd_3_user_roles_personas",
+      "target": "prd_3_3_platform_administrator",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_1_legal_marketplace_discovery_engine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L111",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_2_consultation_scheduling_booking_workflow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L125",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_3_secure_video_consultation_engine_daily_co",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L130",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_4_real_time_encrypted_chat_notification_bus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L135",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_5_legal_document_drafting_revision_hub",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L151",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_6_cancellation_time_tiered_refund_policy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L159",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_7_three_step_dispute_resolution_matrix_intermediary_shield",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "prd_4_functional_modules_requirements",
+      "target": "prd_4_8_advocate_onboarding_verification_bank_payouts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L188",
+      "weight": 1.0,
+      "source": "prd_5_economic_pricing_architecture",
+      "target": "prd_5_1_fee_breakdown",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L224",
+      "weight": 1.0,
+      "source": "prd_6_technical_architecture_tech_stack",
+      "target": "prd_6_1_technology_stack",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L232",
+      "weight": 1.0,
+      "source": "prd_6_technical_architecture_tech_stack",
+      "target": "prd_6_2_database_entity_schema_high_level",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L251",
+      "weight": 1.0,
+      "source": "prd_7_non_functional_requirements_nfrs",
+      "target": "prd_7_1_security_cryptography",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L261",
+      "weight": 1.0,
+      "source": "prd_7_non_functional_requirements_nfrs",
+      "target": "prd_7_2_rate_limiting_abuse_prevention",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L270",
+      "weight": 1.0,
+      "source": "prd_7_non_functional_requirements_nfrs",
+      "target": "prd_7_3_performance_reliability_availability",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L293",
+      "weight": 1.0,
+      "source": "prd_9_product_roadmap",
+      "target": "prd_phase_1_core_marketplace_video_platform_completed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L300",
+      "weight": 1.0,
+      "source": "prd_9_product_roadmap",
+      "target": "prd_phase_2_document_drafting_mobile_optimizations_current",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PRD.md",
+      "source_location": "L306",
+      "weight": 1.0,
+      "source": "prd_9_product_roadmap",
+      "target": "prd_phase_3_ai_legal_assistant_pan_india_expansion_upcoming",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -49327,5 +50198,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4d53c9239b8d2304d95e030c98f25295022a8d10"
+  "built_at_commit": "61613abc6476afc79a46da5e7cf1aab79129ba73"
 }

@@ -69,5 +69,8 @@
   "67": "deploy_rules.sh",
   "68": "sanitize_key",
   "69": "test_document_vault.py",
-  "70": "test_password_reset.py"
+  "70": "test_password_reset.py",
+  "71": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py",
+  "72": "escapeHtml",
+  "73": "logout"
 }

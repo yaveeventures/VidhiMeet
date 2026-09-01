@@ -1,4 +1,4 @@
-﻿/**
+/**
  * VidhiMeet Cookie Consent & Privacy Preference Manager
  * Compliant with DPDP Act 2023 & GDPR Standards
  */
@@ -7,6 +7,47 @@
   'use strict';
 
   const STORAGE_KEY = 'VidhiMeet_cookie_consent';
+  const GA_ID = 'G-7DTR2BK4ML';
+
+  // ── Google Tag & Consent Mode v2 Initialization ───────────────────────────
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+
+  // Default consent state: analytics denied until user accepts (DPDP Act compliance)
+  gtag('consent', 'default', {
+    'analytics_storage': 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'wait_for_update': 500
+  });
+
+  function applyAnalyticsConsent(granted) {
+    if (granted) {
+      // Inject GA4 script tag if not yet present in DOM
+      if (!document.getElementById('ga4-script')) {
+        const gaScript = document.createElement('script');
+        gaScript.id = 'ga4-script';
+        gaScript.async = true;
+        gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+        document.head.appendChild(gaScript);
+
+        gtag('js', new Date());
+        gtag('config', GA_ID, {
+          send_page_view: true,
+          anonymize_ip: true
+        });
+      }
+      gtag('consent', 'update', {
+        'analytics_storage': 'granted'
+      });
+    } else {
+      gtag('consent', 'update', {
+        'analytics_storage': 'denied'
+      });
+    }
+  }
 
   const defaultConsent = {
     necessary: true,
@@ -35,6 +76,7 @@
         version: '1.0'
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      applyAnalyticsConsent(payload.analytics);
       window.dispatchEvent(new CustomEvent('cookieConsentUpdated', { detail: payload }));
       return payload;
     } catch (e) {
@@ -141,7 +183,9 @@
 
     const currentConsent = getSavedConsent();
 
-    if (!currentConsent) {
+    if (currentConsent) {
+      applyAnalyticsConsent(currentConsent.analytics);
+    } else {
       // Show banner after short delay for fluid entrance
       setTimeout(() => {
         if (banner) banner.classList.add('visible');
