@@ -307,4 +307,11 @@ app.include_router(websocket_chat.router)
 app.include_router(admin.router)
 
 # ── Serve frontend static files ───────────────────────────────────────────────
-app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+class FrontendStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope):
+        full_path = scope.get("path", "")
+        if full_path.startswith("/api/") or path.startswith("api/"):
+            raise StarletteHTTPException(status_code=404, detail="Not Found")
+        return await super().get_response(path, scope)
+
+app.mount("/", FrontendStaticFiles(directory="frontend", html=True), name="frontend")

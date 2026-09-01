@@ -67,7 +67,5 @@
   "65": "deploy_cloudflare_shield.py",
   "66": "test_password_reset.py",
   "67": "deploy_rules.sh",
-  "68": "sanitize_key",
-  "69": "test_document_vault.py",
-  "70": "test_password_reset.py"
+  "68": "sanitize_key"
 }
