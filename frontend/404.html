@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found (404) — VidhiMeet</title>
+  <meta name="description" content="The page you are looking for does not exist or has been moved. Explore VidhiMeet to connect with verified advocates or contact customer support.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=daily-8">
+  <style>
+    .error-container {
+      min-height: calc(100vh - 80px - 220px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 70px 24px;
+      position: relative;
+    }
+    .error-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #faebe7;
+      color: var(--terra);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 20px;
+    }
+    .error-code {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(80px, 12vw, 150px);
+      font-weight: 700;
+      line-height: 0.9;
+      color: var(--forest);
+      margin: 0 0 16px;
+      letter-spacing: -0.04em;
+    }
+    .error-code span {
+      color: var(--terra);
+    }
+    .error-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(26px, 3.5vw, 42px);
+      color: var(--ink);
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+    .error-desc {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto 36px;
+    }
+    .error-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 50px;
+    }
+    .error-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .error-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      width: 100%;
+      max-width: 780px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .quick-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .quick-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(23, 60, 48, 0.08);
+      border-color: var(--forest);
+    }
+    .quick-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .quick-card-icon {
+      font-size: 24px;
+    }
+    .quick-card-arrow {
+      color: var(--terra);
+      font-weight: 700;
+      font-size: 18px;
+      transition: transform 0.2s ease;
+    }
+    .quick-card:hover .quick-card-arrow {
+      transform: translateX(4px);
+    }
+    .quick-card h4 {
+      font-family: "Playfair Display", serif;
+      font-size: 18px;
+      margin: 8px 0 2px;
+      color: var(--forest);
+    }
+    .quick-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="index.html"><img src="logo.png" alt="VidhiMeet" class="brand-logo-img" height="38" style="height:38px;width:auto;display:block;"></a>
+    <button id="mobile-menu-btn" aria-label="Toggle menu">☰</button>
+    <nav>
+      <a href="index.html#lawyers">Find a lawyer</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#security">Security</a>
+    </nav>
+    <div class="header-actions">
+      <a class="ghost" href="lawyer.html">Lawyer portal</a>
+      <a class="primary" style="display: flex; align-items: center; justify-content: center;" href="index.html">Go Home</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="error-container">
+      <div class="error-badge">
+        <span>⚠️</span> Error 404
+      </div>
+      <div class="error-code">4<span>0</span>4</div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-desc">
+        The legal case file or page you requested could not be located. It might have been moved, renamed, or is temporarily unavailable.
+      </p>
+
+      <div class="error-actions">
+        <a class="primary" href="index.html" style="padding: 12px 28px; font-size: 15px;">
+          <span>←</span> Return to Homepage
+        </a>
+        <a class="ghost" href="index.html#lawyers" style="border: 1px solid var(--line); background: white; padding: 12px 24px; font-size: 15px;">
+          Find a Lawyer
+        </a>
+        <a class="ghost" href="contact.html" style="padding: 12px 20px; font-size: 15px;">
+          Contact Support
+        </a>
+      </div>
+
+      <div class="error-links-grid">
+        <a href="index.html#lawyers" class="quick-card">
+          <div class="quick-card-header">
+            <span class="quick-card-icon">⚖️</span>
+            <span class="quick-card-arrow">→</span>
+          </div>
+          <h4>Verified Advocates</h4>
+          <p>Book instant or scheduled consultations with Bar Council verified lawyers.</p>
+        </a>
+
+        <a href="contact.html" class="quick-card">
+          <div class="quick-card-header">
+            <span class="quick-card-icon">📞</span>
+            <span class="quick-card-arrow">→</span>
+          </div>
+          <h4>Client Support Desk</h4>
+          <p>Get assistance with booking references, payment queries, or video calls.</p>
+        </a>
+
+        <a href="lawyer.html" class="quick-card">
+          <div class="quick-card-header">
+            <span class="quick-card-icon">💼</span>
+            <span class="quick-card-arrow">→</span>
+          </div>
+          <h4>Advocate Portal</h4>
+          <p>Are you a legal professional? Join India's trusted consultation platform.</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <a class="brand" href="index.html"><img src="logo.png" alt="VidhiMeet" class="brand-logo-img" height="38" style="height:38px;width:auto;display:block;"></a>
+    <p>Trusted legal guidance, wherever you are.</p>
+    <div>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms & Conditions</a>
+      <a href="cancellation-refund.html">Cancellation & Refund</a>
+      <a href="shipping-delivery.html">Shipping & Delivery</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="admin-login.html" style="opacity: 0.85;">Admin Portal 🔒</a>
+    </div>
+    <small>© 2026 YAVEE VENTURES PRIVATE LIMITED (Brand: VidhiMeet). Marketplace services only; not a law firm.</small>
+  </footer>
+
+  <script src="js/cookie-consent.js"></script>
+  <script>
+    const menuBtn = document.querySelector("#mobile-menu-btn");
+    const headerEl = document.querySelector("header");
+    if (menuBtn && headerEl) {
+      menuBtn.onclick = (e) => {
+        e.stopPropagation();
+        headerEl.classList.toggle("menu-open");
+      };
+      document.addEventListener("click", (e) => {
+        if (headerEl.classList.contains("menu-open") && !headerEl.contains(e.target)) {
+          headerEl.classList.remove("menu-open");
+        }
+      });
+    }
+  </script>
+</body>
+</html>

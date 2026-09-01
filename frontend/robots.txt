@@ -6,9 +6,10 @@ Allow: /lawyer.html
 Allow: /privacy.html
 Allow: /terms.html
 
-# Disallow internal admin management portals
+# Disallow internal admin management portals & error pages
 Disallow: /admin.html
 Disallow: /admin-login.html
+Disallow: /404.html
 
 # Sitemap reference
 Sitemap: https://vidhimeet.in/sitemap.xml
