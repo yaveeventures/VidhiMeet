@@ -72,16 +72,5 @@
   "70": "test_password_reset.py",
   "71": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py",
   "72": "escapeHtml",
-  "73": "logout",
-  "74": "gn",
-  "75": ".then",
-  "76": "SSEClient",
-  "77": "firebase-phone-auth.min.js",
-  "78": "cookie-consent.min.js",
-  "79": "minify_assets.py",
-  "80": "api-client.min.js",
-  "81": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py",
-  "82": "admin-login.js",
-  "83": "admin-login.min.js",
-  "84": "e2ee.min.js"
+  "73": "logout"
 }
