@@ -5,7 +5,7 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1788846101.6949022,
+    "mtime": 1788859288.3108675,
     "ast_hash": "4a9c5f76f574f56f98d3b8a85cb8f9fc",
     "semantic_hash": ""
   },
@@ -25,7 +25,7 @@
     "semantic_hash": ""
   },
   "backend/schemas.py": {
-    "mtime": 1788846101.7083158,
+    "mtime": 1788859288.3250608,
     "ast_hash": "b072687fe7acb4574d66a39a40a62e1c",
     "semantic_hash": ""
   },
@@ -160,7 +160,7 @@
     "semantic_hash": ""
   },
   "backend/routers/lawyers.py": {
-    "mtime": 1788847171.1070297,
+    "mtime": 1788859288.3136055,
     "ast_hash": "607a73346a546bf6b167e7e36a4315e9",
     "semantic_hash": ""
   },
@@ -180,12 +180,12 @@
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
-    "mtime": 1788846101.723333,
+    "mtime": 1788859288.3619418,
     "ast_hash": "fbb9ed0d76195d268d8b26b1ac9ac707",
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1788847154.0198326,
+    "mtime": 1788859288.3917863,
     "ast_hash": "4ff163820bce2e9d8e032f98f5dece57",
     "semantic_hash": ""
   },
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1788847131.1278868,
-    "ast_hash": "d25114b18f0ffe675f6f17b21fb0de69",
+    "mtime": 1788859718.3898263,
+    "ast_hash": "851b552ad5b2209fa20aa4a5f31d1e9e",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
@@ -245,8 +245,8 @@
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
-    "mtime": 1788846101.7343874,
-    "ast_hash": "ae35221bca9589a7d0e8f52679186999",
+    "mtime": 1788859677.6195357,
+    "ast_hash": "2ca2794d629e19de6834715ec399d851",
     "semantic_hash": ""
   },
   "frontend/privacy.html": {
@@ -420,7 +420,7 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.js": {
-    "mtime": 1788846101.7223167,
+    "mtime": 1788859288.3432698,
     "ast_hash": "6e3716bfcbc6304da5bbd44b822433c2",
     "semantic_hash": ""
   },
@@ -540,57 +540,57 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.min.js": {
-    "mtime": 1788855247.6696508,
+    "mtime": 1788859746.636414,
     "ast_hash": "62128ba453ca1320ac99879d15c20719",
     "semantic_hash": ""
   },
   "frontend/js/admin.min.js": {
-    "mtime": 1788855247.6778991,
+    "mtime": 1788859746.6443832,
     "ast_hash": "a4d82e84ceee125415989ede43166670",
     "semantic_hash": ""
   },
   "frontend/js/api-client.min.js": {
-    "mtime": 1788855247.6918933,
+    "mtime": 1788859746.6491177,
     "ast_hash": "0287ba24b851baea6c54230e4430ef70",
     "semantic_hash": ""
   },
   "frontend/js/app.min.js": {
-    "mtime": 1788855247.7124622,
+    "mtime": 1788859746.669593,
     "ast_hash": "77d815752d04f93038046fe81ba18687",
     "semantic_hash": ""
   },
   "frontend/js/cookie-consent.min.js": {
-    "mtime": 1788855247.7167425,
+    "mtime": 1788859746.6727452,
     "ast_hash": "31ae49c56cd7c8dbb845efdbce491c20",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.min.js": {
-    "mtime": 1788855247.734971,
+    "mtime": 1788859746.696266,
     "ast_hash": "1b9bbe3f5f65a87798aa436d262d3055",
     "semantic_hash": ""
   },
   "frontend/js/e2ee.min.js": {
-    "mtime": 1788855247.7368724,
+    "mtime": 1788859746.7001343,
     "ast_hash": "c1893a293ec88cab478eef5234872eec",
     "semantic_hash": ""
   },
   "frontend/js/firebase-phone-auth.min.js": {
-    "mtime": 1788855247.7378821,
+    "mtime": 1788859746.7011383,
     "ast_hash": "c38dec4f6d2c3585f2ad813c014ecbd4",
     "semantic_hash": ""
   },
   "frontend/js/lawyer.min.js": {
-    "mtime": 1788855247.7576509,
-    "ast_hash": "efb08264830aa8e9dfae90f946e65e22",
+    "mtime": 1788859746.7316532,
+    "ast_hash": "d54b74ecd449d996b434320bfd77cd55",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.min.js": {
-    "mtime": 1788855247.7643204,
+    "mtime": 1788859746.743103,
     "ast_hash": "493e61ce228708c0f1f949d7aa7181dd",
     "semantic_hash": ""
   },
   "frontend/js/realtime.min.js": {
-    "mtime": 1788855247.7793567,
+    "mtime": 1788859746.746336,
     "ast_hash": "fed6176d7d05d44d108b69878dca1b0d",
     "semantic_hash": ""
   },

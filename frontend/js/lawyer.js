@@ -39,6 +39,42 @@ let activeBookingId = null;
 let pollingInterval = null;
 let mobileVerified = false;   // true once Firebase OTP confirmed
 
+function setMobileVerificationState(isVerified) {
+  mobileVerified = Boolean(isVerified);
+  const badge = $("#mobile-verified-badge");
+  const verifyBtn = $("#verify-mobile-btn");
+  const changeBtn = $("#change-mobile-btn");
+  const mobileInput = $("#prof-mobile");
+
+  if (isVerified) {
+    if (badge) badge.hidden = false;
+    if (changeBtn) changeBtn.hidden = false;
+    if (verifyBtn) {
+      verifyBtn.hidden = true;
+      verifyBtn.style.display = "none";
+    }
+    if (mobileInput) {
+      mobileInput.readOnly = true;
+      mobileInput.style.backgroundColor = "#f4f7f5";
+      mobileInput.style.cursor = "not-allowed";
+    }
+  } else {
+    if (badge) badge.hidden = true;
+    if (changeBtn) changeBtn.hidden = true;
+    if (verifyBtn) {
+      verifyBtn.hidden = false;
+      verifyBtn.style.display = "inline-flex";
+      verifyBtn.textContent = "Verify";
+      verifyBtn.classList.remove("verified");
+    }
+    if (mobileInput) {
+      mobileInput.readOnly = false;
+      mobileInput.style.backgroundColor = "";
+      mobileInput.style.cursor = "";
+    }
+  }
+}
+
 // ── Storage Upload Progress & Percentage UI Helpers ─────────────────────────────
 function uploadWithProgress(url, bodyData, method = "POST", headers = {}, onProgress = null) {
   return new Promise((resolve, reject) => {
@@ -1797,35 +1833,9 @@ function renderProfile() {
   if (aadhaarEl) aadhaarEl.value = lawyerProfile.aadhaar_number || "";
   if (mobileEl) mobileEl.value = lawyerProfile.mobile_number || "";
   if (lawyerProfile.mobile_number && /^[6-9][0-9]{9}$/.test(lawyerProfile.mobile_number)) {
-    mobileVerified = true;
-    const badge = $("#mobile-verified-badge");
-    const verifyBtn = $("#verify-mobile-btn");
-    const changeBtn = $("#change-mobile-btn");
-    if (badge) badge.hidden = false;
-    if (changeBtn) changeBtn.hidden = false;
-    if (verifyBtn) verifyBtn.style.display = "none";
-    if (mobileEl) {
-      mobileEl.readOnly = true;
-      mobileEl.style.backgroundColor = "#f4f7f5";
-      mobileEl.style.cursor = "not-allowed";
-    }
+    setMobileVerificationState(true);
   } else {
-    mobileVerified = false;
-    const badge = $("#mobile-verified-badge");
-    const verifyBtn = $("#verify-mobile-btn");
-    const changeBtn = $("#change-mobile-btn");
-    if (badge) badge.hidden = true;
-    if (changeBtn) changeBtn.hidden = true;
-    if (verifyBtn) {
-      verifyBtn.style.display = "";
-      verifyBtn.textContent = "Verify";
-      verifyBtn.classList.remove("verified");
-    }
-    if (mobileEl) {
-      mobileEl.readOnly = false;
-      mobileEl.style.backgroundColor = "";
-      mobileEl.style.cursor = "";
-    }
+    setMobileVerificationState(false);
   }
   if (enrollmentEl) enrollmentEl.value = lawyerProfile.enrollment_date || "";
   if (expEl) expEl.value = calculateExperience(lawyerProfile.enrollment_date);
@@ -1962,6 +1972,7 @@ async function handleSaveProfile(e) {
   // Enforce Firebase OTP verification before saving
   if (!mobileVerified) {
     toast("Please verify your mobile number with OTP before saving.");
+    setMobileVerificationState(false);
     const verifyBtn = $("#verify-mobile-btn");
     if (verifyBtn) {
       verifyBtn.style.animation = "none";
@@ -2733,34 +2744,18 @@ $("#save-profile-btn").onclick = handleSaveProfile;
   // Handle "Change" button to unlock mobile number field
   if (changeBtn) {
     changeBtn.onclick = () => {
-      mobileVerified = false;
+      setMobileVerificationState(false);
       if (mobileInput) {
-        mobileInput.readOnly = false;
-        mobileInput.style.backgroundColor = "";
-        mobileInput.style.cursor = "";
         mobileInput.focus();
         mobileInput.select();
-      }
-      if (badge) badge.hidden = true;
-      if (changeBtn) changeBtn.hidden = true;
-      if (verifyBtn) {
-        verifyBtn.style.display = "";
-        verifyBtn.textContent = "Verify";
-        verifyBtn.classList.remove("verified");
       }
     };
   }
 
-  // Reset verified state when number is changed
+  // Reset verified state and ensure Verify button shows when number is edited
   if (mobileInput) {
     mobileInput.addEventListener("input", () => {
-      mobileVerified = false;
-      if (badge) badge.hidden = true;
-      if (changeBtn) changeBtn.hidden = true;
-      if (verifyBtn) {
-        verifyBtn.textContent = "Verify";
-        verifyBtn.classList.remove("verified");
-      }
+      setMobileVerificationState(false);
     });
   }
 
@@ -2784,15 +2779,7 @@ $("#save-profile-btn").onclick = handleSaveProfile;
       try {
         await window.__firebasePhoneAuth.startPhoneVerification(e164, (verifiedPhone) => {
           // OTP confirmed successfully
-          mobileVerified = true;
-          if (badge) badge.hidden = false;
-          if (changeBtn) changeBtn.hidden = false;
-          if (verifyBtn) verifyBtn.style.display = "none";
-          if (mobileInput) {
-            mobileInput.readOnly = true;
-            mobileInput.style.backgroundColor = "#f4f7f5";
-            mobileInput.style.cursor = "not-allowed";
-          }
+          setMobileVerificationState(true);
           toast("Mobile number verified successfully.");
         });
         verifyBtn.textContent = "Verify";
@@ -2847,15 +2834,7 @@ $("#save-profile-btn").onclick = handleSaveProfile;
       resendBtn.disabled = true;
       try {
         await window.__firebasePhoneAuth.startPhoneVerification(e164, (verifiedPhone) => {
-          mobileVerified = true;
-          if (badge) badge.hidden = false;
-          if (changeBtn) changeBtn.hidden = false;
-          if (verifyBtn) verifyBtn.style.display = "none";
-          if (mobileInput) {
-            mobileInput.readOnly = true;
-            mobileInput.style.backgroundColor = "#f4f7f5";
-            mobileInput.style.cursor = "not-allowed";
-          }
+          setMobileVerificationState(true);
           toast("Mobile number verified successfully.");
         });
       } catch (_) {} finally {
