@@ -1,7 +1,7 @@
 # Graph Report - VidhiMeet  (2026-09-08)
 
 ## Corpus Check
-- 102 files · ~157,694 words
+- 102 files · ~157,991 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8d647861`
+- Built from commit: `4f6a802c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -134,16 +134,16 @@ Cohesion: 0.07
 Nodes (72): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience(), chatBackBtn (+64 more)
 
 ### Community 3 - "lawyer.js"
-Cohesion: 0.06
-Nodes (37): as(), be(), Bt(), ce(), de(), dr(), dt(), Es() (+29 more)
+Cohesion: 0.05
+Nodes (40): as(), be(), ce(), de(), dr(), dt(), Es(), g() (+32 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.11
 Nodes (42): $(), auditLogs, colors, decideVerification(), disputes, draftingTransactions, escapeHtml(), handleSaveFees() (+34 more)
 
 ### Community 5 - "daily-js.js"
-Cohesion: 0.12
-Nodes (13): ar(), fn(), ft(), hn(), ir(), J(), kr(), mr (+5 more)
+Cohesion: 0.13
+Nodes (12): ar(), fn(), ft(), hn(), ir(), J(), Kn(), mr (+4 more)
 
 ### Community 6 - "main.py"
 Cohesion: 0.07
@@ -151,7 +151,7 @@ Nodes (47): check_clock_drift(), _get_servers(), ntp_now(), ntp_now_ist(), NtpSt
 
 ### Community 7 - "i"
 Cohesion: 0.08
-Nodes (46): AsyncSession, RefreshToken, UserConsent, enable_mfa(), forgot_password(), google_auth(), login(), logout() (+38 more)
+Nodes (44): AsyncSession, RefreshToken, UserConsent, enable_mfa(), forgot_password(), google_auth(), login(), logout() (+36 more)
 
 ### Community 8 - "processEvent"
 Cohesion: 0.10
@@ -159,7 +159,7 @@ Nodes (44): get_db(), AuditLog, LawyerProfile, User, admin_metrics(), get_admin_
 
 ### Community 9 - "User"
 Cohesion: 0.07
-Nodes (12): B(), bn(), je(), Jn(), N(), sn(), we(), wn() (+4 more)
+Nodes (10): B(), bn(), je(), N(), sn(), we(), wn(), Ws() (+2 more)
 
 ### Community 11 - "toast"
 Cohesion: 0.19
@@ -183,15 +183,15 @@ Nodes (24): Message, Review, booking_for_participant(), cancel_booking(), cancel
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
 Cohesion: 0.14
-Nodes (25): a(), c(), cr(), d(), ee(), er(), f(), gn() (+17 more)
+Nodes (25): a(), Bt(), c(), cr(), d(), ee(), er(), f() (+17 more)
 
 ### Community 20 - "ntp_now"
 Cohesion: 0.07
 Nodes (65): _attemptReconnect(), backdrop, booking, bookingView(), checkHashRoute(), _clearReconnectOverlay(), close(), closeModal() (+57 more)
 
 ### Community 21 - "config.py"
-Cohesion: 0.13
-Nodes (26): Ae(), an(), br, ct(), dn(), Et(), fe(), he() (+18 more)
+Cohesion: 0.12
+Nodes (28): Ae(), an(), br, ct(), dn(), Et(), fe(), he() (+20 more)
 
 ### Community 22 - "calendar.py"
 Cohesion: 0.23
@@ -210,8 +210,8 @@ Cohesion: 0.20
 Nodes (7): cn(), _e(), nn(), on(), qe(), un(), ze()
 
 ### Community 26 - "_e"
-Cohesion: 0.17
-Nodes (19): LawyerBankAccount, One-per-lawyer bank account for payout and UPI identity verification., add_bank_account(), _bank_account_out(), delete_bank_account(), get_bank_account(), initiate_upi_verification(), _mask_account() (+11 more)
+Cohesion: 0.15
+Nodes (21): LawyerBankAccount, One-per-lawyer bank account for payout and UPI identity verification., add_bank_account(), _bank_account_out(), delete_bank_account(), get_bank_account(), initiate_upi_verification(), _mask_account() (+13 more)
 
 ### Community 27 - "test_rate_limiter.py"
 Cohesion: 0.12
@@ -306,8 +306,8 @@ Cohesion: 0.09
 Nodes (27): EncryptedString, authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), _save_ws_message(), current_user() (+19 more)
 
 ### Community 68 - "sanitize_key"
-Cohesion: 0.10
-Nodes (34): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+26 more)
+Cohesion: 0.11
+Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
 
 ### Community 69 - "test_document_vault.py"
 Cohesion: 0.05

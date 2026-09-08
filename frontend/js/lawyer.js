@@ -1800,17 +1800,31 @@ function renderProfile() {
     mobileVerified = true;
     const badge = $("#mobile-verified-badge");
     const verifyBtn = $("#verify-mobile-btn");
+    const changeBtn = $("#change-mobile-btn");
     if (badge) badge.hidden = false;
+    if (changeBtn) changeBtn.hidden = false;
     if (verifyBtn) verifyBtn.style.display = "none";
+    if (mobileEl) {
+      mobileEl.readOnly = true;
+      mobileEl.style.backgroundColor = "#f4f7f5";
+      mobileEl.style.cursor = "not-allowed";
+    }
   } else {
     mobileVerified = false;
     const badge = $("#mobile-verified-badge");
     const verifyBtn = $("#verify-mobile-btn");
+    const changeBtn = $("#change-mobile-btn");
     if (badge) badge.hidden = true;
+    if (changeBtn) changeBtn.hidden = true;
     if (verifyBtn) {
       verifyBtn.style.display = "";
       verifyBtn.textContent = "Verify";
       verifyBtn.classList.remove("verified");
+    }
+    if (mobileEl) {
+      mobileEl.readOnly = false;
+      mobileEl.style.backgroundColor = "";
+      mobileEl.style.cursor = "";
     }
   }
   if (enrollmentEl) enrollmentEl.value = lawyerProfile.enrollment_date || "";
@@ -2707,20 +2721,42 @@ document.querySelector(".signout").onclick = () => {
 // Settings page save changes
 $("#save-profile-btn").onclick = handleSaveProfile;
 
-/* ── Firebase Phone Number Verification ─────────────────────────────────── */
 (function initMobileVerification() {
   const verifyBtn   = $("#verify-mobile-btn");
   const badge       = $("#mobile-verified-badge");
+  const changeBtn   = $("#change-mobile-btn");
   const confirmBtn  = $("#otp-confirm-btn");
   const closeBtn    = $("#otp-close-btn");
   const resendBtn   = $("#otp-resend-btn");
   const mobileInput = $("#prof-mobile");
+
+  // Handle "Change" button to unlock mobile number field
+  if (changeBtn) {
+    changeBtn.onclick = () => {
+      mobileVerified = false;
+      if (mobileInput) {
+        mobileInput.readOnly = false;
+        mobileInput.style.backgroundColor = "";
+        mobileInput.style.cursor = "";
+        mobileInput.focus();
+        mobileInput.select();
+      }
+      if (badge) badge.hidden = true;
+      if (changeBtn) changeBtn.hidden = true;
+      if (verifyBtn) {
+        verifyBtn.style.display = "";
+        verifyBtn.textContent = "Verify";
+        verifyBtn.classList.remove("verified");
+      }
+    };
+  }
 
   // Reset verified state when number is changed
   if (mobileInput) {
     mobileInput.addEventListener("input", () => {
       mobileVerified = false;
       if (badge) badge.hidden = true;
+      if (changeBtn) changeBtn.hidden = true;
       if (verifyBtn) {
         verifyBtn.textContent = "Verify";
         verifyBtn.classList.remove("verified");
@@ -2750,7 +2786,13 @@ $("#save-profile-btn").onclick = handleSaveProfile;
           // OTP confirmed successfully
           mobileVerified = true;
           if (badge) badge.hidden = false;
+          if (changeBtn) changeBtn.hidden = false;
           if (verifyBtn) verifyBtn.style.display = "none";
+          if (mobileInput) {
+            mobileInput.readOnly = true;
+            mobileInput.style.backgroundColor = "#f4f7f5";
+            mobileInput.style.cursor = "not-allowed";
+          }
           toast("Mobile number verified successfully.");
         });
         verifyBtn.textContent = "Verify";
@@ -2807,7 +2849,13 @@ $("#save-profile-btn").onclick = handleSaveProfile;
         await window.__firebasePhoneAuth.startPhoneVerification(e164, (verifiedPhone) => {
           mobileVerified = true;
           if (badge) badge.hidden = false;
+          if (changeBtn) changeBtn.hidden = false;
           if (verifyBtn) verifyBtn.style.display = "none";
+          if (mobileInput) {
+            mobileInput.readOnly = true;
+            mobileInput.style.backgroundColor = "#f4f7f5";
+            mobileInput.style.cursor = "not-allowed";
+          }
           toast("Mobile number verified successfully.");
         });
       } catch (_) {} finally {

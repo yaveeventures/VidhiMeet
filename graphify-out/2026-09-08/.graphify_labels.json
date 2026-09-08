@@ -9,7 +9,6 @@
   "7": "i",
   "8": "processEvent",
   "9": "User",
-  "10": "audit",
   "11": "toast",
   "12": "Booking",
   "13": "sanitize_key",
@@ -83,6 +82,5 @@
   "81": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py",
   "82": "admin-login.js",
   "83": "admin-login.min.js",
-  "84": "e2ee.min.js",
-  "85": "N"
+  "84": "e2ee.min.js"
 }
