@@ -37,43 +37,6 @@ let lawyerReviews = [];
 let bankAccount = null;   // LawyerBankAccount from API (masked)
 let activeBookingId = null;
 let pollingInterval = null;
-let mobileVerified = false;   // true once Firebase OTP confirmed
-
-function setMobileVerificationState(isVerified) {
-  mobileVerified = Boolean(isVerified);
-  const badge = $("#mobile-verified-badge");
-  const verifyBtn = $("#verify-mobile-btn");
-  const changeBtn = $("#change-mobile-btn");
-  const mobileInput = $("#prof-mobile");
-
-  if (isVerified) {
-    if (badge) badge.hidden = false;
-    if (changeBtn) changeBtn.hidden = false;
-    if (verifyBtn) {
-      verifyBtn.hidden = true;
-      verifyBtn.style.display = "none";
-    }
-    if (mobileInput) {
-      mobileInput.readOnly = true;
-      mobileInput.style.backgroundColor = "#f4f7f5";
-      mobileInput.style.cursor = "not-allowed";
-    }
-  } else {
-    if (badge) badge.hidden = true;
-    if (changeBtn) changeBtn.hidden = true;
-    if (verifyBtn) {
-      verifyBtn.hidden = false;
-      verifyBtn.style.display = "inline-flex";
-      verifyBtn.textContent = "Verify";
-      verifyBtn.classList.remove("verified");
-    }
-    if (mobileInput) {
-      mobileInput.readOnly = false;
-      mobileInput.style.backgroundColor = "";
-      mobileInput.style.cursor = "";
-    }
-  }
-}
 
 // ── Storage Upload Progress & Percentage UI Helpers ─────────────────────────────
 function uploadWithProgress(url, bodyData, method = "POST", headers = {}, onProgress = null) {
@@ -1832,11 +1795,6 @@ function renderProfile() {
   if (feeEl) feeEl.value = lawyerProfile.hourly_fee_minor ? (lawyerProfile.hourly_fee_minor / 100) : "";
   if (aadhaarEl) aadhaarEl.value = lawyerProfile.aadhaar_number || "";
   if (mobileEl) mobileEl.value = lawyerProfile.mobile_number || "";
-  if (lawyerProfile.mobile_number && /^[6-9][0-9]{9}$/.test(lawyerProfile.mobile_number)) {
-    setMobileVerificationState(true);
-  } else {
-    setMobileVerificationState(false);
-  }
   if (enrollmentEl) enrollmentEl.value = lawyerProfile.enrollment_date || "";
   if (expEl) expEl.value = calculateExperience(lawyerProfile.enrollment_date);
   if (addressEl) addressEl.value = lawyerProfile.practice_address || "";
@@ -1969,18 +1927,6 @@ async function handleSaveProfile(e) {
     return;
   }
 
-  // Enforce Firebase OTP verification before saving
-  if (!mobileVerified) {
-    toast("Please verify your mobile number with OTP before saving.");
-    setMobileVerificationState(false);
-    const verifyBtn = $("#verify-mobile-btn");
-    if (verifyBtn) {
-      verifyBtn.style.animation = "none";
-      verifyBtn.offsetHeight;  // reflow
-      verifyBtn.style.animation = "pulse-warn 0.4s ease 2";
-    }
-    return;
-  }
 
   try {
     const payload = {
@@ -2732,118 +2678,6 @@ document.querySelector(".signout").onclick = () => {
 // Settings page save changes
 $("#save-profile-btn").onclick = handleSaveProfile;
 
-(function initMobileVerification() {
-  const verifyBtn   = $("#verify-mobile-btn");
-  const badge       = $("#mobile-verified-badge");
-  const changeBtn   = $("#change-mobile-btn");
-  const confirmBtn  = $("#otp-confirm-btn");
-  const closeBtn    = $("#otp-close-btn");
-  const resendBtn   = $("#otp-resend-btn");
-  const mobileInput = $("#prof-mobile");
-
-  // Handle "Change" button to unlock mobile number field
-  if (changeBtn) {
-    changeBtn.onclick = () => {
-      setMobileVerificationState(false);
-      if (mobileInput) {
-        mobileInput.focus();
-        mobileInput.select();
-      }
-    };
-  }
-
-  // Reset verified state and ensure Verify button shows when number is edited
-  if (mobileInput) {
-    mobileInput.addEventListener("input", () => {
-      setMobileVerificationState(false);
-    });
-  }
-
-  // Trigger OTP send on "Verify" click
-  if (verifyBtn) {
-    verifyBtn.onclick = async () => {
-      if (!window.__firebasePhoneAuth) {
-        toast("Firebase auth module not loaded. Please refresh.");
-        return;
-      }
-      const raw = mobileInput ? mobileInput.value.trim() : "";
-      const mobileRegex = /^[6-9][0-9]{9}$/;
-      if (!mobileRegex.test(raw)) {
-        toast("Enter a valid 10-digit mobile number before verifying.");
-        if (mobileInput) mobileInput.focus();
-        return;
-      }
-      const e164 = "+91" + raw;
-      verifyBtn.textContent = "Sending…";
-      verifyBtn.disabled = true;
-      try {
-        await window.__firebasePhoneAuth.startPhoneVerification(e164, (verifiedPhone) => {
-          // OTP confirmed successfully
-          setMobileVerificationState(true);
-          toast("Mobile number verified successfully.");
-        });
-        verifyBtn.textContent = "Verify";
-        verifyBtn.disabled = false;
-      } catch (err) {
-        verifyBtn.textContent = "Verify";
-        verifyBtn.disabled = false;
-        toast("Failed to send OTP: " + (err.message || "Please try again."));
-      }
-    };
-  }
-
-  // Confirm OTP button
-  if (confirmBtn) {
-    confirmBtn.onclick = async () => {
-      if (!window.__firebasePhoneAuth) return;
-      const otpInput = $("#otp-input");
-      const otp = otpInput ? otpInput.value.trim() : "";
-      if (otp.length !== 6 || !/^[0-9]{6}$/.test(otp)) {
-        const errEl = $("#otp-modal-error");
-        if (errEl) errEl.textContent = "Enter the 6-digit code.";
-        return;
-      }
-      confirmBtn.textContent = "Verifying…";
-      confirmBtn.disabled = true;
-      try {
-        await window.__firebasePhoneAuth.confirmOtp(otp);
-      } catch (_) {
-        // error shown inside module
-      } finally {
-        confirmBtn.textContent = "Confirm OTP";
-        confirmBtn.disabled = false;
-      }
-    };
-  }
-
-  // Close modal
-  if (closeBtn) {
-    closeBtn.onclick = () => {
-      const modal = $("#otp-modal");
-      if (modal) { modal.hidden = true; document.body.style.overflow = ""; }
-    };
-  }
-
-  // Resend OTP
-  if (resendBtn) {
-    resendBtn.onclick = async () => {
-      if (!window.__firebasePhoneAuth || !mobileInput) return;
-      const raw  = mobileInput.value.trim();
-      const e164 = "+91" + raw;
-      resendBtn.textContent = "Resending…";
-      resendBtn.disabled = true;
-      try {
-        await window.__firebasePhoneAuth.startPhoneVerification(e164, (verifiedPhone) => {
-          setMobileVerificationState(true);
-          toast("Mobile number verified successfully.");
-        });
-      } catch (_) {} finally {
-        resendBtn.textContent = "Resend code";
-        resendBtn.disabled = false;
-      }
-    };
-  }
-})();
 
 
 // Calendar save changes
