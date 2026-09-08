@@ -159,12 +159,29 @@ def lawyer_document_presign(filename: str, content_type: str,
 def lawyer_document_mock_upload(key: str = Form(...), file: UploadFile = File(...),
                                 _user: User = Depends(require_roles(Role.LAWYER))):
     import os
+    import io
+    import structlog
     from ..sanitizer import sanitize_key
+    from ..services.malware_scanner import scan_document_payload
+    log = structlog.get_logger("lawyers")
     key = sanitize_key(key)
+    content = file.file.read()
+    scan_document_payload(content, file.filename or "document")
     file_path = os.path.join("uploads", key)
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, "wb") as f:
-        f.write(file.file.read())
+        f.write(content)
+
+    if settings.document_bucket:
+        try:
+            from ..services.s3_client import get_s3_client
+            client = get_s3_client()
+            extra_args = {}
+            if file.content_type:
+                extra_args["ContentType"] = file.content_type
+            client.upload_fileobj(io.BytesIO(content), settings.document_bucket, key, ExtraArgs=extra_args)
+        except Exception as s3_err:
+            log.warning("Fallback S3 upload failed; kept locally", key=key, error=str(s3_err))
     return {"status": "mock_success"}
 
 
@@ -250,6 +267,19 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
     if user.role != Role.ADMIN and user.id != lawyer_id:
         raise HTTPException(403, "not authorized")
 
+    import os
+    from fastapi.responses import FileResponse
+    file_path = os.path.join("uploads", key)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        ext = os.path.splitext(key)[1].lower()
+        media_types = {
+            ".pdf": "application/pdf",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".png": "image/png"
+        }
+        return FileResponse(file_path, media_type=media_types.get(ext, "application/octet-stream"), filename=os.path.basename(key))
+
     from ..config import get_settings
     settings = get_settings()
     expiry = settings.presigned_url_expiry_seconds
@@ -263,9 +293,6 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
         from fastapi.responses import RedirectResponse
         return RedirectResponse(url)
 
-    import os
-    from fastapi.responses import FileResponse
-    file_path = os.path.join("uploads", key)
     if not os.path.exists(file_path):
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         from .drafting import _write_mock_pdf

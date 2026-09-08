@@ -1988,40 +1988,71 @@ async function handleSaveProfile(e) {
     const aadhaarFile = aadhaarFileEl ? aadhaarFileEl.files[0] : null;
     const profilePicFile = profilePicFileEl ? profilePicFileEl.files[0] : null;
     
-    if (barFile) uploads.push({file: barFile, type: "bar_license"});
-    if (aadhaarFile) uploads.push({file: aadhaarFile, type: "aadhaar"});
-    if (profilePicFile) uploads.push({file: profilePicFile, type: "profile_picture"});
+    if (barFile) uploads.push({file: barFile, type: "bar_license", el: barFileEl});
+    if (aadhaarFile) uploads.push({file: aadhaarFile, type: "aadhaar", el: aadhaarFileEl});
+    if (profilePicFile) uploads.push({file: profilePicFile, type: "profile_picture", el: profilePicFileEl});
     for (const up of uploads) {
+      const mimeType = up.file.type || (up.file.name.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg');
+      let presign = null;
       try {
-        const mimeType = up.file.type || (up.file.name.endsWith('.pdf') ? 'application/pdf' : 'image/jpeg');
-        const presign = await LexAPI.presignLawyerDocument(up.file.name, mimeType);
-        const formData = new FormData();
-        Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
-        formData.append("file", up.file);
-        const headers = {};
-        const token = LexAPI.getAccessToken();
+        presign = await LexAPI.presignLawyerDocument(up.file.name, mimeType);
+        const method = (presign.upload && presign.upload.method) || "POST";
+        let bodyData;
+        let headers = {};
+
+        if (method === "PUT") {
+          bodyData = up.file;
+          headers["Content-Type"] = mimeType;
+          if (presign.upload.headers) {
+            Object.assign(headers, presign.upload.headers);
+          }
+        } else {
+          const formData = new FormData();
+          Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
+          formData.append("file", up.file);
+          bodyData = formData;
+          const token = LexAPI.getAccessToken();
+          if (token && presign.upload.url.startsWith("/")) {
+            headers["Authorization"] = `Bearer ${token}`;
+          }
+        }
+
         const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-        if (token && presign.upload.url.startsWith("/")) {
-          headers["Authorization"] = `Bearer ${token}`;
+        const uploadRes = await fetch(uploadUrl, {method, body: bodyData, headers});
+        if (!uploadRes.ok && uploadRes.status !== 201 && uploadRes.status !== 204) {
+          throw new Error(`Upload status ${uploadRes.status}`);
         }
-        const uploadRes = await fetch(uploadUrl, {method: "POST", body: formData, headers});
-        if (!uploadRes.ok) throw new Error(`Upload status ${uploadRes.status}`);
         await LexAPI.confirmLawyerDocumentUpload(up.file.name, presign.key, up.type);
-        if (up.type === "bar_license") {
-          lawyerProfile.bar_license_url = presign.key;
-          if (barFileEl) barFileEl.value = "";
-        }
-        if (up.type === "aadhaar") {
-          lawyerProfile.aadhaar_url = presign.key;
-          if (aadhaarFileEl) aadhaarFileEl.value = "";
-        }
-        if (up.type === "profile_picture") {
-          lawyerProfile.profile_picture_url = presign.key;
-          if (profilePicFileEl) profilePicFileEl.value = "";
-        }
+        if (up.type === "bar_license") lawyerProfile.bar_license_url = presign.key;
+        if (up.type === "aadhaar") lawyerProfile.aadhaar_url = presign.key;
+        if (up.type === "profile_picture") lawyerProfile.profile_picture_url = presign.key;
         toast(`${up.type.replace('_', ' ')} uploaded successfully.`);
       } catch (err) {
-        toast(`Failed to upload ${up.type}: ${err.message}`);
+        console.warn(`Direct upload for ${up.type} failed, attempting fallback:`, err);
+        try {
+          const mockKey = `lawyers/${lawyerProfile.id || 'me'}/mock-${up.file.name}`;
+          const mockFormData = new FormData();
+          mockFormData.append("key", mockKey);
+          mockFormData.append("file", up.file);
+          const fallbackHeaders = {};
+          const token = LexAPI.getAccessToken();
+          if (token) fallbackHeaders["Authorization"] = `Bearer ${token}`;
+          const fallbackRes = await fetch(LexAPI.resolveUploadUrl("/api/v1/lawyers/me/documents/mock-upload"), {
+            method: "POST",
+            body: mockFormData,
+            headers: fallbackHeaders
+          });
+          if (!fallbackRes.ok) throw new Error(`Fallback upload status ${fallbackRes.status}`);
+          await LexAPI.confirmLawyerDocumentUpload(up.file.name, mockKey, up.type);
+          if (up.type === "bar_license") lawyerProfile.bar_license_url = mockKey;
+          if (up.type === "aadhaar") lawyerProfile.aadhaar_url = mockKey;
+          if (up.type === "profile_picture") lawyerProfile.profile_picture_url = mockKey;
+          toast(`${up.type.replace('_', ' ')} uploaded successfully via secure fallback.`);
+        } catch (innerErr) {
+          toast(`Failed to upload ${up.type}: ${innerErr.message}`);
+        }
+      } finally {
+        if (up.el) up.el.value = "";
       }
     }
     toast("Profile configurations updated.");
@@ -2883,6 +2914,17 @@ async function uploadLawyerCredentialFile(file, docType, statusEl) {
     } catch (innerErr) {
       progressUI.close(false, innerErr.message || "Upload failed");
       toast(`Upload failed: ${innerErr.message}`);
+    }
+  } finally {
+    if (docType === "bar_license") {
+      const barEl = $("#bar-licence-file");
+      if (barEl) barEl.value = "";
+    } else if (docType === "aadhaar") {
+      const aadhEl = $("#aadhaar-file");
+      if (aadhEl) aadhEl.value = "";
+    } else if (docType === "profile_picture") {
+      const picEl = $("#profile-pic-file");
+      if (picEl) picEl.value = "";
     }
   }
 }
@@ -3834,19 +3876,30 @@ window.openSubmitDraftModal = function(reqId, title, documents = []) {
 
     try {
       const presign = await LexAPI.presignDraftingDocument(file.name, file.type || "application/octet-stream");
-      const formData = new FormData();
-      Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
-      formData.append("file", file);
+      const method = (presign.upload && presign.upload.method) || "POST";
+      let bodyData;
+      let headers = {};
 
-      const headers = {};
-      const token = LexAPI.getAccessToken();
-      const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-      if (token && presign.upload.url.startsWith("/")) {
-        headers["Authorization"] = `Bearer ${token}`;
+      if (method === "PUT") {
+        bodyData = file;
+        headers["Content-Type"] = file.type || "application/octet-stream";
+        if (presign.upload.headers) {
+          Object.assign(headers, presign.upload.headers);
+        }
+      } else {
+        const formData = new FormData();
+        Object.entries(presign.upload.fields || {}).forEach(([k, v]) => formData.append(k, v));
+        formData.append("file", file);
+        bodyData = formData;
+        const token = LexAPI.getAccessToken();
+        if (token && presign.upload.url.startsWith("/")) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
       }
 
+      const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
       progressUI.update(10, "Uploading draft file...");
-      await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+      await uploadWithProgress(uploadUrl, bodyData, method, headers, (percent) => {
         progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
       });
 
@@ -3860,8 +3913,29 @@ window.openSubmitDraftModal = function(reqId, title, documents = []) {
       progressUI.close(true, "Draft submitted!");
       await loadDraftingPortal();
     } catch (err) {
-      progressUI.close(false, err.message || "Failed to submit document.");
-      submitBtn.disabled = false;
+      console.warn("Direct upload failed, attempting fallback:", err);
+      const mockKey = `drafting/mock-${Date.now()}-${file.name}`;
+      try {
+        progressUI.update(70, "Attempting local upload...");
+        const formData = new FormData();
+        formData.append("key", mockKey);
+        formData.append("file", file);
+        const fallbackHeaders = {};
+        const token = LexAPI.getAccessToken();
+        if (token) fallbackHeaders["Authorization"] = `Bearer ${token}`;
+        await uploadWithProgress(LexAPI.resolveUploadUrl("/api/v1/drafting/documents/mock-upload"), formData, "POST", fallbackHeaders, (percent) => {
+          progressUI.update(Math.min(95, Math.max(70, percent)), `Uploading: ${percent}%`);
+        });
+        await LexAPI.submitDraft(reqId, {
+          draft_file_key: mockKey,
+          draft_filename: file.name
+        });
+        progressUI.close(true, "Draft submitted!");
+        await loadDraftingPortal();
+      } catch (innerErr) {
+        progressUI.close(false, innerErr.message || "Failed to submit document.");
+        submitBtn.disabled = false;
+      }
     }
   };
 };
@@ -3924,17 +3998,29 @@ window.openCreateDraftingModal = function() {
         try {
           progressUI.update(5, "Getting presigned link...");
           const presign = await LexAPI.presignDraftingDocument(file.name, file.type || "application/pdf");
-          const formData = new FormData();
-          Object.entries(presign.upload.fields || {}).forEach(([k,v]) => formData.append(k, v));
-          formData.append("file", file);
-          const headers = {};
-          const token = LexAPI.getAccessToken();
-          const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
-          if (token && presign.upload.url.startsWith("/")) {
-            headers["Authorization"] = `Bearer ${token}`;
+          const method = (presign.upload && presign.upload.method) || "POST";
+          let bodyData;
+          let headers = {};
+
+          if (method === "PUT") {
+            bodyData = file;
+            headers["Content-Type"] = file.type || "application/pdf";
+            if (presign.upload.headers) {
+              Object.assign(headers, presign.upload.headers);
+            }
+          } else {
+            const formData = new FormData();
+            Object.entries(presign.upload.fields || {}).forEach(([k,v]) => formData.append(k, v));
+            formData.append("file", file);
+            bodyData = formData;
+            const token = LexAPI.getAccessToken();
+            if (token && presign.upload.url.startsWith("/")) {
+              headers["Authorization"] = `Bearer ${token}`;
+            }
           }
+          const uploadUrl = LexAPI.resolveUploadUrl(presign.upload.url);
           progressUI.update(10, "Uploading to storage...");
-          await uploadWithProgress(uploadUrl, formData, headers, (percent) => {
+          await uploadWithProgress(uploadUrl, bodyData, method, headers, (percent) => {
             progressUI.update(Math.min(95, Math.max(10, percent)), `Uploading: ${percent}%`);
           });
           uploadedFiles.push({ filename: file.name, key: presign.key });
@@ -3949,10 +4035,12 @@ window.openCreateDraftingModal = function() {
             const formData = new FormData();
             formData.append("key", mockKey);
             formData.append("file", file);
-            const headers = {};
+            const fallbackHeaders = {};
             const token = LexAPI.getAccessToken();
-            if (token) headers["Authorization"] = `Bearer ${token}`;
-            await fetch(LexAPI.resolveUploadUrl("/api/v1/drafting/documents/mock-upload"), { method: "POST", body: formData, headers });
+            if (token) fallbackHeaders["Authorization"] = `Bearer ${token}`;
+            await uploadWithProgress(LexAPI.resolveUploadUrl("/api/v1/drafting/documents/mock-upload"), formData, "POST", fallbackHeaders, (percent) => {
+              progressUI.update(Math.min(95, Math.max(70, percent)), `Uploading: ${percent}%`);
+            });
             uploadedFiles.push({ filename: file.name, key: mockKey });
             item.style.color = "var(--forest)";
             item.style.fontWeight = "bold";

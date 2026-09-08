@@ -35,7 +35,6 @@
   "33": "NTP Time Synchronization — Compliance Runbook",
   "34": "SlidingWindowRateLimiter",
   "35": "setup_domain_ssl.sh",
-  "36": "test_rate_limiter.py",
   "37": "setup",
   "38": "processEvent",
   "39": "Booking",
@@ -65,7 +64,6 @@
   "63": "er",
   "64": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py",
   "65": "deploy_cloudflare_shield.py",
-  "66": "test_password_reset.py",
   "67": "deploy_rules.sh",
   "68": "sanitize_key",
   "69": "test_document_vault.py",
@@ -83,6 +81,5 @@
   "81": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py",
   "82": "admin-login.js",
   "83": "admin-login.min.js",
-  "84": "e2ee.min.js",
-  "85": "N"
+  "84": "e2ee.min.js"
 }

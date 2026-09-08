@@ -201,6 +201,22 @@ def download_drafting_document(key: str, token: str | None = None,
             if not booking_match and not (user.role == Role.LAWYER and user.active):
                 raise HTTPException(404, "document not found")
 
+    import os
+    from fastapi.responses import FileResponse
+    file_path = os.path.join("uploads", key)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        ext = os.path.splitext(key)[1].lower()
+        media_types = {
+            ".pdf": "application/pdf",
+            ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ".doc": "application/msword",
+            ".txt": "text/plain",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".png": "image/png"
+        }
+        return FileResponse(file_path, filename=os.path.basename(key), media_type=media_types.get(ext, "application/octet-stream"))
+
     from ..config import get_settings
     settings = get_settings()
     expiry = settings.presigned_url_expiry_seconds
@@ -213,9 +229,6 @@ def download_drafting_document(key: str, token: str | None = None,
         from fastapi.responses import RedirectResponse
         return RedirectResponse(url)
 
-    import os
-    from fastapi.responses import FileResponse
-    file_path = os.path.join("uploads", key)
     if not os.path.exists(file_path):
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         basename = os.path.basename(key)
@@ -264,8 +277,13 @@ def drafting_document_presign(filename: str, content_type: str,
 def drafting_document_mock_upload(key: str = Form(...), file: UploadFile = File(...),
                                 _user: User = Depends(current_user)):
     import os
+    import io
+    import structlog
     from ..sanitizer import sanitize_key
     from ..services.malware_scanner import scan_document_payload
+    from ..config import get_settings
+    settings = get_settings()
+    log = structlog.get_logger("drafting")
     key = sanitize_key(key)
     content = file.file.read()
     scan_document_payload(content, file.filename or "document")
@@ -273,6 +291,17 @@ def drafting_document_mock_upload(key: str = Form(...), file: UploadFile = File(
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, "wb") as f:
         f.write(content)
+
+    if settings.document_bucket:
+        try:
+            from ..services.s3_client import get_s3_client
+            client = get_s3_client()
+            extra_args = {}
+            if file.content_type:
+                extra_args["ContentType"] = file.content_type
+            client.upload_fileobj(io.BytesIO(content), settings.document_bucket, key, ExtraArgs=extra_args)
+        except Exception as s3_err:
+            log.warning("Fallback S3 upload failed for drafting; kept locally", key=key, error=str(s3_err))
     return {"status": "mock_success"}
 
 

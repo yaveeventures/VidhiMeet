@@ -1,0 +1,25 @@
+[
+  {
+    "AllowedOrigins": [
+      "https://vidhimeet.in",
+      "https://www.vidhimeet.in",
+      "https://lawyer.vidhimeet.in",
+      "https://admin.vidhimeet.in",
+      "http://localhost:8080"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "PUT",
+      "POST",
+      "HEAD"
+    ],
+    "AllowedHeaders": [
+      "*"
+    ],
+    "ExposeHeaders": [
+      "ETag",
+      "Content-Type"
+    ],
+    "MaxAgeSeconds": 3600
+  }
+]
