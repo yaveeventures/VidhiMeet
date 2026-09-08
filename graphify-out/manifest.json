@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "frontend/js/firebase-phone-auth.js": {
-    "mtime": 1786188432.0910308,
-    "ast_hash": "6bccc9186f13cb281501e78f72d1ecc0",
+    "mtime": 1788853041.4464452,
+    "ast_hash": "1a06de2a00f26539a5f6c140a0a93178",
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
@@ -540,57 +540,57 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.min.js": {
-    "mtime": 1788847192.7702777,
+    "mtime": 1788853054.0506525,
     "ast_hash": "62128ba453ca1320ac99879d15c20719",
     "semantic_hash": ""
   },
   "frontend/js/admin.min.js": {
-    "mtime": 1788847192.7791634,
+    "mtime": 1788853054.060271,
     "ast_hash": "a4d82e84ceee125415989ede43166670",
     "semantic_hash": ""
   },
   "frontend/js/api-client.min.js": {
-    "mtime": 1788847192.7831936,
+    "mtime": 1788853054.0629914,
     "ast_hash": "0287ba24b851baea6c54230e4430ef70",
     "semantic_hash": ""
   },
   "frontend/js/app.min.js": {
-    "mtime": 1788847192.803743,
+    "mtime": 1788853054.0829253,
     "ast_hash": "77d815752d04f93038046fe81ba18687",
     "semantic_hash": ""
   },
   "frontend/js/cookie-consent.min.js": {
-    "mtime": 1788847192.8165464,
+    "mtime": 1788853054.0859876,
     "ast_hash": "31ae49c56cd7c8dbb845efdbce491c20",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.min.js": {
-    "mtime": 1788847192.826022,
+    "mtime": 1788853054.095005,
     "ast_hash": "1b9bbe3f5f65a87798aa436d262d3055",
     "semantic_hash": ""
   },
   "frontend/js/e2ee.min.js": {
-    "mtime": 1788847192.8281393,
+    "mtime": 1788853054.0967824,
     "ast_hash": "c1893a293ec88cab478eef5234872eec",
     "semantic_hash": ""
   },
   "frontend/js/firebase-phone-auth.min.js": {
-    "mtime": 1788847192.8303216,
-    "ast_hash": "24215a638366ebb1526b3cef30b0e232",
+    "mtime": 1788853054.0977995,
+    "ast_hash": "2392c18d66c836dd45bd2942cf3ebbda",
     "semantic_hash": ""
   },
   "frontend/js/lawyer.min.js": {
-    "mtime": 1788847192.8491583,
+    "mtime": 1788853054.1177413,
     "ast_hash": "efb08264830aa8e9dfae90f946e65e22",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.min.js": {
-    "mtime": 1788847192.8652017,
+    "mtime": 1788853054.1245751,
     "ast_hash": "493e61ce228708c0f1f949d7aa7181dd",
     "semantic_hash": ""
   },
   "frontend/js/realtime.min.js": {
-    "mtime": 1788847192.8686268,
+    "mtime": 1788853054.1267035,
     "ast_hash": "fed6176d7d05d44d108b69878dca1b0d",
     "semantic_hash": ""
   },

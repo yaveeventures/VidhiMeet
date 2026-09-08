@@ -1,4 +1,4 @@
-﻿/**
+/**
  * firebase-phone-auth.js
  * VidhiMeet — Mobile OTP Verification via Firebase Phone Auth (compat SDK).
  *
@@ -42,54 +42,15 @@
     );
 
     try {
-      const realConfirmationResult = await _auth.signInWithPhoneNumber(
+      _confirmationResult = await _auth.signInWithPhoneNumber(
         phoneNumber, _recaptchaVerifier
       );
-      
-      _confirmationResult = {
-        confirm: async function (code) {
-          if (code === "123456" || code === "111111" || code === "000000") {
-            console.log("Using mock OTP bypass on successful Firebase send");
-            return { user: { phoneNumber: phoneNumber } };
-          }
-          return await realConfirmationResult.confirm(code);
-        }
-      };
-      
       _showOtpModal(phoneNumber);
-      
-      // Notify the user on the modal to use the mock verification code if they don't get the SMS
-      setTimeout(function () {
-        const errEl = document.getElementById("otp-modal-error");
-        if (errEl) {
-          errEl.style.color = "var(--muted)";
-          errEl.textContent = "Tip: If you don't receive the SMS, use mock code '123456'.";
-        }
-      }, 300);
     } catch (err) {
       _clearRecaptcha();
-      console.warn("Firebase Phone Auth failed, using mock fallback mode for development:", err);
-      
-      // Fallback: mock confirmation results
-      _confirmationResult = {
-        confirm: async function (code) {
-          if (code === "123456" || code === "111111" || code === "000000") {
-            return { user: { phoneNumber: phoneNumber } };
-          }
-          throw new Error("Invalid mock OTP");
-        }
-      };
-      
-      _showOtpModal(phoneNumber);
-      
-      // Notify the user on the modal to use the mock verification code
-      setTimeout(function () {
-        const errEl = document.getElementById("otp-modal-error");
-        if (errEl) {
-          errEl.style.color = "var(--terra)";
-          errEl.textContent = "Region restricted: Use mock code '123456' to verify.";
-        }
-      }, 300);
+      console.error("[VidhiMeet] Firebase Phone Auth error:", err);
+      const friendlyMsg = _friendlyError(err.code || err.message);
+      throw new Error(friendlyMsg);
     }
   }
 
@@ -103,8 +64,9 @@
         _onVerifiedCallback(result.user.phoneNumber);
       }
     } catch (err) {
-      _showModalError("Invalid OTP — please try again.");
-      throw err;
+      const friendlyMsg = _friendlyError(err.code) || "Invalid OTP code — please try again.";
+      _showModalError(friendlyMsg);
+      throw new Error(friendlyMsg);
     }
   }
 
@@ -146,14 +108,17 @@
 
   function _friendlyError(code) {
     var map = {
-      "auth/invalid-phone-number":  "Invalid phone number. Use a valid 10-digit number.",
-      "auth/too-many-requests":     "Too many attempts. Please wait and try again.",
-      "auth/quota-exceeded":        "SMS quota exceeded. Try again later.",
-      "auth/captcha-check-failed":  "reCAPTCHA failed. Refresh and retry.",
-      "auth/missing-phone-number":  "Phone number is required.",
-      "auth/operation-not-allowed": "Phone auth not enabled in Firebase Console."
+      "auth/invalid-phone-number":         "Invalid phone number. Use a valid 10-digit number.",
+      "auth/too-many-requests":            "Too many attempts. Please wait a few minutes and try again.",
+      "auth/quota-exceeded":               "SMS quota exceeded. Please contact support or try again later.",
+      "auth/captcha-check-failed":         "reCAPTCHA verification failed. Please refresh and retry.",
+      "auth/missing-phone-number":         "Phone number is required.",
+      "auth/operation-not-allowed":        "Phone authentication is not enabled in Firebase Console.",
+      "auth/unauthorized-domain":          "Domain not authorized in Firebase Console (Authentication > Settings > Authorized domains).",
+      "auth/invalid-verification-code":    "Incorrect OTP code. Please check and try again.",
+      "auth/code-expired":                 "OTP code has expired. Please click 'Resend code'."
     };
-    return map[code] || "Verification failed. Please try again.";
+    return map[code] || "Verification error: " + (code || "Please try again.");
   }
 
   /* ── Expose to lawyer.js ──────────────────────────────────────────────── */
