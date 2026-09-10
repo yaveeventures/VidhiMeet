@@ -103,11 +103,11 @@
       <ul>
         <li><strong>Milestone Escrow:</strong> Client funds are locked in escrow upon accepting a drafter proposal.</li>
         <li><strong>Revision & Inline Comments:</strong> Clients may request revisions or leave inline PDF page-anchored comments within the drafting workspace.</li>
-        <li><strong>7-Day Auto-Approval Rule:</strong> Once an advocate submits the finalized legal draft (`.pdf` or `.docx`), the client has <strong>7 calendar days</strong> to review and request revisions. If no revision or dispute is logged within 7 days, the platform automatically approves the draft, freezes the document version, and releases escrow funds to the advocate.</li>
+        <li><strong>7-Day Auto-Approval Rule:</strong> Once an advocate submits the finalized legal draft (in PDF or DOCX format), the client has <strong>7 calendar days</strong> to review and request revisions. If no revision or dispute is logged within 7 days, the platform automatically approves the draft, freezes the document version, and releases escrow funds to the advocate.</li>
       </ul>
 
       <h2>5. NTP Time Synchronization & Forensic Timestamping</h2>
-      <p>In compliance with CERT-In cybersecurity directives and DPDP audit trail standards, all platform transaction timestamps, slot allocations, consent grants, and dispute logs are anchored to <strong>NTP-synchronized UTC/IST clocks</strong> (`ntp_time.py`). Timestamp records are immutable and forensically authoritative in dispute resolution.</p>
+      <p>In compliance with CERT-In cybersecurity directives and DPDP audit trail standards, all platform transaction timestamps, slot allocations, consent grants, and dispute logs are anchored to <strong>NTP-synchronized UTC/IST atomic clocks</strong>. Timestamp records are immutable and forensically authoritative in dispute resolution.</p>
 
       <h2>6. Dispute Resolution Matrix & Telemetry Evidence Waiver</h2>
       <p>If a consultation fails due to technical disruption or non-attendance, either party may file a dispute within 24 hours:</p>

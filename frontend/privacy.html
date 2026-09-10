@@ -89,26 +89,26 @@
       </ul>
 
       <h2>2. Field-Level AES-256 Encryption at Rest</h2>
-      <p>Unlike standard web directories, sensitive PII and financial records in VidhiMeet are protected by **field-level encryption at rest** using Fernet AES-256 keys (`EncryptedString` database decorator):</p>
+      <p>Unlike standard web directories, sensitive personally identifiable information (PII) and financial records on VidhiMeet are protected by <strong>field-level encryption at rest</strong> using advanced AES-256 cryptographic standards:</p>
       <ul>
-        <li><strong>Encrypted Advocate Credentials:</strong> Aadhaar numbers, practice addresses, bar license URLs, and mobile numbers are stored in encrypted format in the database engine.</li>
-        <li><strong>Encrypted Financial Records:</strong> Advocate bank account numbers and IFSC codes are encrypted at rest and masked in UI displays (`••••••••1234`).</li>
-        <li><strong>Case Document Vault:</strong> Uploaded draft documents and intake attachments are stored in private encrypted storage accessible only via short-lived, signed URLs.</li>
+        <li><strong>Encrypted Advocate Credentials:</strong> Government identity numbers, practice addresses, bar license certificates, and mobile numbers are stored in encrypted format in our secure databases.</li>
+        <li><strong>Encrypted Financial Records:</strong> Advocate bank account numbers and IFSC codes are encrypted at rest and masked across user interfaces (e.g., ••••••••1234).</li>
+        <li><strong>Case Document Vault:</strong> Uploaded draft documents and intake attachments are stored in private encrypted storage accessible exclusively via short-lived, cryptographically signed access links.</li>
       </ul>
 
       <h2>3. Consent Management & Data Principal Rights (DPDP Act 2023)</h2>
-      <p>Under the DPDP Act 2023, clients and legal professionals retain full authority over their personal data as Data Principals:</p>
+      <p>Under the Digital Personal Data Protection Act, 2023 (DPDP Act), clients and legal professionals retain full authority over their personal data as Data Principals:</p>
       <ul>
-        <li><strong>Explicit Consent Logging:</strong> Account creation and consultation bookings log explicit consent timestamps tied to specific policy versions (`v1.0`).</li>
-        <li><strong>Right to Access & Correction:</strong> Users can inspect and update profile details, bank details, and consultation records via their portal dashboard.</li>
-        <li><strong>Right to Erasure & Consent Withdrawal:</strong> You may withdraw consent or request complete erasure of your platform data by contacting our Data Protection Officer. Upon request, automated purge routines (`data_retention_purge.py`) sanitize your account records while preserving statutory tax/escrow audit logs.</li>
+        <li><strong>Explicit Consent Logging:</strong> Account creation and consultation bookings record explicit consent timestamps tied to the prevailing terms and privacy policy versions.</li>
+        <li><strong>Right to Access & Correction:</strong> Users can inspect and update profile details, bank details, and consultation records directly via their account dashboard.</li>
+        <li><strong>Right to Erasure & Consent Withdrawal:</strong> You may withdraw consent or request complete erasure of your platform data by contacting our Data Protection Officer. Upon request, automated data purge routines securely sanitize your personal account records while preserving statutory tax, regulatory, and escrow audit logs as required by Indian law.</li>
       </ul>
 
       <h2>4. Forensic Timestamps & Automated Data Retention Purge</h2>
-      <p>In accordance with CERT-In cybersecurity directives and tax retention guidelines:</p>
+      <p>In accordance with CERT-In cybersecurity directives and statutory tax retention guidelines:</p>
       <ul>
-        <li><strong>NTP Timestamp Verification:</strong> Consent logs, audit trails, and dispute records are timestamped using NTP-synchronized UTC/IST clocks (`ntp_time.py`) to prevent forensic alteration.</li>
-        <li><strong>Automated Retention Schedule:</strong> Revoked refresh tokens, expired session keys, and withdrawn consent data are automatically purged on a scheduled basis.</li>
+        <li><strong>NTP Timestamp Verification:</strong> Consent logs, audit trails, and dispute records are timestamped using NTP-synchronized UTC/IST atomic clocks to prevent retroactive alteration.</li>
+        <li><strong>Automated Retention Schedule:</strong> Revoked authorization tokens, expired session keys, and withdrawn consent data are automatically purged on a scheduled basis.</li>
       </ul>
 
       <h2>5. Designated Data Protection Officer (DPO) & Incident Notification</h2>
