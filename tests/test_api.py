@@ -346,6 +346,83 @@ def test_google_auth_admin_forbidden(client):
     assert "permitted for client and lawyer" in res.json()["detail"]
 
 
+def test_admin_metrics_escrow_calculation_excludes_pending(client, database):
+    """Verify /api/v1/admin/metrics counts only realized escrow and excludes unpaid pending payments."""
+    from datetime import datetime, timezone
+    from backend.models import Booking, BookingStatus, DraftingRequest, DraftingStatus, Role, User
+    from backend.security import create_access_token, hash_password
+
+    admin = User(
+        id="admin-metrics-test",
+        email="adminmetrics@example.com",
+        password_hash=hash_password("adminpass"),
+        full_name="Metrics Admin",
+        role=Role.ADMIN,
+    )
+    database.add(admin)
+
+    # Setup 1 pending booking and 1 confirmed booking
+    from backend.models import Practice
+    from datetime import timedelta
+    now_dt = datetime.now(timezone.utc)
+    b_pending = Booking(
+        id="b-pending-1",
+        client_id="client-1",
+        lawyer_id="lawyer-1",
+        practice=Practice.PROPERTY,
+        amount_minor=105000,
+        status=BookingStatus.PENDING_PAYMENT,
+        starts_at=now_dt,
+        intake={"notes": "test"},
+        disclaimer_version="v1.0",
+        disclaimer_accepted_at=now_dt,
+        jitsi_room="test-room-pending",
+    )
+    b_confirmed = Booking(
+        id="b-confirmed-1",
+        client_id="client-1",
+        lawyer_id="lawyer-1",
+        practice=Practice.PROPERTY,
+        amount_minor=210000,
+        status=BookingStatus.CONFIRMED,
+        starts_at=now_dt + timedelta(hours=2),
+        intake={"notes": "test"},
+        disclaimer_version="v1.0",
+        disclaimer_accepted_at=now_dt,
+        jitsi_room="test-room-confirmed",
+    )
+    # Setup 1 pending drafting request and 1 in_progress drafting request
+    d_pending = DraftingRequest(
+        id="d-pending-1",
+        title="Pending Agreement",
+        description="Pending",
+        price_minor=500000,
+        creator_id="client-1",
+        status=DraftingStatus.PENDING_PAYMENT,
+    )
+    d_in_progress = DraftingRequest(
+        id="d-prog-1",
+        title="Funded Agreement",
+        description="Funded",
+        price_minor=300000,
+        creator_id="client-1",
+        status=DraftingStatus.IN_PROGRESS,
+    )
+
+    database.add_all([b_pending, b_confirmed, d_pending, d_in_progress])
+    database.commit()
+
+    token = create_access_token(admin)
+    res = client.get("/api/v1/admin/metrics", headers={"Authorization": f"Bearer {token}"})
+    assert res.status_code == 200
+    data = res.json()
+
+    # Escrow must only count confirmed booking (210,000) + in_progress drafting (300,000) = 510,000
+    # Must NOT include b_pending (105,000) or d_pending (500,000)
+    assert data["escrow_minor"] == 510000
+
+
+
 
 
 

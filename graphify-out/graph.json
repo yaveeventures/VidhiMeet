@@ -30,7 +30,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_config",
-      "community": 17,
+      "community": 14,
       "norm_label": "config.py"
     },
     {
@@ -40,7 +40,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "backend_config_settings",
-      "community": 28,
+      "community": 36,
       "norm_label": "settings"
     },
     {
@@ -50,7 +50,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "basesettings",
-      "community": 28,
+      "community": 36,
       "norm_label": "basesettings"
     },
     {
@@ -60,7 +60,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "backend_config_settings_secure_secret",
-      "community": 28,
+      "community": 36,
       "norm_label": ".secure_secret()"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "backend_config_settings_supported_video_provider",
-      "community": 28,
+      "community": 36,
       "norm_label": ".supported_video_provider()"
     },
     {
@@ -80,7 +80,7 @@
       "source_location": "L82",
       "_origin": "ast",
       "id": "backend_config_settings_production_safety_checks",
-      "community": 28,
+      "community": 36,
       "norm_label": ".production_safety_checks()"
     },
     {
@@ -90,7 +90,7 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "backend_config_settings_origins",
-      "community": 28,
+      "community": 36,
       "norm_label": ".origins()"
     },
     {
@@ -100,7 +100,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "backend_config_settings_production",
-      "community": 28,
+      "community": 36,
       "norm_label": ".production()"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "fastapi",
-      "community": 3,
+      "community": 13,
       "norm_label": "fastapi"
     },
     {
@@ -260,7 +260,7 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "backend_main_security_headers_and_rate_limit",
-      "community": 13,
+      "community": 19,
       "norm_label": "security_headers_and_rate_limit()"
     },
     {
@@ -270,7 +270,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_main_py_request",
-      "community": 13,
+      "community": 19,
       "norm_label": "request"
     },
     {
@@ -280,7 +280,7 @@
       "source_location": "L189",
       "_origin": "ast",
       "id": "backend_main_cors_response",
-      "community": 13,
+      "community": 19,
       "norm_label": "_cors_response()"
     },
     {
@@ -290,7 +290,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "jsonresponse",
-      "community": 13,
+      "community": 19,
       "norm_label": "jsonresponse"
     },
     {
@@ -300,7 +300,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "backend_main_http_exception_handler",
-      "community": 13,
+      "community": 19,
       "norm_label": "http_exception_handler()"
     },
     {
@@ -310,7 +310,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "starlettehttpexception",
-      "community": 13,
+      "community": 19,
       "norm_label": "starlettehttpexception"
     },
     {
@@ -320,7 +320,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "backend_main_validation_exception_handler",
-      "community": 13,
+      "community": 19,
       "norm_label": "validation_exception_handler()"
     },
     {
@@ -330,7 +330,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "requestvalidationerror",
-      "community": 13,
+      "community": 19,
       "norm_label": "requestvalidationerror"
     },
     {
@@ -340,7 +340,7 @@
       "source_location": "L253",
       "_origin": "ast",
       "id": "backend_main_integrity_exception_handler",
-      "community": 13,
+      "community": 19,
       "norm_label": "integrity_exception_handler()"
     },
     {
@@ -350,7 +350,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "integrityerror",
-      "community": 13,
+      "community": 19,
       "norm_label": "integrityerror"
     },
     {
@@ -360,7 +360,7 @@
       "source_location": "L275",
       "_origin": "ast",
       "id": "backend_main_unhandled_exception_handler",
-      "community": 13,
+      "community": 19,
       "norm_label": "unhandled_exception_handler()"
     },
     {
@@ -370,7 +370,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_main_py_exception",
-      "community": 13,
+      "community": 19,
       "norm_label": "exception"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L325",
       "_origin": "ast",
       "id": "backend_main_frontendstaticfiles_get_response",
-      "community": 13,
+      "community": 19,
       "norm_label": ".get_response()"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "backend_main_rationale_202",
-      "community": 13,
+      "community": 19,
       "norm_label": "standardized http exception handler:     - private layer: log operational client"
     },
     {
@@ -430,7 +430,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "backend_main_rationale_226",
-      "community": 13,
+      "community": 19,
       "norm_label": "validation exception handler:     - private layer: log detailed field errors to"
     },
     {
@@ -440,7 +440,7 @@
       "source_location": "L254",
       "_origin": "ast",
       "id": "backend_main_rationale_254",
-      "community": 13,
+      "community": 19,
       "norm_label": "database integrity exception handler:     - private layer: log full database err"
     },
     {
@@ -450,7 +450,7 @@
       "source_location": "L276",
       "_origin": "ast",
       "id": "backend_main_rationale_276",
-      "community": 13,
+      "community": 19,
       "norm_label": "global fallback exception handler for unexpected server failures (500):     - pr"
     },
     {
@@ -580,7 +580,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "backend_models_lawyerprofile",
-      "community": 7,
+      "community": 11,
       "norm_label": "lawyerprofile"
     },
     {
@@ -590,7 +590,7 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "backend_models_lawyerbankaccount",
-      "community": 0,
+      "community": 26,
       "norm_label": "lawyerbankaccount"
     },
     {
@@ -600,7 +600,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "backend_models_booking",
-      "community": 17,
+      "community": 11,
       "norm_label": "booking"
     },
     {
@@ -610,7 +610,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "backend_models_booking_client_name",
-      "community": 17,
+      "community": 11,
       "norm_label": ".client_name()"
     },
     {
@@ -620,7 +620,7 @@
       "source_location": "L172",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_name",
-      "community": 17,
+      "community": 11,
       "norm_label": ".lawyer_name()"
     },
     {
@@ -630,7 +630,7 @@
       "source_location": "L176",
       "_origin": "ast",
       "id": "backend_models_booking_base_price_minor",
-      "community": 17,
+      "community": 11,
       "norm_label": ".base_price_minor()"
     },
     {
@@ -640,7 +640,7 @@
       "source_location": "L183",
       "_origin": "ast",
       "id": "backend_models_booking_client_platform_fee_minor",
-      "community": 17,
+      "community": 11,
       "norm_label": ".client_platform_fee_minor()"
     },
     {
@@ -650,7 +650,7 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_platform_fee_minor",
-      "community": 17,
+      "community": 11,
       "norm_label": ".lawyer_platform_fee_minor()"
     },
     {
@@ -660,7 +660,7 @@
       "source_location": "L192",
       "_origin": "ast",
       "id": "backend_models_booking_platform_fee_minor",
-      "community": 17,
+      "community": 11,
       "norm_label": ".platform_fee_minor()"
     },
     {
@@ -670,7 +670,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_amount_minor",
-      "community": 17,
+      "community": 11,
       "norm_label": ".lawyer_amount_minor()"
     },
     {
@@ -680,7 +680,7 @@
       "source_location": "L200",
       "_origin": "ast",
       "id": "backend_models_booking_video_room",
-      "community": 17,
+      "community": 11,
       "norm_label": ".video_room()"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L204",
       "_origin": "ast",
       "id": "backend_models_booking_room_name",
-      "community": 17,
+      "community": 11,
       "norm_label": ".room_name()"
     },
     {
@@ -730,7 +730,7 @@
       "source_location": "L235",
       "_origin": "ast",
       "id": "backend_models_auditlog",
-      "community": 35,
+      "community": 11,
       "norm_label": "auditlog"
     },
     {
@@ -790,7 +790,7 @@
       "source_location": "L290",
       "_origin": "ast",
       "id": "backend_models_userconsent",
-      "community": 35,
+      "community": 11,
       "norm_label": "userconsent"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "backend_models_rationale_103",
-      "community": 0,
+      "community": 26,
       "norm_label": "one-per-lawyer bank account for payout and upi identity verification."
     },
     {
@@ -1327,7 +1327,7 @@
       "label": "verify_lawyer()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L34",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "backend_routers_admin_verify_lawyer",
       "community": 66,
@@ -1347,7 +1347,7 @@
       "label": "verify_lawyer_document()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L82",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "backend_routers_admin_verify_lawyer_document",
       "community": 66,
@@ -1357,7 +1357,7 @@
       "label": "list_pending_lawyers()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L102",
+      "source_location": "L120",
       "_origin": "ast",
       "id": "backend_routers_admin_list_pending_lawyers",
       "community": 66,
@@ -1367,7 +1367,7 @@
       "label": "list_rejected_lawyers()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L149",
+      "source_location": "L167",
       "_origin": "ast",
       "id": "backend_routers_admin_list_rejected_lawyers",
       "community": 66,
@@ -1377,7 +1377,7 @@
       "label": "list_users()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L189",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "backend_routers_admin_list_users",
       "community": 66,
@@ -1387,7 +1387,7 @@
       "label": "toggle_user_active()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L194",
+      "source_location": "L212",
       "_origin": "ast",
       "id": "backend_routers_admin_toggle_user_active",
       "community": 66,
@@ -1397,7 +1397,7 @@
       "label": "list_transactions()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L205",
+      "source_location": "L223",
       "_origin": "ast",
       "id": "backend_routers_admin_list_transactions",
       "community": 66,
@@ -1407,7 +1407,7 @@
       "label": "list_drafting_transactions()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L210",
+      "source_location": "L228",
       "_origin": "ast",
       "id": "backend_routers_admin_list_drafting_transactions",
       "community": 66,
@@ -1417,7 +1417,7 @@
       "label": "list_disputes()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L225",
+      "source_location": "L243",
       "_origin": "ast",
       "id": "backend_routers_admin_list_disputes",
       "community": 66,
@@ -1427,7 +1427,7 @@
       "label": "resolve_dispute()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L241",
+      "source_location": "L259",
       "_origin": "ast",
       "id": "backend_routers_admin_resolve_dispute",
       "community": 66,
@@ -1437,7 +1437,7 @@
       "label": "get_audit_logs()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L272",
+      "source_location": "L290",
       "_origin": "ast",
       "id": "backend_routers_admin_get_audit_logs",
       "community": 66,
@@ -1447,7 +1447,7 @@
       "label": "update_fees()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L298",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "backend_routers_admin_update_fees",
       "community": 66,
@@ -1457,7 +1457,7 @@
       "label": "trigger_data_retention_purge()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L306",
+      "source_location": "L324",
       "_origin": "ast",
       "id": "backend_routers_admin_trigger_data_retention_purge",
       "community": 66,
@@ -1467,17 +1467,17 @@
       "label": "get_ntp_status()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L334",
+      "source_location": "L352",
       "_origin": "ast",
       "id": "backend_routers_admin_get_ntp_status",
-      "community": 6,
+      "community": 66,
       "norm_label": "get_ntp_status()"
     },
     {
       "label": "get_admin_payouts()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L351",
+      "source_location": "L369",
       "_origin": "ast",
       "id": "backend_routers_admin_get_admin_payouts",
       "community": 66,
@@ -1487,7 +1487,7 @@
       "label": "get_platform_feedback()",
       "file_type": "code",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L386",
+      "source_location": "L404",
       "_origin": "ast",
       "id": "backend_routers_admin_get_platform_feedback",
       "community": 66,
@@ -1497,9 +1497,9 @@
       "label": "Return all drafting requests for admin transaction monitoring.",
       "file_type": "rationale",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L211",
+      "source_location": "L229",
       "_origin": "ast",
-      "id": "backend_routers_admin_rationale_211",
+      "id": "backend_routers_admin_rationale_229",
       "community": 66,
       "norm_label": "return all drafting requests for admin transaction monitoring."
     },
@@ -1507,9 +1507,9 @@
       "label": "DPDP Act 2023, Section 8(7) \u2014 Trigger data retention purge.      Deletes:     -",
       "file_type": "rationale",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L312",
+      "source_location": "L330",
       "_origin": "ast",
-      "id": "backend_routers_admin_rationale_312",
+      "id": "backend_routers_admin_rationale_330",
       "community": 66,
       "norm_label": "dpdp act 2023, section 8(7) \u2014 trigger data retention purge.      deletes:     -"
     },
@@ -1517,19 +1517,19 @@
       "label": "CERT-In / DPDP forensic compliance \u2014 NTP clock synchronization status.      Retu",
       "file_type": "rationale",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L335",
+      "source_location": "L353",
       "_origin": "ast",
-      "id": "backend_routers_admin_rationale_335",
-      "community": 6,
+      "id": "backend_routers_admin_rationale_353",
+      "community": 66,
       "norm_label": "cert-in / dpdp forensic compliance \u2014 ntp clock synchronization status.      retu"
     },
     {
       "label": "Returns all lawyer payout bank accounts with masked credentials (account number",
       "file_type": "rationale",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L352",
+      "source_location": "L370",
       "_origin": "ast",
-      "id": "backend_routers_admin_rationale_352",
+      "id": "backend_routers_admin_rationale_370",
       "community": 66,
       "norm_label": "returns all lawyer payout bank accounts with masked credentials (account number"
     },
@@ -1537,9 +1537,9 @@
       "label": "Returns all submitted platform feedback ordered by newest first.",
       "file_type": "rationale",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L387",
+      "source_location": "L405",
       "_origin": "ast",
-      "id": "backend_routers_admin_rationale_387",
+      "id": "backend_routers_admin_rationale_405",
       "community": 66,
       "norm_label": "returns all submitted platform feedback ordered by newest first."
     },
@@ -1550,7 +1550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_auth",
-      "community": 0,
+      "community": 7,
       "norm_label": "auth.py"
     },
     {
@@ -1570,7 +1570,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_auth_py_request",
-      "community": 35,
+      "community": 7,
       "norm_label": "request"
     },
     {
@@ -1580,7 +1580,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_auth_py_session",
-      "community": 35,
+      "community": 7,
       "norm_label": "session"
     },
     {
@@ -1590,7 +1590,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "backend_routers_auth_login",
-      "community": 35,
+      "community": 7,
       "norm_label": "login()"
     },
     {
@@ -1600,7 +1600,7 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "backend_routers_auth_setup_mfa",
-      "community": 0,
+      "community": 7,
       "norm_label": "setup_mfa()"
     },
     {
@@ -1610,7 +1610,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "backend_routers_auth_enable_mfa",
-      "community": 35,
+      "community": 7,
       "norm_label": "enable_mfa()"
     },
     {
@@ -1620,7 +1620,7 @@
       "source_location": "L139",
       "_origin": "ast",
       "id": "backend_routers_auth_forgot_password",
-      "community": 35,
+      "community": 7,
       "norm_label": "forgot_password()"
     },
     {
@@ -1640,7 +1640,7 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "backend_routers_auth_logout",
-      "community": 35,
+      "community": 7,
       "norm_label": "logout()"
     },
     {
@@ -1650,7 +1650,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "response",
-      "community": 35,
+      "community": 7,
       "norm_label": "response"
     },
     {
@@ -1660,7 +1660,7 @@
       "source_location": "L243",
       "_origin": "ast",
       "id": "backend_routers_auth_verify_google_id_token",
-      "community": 14,
+      "community": 7,
       "norm_label": "_verify_google_id_token()"
     },
     {
@@ -1670,7 +1670,7 @@
       "source_location": "L271",
       "_origin": "ast",
       "id": "backend_routers_auth_google_auth",
-      "community": 14,
+      "community": 7,
       "norm_label": "google_auth()"
     },
     {
@@ -1680,7 +1680,7 @@
       "source_location": "L337",
       "_origin": "ast",
       "id": "backend_routers_auth_refresh",
-      "community": 35,
+      "community": 7,
       "norm_label": "refresh()"
     },
     {
@@ -1690,7 +1690,7 @@
       "source_location": "L356",
       "_origin": "ast",
       "id": "backend_routers_auth_request_erasure",
-      "community": 35,
+      "community": 11,
       "norm_label": "request_erasure()"
     },
     {
@@ -1700,7 +1700,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_110",
-      "community": 0,
+      "community": 7,
       "norm_label": "generate totp secret and provisioning uri for mfa authenticator setup."
     },
     {
@@ -1710,7 +1710,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_125",
-      "community": 35,
+      "community": 7,
       "norm_label": "verify totp code and enable 2fa on the account."
     },
     {
@@ -1720,7 +1720,7 @@
       "source_location": "L140",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_140",
-      "community": 35,
+      "community": 7,
       "norm_label": "request a password reset link.     informs the user if no account is registered"
     },
     {
@@ -1740,7 +1740,7 @@
       "source_location": "L234",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_234",
-      "community": 35,
+      "community": 7,
       "norm_label": "log out user and revoke current access token (jti) via redis blocklist."
     },
     {
@@ -1750,7 +1750,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts",
-      "community": 0,
+      "community": 26,
       "norm_label": "bank_accounts.py"
     },
     {
@@ -1760,7 +1760,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_mask_account",
-      "community": 0,
+      "community": 26,
       "norm_label": "_mask_account()"
     },
     {
@@ -1770,7 +1770,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_mask_ifsc",
-      "community": 0,
+      "community": 26,
       "norm_label": "_mask_ifsc()"
     },
     {
@@ -1780,7 +1780,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_bank_account_out",
-      "community": 0,
+      "community": 26,
       "norm_label": "_bank_account_out()"
     },
     {
@@ -1790,7 +1790,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_get_bank_account",
-      "community": 0,
+      "community": 26,
       "norm_label": "get_bank_account()"
     },
     {
@@ -1800,7 +1800,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_py_session",
-      "community": 0,
+      "community": 26,
       "norm_label": "session"
     },
     {
@@ -1810,7 +1810,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_add_bank_account",
-      "community": 0,
+      "community": 26,
       "norm_label": "add_bank_account()"
     },
     {
@@ -1820,7 +1820,7 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_update_bank_account",
-      "community": 0,
+      "community": 26,
       "norm_label": "update_bank_account()"
     },
     {
@@ -1830,7 +1830,7 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_delete_bank_account",
-      "community": 0,
+      "community": 26,
       "norm_label": "delete_bank_account()"
     },
     {
@@ -1840,7 +1840,7 @@
       "source_location": "L123",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_initiate_upi_verification",
-      "community": 0,
+      "community": 26,
       "norm_label": "initiate_upi_verification()"
     },
     {
@@ -1850,7 +1850,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_py_request",
-      "community": 0,
+      "community": 26,
       "norm_label": "request"
     },
     {
@@ -1860,7 +1860,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_rationale_19",
-      "community": 0,
+      "community": 26,
       "norm_label": "return account number masked to last-4: e.g. 'xxxxxx4821"
     },
     {
@@ -1870,7 +1870,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_rationale_25",
-      "community": 0,
+      "community": 26,
       "norm_label": "return ifsc code masked to last-4: e.g. 'xxxxxxx1234"
     },
     {
@@ -1880,7 +1880,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "backend_routers_bank_accounts_rationale_125",
-      "community": 0,
+      "community": 26,
       "norm_label": "verify lawyer bank account details."
     },
     {
@@ -2360,7 +2360,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "backend_routers_drafting_write_mock_pdf",
-      "community": 14,
+      "community": 16,
       "norm_label": "_write_mock_pdf()"
     },
     {
@@ -2380,7 +2380,7 @@
       "source_location": "L260",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_presign",
-      "community": 14,
+      "community": 16,
       "norm_label": "drafting_document_presign()"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "backend_routers_drafting_rationale_135",
-      "community": 14,
+      "community": 16,
       "norm_label": "helper to write a mock pdf file when serving local document downloads."
     },
     {
@@ -2550,7 +2550,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_events",
-      "community": 7,
+      "community": 13,
       "norm_label": "events.py"
     },
     {
@@ -2560,7 +2560,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_events_authenticate_stream_user",
-      "community": 7,
+      "community": 66,
       "norm_label": "authenticate_stream_user()"
     },
     {
@@ -2570,7 +2570,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_request",
-      "community": 7,
+      "community": 66,
       "norm_label": "request"
     },
     {
@@ -2580,7 +2580,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_session",
-      "community": 7,
+      "community": 66,
       "norm_label": "session"
     },
     {
@@ -2590,7 +2590,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "backend_routers_events_sse_event_stream",
-      "community": 7,
+      "community": 66,
       "norm_label": "sse_event_stream()"
     },
     {
@@ -2600,7 +2600,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_routers_events_rationale_35",
-      "community": 7,
+      "community": 66,
       "norm_label": "server-sent events (sse) stream endpoint for real-time notifications and ui auto"
     },
     {
@@ -2720,7 +2720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_py",
-      "community": 3,
+      "community": 13,
       "norm_label": "public.py"
     },
     {
@@ -2730,7 +2730,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_health",
-      "community": 3,
+      "community": 13,
       "norm_label": "health()"
     },
     {
@@ -2750,7 +2750,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_public_stats",
-      "community": 66,
+      "community": 13,
       "norm_label": "public_stats()"
     },
     {
@@ -2760,7 +2760,7 @@
       "source_location": "L63",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_submit_feedback",
-      "community": 3,
+      "community": 13,
       "norm_label": "submit_feedback()"
     },
     {
@@ -2770,7 +2770,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_rationale_23",
-      "community": 66,
+      "community": 13,
       "norm_label": "public endpoint \u2014 no auth required. returns live platform statistics for the hom"
     },
     {
@@ -2780,7 +2780,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "d_saas_lawyergrid_backend_routers_public_rationale_68",
-      "community": 3,
+      "community": 13,
       "norm_label": "public endpoint allowing users to submit platform feedback."
     },
     {
@@ -2810,7 +2810,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat",
-      "community": 3,
+      "community": 13,
       "norm_label": "websocket_chat.py"
     },
     {
@@ -2880,7 +2880,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_validate_ws_user_and_booking",
-      "community": 3,
+      "community": 11,
       "norm_label": "_validate_ws_user_and_booking()"
     },
     {
@@ -3580,7 +3580,7 @@
       "source_location": "L556",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_key",
-      "community": 0,
+      "community": 14,
       "norm_label": ".clean_key()"
     },
     {
@@ -3590,7 +3590,7 @@
       "source_location": "L561",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_filename",
-      "community": 0,
+      "community": 14,
       "norm_label": ".clean_filename()"
     },
     {
@@ -3670,7 +3670,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "backend_security_verify_password",
-      "community": 35,
+      "community": 7,
       "norm_label": "verify_password()"
     },
     {
@@ -3750,7 +3750,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "backend_security_require_roles",
-      "community": 14,
+      "community": 26,
       "norm_label": "require_roles()"
     },
     {
@@ -3820,7 +3820,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "backend_security_rationale_43",
-      "community": 35,
+      "community": 7,
       "norm_label": "verify raw password against stored hash.     supports argon2id natively with bac"
     },
     {
@@ -3850,7 +3850,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services",
-      "community": 17,
+      "community": 14,
       "norm_label": "services.py"
     },
     {
@@ -3860,7 +3860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_init",
-      "community": 17,
+      "community": 14,
       "norm_label": "__init__.py"
     },
     {
@@ -3870,7 +3870,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_auth_service",
-      "community": 35,
+      "community": 14,
       "norm_label": "auth_service.py"
     },
     {
@@ -3910,7 +3910,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_auth_service_py_session",
-      "community": 35,
+      "community": 16,
       "norm_label": "session"
     },
     {
@@ -3920,7 +3920,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "asyncsession",
-      "community": 35,
+      "community": 16,
       "norm_label": "asyncsession"
     },
     {
@@ -3930,7 +3930,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "backend_services_auth_service_issue_refresh_token",
-      "community": 35,
+      "community": 7,
       "norm_label": "issue_refresh_token()"
     },
     {
@@ -3940,7 +3940,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "backend_services_auth_service_send_password_reset_email",
-      "community": 35,
+      "community": 14,
       "norm_label": "send_password_reset_email()"
     },
     {
@@ -3970,7 +3970,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "backend_services_auth_service_rationale_81",
-      "community": 35,
+      "community": 14,
       "norm_label": "sends password reset email containing the secret token/link.     uses resend htt"
     },
     {
@@ -3980,7 +3980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_booking_service",
-      "community": 17,
+      "community": 14,
       "norm_label": "booking_service.py"
     },
     {
@@ -3990,7 +3990,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_services_booking_service_validate_intake",
-      "community": 17,
+      "community": 14,
       "norm_label": "validate_intake()"
     },
     {
@@ -4000,7 +4000,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "backend_services_booking_service_get_daily_meeting_details",
-      "community": 17,
+      "community": 14,
       "norm_label": "get_daily_meeting_details()"
     },
     {
@@ -4010,7 +4010,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "backend_services_booking_service_verify_daily_meeting_duration",
-      "community": 17,
+      "community": 14,
       "norm_label": "verify_daily_meeting_duration()"
     },
     {
@@ -4080,7 +4080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_dispute_service",
-      "community": 17,
+      "community": 14,
       "norm_label": "dispute_service.py"
     },
     {
@@ -4090,7 +4090,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "backend_services_dispute_service_evaluate_daily_meeting_logs",
-      "community": 17,
+      "community": 14,
       "norm_label": "evaluate_daily_meeting_logs()"
     },
     {
@@ -4100,7 +4100,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_dispute_service_py_session",
-      "community": 17,
+      "community": 14,
       "norm_label": "session"
     },
     {
@@ -4110,7 +4110,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "backend_services_dispute_service_rationale_13",
-      "community": 17,
+      "community": 14,
       "norm_label": "queries daily.co rest api or room session logs for the booking's room,     calcu"
     },
     {
@@ -4120,7 +4120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_drafting_service",
-      "community": 17,
+      "community": 14,
       "norm_label": "drafting_service.py"
     },
     {
@@ -4130,7 +4130,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "backend_services_drafting_service_presign_document",
-      "community": 17,
+      "community": 14,
       "norm_label": "presign_document()"
     },
     {
@@ -4140,7 +4140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_event_bus",
-      "community": 7,
+      "community": 13,
       "norm_label": "event_bus.py"
     },
     {
@@ -4280,7 +4280,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_payment_service",
-      "community": 17,
+      "community": 14,
       "norm_label": "payment_service.py"
     },
     {
@@ -4290,7 +4290,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "backend_services_payment_service_initiate_refund",
-      "community": 17,
+      "community": 14,
       "norm_label": "initiate_refund()"
     },
     {
@@ -4300,7 +4300,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_10",
-      "community": 17,
+      "community": 14,
       "norm_label": "trigger payment refund fallback."
     },
     {
@@ -4722,10 +4722,50 @@
       "norm_label": "rendermarketplacechart()"
     },
     {
-      "label": "renderOverview()",
+      "label": "isTxPaid()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
       "source_location": "L227",
+      "_origin": "ast",
+      "id": "frontend_js_admin_istxpaid",
+      "community": 4,
+      "norm_label": "istxpaid()"
+    },
+    {
+      "label": "isTxPendingPayment()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L231",
+      "_origin": "ast",
+      "id": "frontend_js_admin_istxpendingpayment",
+      "community": 4,
+      "norm_label": "istxpendingpayment()"
+    },
+    {
+      "label": "isTxCancelled()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L235",
+      "_origin": "ast",
+      "id": "frontend_js_admin_istxcancelled",
+      "community": 4,
+      "norm_label": "istxcancelled()"
+    },
+    {
+      "label": "getAllUnifiedTransactions()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L239",
+      "_origin": "ast",
+      "id": "frontend_js_admin_getallunifiedtransactions",
+      "community": 4,
+      "norm_label": "getallunifiedtransactions()"
+    },
+    {
+      "label": "renderOverview()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L267",
       "_origin": "ast",
       "id": "frontend_js_admin_renderoverview",
       "community": 4,
@@ -4735,7 +4775,7 @@
       "label": "validateBarNumberFormat()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L365",
+      "source_location": "L420",
       "_origin": "ast",
       "id": "frontend_js_admin_validatebarnumberformat",
       "community": 4,
@@ -4745,7 +4785,7 @@
       "label": "renderApps()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L371",
+      "source_location": "L426",
       "_origin": "ast",
       "id": "frontend_js_admin_renderapps",
       "community": 4,
@@ -4755,7 +4795,7 @@
       "label": "reviewApplication()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L490",
+      "source_location": "L545",
       "_origin": "ast",
       "id": "frontend_js_admin_reviewapplication",
       "community": 4,
@@ -4765,7 +4805,7 @@
       "label": "decideVerification()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L709",
+      "source_location": "L764",
       "_origin": "ast",
       "id": "frontend_js_admin_decideverification",
       "community": 4,
@@ -4775,7 +4815,7 @@
       "label": "openVerificationPolicyModal()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L723",
+      "source_location": "L778",
       "_origin": "ast",
       "id": "frontend_js_admin_openverificationpolicymodal",
       "community": 4,
@@ -4785,7 +4825,7 @@
       "label": "openResolutionPolicyModal()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L758",
+      "source_location": "L813",
       "_origin": "ast",
       "id": "frontend_js_admin_openresolutionpolicymodal",
       "community": 4,
@@ -4795,7 +4835,7 @@
       "label": "renderDisputes()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L795",
+      "source_location": "L850",
       "_origin": "ast",
       "id": "frontend_js_admin_renderdisputes",
       "community": 4,
@@ -4805,7 +4845,7 @@
       "label": "resolveDispute()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L889",
+      "source_location": "L944",
       "_origin": "ast",
       "id": "frontend_js_admin_resolvedispute",
       "community": 4,
@@ -4815,7 +4855,7 @@
       "label": "renderUsers()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L906",
+      "source_location": "L961",
       "_origin": "ast",
       "id": "frontend_js_admin_renderusers",
       "community": 4,
@@ -4825,7 +4865,7 @@
       "label": "toggleUserStatus()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L965",
+      "source_location": "L1020",
       "_origin": "ast",
       "id": "frontend_js_admin_toggleuserstatus",
       "community": 4,
@@ -4835,7 +4875,7 @@
       "label": "renderTx()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L981",
+      "source_location": "L1036",
       "_origin": "ast",
       "id": "frontend_js_admin_rendertx",
       "community": 4,
@@ -4845,7 +4885,7 @@
       "label": "restoreFeeConfig()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1086",
+      "source_location": "L1126",
       "_origin": "ast",
       "id": "frontend_js_admin_restorefeeconfig",
       "community": 4,
@@ -4855,7 +4895,7 @@
       "label": "handleSaveFees()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1114",
+      "source_location": "L1154",
       "_origin": "ast",
       "id": "frontend_js_admin_handlesavefees",
       "community": 4,
@@ -4865,7 +4905,7 @@
       "label": "renderAudit()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1147",
+      "source_location": "L1187",
       "_origin": "ast",
       "id": "frontend_js_admin_renderaudit",
       "community": 4,
@@ -4875,7 +4915,7 @@
       "label": "renderPayoutOverview()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1175",
+      "source_location": "L1215",
       "_origin": "ast",
       "id": "frontend_js_admin_renderpayoutoverview",
       "community": 4,
@@ -4885,7 +4925,7 @@
       "label": "refreshSystemStatusHealth()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1239",
+      "source_location": "L1279",
       "_origin": "ast",
       "id": "frontend_js_admin_refreshsystemstatushealth",
       "community": 4,
@@ -4895,7 +4935,7 @@
       "label": "switchView()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1251",
+      "source_location": "L1291",
       "_origin": "ast",
       "id": "frontend_js_admin_switchview",
       "community": 4,
@@ -4905,7 +4945,7 @@
       "label": "setAdminSidebarOpen()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1279",
+      "source_location": "L1319",
       "_origin": "ast",
       "id": "frontend_js_admin_setadminsidebaropen",
       "community": 4,
@@ -4915,7 +4955,7 @@
       "label": "appSearchInput",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1437",
+      "source_location": "L1477",
       "_origin": "ast",
       "id": "frontend_js_admin_appsearchinput",
       "community": 4,
@@ -4925,7 +4965,7 @@
       "label": "appPracticeSelect",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1441",
+      "source_location": "L1481",
       "_origin": "ast",
       "id": "frontend_js_admin_apppracticeselect",
       "community": 4,
@@ -4935,7 +4975,7 @@
       "label": "appSortSelect",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1445",
+      "source_location": "L1485",
       "_origin": "ast",
       "id": "frontend_js_admin_appsortselect",
       "community": 4,
@@ -4945,7 +4985,7 @@
       "label": "toast()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1466",
+      "source_location": "L1506",
       "_origin": "ast",
       "id": "frontend_js_admin_toast",
       "community": 4,
@@ -4955,7 +4995,7 @@
       "label": "updateBadgeCounts()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1478",
+      "source_location": "L1518",
       "_origin": "ast",
       "id": "frontend_js_admin_updatebadgecounts",
       "community": 4,
@@ -4965,7 +5005,7 @@
       "label": "renderPayouts()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1509",
+      "source_location": "L1549",
       "_origin": "ast",
       "id": "frontend_js_admin_renderpayouts",
       "community": 4,
@@ -4975,7 +5015,7 @@
       "label": "renderFeedback()",
       "file_type": "code",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1563",
+      "source_location": "L1603",
       "_origin": "ast",
       "id": "frontend_js_admin_renderfeedback",
       "community": 4,
@@ -5212,10 +5252,50 @@
       "norm_label": "rendermarketplacechart()"
     },
     {
-      "label": "renderOverview()",
+      "label": "isTxPaid()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
       "source_location": "L196",
+      "_origin": "ast",
+      "id": "frontend_js_admin_min_istxpaid",
+      "community": 37,
+      "norm_label": "istxpaid()"
+    },
+    {
+      "label": "isTxPendingPayment()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L199",
+      "_origin": "ast",
+      "id": "frontend_js_admin_min_istxpendingpayment",
+      "community": 37,
+      "norm_label": "istxpendingpayment()"
+    },
+    {
+      "label": "isTxCancelled()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L202",
+      "_origin": "ast",
+      "id": "frontend_js_admin_min_istxcancelled",
+      "community": 37,
+      "norm_label": "istxcancelled()"
+    },
+    {
+      "label": "getAllUnifiedTransactions()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L205",
+      "_origin": "ast",
+      "id": "frontend_js_admin_min_getallunifiedtransactions",
+      "community": 37,
+      "norm_label": "getallunifiedtransactions()"
+    },
+    {
+      "label": "renderOverview()",
+      "file_type": "code",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L230",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderoverview",
       "community": 37,
@@ -5225,7 +5305,7 @@
       "label": "validateBarNumberFormat()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L322",
+      "source_location": "L367",
       "_origin": "ast",
       "id": "frontend_js_admin_min_validatebarnumberformat",
       "community": 37,
@@ -5235,7 +5315,7 @@
       "label": "renderApps()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L327",
+      "source_location": "L372",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderapps",
       "community": 37,
@@ -5245,7 +5325,7 @@
       "label": "reviewApplication()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L435",
+      "source_location": "L480",
       "_origin": "ast",
       "id": "frontend_js_admin_min_reviewapplication",
       "community": 37,
@@ -5255,7 +5335,7 @@
       "label": "decideVerification()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L637",
+      "source_location": "L682",
       "_origin": "ast",
       "id": "frontend_js_admin_min_decideverification",
       "community": 37,
@@ -5265,7 +5345,7 @@
       "label": "openVerificationPolicyModal()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L650",
+      "source_location": "L695",
       "_origin": "ast",
       "id": "frontend_js_admin_min_openverificationpolicymodal",
       "community": 37,
@@ -5275,7 +5355,7 @@
       "label": "openResolutionPolicyModal()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L680",
+      "source_location": "L725",
       "_origin": "ast",
       "id": "frontend_js_admin_min_openresolutionpolicymodal",
       "community": 37,
@@ -5285,7 +5365,7 @@
       "label": "renderDisputes()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L711",
+      "source_location": "L756",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderdisputes",
       "community": 37,
@@ -5295,7 +5375,7 @@
       "label": "resolveDispute()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L793",
+      "source_location": "L838",
       "_origin": "ast",
       "id": "frontend_js_admin_min_resolvedispute",
       "community": 37,
@@ -5305,7 +5385,7 @@
       "label": "renderUsers()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L808",
+      "source_location": "L853",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderusers",
       "community": 37,
@@ -5315,7 +5395,7 @@
       "label": "toggleUserStatus()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L862",
+      "source_location": "L907",
       "_origin": "ast",
       "id": "frontend_js_admin_min_toggleuserstatus",
       "community": 37,
@@ -5325,7 +5405,7 @@
       "label": "renderTx()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L876",
+      "source_location": "L921",
       "_origin": "ast",
       "id": "frontend_js_admin_min_rendertx",
       "community": 37,
@@ -5335,7 +5415,7 @@
       "label": "restoreFeeConfig()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L968",
+      "source_location": "L999",
       "_origin": "ast",
       "id": "frontend_js_admin_min_restorefeeconfig",
       "community": 37,
@@ -5345,7 +5425,7 @@
       "label": "handleSaveFees()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L992",
+      "source_location": "L1023",
       "_origin": "ast",
       "id": "frontend_js_admin_min_handlesavefees",
       "community": 37,
@@ -5355,7 +5435,7 @@
       "label": "renderAudit()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1020",
+      "source_location": "L1051",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderaudit",
       "community": 37,
@@ -5365,7 +5445,7 @@
       "label": "renderPayoutOverview()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1046",
+      "source_location": "L1077",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderpayoutoverview",
       "community": 37,
@@ -5375,7 +5455,7 @@
       "label": "refreshSystemStatusHealth()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1098",
+      "source_location": "L1129",
       "_origin": "ast",
       "id": "frontend_js_admin_min_refreshsystemstatushealth",
       "community": 37,
@@ -5385,7 +5465,7 @@
       "label": "switchView()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1109",
+      "source_location": "L1140",
       "_origin": "ast",
       "id": "frontend_js_admin_min_switchview",
       "community": 37,
@@ -5395,7 +5475,7 @@
       "label": "setAdminSidebarOpen()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1132",
+      "source_location": "L1163",
       "_origin": "ast",
       "id": "frontend_js_admin_min_setadminsidebaropen",
       "community": 37,
@@ -5405,7 +5485,7 @@
       "label": "appSearchInput",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1277",
+      "source_location": "L1308",
       "_origin": "ast",
       "id": "frontend_js_admin_min_appsearchinput",
       "community": 37,
@@ -5415,7 +5495,7 @@
       "label": "appPracticeSelect",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1281",
+      "source_location": "L1312",
       "_origin": "ast",
       "id": "frontend_js_admin_min_apppracticeselect",
       "community": 37,
@@ -5425,7 +5505,7 @@
       "label": "appSortSelect",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1285",
+      "source_location": "L1316",
       "_origin": "ast",
       "id": "frontend_js_admin_min_appsortselect",
       "community": 37,
@@ -5435,7 +5515,7 @@
       "label": "toast()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1303",
+      "source_location": "L1334",
       "_origin": "ast",
       "id": "frontend_js_admin_min_toast",
       "community": 37,
@@ -5445,7 +5525,7 @@
       "label": "updateBadgeCounts()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1313",
+      "source_location": "L1344",
       "_origin": "ast",
       "id": "frontend_js_admin_min_updatebadgecounts",
       "community": 37,
@@ -5455,7 +5535,7 @@
       "label": "renderPayouts()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1337",
+      "source_location": "L1368",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderpayouts",
       "community": 37,
@@ -5465,7 +5545,7 @@
       "label": "renderFeedback()",
       "file_type": "code",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1387",
+      "source_location": "L1418",
       "_origin": "ast",
       "id": "frontend_js_admin_min_renderfeedback",
       "community": 37,
@@ -7288,7 +7368,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_o",
-      "community": 18,
+      "community": 68,
       "norm_label": "o()"
     },
     {
@@ -7308,7 +7388,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_s",
-      "community": 18,
+      "community": 21,
       "norm_label": "s()"
     },
     {
@@ -7338,7 +7418,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_l",
-      "community": 18,
+      "community": 8,
       "norm_label": "l()"
     },
     {
@@ -7388,7 +7468,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_v",
-      "community": 68,
+      "community": 18,
       "norm_label": "v()"
     },
     {
@@ -7518,7 +7598,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ee",
-      "community": 18,
+      "community": 8,
       "norm_label": "ee()"
     },
     {
@@ -7568,7 +7648,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_oe",
-      "community": 18,
+      "community": 10,
       "norm_label": "oe()"
     },
     {
@@ -7578,7 +7658,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_se",
-      "community": 18,
+      "community": 8,
       "norm_label": "se()"
     },
     {
@@ -7608,7 +7688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_le",
-      "community": 18,
+      "community": 10,
       "norm_label": "le()"
     },
     {
@@ -7658,7 +7738,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ve",
-      "community": 25,
+      "community": 21,
       "norm_label": "ve()"
     },
     {
@@ -7788,7 +7868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_clone",
-      "community": 18,
+      "community": 25,
       "norm_label": ".clone()"
     },
     {
@@ -7978,7 +8058,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_setsession",
-      "community": 10,
+      "community": 9,
       "norm_label": ".setsession()"
     },
     {
@@ -8258,7 +8338,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_setup",
-      "community": 18,
+      "community": 8,
       "norm_label": "setup()"
     },
     {
@@ -8268,7 +8348,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_at",
-      "community": 21,
+      "community": 68,
       "norm_label": "at()"
     },
     {
@@ -8328,7 +8408,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_gt",
-      "community": 18,
+      "community": 21,
       "norm_label": "gt()"
     },
     {
@@ -8428,7 +8508,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_bt",
-      "community": 18,
+      "community": 8,
       "norm_label": "bt()"
     },
     {
@@ -8438,7 +8518,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vt",
-      "community": 18,
+      "community": 8,
       "norm_label": "vt()"
     },
     {
@@ -8488,7 +8568,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qt_catch",
-      "community": 68,
+      "community": 18,
       "norm_label": ".catch()"
     },
     {
@@ -8588,7 +8668,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zt",
-      "community": 18,
+      "community": 10,
       "norm_label": "zt()"
     },
     {
@@ -8768,7 +8848,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mn",
-      "community": 18,
+      "community": 8,
       "norm_label": "mn()"
     },
     {
@@ -8788,7 +8868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xn",
-      "community": 18,
+      "community": 8,
       "norm_label": "xn()"
     },
     {
@@ -8828,7 +8908,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_kn",
-      "community": 18,
+      "community": 8,
       "norm_label": "kn()"
     },
     {
@@ -8838,7 +8918,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zn",
-      "community": 18,
+      "community": 8,
       "norm_label": "zn()"
     },
     {
@@ -8848,7 +8928,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_er",
-      "community": 18,
+      "community": 21,
       "norm_label": "er()"
     },
     {
@@ -8918,7 +8998,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_cr",
-      "community": 18,
+      "community": 21,
       "norm_label": "cr()"
     },
     {
@@ -8928,7 +9008,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ur",
-      "community": 68,
+      "community": 25,
       "norm_label": "ur()"
     },
     {
@@ -8938,7 +9018,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_lr",
-      "community": 18,
+      "community": 21,
       "norm_label": "lr()"
     },
     {
@@ -8948,7 +9028,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_dr",
-      "community": 68,
+      "community": 25,
       "norm_label": "dr()"
     },
     {
@@ -8958,7 +9038,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_hr",
-      "community": 18,
+      "community": 21,
       "norm_label": "hr()"
     },
     {
@@ -9198,7 +9278,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_on",
-      "community": 5,
+      "community": 18,
       "norm_label": ".on()"
     },
     {
@@ -9348,7 +9428,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_eventfromexception",
-      "community": 21,
+      "community": 5,
       "norm_label": ".eventfromexception()"
     },
     {
@@ -9608,7 +9688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_va",
-      "community": 68,
+      "community": 18,
       "norm_label": "va()"
     },
     {
@@ -9648,7 +9728,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ua",
-      "community": 68,
+      "community": 18,
       "norm_label": "ua()"
     },
     {
@@ -9698,7 +9778,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_os",
-      "community": 68,
+      "community": 21,
       "norm_label": "os()"
     },
     {
@@ -9708,7 +9788,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_as",
-      "community": 68,
+      "community": 21,
       "norm_label": "as()"
     },
     {
@@ -9798,7 +9878,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xs",
-      "community": 21,
+      "community": 68,
       "norm_label": "xs()"
     },
     {
@@ -9818,7 +9898,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_bs",
-      "community": 21,
+      "community": 68,
       "norm_label": "bs()"
     },
     {
@@ -9828,7 +9908,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vs",
-      "community": 18,
+      "community": 68,
       "norm_label": "vs()"
     },
     {
@@ -9868,7 +9948,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qs",
-      "community": 18,
+      "community": 68,
       "norm_label": "qs()"
     },
     {
@@ -9888,7 +9968,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zs",
-      "community": 18,
+      "community": 68,
       "norm_label": "zs()"
     },
     {
@@ -9958,7 +10038,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_s",
-      "community": 45,
+      "community": 31,
       "norm_label": "s()"
     },
     {
@@ -9968,7 +10048,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_c",
-      "community": 45,
+      "community": 31,
       "norm_label": "c()"
     },
     {
@@ -9998,7 +10078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_d",
-      "community": 74,
+      "community": 45,
       "norm_label": "d()"
     },
     {
@@ -10008,7 +10088,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_f",
-      "community": 74,
+      "community": 45,
       "norm_label": "f()"
     },
     {
@@ -10098,7 +10178,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_n",
-      "community": 45,
+      "community": 31,
       "norm_label": "n()"
     },
     {
@@ -10408,7 +10488,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_xe",
-      "community": 45,
+      "community": 31,
       "norm_label": "xe()"
     },
     {
@@ -10438,7 +10518,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_clone",
-      "community": 74,
+      "community": 45,
       "norm_label": ".clone()"
     },
     {
@@ -10508,7 +10588,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_setuser",
-      "community": 45,
+      "community": 31,
       "norm_label": ".setuser()"
     },
     {
@@ -10528,7 +10608,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_getrequestsession",
-      "community": 74,
+      "community": 45,
       "norm_label": ".getrequestsession()"
     },
     {
@@ -10628,7 +10708,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_setsession",
-      "community": 45,
+      "community": 31,
       "norm_label": ".setsession()"
     },
     {
@@ -10638,7 +10718,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_getsession",
-      "community": 45,
+      "community": 31,
       "norm_label": ".getsession()"
     },
     {
@@ -10648,7 +10728,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_update",
-      "community": 74,
+      "community": 45,
       "norm_label": ".update()"
     },
     {
@@ -10718,7 +10798,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_getscopedata",
-      "community": 74,
+      "community": 45,
       "norm_label": ".getscopedata()"
     },
     {
@@ -11248,7 +11328,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_tn",
-      "community": 23,
+      "community": 38,
       "norm_label": "tn()"
     },
     {
@@ -11288,7 +11368,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_sn",
-      "community": 45,
+      "community": 31,
       "norm_label": "sn()"
     },
     {
@@ -11378,7 +11458,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_gn",
-      "community": 74,
+      "community": 45,
       "norm_label": "gn()"
     },
     {
@@ -11398,7 +11478,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_bn",
-      "community": 45,
+      "community": 31,
       "norm_label": "bn()"
     },
     {
@@ -11408,7 +11488,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_wn",
-      "community": 45,
+      "community": 31,
       "norm_label": "wn()"
     },
     {
@@ -11508,7 +11588,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_preprocessevent",
-      "community": 23,
+      "community": 38,
       "norm_label": "preprocessevent()"
     },
     {
@@ -11698,7 +11778,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_capturesession",
-      "community": 45,
+      "community": 31,
       "norm_label": ".capturesession()"
     },
     {
@@ -11768,7 +11848,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_geteventprocessors",
-      "community": 74,
+      "community": 45,
       "norm_label": ".geteventprocessors()"
     },
     {
@@ -11888,7 +11968,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_updatesessionfromevent",
-      "community": 45,
+      "community": 31,
       "norm_label": "._updatesessionfromevent()"
     },
     {
@@ -11968,7 +12048,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_yr",
-      "community": 23,
+      "community": 38,
       "norm_label": "yr()"
     },
     {
@@ -14948,7 +15028,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_py",
-      "community": 13,
+      "community": 35,
       "norm_label": "env.py"
     },
     {
@@ -14958,7 +15038,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_offline",
-      "community": 13,
+      "community": 35,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -14968,7 +15048,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_online",
-      "community": 13,
+      "community": 35,
       "norm_label": "run_migrations_online()"
     },
     {
@@ -15068,7 +15148,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_py",
-      "community": 35,
+      "community": 81,
       "norm_label": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
     },
     {
@@ -15078,7 +15158,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_upgrade",
-      "community": 35,
+      "community": 81,
       "norm_label": "upgrade()"
     },
     {
@@ -15088,7 +15168,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_downgrade",
-      "community": 35,
+      "community": 81,
       "norm_label": "downgrade()"
     },
     {
@@ -15526,7 +15606,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_conftest",
-      "community": 11,
+      "community": 35,
       "norm_label": "conftest.py"
     },
     {
@@ -15536,7 +15616,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_conftest_reset_rate_limiter",
-      "community": 11,
+      "community": 35,
       "norm_label": "reset_rate_limiter()"
     },
     {
@@ -15546,7 +15626,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "tests_conftest_database",
-      "community": 11,
+      "community": 35,
       "norm_label": "database()"
     },
     {
@@ -15556,7 +15636,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "tests_conftest_client",
-      "community": 11,
+      "community": 35,
       "norm_label": "client()"
     },
     {
@@ -15566,7 +15646,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "tests_conftest_async_client",
-      "community": 11,
+      "community": 35,
       "norm_label": "async_client()"
     },
     {
@@ -15860,6 +15940,26 @@
       "norm_label": "test_google_auth_admin_forbidden()"
     },
     {
+      "label": "test_admin_metrics_escrow_calculation_excludes_pending()",
+      "file_type": "code",
+      "source_file": "tests/test_api.py",
+      "source_location": "L349",
+      "_origin": "ast",
+      "id": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "community": 11,
+      "norm_label": "test_admin_metrics_escrow_calculation_excludes_pending()"
+    },
+    {
+      "label": "Verify /api/v1/admin/metrics counts only realized escrow and excludes unpaid pen",
+      "file_type": "rationale",
+      "source_file": "tests/test_api.py",
+      "source_location": "L350",
+      "_origin": "ast",
+      "id": "tests_test_api_rationale_350",
+      "community": 11,
+      "norm_label": "verify /api/v1/admin/metrics counts only realized escrow and excludes unpaid pen"
+    },
+    {
       "label": "test_bank_account.py",
       "file_type": "code",
       "source_file": "tests/test_bank_account.py",
@@ -16116,7 +16216,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_compliance",
-      "community": 35,
+      "community": 11,
       "norm_label": "test_compliance.py"
     },
     {
@@ -16126,7 +16226,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "tests_test_compliance_test_dpdpa_consent_enforcement_and_logging",
-      "community": 35,
+      "community": 11,
       "norm_label": "test_dpdpa_consent_enforcement_and_logging()"
     },
     {
@@ -16136,7 +16236,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_compliance_test_pii_encryption_at_rest",
-      "community": 35,
+      "community": 11,
       "norm_label": "test_pii_encryption_at_rest()"
     },
     {
@@ -16146,7 +16246,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "tests_test_compliance_test_right_to_erasure",
-      "community": 35,
+      "community": 11,
       "norm_label": "test_right_to_erasure()"
     },
     {
@@ -16446,7 +16546,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_py",
-      "community": 13,
+      "community": 64,
       "norm_label": "test_error_handling.py"
     },
     {
@@ -16456,7 +16556,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_test_unhandled_500_error_handling",
-      "community": 13,
+      "community": 64,
       "norm_label": "test_unhandled_500_error_handling()"
     },
     {
@@ -16466,7 +16566,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_test_http_exception_handling",
-      "community": 13,
+      "community": 64,
       "norm_label": "test_http_exception_handling()"
     },
     {
@@ -16476,7 +16576,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_test_validation_error_handling",
-      "community": 13,
+      "community": 64,
       "norm_label": "test_validation_error_handling()"
     },
     {
@@ -16486,7 +16586,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_rationale_9",
-      "community": 13,
+      "community": 64,
       "norm_label": "verify unhandled 500 exceptions return sanitized public message with request_id"
     },
     {
@@ -16496,7 +16596,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_rationale_21",
-      "community": 13,
+      "community": 64,
       "norm_label": "verify http exceptions return structured error format."
     },
     {
@@ -16506,7 +16606,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_error_handling_rationale_29",
-      "community": 13,
+      "community": 64,
       "norm_label": "verify invalid request payloads produce sanitized clean error lists."
     },
     {
@@ -16516,7 +16616,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_lawyer_verification.py"
     },
     {
@@ -16526,7 +16626,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_admin_user",
-      "community": 7,
+      "community": 11,
       "norm_label": "admin_user()"
     },
     {
@@ -16536,7 +16636,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_lawyer_user",
-      "community": 7,
+      "community": 11,
       "norm_label": "lawyer_user()"
     },
     {
@@ -16546,7 +16646,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_approve_lawyer_fails_without_documents",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_approve_lawyer_fails_without_documents()"
     },
     {
@@ -16556,7 +16656,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_approve_lawyer_succeeds_with_both_documents",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_approve_lawyer_succeeds_with_both_documents()"
     },
     {
@@ -16566,7 +16666,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_reject_lawyer_stores_reason_and_resets_flags",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_reject_lawyer_stores_reason_and_resets_flags()"
     },
     {
@@ -16576,7 +16676,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_revoke_previously_approved_lawyer_resets_flags",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_revoke_previously_approved_lawyer_resets_flags()"
     },
     {
@@ -16586,7 +16686,7 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_admin_pending_and_rejected_lawyer_search",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_admin_pending_and_rejected_lawyer_search()"
     },
     {
@@ -16596,7 +16696,7 @@
       "source_location": "L184",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_lawyer_profile_me_returns_rejection_reason_and_status",
-      "community": 7,
+      "community": 11,
       "norm_label": "test_lawyer_profile_me_returns_rejection_reason_and_status()"
     },
     {
@@ -16606,7 +16706,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_50",
-      "community": 7,
+      "community": 11,
       "norm_label": "approving a lawyer without both bar license and aadhaar document must fail with"
     },
     {
@@ -16616,7 +16716,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_76",
-      "community": 7,
+      "community": 11,
       "norm_label": "approving a lawyer with both documents uploaded succeeds and synchronizes all fl"
     },
     {
@@ -16626,7 +16726,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_106",
-      "community": 7,
+      "community": 11,
       "norm_label": "rejecting a candidate records rejection_reason and clears document verified flag"
     },
     {
@@ -16636,7 +16736,7 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_131",
-      "community": 7,
+      "community": 11,
       "norm_label": "revoking a previously verified lawyer resets sub-document flags and verified sta"
     },
     {
@@ -16646,7 +16746,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_159",
-      "community": 7,
+      "community": 11,
       "norm_label": "admin pending and rejected endpoints support search and expose rejection_reason."
     },
     {
@@ -16656,7 +16756,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_185",
-      "community": 7,
+      "community": 11,
       "norm_label": "get /api/v1/lawyers/me exposes verification_status and rejection_reason to the a"
     },
     {
@@ -17216,7 +17316,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_sanitizer_test_sanitize_filename",
-      "community": 0,
+      "community": 14,
       "norm_label": "test_sanitize_filename()"
     },
     {
@@ -17346,7 +17446,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "tests_test_security_critical_test_audit_records_real_ip",
-      "community": 3,
+      "community": 11,
       "norm_label": "test_audit_records_real_ip()"
     },
     {
@@ -17406,7 +17506,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "tests_test_security_critical_rationale_106",
-      "community": 3,
+      "community": 11,
       "norm_label": "verify audit() writes client ip into metadata_json."
     },
     {
@@ -22090,6 +22190,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "backend_models_role",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/test_document_vault.py",
       "source_location": "L6",
       "weight": 1.0,
@@ -22707,6 +22818,17 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L365",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "backend_models_practice",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/test_lawyer_verification.py",
       "source_location": "L3",
       "weight": 1.0,
@@ -23219,7 +23341,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L351",
+      "source_location": "L369",
       "weight": 1.0,
       "source": "backend_routers_admin_get_admin_payouts",
       "target": "backend_models_user",
@@ -23231,7 +23353,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L272",
+      "source_location": "L290",
       "weight": 1.0,
       "source": "backend_routers_admin_get_audit_logs",
       "target": "backend_models_user"
@@ -23241,7 +23363,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L334",
+      "source_location": "L352",
       "weight": 1.0,
       "source": "backend_routers_admin_get_ntp_status",
       "target": "backend_models_user",
@@ -23252,7 +23374,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L386",
+      "source_location": "L404",
       "weight": 1.0,
       "source": "backend_routers_admin_get_platform_feedback",
       "target": "backend_models_user",
@@ -23263,7 +23385,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L225",
+      "source_location": "L243",
       "weight": 1.0,
       "source": "backend_routers_admin_list_disputes",
       "target": "backend_models_user",
@@ -23274,7 +23396,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L210",
+      "source_location": "L228",
       "weight": 1.0,
       "source": "backend_routers_admin_list_drafting_transactions",
       "target": "backend_models_user",
@@ -23286,7 +23408,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L102",
+      "source_location": "L120",
       "weight": 1.0,
       "source": "backend_routers_admin_list_pending_lawyers",
       "target": "backend_models_user"
@@ -23297,7 +23419,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L149",
+      "source_location": "L167",
       "weight": 1.0,
       "source": "backend_routers_admin_list_rejected_lawyers",
       "target": "backend_models_user"
@@ -23307,7 +23429,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L205",
+      "source_location": "L223",
       "weight": 1.0,
       "source": "backend_routers_admin_list_transactions",
       "target": "backend_models_user",
@@ -23319,7 +23441,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L189",
+      "source_location": "L207",
       "weight": 1.0,
       "source": "backend_routers_admin_list_users",
       "target": "backend_models_user"
@@ -23329,7 +23451,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L241",
+      "source_location": "L259",
       "weight": 1.0,
       "source": "backend_routers_admin_resolve_dispute",
       "target": "backend_models_user",
@@ -23341,7 +23463,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L194",
+      "source_location": "L212",
       "weight": 1.0,
       "source": "backend_routers_admin_toggle_user_active",
       "target": "backend_models_user"
@@ -23351,7 +23473,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L306",
+      "source_location": "L324",
       "weight": 1.0,
       "source": "backend_routers_admin_trigger_data_retention_purge",
       "target": "backend_models_user",
@@ -23362,7 +23484,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L298",
+      "source_location": "L316",
       "weight": 1.0,
       "source": "backend_routers_admin_update_fees",
       "target": "backend_models_user",
@@ -23373,7 +23495,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L34",
+      "source_location": "L52",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer",
       "target": "backend_models_user",
@@ -23384,7 +23506,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L82",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer_document",
       "target": "backend_models_user",
@@ -24403,6 +24525,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L355",
+      "weight": 1.0,
+      "source": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "target": "backend_models_user",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "indirect_call",
       "context": "argument",
       "confidence": "INFERRED",
@@ -24705,7 +24838,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L26",
+      "source_location": "L44",
       "weight": 1.0,
       "source": "backend_routers_admin_admin_metrics",
       "target": "backend_models_lawyerprofile"
@@ -24716,7 +24849,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L106",
+      "source_location": "L124",
       "weight": 1.0,
       "source": "backend_routers_admin_list_pending_lawyers",
       "target": "backend_models_lawyerprofile"
@@ -24727,7 +24860,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L152",
+      "source_location": "L170",
       "weight": 1.0,
       "source": "backend_routers_admin_list_rejected_lawyers",
       "target": "backend_models_lawyerprofile"
@@ -24738,7 +24871,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L254",
+      "source_location": "L272",
       "weight": 1.0,
       "source": "backend_routers_admin_resolve_dispute",
       "target": "backend_models_lawyerprofile"
@@ -24749,7 +24882,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L38",
+      "source_location": "L56",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer",
       "target": "backend_models_lawyerprofile"
@@ -24760,7 +24893,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L85",
+      "source_location": "L103",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer_document",
       "target": "backend_models_lawyerprofile"
@@ -25254,7 +25387,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L356",
+      "source_location": "L374",
       "weight": 1.0,
       "source": "backend_routers_admin_get_admin_payouts",
       "target": "backend_models_lawyerbankaccount"
@@ -25486,7 +25619,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L27",
+      "source_location": "L45",
       "weight": 1.0,
       "source": "backend_routers_admin_admin_metrics",
       "target": "backend_models_booking"
@@ -25497,7 +25630,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L227",
+      "source_location": "L245",
       "weight": 1.0,
       "source": "backend_routers_admin_list_disputes",
       "target": "backend_models_booking"
@@ -25508,7 +25641,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L206",
+      "source_location": "L224",
       "weight": 1.0,
       "source": "backend_routers_admin_list_transactions",
       "target": "backend_models_booking"
@@ -25519,7 +25652,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L242",
+      "source_location": "L260",
       "weight": 1.0,
       "source": "backend_routers_admin_resolve_dispute",
       "target": "backend_models_booking"
@@ -25804,6 +25937,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_api.py",
+      "source_location": "L368",
+      "weight": 1.0,
+      "source": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "target": "backend_models_booking",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
       "source_location": "L261",
       "weight": 1.0,
       "source": "tests_test_api_test_lawyer_complete_booking_duration_restriction",
@@ -26014,7 +26158,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L273",
+      "source_location": "L291",
       "weight": 1.0,
       "source": "backend_routers_admin_get_audit_logs",
       "target": "backend_models_auditlog"
@@ -26390,6 +26534,17 @@
       "weight": 1.0,
       "source": "tests_test_compliance_test_right_to_erasure",
       "target": "backend_models_userconsent"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/routers/admin.py",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "backend_routers_admin",
+      "target": "backend_models_draftingstatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -26802,6 +26957,17 @@
       "source": "backend_schemas_voucherout",
       "target": "backend_models_draftingstatus",
       "confidence_score": 0.5
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "backend_models_draftingstatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -27282,7 +27448,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L213",
+      "source_location": "L231",
       "weight": 1.0,
       "source": "backend_routers_admin_list_drafting_transactions",
       "target": "backend_models_draftingrequest"
@@ -27486,6 +27652,28 @@
       "target": "backend_models_draftingrequest"
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L352",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "backend_models_draftingrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L395",
+      "weight": 1.0,
+      "source": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "target": "backend_models_draftingrequest",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/models.py",
@@ -27629,7 +27817,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L388",
+      "source_location": "L406",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_models_platformfeedback",
@@ -27641,7 +27829,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L389",
+      "source_location": "L407",
       "weight": 1.0,
       "source": "backend_routers_admin_get_platform_feedback",
       "target": "backend_models_platformfeedback"
@@ -28109,7 +28297,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L347",
+      "source_location": "L365",
       "weight": 1.0,
       "source": "backend_routers_admin_get_ntp_status",
       "target": "backend_ntp_time_check_clock_drift"
@@ -28226,7 +28414,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L294",
+      "source_location": "L312",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_rate_limiter",
@@ -28514,7 +28702,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L294",
+      "source_location": "L312",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_rate_limiter_rate_limit_dependency",
@@ -28578,7 +28766,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L351",
+      "source_location": "L369",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_get_admin_payouts",
@@ -28588,7 +28776,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L272",
+      "source_location": "L290",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_get_audit_logs",
@@ -28598,7 +28786,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L334",
+      "source_location": "L352",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_get_ntp_status",
@@ -28608,7 +28796,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L386",
+      "source_location": "L404",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_get_platform_feedback",
@@ -28618,7 +28806,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L225",
+      "source_location": "L243",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_list_disputes",
@@ -28628,7 +28816,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L210",
+      "source_location": "L228",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_list_drafting_transactions",
@@ -28638,7 +28826,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L102",
+      "source_location": "L120",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_list_pending_lawyers",
@@ -28648,7 +28836,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L149",
+      "source_location": "L167",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_list_rejected_lawyers",
@@ -28658,7 +28846,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L205",
+      "source_location": "L223",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_list_transactions",
@@ -28668,7 +28856,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L189",
+      "source_location": "L207",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_list_users",
@@ -28678,7 +28866,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L241",
+      "source_location": "L259",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_resolve_dispute",
@@ -28688,7 +28876,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L194",
+      "source_location": "L212",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_toggle_user_active",
@@ -28698,7 +28886,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L306",
+      "source_location": "L324",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_trigger_data_retention_purge",
@@ -28708,7 +28896,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L298",
+      "source_location": "L316",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_update_fees",
@@ -28718,7 +28906,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L34",
+      "source_location": "L52",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_verify_lawyer",
@@ -28728,7 +28916,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L82",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "backend_routers_admin_verify_lawyer_document",
@@ -28871,7 +29059,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L325",
+      "source_location": "L343",
       "weight": 1.0,
       "source": "backend_routers_admin",
       "target": "c_users_suraj_documents_new_project_scripts_data_retention_purge_run_purge",
@@ -28893,7 +29081,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L351",
+      "source_location": "L369",
       "weight": 1.0,
       "source": "backend_routers_admin_get_admin_payouts",
       "target": "backend_routers_admin_py_session",
@@ -28904,7 +29092,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L272",
+      "source_location": "L290",
       "weight": 1.0,
       "source": "backend_routers_admin_get_audit_logs",
       "target": "backend_routers_admin_py_session",
@@ -28915,7 +29103,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L386",
+      "source_location": "L404",
       "weight": 1.0,
       "source": "backend_routers_admin_get_platform_feedback",
       "target": "backend_routers_admin_py_session",
@@ -28926,7 +29114,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L225",
+      "source_location": "L243",
       "weight": 1.0,
       "source": "backend_routers_admin_list_disputes",
       "target": "backend_routers_admin_py_session",
@@ -28937,7 +29125,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L210",
+      "source_location": "L228",
       "weight": 1.0,
       "source": "backend_routers_admin_list_drafting_transactions",
       "target": "backend_routers_admin_py_session",
@@ -28948,7 +29136,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L102",
+      "source_location": "L120",
       "weight": 1.0,
       "source": "backend_routers_admin_list_pending_lawyers",
       "target": "backend_routers_admin_py_session",
@@ -28959,7 +29147,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L149",
+      "source_location": "L167",
       "weight": 1.0,
       "source": "backend_routers_admin_list_rejected_lawyers",
       "target": "backend_routers_admin_py_session",
@@ -28970,7 +29158,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L205",
+      "source_location": "L223",
       "weight": 1.0,
       "source": "backend_routers_admin_list_transactions",
       "target": "backend_routers_admin_py_session",
@@ -28981,7 +29169,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L189",
+      "source_location": "L207",
       "weight": 1.0,
       "source": "backend_routers_admin_list_users",
       "target": "backend_routers_admin_py_session",
@@ -28992,7 +29180,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L241",
+      "source_location": "L259",
       "weight": 1.0,
       "source": "backend_routers_admin_resolve_dispute",
       "target": "backend_routers_admin_py_session",
@@ -29003,7 +29191,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L194",
+      "source_location": "L212",
       "weight": 1.0,
       "source": "backend_routers_admin_toggle_user_active",
       "target": "backend_routers_admin_py_session",
@@ -29014,7 +29202,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L306",
+      "source_location": "L324",
       "weight": 1.0,
       "source": "backend_routers_admin_trigger_data_retention_purge",
       "target": "backend_routers_admin_py_session",
@@ -29025,7 +29213,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L298",
+      "source_location": "L316",
       "weight": 1.0,
       "source": "backend_routers_admin_update_fees",
       "target": "backend_routers_admin_py_session",
@@ -29036,7 +29224,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L34",
+      "source_location": "L52",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer",
       "target": "backend_routers_admin_py_session",
@@ -29047,7 +29235,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L82",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer_document",
       "target": "backend_routers_admin_py_session",
@@ -29058,7 +29246,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L34",
+      "source_location": "L52",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer",
       "target": "backend_routers_admin_py_request",
@@ -29070,7 +29258,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L67",
+      "source_location": "L85",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer",
       "target": "backend_services_auth_service_audit"
@@ -29080,7 +29268,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L241",
+      "source_location": "L259",
       "weight": 1.0,
       "source": "backend_routers_admin_resolve_dispute",
       "target": "backend_routers_admin_py_request",
@@ -29091,7 +29279,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L194",
+      "source_location": "L212",
       "weight": 1.0,
       "source": "backend_routers_admin_toggle_user_active",
       "target": "backend_routers_admin_py_request",
@@ -29102,7 +29290,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L306",
+      "source_location": "L324",
       "weight": 1.0,
       "source": "backend_routers_admin_trigger_data_retention_purge",
       "target": "backend_routers_admin_py_request",
@@ -29113,7 +29301,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L298",
+      "source_location": "L316",
       "weight": 1.0,
       "source": "backend_routers_admin_update_fees",
       "target": "backend_routers_admin_py_request",
@@ -29124,7 +29312,7 @@
       "context": "parameter_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L82",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer_document",
       "target": "backend_routers_admin_py_request",
@@ -29136,7 +29324,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L96",
+      "source_location": "L114",
       "weight": 1.0,
       "source": "backend_routers_admin_verify_lawyer_document",
       "target": "backend_services_auth_service_audit"
@@ -29147,7 +29335,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L122",
+      "source_location": "L140",
       "weight": 1.0,
       "source": "backend_routers_admin_list_pending_lawyers",
       "target": "backend_schemas_lawyerout"
@@ -29158,7 +29346,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L162",
+      "source_location": "L180",
       "weight": 1.0,
       "source": "backend_routers_admin_list_rejected_lawyers",
       "target": "backend_schemas_lawyerout"
@@ -29169,7 +29357,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L199",
+      "source_location": "L217",
       "weight": 1.0,
       "source": "backend_routers_admin_toggle_user_active",
       "target": "backend_services_auth_service_audit"
@@ -29178,9 +29366,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L211",
+      "source_location": "L229",
       "weight": 1.0,
-      "source": "backend_routers_admin_rationale_211",
+      "source": "backend_routers_admin_rationale_229",
       "target": "backend_routers_admin_list_drafting_transactions",
       "confidence_score": 1.0
     },
@@ -29190,7 +29378,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L261",
+      "source_location": "L279",
       "weight": 1.0,
       "source": "backend_routers_admin_resolve_dispute",
       "target": "backend_services_auth_service_audit"
@@ -29201,7 +29389,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L279",
+      "source_location": "L297",
       "weight": 1.0,
       "source": "backend_routers_admin_get_audit_logs",
       "target": "backend_schemas_auditlogout"
@@ -29212,7 +29400,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L300",
+      "source_location": "L318",
       "weight": 1.0,
       "source": "backend_routers_admin_update_fees",
       "target": "backend_services_auth_service_audit"
@@ -29221,9 +29409,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L312",
+      "source_location": "L330",
       "weight": 1.0,
-      "source": "backend_routers_admin_rationale_312",
+      "source": "backend_routers_admin_rationale_330",
       "target": "backend_routers_admin_trigger_data_retention_purge",
       "confidence_score": 1.0
     },
@@ -29233,7 +29421,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L326",
+      "source_location": "L344",
       "weight": 1.0,
       "source": "backend_routers_admin_trigger_data_retention_purge",
       "target": "backend_services_auth_service_audit"
@@ -29244,7 +29432,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L329",
+      "source_location": "L347",
       "weight": 1.0,
       "source": "backend_routers_admin_trigger_data_retention_purge",
       "target": "c_users_suraj_documents_new_project_scripts_data_retention_purge_run_purge"
@@ -29253,9 +29441,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L335",
+      "source_location": "L353",
       "weight": 1.0,
-      "source": "backend_routers_admin_rationale_335",
+      "source": "backend_routers_admin_rationale_353",
       "target": "backend_routers_admin_get_ntp_status",
       "confidence_score": 1.0
     },
@@ -29265,7 +29453,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "backend/routers/admin.py",
-      "source_location": "L367",
+      "source_location": "L385",
       "weight": 1.0,
       "source": "backend_routers_admin_get_admin_payouts",
       "target": "backend_schemas_adminpayoutaccountout"
@@ -29274,9 +29462,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L352",
+      "source_location": "L370",
       "weight": 1.0,
-      "source": "backend_routers_admin_rationale_352",
+      "source": "backend_routers_admin_rationale_370",
       "target": "backend_routers_admin_get_admin_payouts",
       "confidence_score": 1.0
     },
@@ -29284,9 +29472,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/routers/admin.py",
-      "source_location": "L387",
+      "source_location": "L405",
       "weight": 1.0,
-      "source": "backend_routers_admin_rationale_387",
+      "source": "backend_routers_admin_rationale_405",
       "target": "backend_routers_admin_get_platform_feedback",
       "confidence_score": 1.0
     },
@@ -35688,6 +35876,28 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L353",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "backend_security_hash_password",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L358",
+      "weight": 1.0,
+      "source": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "target": "backend_security_hash_password",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/test_document_vault.py",
       "source_location": "L7",
       "weight": 1.0,
@@ -35957,6 +36167,28 @@
       "weight": 1.0,
       "source": "c_users_suraj_documents_new_project_tests_test_payout_masking_test_admin_payouts_masked_endpoint",
       "target": "backend_security_create_access_token"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L353",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "backend_security_create_access_token",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L415",
+      "weight": 1.0,
+      "source": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "target": "backend_security_create_access_token",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -37523,7 +37755,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1441",
+      "source_location": "L1481",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_apppracticeselect",
@@ -37533,7 +37765,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1437",
+      "source_location": "L1477",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_appsearchinput",
@@ -37543,7 +37775,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1445",
+      "source_location": "L1485",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_appsortselect",
@@ -37583,7 +37815,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L709",
+      "source_location": "L764",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_decideverification",
@@ -37623,10 +37855,50 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1114",
+      "source_location": "L239",
+      "weight": 1.0,
+      "source": "frontend_js_admin",
+      "target": "frontend_js_admin_getallunifiedtransactions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L1154",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_handlesavefees",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L235",
+      "weight": 1.0,
+      "source": "frontend_js_admin",
+      "target": "frontend_js_admin_istxcancelled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L227",
+      "weight": 1.0,
+      "source": "frontend_js_admin",
+      "target": "frontend_js_admin_istxpaid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L231",
+      "weight": 1.0,
+      "source": "frontend_js_admin",
+      "target": "frontend_js_admin_istxpendingpayment",
       "confidence_score": 1.0
     },
     {
@@ -37693,7 +37965,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L758",
+      "source_location": "L813",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_openresolutionpolicymodal",
@@ -37703,7 +37975,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L723",
+      "source_location": "L778",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_openverificationpolicymodal",
@@ -37743,7 +38015,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1239",
+      "source_location": "L1279",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_refreshsystemstatushealth",
@@ -37773,7 +38045,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L371",
+      "source_location": "L426",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderapps",
@@ -37783,7 +38055,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1147",
+      "source_location": "L1187",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderaudit",
@@ -37793,7 +38065,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L795",
+      "source_location": "L850",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderdisputes",
@@ -37803,7 +38075,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1563",
+      "source_location": "L1603",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderfeedback",
@@ -37823,7 +38095,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L227",
+      "source_location": "L267",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderoverview",
@@ -37833,7 +38105,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1175",
+      "source_location": "L1215",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderpayoutoverview",
@@ -37843,7 +38115,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1509",
+      "source_location": "L1549",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderpayouts",
@@ -37853,7 +38125,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L981",
+      "source_location": "L1036",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_rendertx",
@@ -37863,7 +38135,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L906",
+      "source_location": "L961",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_renderusers",
@@ -37873,7 +38145,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L889",
+      "source_location": "L944",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_resolvedispute",
@@ -37883,7 +38155,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1086",
+      "source_location": "L1126",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_restorefeeconfig",
@@ -37893,7 +38165,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L490",
+      "source_location": "L545",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_reviewapplication",
@@ -37903,7 +38175,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1279",
+      "source_location": "L1319",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_setadminsidebaropen",
@@ -37913,7 +38185,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1251",
+      "source_location": "L1291",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_switchview",
@@ -37923,7 +38195,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1466",
+      "source_location": "L1506",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_toast",
@@ -37933,7 +38205,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L965",
+      "source_location": "L1020",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_toggleuserstatus",
@@ -37953,7 +38225,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1478",
+      "source_location": "L1518",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_updatebadgecounts",
@@ -37983,7 +38255,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L365",
+      "source_location": "L420",
       "weight": 1.0,
       "source": "frontend_js_admin",
       "target": "frontend_js_admin_validatebarnumberformat",
@@ -37994,7 +38266,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L714",
+      "source_location": "L769",
       "weight": 1.0,
       "source": "frontend_js_admin_decideverification",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38005,7 +38277,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1115",
+      "source_location": "L1155",
       "weight": 1.0,
       "source": "frontend_js_admin_handlesavefees",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38016,7 +38288,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L759",
+      "source_location": "L814",
       "weight": 1.0,
       "source": "frontend_js_admin_openresolutionpolicymodal",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38027,7 +38299,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L724",
+      "source_location": "L779",
       "weight": 1.0,
       "source": "frontend_js_admin_openverificationpolicymodal",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38038,7 +38310,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1240",
+      "source_location": "L1280",
       "weight": 1.0,
       "source": "frontend_js_admin_refreshsystemstatushealth",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38060,7 +38332,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L399",
+      "source_location": "L454",
       "weight": 1.0,
       "source": "frontend_js_admin_renderapps",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38071,7 +38343,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1148",
+      "source_location": "L1188",
       "weight": 1.0,
       "source": "frontend_js_admin_renderaudit",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38082,7 +38354,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L796",
+      "source_location": "L851",
       "weight": 1.0,
       "source": "frontend_js_admin_renderdisputes",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38093,7 +38365,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1565",
+      "source_location": "L1605",
       "weight": 1.0,
       "source": "frontend_js_admin_renderfeedback",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38115,7 +38387,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L290",
+      "source_location": "L345",
       "weight": 1.0,
       "source": "frontend_js_admin_renderoverview",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38126,7 +38398,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1176",
+      "source_location": "L1216",
       "weight": 1.0,
       "source": "frontend_js_admin_renderpayoutoverview",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38137,7 +38409,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1510",
+      "source_location": "L1550",
       "weight": 1.0,
       "source": "frontend_js_admin_renderpayouts",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38148,7 +38420,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L984",
+      "source_location": "L1039",
       "weight": 1.0,
       "source": "frontend_js_admin_rendertx",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38159,7 +38431,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L933",
+      "source_location": "L988",
       "weight": 1.0,
       "source": "frontend_js_admin_renderusers",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38170,7 +38442,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1092",
+      "source_location": "L1132",
       "weight": 1.0,
       "source": "frontend_js_admin_restorefeeconfig",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38181,7 +38453,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L560",
+      "source_location": "L615",
       "weight": 1.0,
       "source": "frontend_js_admin_reviewapplication",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38192,7 +38464,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1280",
+      "source_location": "L1320",
       "weight": 1.0,
       "source": "frontend_js_admin_setadminsidebaropen",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38203,7 +38475,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1467",
+      "source_location": "L1507",
       "weight": 1.0,
       "source": "frontend_js_admin_toast",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin",
@@ -38214,7 +38486,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L874",
+      "source_location": "L929",
       "weight": 1.0,
       "source": "frontend_js_admin_renderdisputes",
       "target": "frontend_js_admin_money",
@@ -38225,7 +38497,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L306",
+      "source_location": "L342",
       "weight": 1.0,
       "source": "frontend_js_admin_renderoverview",
       "target": "frontend_js_admin_money",
@@ -38236,7 +38508,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1192",
+      "source_location": "L1232",
       "weight": 1.0,
       "source": "frontend_js_admin_renderpayoutoverview",
       "target": "frontend_js_admin_money",
@@ -38247,10 +38519,21 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1030",
+      "source_location": "L1068",
       "weight": 1.0,
       "source": "frontend_js_admin_rendertx",
       "target": "frontend_js_admin_money",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L249",
+      "weight": 1.0,
+      "source": "frontend_js_admin_getallunifiedtransactions",
+      "target": "frontend_js_admin_parseutcdate",
       "confidence_score": 1.0
     },
     {
@@ -38269,18 +38552,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L996",
-      "weight": 1.0,
-      "source": "frontend_js_admin_rendertx",
-      "target": "frontend_js_admin_parseutcdate",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/js/admin.js",
-      "source_location": "L441",
+      "source_location": "L496",
       "weight": 1.0,
       "source": "frontend_js_admin_renderapps",
       "target": "frontend_js_admin_mappracticetofrontend",
@@ -38291,7 +38563,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L350",
+      "source_location": "L405",
       "weight": 1.0,
       "source": "frontend_js_admin_renderoverview",
       "target": "frontend_js_admin_mappracticetofrontend",
@@ -38302,7 +38574,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L454",
+      "source_location": "L509",
       "weight": 1.0,
       "source": "frontend_js_admin_renderapps",
       "target": "frontend_js_admin_escapehtml",
@@ -38313,7 +38585,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1166",
+      "source_location": "L1206",
       "weight": 1.0,
       "source": "frontend_js_admin_renderaudit",
       "target": "frontend_js_admin_escapehtml",
@@ -38324,7 +38596,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L860",
+      "source_location": "L915",
       "weight": 1.0,
       "source": "frontend_js_admin_renderdisputes",
       "target": "frontend_js_admin_escapehtml",
@@ -38335,7 +38607,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1683",
+      "source_location": "L1723",
       "weight": 1.0,
       "source": "frontend_js_admin_renderfeedback",
       "target": "frontend_js_admin_escapehtml",
@@ -38346,7 +38618,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L331",
+      "source_location": "L386",
       "weight": 1.0,
       "source": "frontend_js_admin_renderoverview",
       "target": "frontend_js_admin_escapehtml",
@@ -38357,7 +38629,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1524",
+      "source_location": "L1564",
       "weight": 1.0,
       "source": "frontend_js_admin_renderpayouts",
       "target": "frontend_js_admin_escapehtml",
@@ -38368,7 +38640,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1069",
+      "source_location": "L1109",
       "weight": 1.0,
       "source": "frontend_js_admin_rendertx",
       "target": "frontend_js_admin_escapehtml",
@@ -38379,7 +38651,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L556",
+      "source_location": "L611",
       "weight": 1.0,
       "source": "frontend_js_admin_reviewapplication",
       "target": "frontend_js_admin_escapehtml",
@@ -38390,7 +38662,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L716",
+      "source_location": "L771",
       "weight": 1.0,
       "source": "frontend_js_admin_decideverification",
       "target": "frontend_js_admin_loaddata",
@@ -38401,7 +38673,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1140",
+      "source_location": "L1180",
       "weight": 1.0,
       "source": "frontend_js_admin_handlesavefees",
       "target": "frontend_js_admin_loaddata",
@@ -38445,7 +38717,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L897",
+      "source_location": "L952",
       "weight": 1.0,
       "source": "frontend_js_admin_resolvedispute",
       "target": "frontend_js_admin_loaddata",
@@ -38456,7 +38728,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L971",
+      "source_location": "L1026",
       "weight": 1.0,
       "source": "frontend_js_admin_toggleuserstatus",
       "target": "frontend_js_admin_loaddata",
@@ -38588,7 +38860,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L231",
+      "source_location": "L271",
       "weight": 1.0,
       "source": "frontend_js_admin_renderoverview",
       "target": "frontend_js_admin_rendermarketplacechart",
@@ -38599,7 +38871,84 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L465",
+      "source_location": "L277",
+      "weight": 1.0,
+      "source": "frontend_js_admin_renderoverview",
+      "target": "frontend_js_admin_istxpaid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L1054",
+      "weight": 1.0,
+      "source": "frontend_js_admin_rendertx",
+      "target": "frontend_js_admin_istxpaid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L279",
+      "weight": 1.0,
+      "source": "frontend_js_admin_renderoverview",
+      "target": "frontend_js_admin_istxpendingpayment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L1056",
+      "weight": 1.0,
+      "source": "frontend_js_admin_rendertx",
+      "target": "frontend_js_admin_istxpendingpayment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L1057",
+      "weight": 1.0,
+      "source": "frontend_js_admin_rendertx",
+      "target": "frontend_js_admin_istxcancelled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L276",
+      "weight": 1.0,
+      "source": "frontend_js_admin_renderoverview",
+      "target": "frontend_js_admin_getallunifiedtransactions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L1042",
+      "weight": 1.0,
+      "source": "frontend_js_admin_rendertx",
+      "target": "frontend_js_admin_getallunifiedtransactions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.js",
+      "source_location": "L520",
       "weight": 1.0,
       "source": "frontend_js_admin_renderapps",
       "target": "frontend_js_admin_validatebarnumberformat",
@@ -38610,7 +38959,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L548",
+      "source_location": "L603",
       "weight": 1.0,
       "source": "frontend_js_admin_reviewapplication",
       "target": "frontend_js_admin_validatebarnumberformat",
@@ -38621,7 +38970,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L717",
+      "source_location": "L772",
       "weight": 1.0,
       "source": "frontend_js_admin_decideverification",
       "target": "frontend_js_admin_renderapps",
@@ -38632,7 +38981,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L633",
+      "source_location": "L688",
       "weight": 1.0,
       "source": "frontend_js_admin_reviewapplication",
       "target": "frontend_js_admin_decideverification",
@@ -38643,7 +38992,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L698",
+      "source_location": "L753",
       "weight": 1.0,
       "source": "frontend_js_admin_reviewapplication",
       "target": "frontend_js_admin_toast",
@@ -38654,7 +39003,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L713",
+      "source_location": "L768",
       "weight": 1.0,
       "source": "frontend_js_admin_decideverification",
       "target": "frontend_js_admin_toast",
@@ -38665,7 +39014,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L896",
+      "source_location": "L951",
       "weight": 1.0,
       "source": "frontend_js_admin_resolvedispute",
       "target": "frontend_js_admin_toast",
@@ -38676,7 +39025,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L970",
+      "source_location": "L1025",
       "weight": 1.0,
       "source": "frontend_js_admin_toggleuserstatus",
       "target": "frontend_js_admin_toast",
@@ -38687,7 +39036,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1139",
+      "source_location": "L1179",
       "weight": 1.0,
       "source": "frontend_js_admin_handlesavefees",
       "target": "frontend_js_admin_toast",
@@ -38698,7 +39047,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1258",
+      "source_location": "L1298",
       "weight": 1.0,
       "source": "frontend_js_admin_switchview",
       "target": "frontend_js_admin_refreshsystemstatushealth",
@@ -38709,7 +39058,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.js",
-      "source_location": "L1265",
+      "source_location": "L1305",
       "weight": 1.0,
       "source": "frontend_js_admin_switchview",
       "target": "frontend_js_admin_setadminsidebaropen",
@@ -38729,7 +39078,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1281",
+      "source_location": "L1312",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_apppracticeselect",
@@ -38739,7 +39088,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1277",
+      "source_location": "L1308",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_appsearchinput",
@@ -38749,7 +39098,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1285",
+      "source_location": "L1316",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_appsortselect",
@@ -38789,7 +39138,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L637",
+      "source_location": "L682",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_decideverification",
@@ -38829,10 +39178,50 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L992",
+      "source_location": "L205",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min",
+      "target": "frontend_js_admin_min_getallunifiedtransactions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L1023",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_handlesavefees",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L202",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min",
+      "target": "frontend_js_admin_min_istxcancelled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L196",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min",
+      "target": "frontend_js_admin_min_istxpaid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L199",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min",
+      "target": "frontend_js_admin_min_istxpendingpayment",
       "confidence_score": 1.0
     },
     {
@@ -38899,7 +39288,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L680",
+      "source_location": "L725",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_openresolutionpolicymodal",
@@ -38909,7 +39298,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L650",
+      "source_location": "L695",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_openverificationpolicymodal",
@@ -38949,7 +39338,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1098",
+      "source_location": "L1129",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_refreshsystemstatushealth",
@@ -38979,7 +39368,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L327",
+      "source_location": "L372",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderapps",
@@ -38989,7 +39378,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1020",
+      "source_location": "L1051",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderaudit",
@@ -38999,7 +39388,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L711",
+      "source_location": "L756",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderdisputes",
@@ -39009,7 +39398,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1387",
+      "source_location": "L1418",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderfeedback",
@@ -39029,7 +39418,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L196",
+      "source_location": "L230",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderoverview",
@@ -39039,7 +39428,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1046",
+      "source_location": "L1077",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderpayoutoverview",
@@ -39049,7 +39438,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1337",
+      "source_location": "L1368",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderpayouts",
@@ -39059,7 +39448,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L876",
+      "source_location": "L921",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_rendertx",
@@ -39069,7 +39458,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L808",
+      "source_location": "L853",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_renderusers",
@@ -39079,7 +39468,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L793",
+      "source_location": "L838",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_resolvedispute",
@@ -39089,7 +39478,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L968",
+      "source_location": "L999",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_restorefeeconfig",
@@ -39099,7 +39488,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L435",
+      "source_location": "L480",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_reviewapplication",
@@ -39109,7 +39498,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1132",
+      "source_location": "L1163",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_setadminsidebaropen",
@@ -39119,7 +39508,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1109",
+      "source_location": "L1140",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_switchview",
@@ -39129,7 +39518,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1303",
+      "source_location": "L1334",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_toast",
@@ -39139,7 +39528,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L862",
+      "source_location": "L907",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_toggleuserstatus",
@@ -39159,7 +39548,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1313",
+      "source_location": "L1344",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_updatebadgecounts",
@@ -39189,7 +39578,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L322",
+      "source_location": "L367",
       "weight": 1.0,
       "source": "frontend_js_admin_min",
       "target": "frontend_js_admin_min_validatebarnumberformat",
@@ -39200,7 +39589,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L642",
+      "source_location": "L687",
       "weight": 1.0,
       "source": "frontend_js_admin_min_decideverification",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39211,7 +39600,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L993",
+      "source_location": "L1024",
       "weight": 1.0,
       "source": "frontend_js_admin_min_handlesavefees",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39222,7 +39611,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L681",
+      "source_location": "L726",
       "weight": 1.0,
       "source": "frontend_js_admin_min_openresolutionpolicymodal",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39233,7 +39622,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L651",
+      "source_location": "L696",
       "weight": 1.0,
       "source": "frontend_js_admin_min_openverificationpolicymodal",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39244,7 +39633,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1099",
+      "source_location": "L1130",
       "weight": 1.0,
       "source": "frontend_js_admin_min_refreshsystemstatushealth",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39266,7 +39655,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L353",
+      "source_location": "L398",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderapps",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39277,7 +39666,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1021",
+      "source_location": "L1052",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderaudit",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39288,7 +39677,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L712",
+      "source_location": "L757",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderdisputes",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39299,7 +39688,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1389",
+      "source_location": "L1420",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderfeedback",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39321,7 +39710,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L254",
+      "source_location": "L299",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderoverview",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39332,7 +39721,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1047",
+      "source_location": "L1078",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderpayoutoverview",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39343,7 +39732,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1338",
+      "source_location": "L1369",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderpayouts",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39354,7 +39743,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L879",
+      "source_location": "L924",
       "weight": 1.0,
       "source": "frontend_js_admin_min_rendertx",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39365,7 +39754,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L832",
+      "source_location": "L877",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderusers",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39376,7 +39765,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L973",
+      "source_location": "L1004",
       "weight": 1.0,
       "source": "frontend_js_admin_min_restorefeeconfig",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39387,7 +39776,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L498",
+      "source_location": "L543",
       "weight": 1.0,
       "source": "frontend_js_admin_min_reviewapplication",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39398,7 +39787,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1133",
+      "source_location": "L1164",
       "weight": 1.0,
       "source": "frontend_js_admin_min_setadminsidebaropen",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39409,7 +39798,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1304",
+      "source_location": "L1335",
       "weight": 1.0,
       "source": "frontend_js_admin_min_toast",
       "target": "d_yavee_ventures_projects_vidhimeet_frontend_js_admin_min",
@@ -39420,7 +39809,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L780",
+      "source_location": "L825",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderdisputes",
       "target": "frontend_js_admin_min_money",
@@ -39431,7 +39820,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L270",
+      "source_location": "L297",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderoverview",
       "target": "frontend_js_admin_min_money",
@@ -39442,7 +39831,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1059",
+      "source_location": "L1090",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderpayoutoverview",
       "target": "frontend_js_admin_min_money",
@@ -39453,10 +39842,21 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L919",
+      "source_location": "L948",
       "weight": 1.0,
       "source": "frontend_js_admin_min_rendertx",
       "target": "frontend_js_admin_min_money",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L215",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_getallunifiedtransactions",
+      "target": "frontend_js_admin_min_parseutcdate",
       "confidence_score": 1.0
     },
     {
@@ -39475,18 +39875,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L890",
-      "weight": 1.0,
-      "source": "frontend_js_admin_min_rendertx",
-      "target": "frontend_js_admin_min_parseutcdate",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "frontend/js/admin.min.js",
-      "source_location": "L390",
+      "source_location": "L435",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderapps",
       "target": "frontend_js_admin_min_mappracticetofrontend",
@@ -39497,7 +39886,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L310",
+      "source_location": "L355",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderoverview",
       "target": "frontend_js_admin_min_mappracticetofrontend",
@@ -39508,7 +39897,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L402",
+      "source_location": "L447",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderapps",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39519,7 +39908,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1038",
+      "source_location": "L1069",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderaudit",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39530,7 +39919,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L768",
+      "source_location": "L813",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderdisputes",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39541,7 +39930,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1489",
+      "source_location": "L1520",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderfeedback",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39552,7 +39941,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L293",
+      "source_location": "L338",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderoverview",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39563,7 +39952,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1351",
+      "source_location": "L1382",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderpayouts",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39574,7 +39963,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L953",
+      "source_location": "L984",
       "weight": 1.0,
       "source": "frontend_js_admin_min_rendertx",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39585,7 +39974,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L495",
+      "source_location": "L540",
       "weight": 1.0,
       "source": "frontend_js_admin_min_reviewapplication",
       "target": "frontend_js_admin_min_escapehtml",
@@ -39596,7 +39985,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L644",
+      "source_location": "L689",
       "weight": 1.0,
       "source": "frontend_js_admin_min_decideverification",
       "target": "frontend_js_admin_min_loaddata",
@@ -39607,7 +39996,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1014",
+      "source_location": "L1045",
       "weight": 1.0,
       "source": "frontend_js_admin_min_handlesavefees",
       "target": "frontend_js_admin_min_loaddata",
@@ -39651,7 +40040,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L801",
+      "source_location": "L846",
       "weight": 1.0,
       "source": "frontend_js_admin_min_resolvedispute",
       "target": "frontend_js_admin_min_loaddata",
@@ -39662,7 +40051,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L868",
+      "source_location": "L913",
       "weight": 1.0,
       "source": "frontend_js_admin_min_toggleuserstatus",
       "target": "frontend_js_admin_min_loaddata",
@@ -39794,7 +40183,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L200",
+      "source_location": "L234",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderoverview",
       "target": "frontend_js_admin_min_rendermarketplacechart",
@@ -39805,7 +40194,84 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L412",
+      "source_location": "L239",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_renderoverview",
+      "target": "frontend_js_admin_min_istxpaid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L936",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_rendertx",
+      "target": "frontend_js_admin_min_istxpaid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L241",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_renderoverview",
+      "target": "frontend_js_admin_min_istxpendingpayment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L938",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_rendertx",
+      "target": "frontend_js_admin_min_istxpendingpayment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L939",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_rendertx",
+      "target": "frontend_js_admin_min_istxcancelled",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L238",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_renderoverview",
+      "target": "frontend_js_admin_min_getallunifiedtransactions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L926",
+      "weight": 1.0,
+      "source": "frontend_js_admin_min_rendertx",
+      "target": "frontend_js_admin_min_getallunifiedtransactions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/js/admin.min.js",
+      "source_location": "L457",
       "weight": 1.0,
       "source": "frontend_js_admin_min_renderapps",
       "target": "frontend_js_admin_min_validatebarnumberformat",
@@ -39816,7 +40282,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L488",
+      "source_location": "L533",
       "weight": 1.0,
       "source": "frontend_js_admin_min_reviewapplication",
       "target": "frontend_js_admin_min_validatebarnumberformat",
@@ -39827,7 +40293,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L645",
+      "source_location": "L690",
       "weight": 1.0,
       "source": "frontend_js_admin_min_decideverification",
       "target": "frontend_js_admin_min_renderapps",
@@ -39838,7 +40304,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L568",
+      "source_location": "L613",
       "weight": 1.0,
       "source": "frontend_js_admin_min_reviewapplication",
       "target": "frontend_js_admin_min_decideverification",
@@ -39849,7 +40315,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L628",
+      "source_location": "L673",
       "weight": 1.0,
       "source": "frontend_js_admin_min_reviewapplication",
       "target": "frontend_js_admin_min_toast",
@@ -39860,7 +40326,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L641",
+      "source_location": "L686",
       "weight": 1.0,
       "source": "frontend_js_admin_min_decideverification",
       "target": "frontend_js_admin_min_toast",
@@ -39871,7 +40337,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L800",
+      "source_location": "L845",
       "weight": 1.0,
       "source": "frontend_js_admin_min_resolvedispute",
       "target": "frontend_js_admin_min_toast",
@@ -39882,7 +40348,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L867",
+      "source_location": "L912",
       "weight": 1.0,
       "source": "frontend_js_admin_min_toggleuserstatus",
       "target": "frontend_js_admin_min_toast",
@@ -39893,7 +40359,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1013",
+      "source_location": "L1044",
       "weight": 1.0,
       "source": "frontend_js_admin_min_handlesavefees",
       "target": "frontend_js_admin_min_toast",
@@ -39904,7 +40370,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1115",
+      "source_location": "L1146",
       "weight": 1.0,
       "source": "frontend_js_admin_min_switchview",
       "target": "frontend_js_admin_min_refreshsystemstatushealth",
@@ -39915,7 +40381,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/js/admin.min.js",
-      "source_location": "L1120",
+      "source_location": "L1151",
       "weight": 1.0,
       "source": "frontend_js_admin_min_switchview",
       "target": "frontend_js_admin_min_setadminsidebaropen",
@@ -67407,6 +67873,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "tests/test_api.py",
+      "source_location": "L349",
+      "weight": 1.0,
+      "source": "tests_test_api",
+      "target": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
       "source_location": "L206",
       "weight": 1.0,
       "source": "tests_test_api",
@@ -67541,6 +68017,16 @@
       "weight": 1.0,
       "source": "tests_test_api",
       "target": "tests_test_api_test_video_consultation_dual_platform_fee",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_api.py",
+      "source_location": "L350",
+      "weight": 1.0,
+      "source": "tests_test_api_rationale_350",
+      "target": "tests_test_api_test_admin_metrics_escrow_calculation_excludes_pending",
       "confidence_score": 1.0
     },
     {
@@ -70289,5 +70775,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "60e3948eb94e9f531e8469f76854cf09d9bd050c"
+  "built_at_commit": "f9852ba0af0f1edb6c06b7f766bf15f68d50b6e8"
 }

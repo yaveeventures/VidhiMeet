@@ -224,6 +224,46 @@ function renderMarketplaceChart(days) {
   }
 }
 
+function isTxPaid(status) {
+  return ["confirmed", "in_progress", "completed", "submitted", "revision_requested", "disputed"].includes(status);
+}
+
+function isTxPendingPayment(status) {
+  return ["pending_payment", "open"].includes(status);
+}
+
+function isTxCancelled(status) {
+  return ["cancelled", "refunded"].includes(status);
+}
+
+function getAllUnifiedTransactions() {
+  const bookingRows = transactions.map(t => ({
+    _type: "consultation",
+    id: t.id,
+    title: null,                                        // consultations have no title
+    party_a: t.client_name || "Client",
+    party_b: t.lawyer_name || "Lawyer",
+    status: t.status,
+    amount_minor: t.amount_minor,
+    platform_fee_minor: t.platform_fee_minor,
+    date_str: parseUTCDate(t.starts_at).toLocaleDateString("en-IN", {day: "numeric", month: "short"})
+  }));
+
+  const draftingRows = draftingTransactions.map(d => ({
+    _type: "drafting",
+    id: d.id,
+    title: d.title || null,
+    party_a: d.creator_name || "Client",
+    party_b: d.drafter_name || (d.drafter_id ? "Lawyer" : "Unassigned"),
+    status: d.status,
+    amount_minor: d.agreed_price_minor || d.price_minor,
+    platform_fee_minor: d.platform_fee_minor || 0,
+    date_str: new Date(d.created_at).toLocaleDateString("en-IN", {day: "numeric", month: "short"})
+  }));
+
+  return [...bookingRows, ...draftingRows].sort((a, b) => b.id.localeCompare(a.id));
+}
+
 function renderOverview() {
   const rangeSelect = document.getElementById("chart-range-select");
   if (rangeSelect) {
@@ -232,9 +272,16 @@ function renderOverview() {
     };
     renderMarketplaceChart(parseInt(rangeSelect.value) || 7);
   }
-  const GTV = transactions.reduce((sum, t) => sum + t.amount_minor, 0) / 100;
-  const completed = transactions.filter(t => t.status === "completed");
-  const platformRevenue = completed.reduce((sum, t) => sum + t.platform_fee_minor, 0) / 100;
+
+  const allUnifiedTx = getAllUnifiedTransactions();
+  const paidTx = allUnifiedTx.filter(t => isTxPaid(t.status));
+  const completed = allUnifiedTx.filter(t => t.status === "completed");
+  const pendingTx = allUnifiedTx.filter(t => isTxPendingPayment(t.status));
+
+  // GTV reflects realized paid transactions only (excludes abandoned / pending checkouts)
+  const GTV = paidTx.reduce((sum, t) => sum + (t.amount_minor || 0), 0) / 100;
+  const pendingGTV = pendingTx.reduce((sum, t) => sum + (t.amount_minor || 0), 0) / 100;
+  const platformRevenue = completed.reduce((sum, t) => sum + (t.platform_fee_minor || 0), 0) / 100;
   const totalUsers = users.length;
   const openDisputes = disputes.filter(d => !["completed","refunded","cancelled"].includes(d.status));
 
@@ -287,6 +334,14 @@ function renderOverview() {
   setEl("qa-disputes-sub", `${openDisputes.length} open case${openDisputes.length !== 1 ? "s" : ""}`);
 
   // ── Stats cards ───────────────────────────────────────────────────────
+  const completedBookings = transactions.filter(t => t.status === "completed").length;
+  const upcomingBookings = transactions.filter(t => t.status === "confirmed").length;
+  const pendingBookings = transactions.filter(t => t.status === "pending_payment").length;
+
+  const gtvSubtext = pendingGTV > 0
+    ? `${money(pendingGTV)} pending payment (${pendingTx.length} order${pendingTx.length !== 1 ? 's' : ''})`
+    : `${money(platformRevenue)} Infrastructure usage fees (5%)`;
+
   $(".stats").innerHTML = `
     <article>
       <div><span class="metric green">○</span></div>
@@ -298,13 +353,13 @@ function renderOverview() {
       <div><span class="metric gold">▣</span></div>
       <p>Total bookings</p>
       <strong>${metrics.bookings || 0}</strong>
-      <small>${transactions.filter(t=>t.status==="completed").length} completed · ${transactions.filter(t=>t.status==="confirmed"||t.status==="pending_payment").length} upcoming</small>
+      <small>${completedBookings} completed · ${upcomingBookings} upcoming${pendingBookings > 0 ? ` (${pendingBookings} pending)` : ''}</small>
     </article>
     <article>
       <div><span class="metric blue">₹</span></div>
       <p>Gross Transaction Value</p>
       <strong>${money(GTV)}</strong>
-      <small>${money(platformRevenue)} Infrastructure usage fees (5%)</small>
+      <small>${gtvSubtext}</small>
     </article>
     <article>
       <div><span class="metric coral">◇</span></div>
@@ -984,31 +1039,9 @@ function renderTx(typeFilter, searchQuery) {
   const query = (searchQuery !== undefined ? searchQuery : ($("#tx-search") ? $("#tx-search").value : "")).toLowerCase().trim();
 
   // ── Build unified list ─────────────────────────────────────────────────
-  const bookingRows = transactions.map(t => ({
-    _type: "consultation",
-    id: t.id,
-    title: null,                                        // consultations have no title
-    party_a: t.client_name || "Client",
-    party_b: t.lawyer_name || "Lawyer",
-    status: t.status,
-    amount_minor: t.amount_minor,
-    platform_fee_minor: t.platform_fee_minor,
-    date_str: parseUTCDate(t.starts_at).toLocaleDateString("en-IN", {day: "numeric", month: "short"})
-  }));
-
-  const draftingRows = draftingTransactions.map(d => ({
-    _type: "drafting",
-    id: d.id,
-    title: d.title || null,
-    party_a: d.creator_name || "Client",
-    party_b: d.drafter_name || (d.drafter_id ? "Lawyer" : "Unassigned"),
-    status: d.status,
-    amount_minor: d.agreed_price_minor || d.price_minor,
-    platform_fee_minor: d.platform_fee_minor || 0,
-    date_str: new Date(d.created_at).toLocaleDateString("en-IN", {day: "numeric", month: "short"})
-  }));
-
-  const allTx = [...bookingRows, ...draftingRows].sort((a, b) => b.id.localeCompare(a.id));
+  const allTx = getAllUnifiedTransactions();
+  const bookingRows = allTx.filter(t => t._type === "consultation");
+  const draftingRows = allTx.filter(t => t._type === "drafting");
 
   // ── Update tab badge counts (always from full list, ignoring search) ───
   function setEl(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
@@ -1018,17 +1051,24 @@ function renderTx(typeFilter, searchQuery) {
 
   // ── Compute stats from the full merged list ────────────────────────────
   const totalTx     = allTx.length;
+  const paidTx      = allTx.filter(t => isTxPaid(t.status));
   const completedTx = allTx.filter(t => t.status === "completed");
-  const GTV         = allTx.reduce((s, t) => s + (t.amount_minor || 0), 0) / 100;
+  const pendingTx   = allTx.filter(t => isTxPendingPayment(t.status));
+  const cancelledTx = allTx.filter(t => isTxCancelled(t.status));
+
+  // GTV reflects realized paid transactions only (excludes unpaid / pending checkouts)
+  const GTV         = paidTx.reduce((s, t) => s + (t.amount_minor || 0), 0) / 100;
+  const pendingGTV  = pendingTx.reduce((s, t) => s + (t.amount_minor || 0), 0) / 100;
   const revenue     = completedTx.reduce((s, t) => s + (t.platform_fee_minor || 0), 0) / 100;
-  const pendingTx   = allTx.filter(t => ["pending_payment","confirmed","in_progress","open"].includes(t.status)).length;
 
   setEl("stat-total-tx",         totalTx);
-  setEl("stat-total-tx-sub",     `${pendingTx} pending · ${allTx.filter(t=>t.status==="cancelled"||t.status==="refunded").length} cancelled/refunded`);
+  setEl("stat-total-tx-sub",     `${pendingTx.length} pending · ${cancelledTx.length} cancelled/refunded`);
   setEl("stat-completed-tx",     completedTx.length);
   setEl("stat-completed-tx-sub", totalTx > 0 ? `${((completedTx.length/totalTx)*100).toFixed(1)}% of all transactions` : "No transactions yet");
   setEl("stat-gtv",              money(GTV));
-  setEl("stat-gtv-sub",          `across ${totalTx} transaction${totalTx !== 1 ? "s" : ""}`);
+  setEl("stat-gtv-sub",          pendingTx.length > 0
+    ? `${paidTx.length} paid · ${money(pendingGTV)} pending payment`
+    : `across ${paidTx.length} paid transaction${paidTx.length !== 1 ? "s" : ""}`);
   setEl("stat-revenue",          money(revenue));
   setEl("stat-revenue-sub",      `Platform fees collected`);
 

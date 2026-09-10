@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, selectinload
 
 from ..config import get_settings
 from ..db import get_db
-from ..models import AuditLog, Booking, BookingStatus, DraftingProposal, DraftingRequest, LawyerBankAccount, LawyerProfile, Role, User
+from ..models import AuditLog, Booking, BookingStatus, DraftingProposal, DraftingRequest, DraftingStatus, LawyerBankAccount, LawyerProfile, Role, User
 from ..ntp_time import check_clock_drift
 from ..schemas import AdminPayoutAccountOut, AuditLogOut, BookingOut, DraftingRequestOut, LawyerOut, UserOut, PlatformFeedbackOut
 from ..security import require_roles
@@ -21,13 +21,31 @@ router = APIRouter(prefix="/api/v1/admin", tags=["admin"])
 
 @router.get("/metrics")
 def admin_metrics(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+    # Realized escrow funds (funds actually captured and held in escrow pending completion)
+    # Excludes PENDING_PAYMENT and CANCELLED
+    booking_escrow = db.scalar(
+        select(func.coalesce(func.sum(Booking.amount_minor), 0)).where(
+            Booking.status.in_([BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS, BookingStatus.DISPUTED])
+        )
+    ) or 0
+
+    drafting_escrow = db.scalar(
+        select(func.coalesce(func.sum(DraftingRequest.price_minor), 0)).where(
+            DraftingRequest.status.in_([
+                DraftingStatus.IN_PROGRESS,
+                DraftingStatus.SUBMITTED,
+                DraftingStatus.REVISION_REQUESTED,
+            ])
+        )
+    ) or 0
+
     return {
         "users": db.scalar(select(func.count()).select_from(User)),
         "verified_lawyers": db.scalar(select(func.count()).select_from(LawyerProfile).where(LawyerProfile.verified.is_(True))),
         "bookings": db.scalar(select(func.count()).select_from(Booking)),
-        "escrow_minor": db.scalar(select(func.coalesce(func.sum(Booking.amount_minor), 0)).where(
-            Booking.status.in_([BookingStatus.PENDING_PAYMENT, BookingStatus.CONFIRMED]))),
+        "escrow_minor": booking_escrow + drafting_escrow,
     }
+
 
 
 @router.patch("/lawyers/{lawyer_id}/verification")
