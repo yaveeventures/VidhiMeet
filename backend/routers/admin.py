@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import stripe
 import structlog
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy import func, or_, select
 from sqlalchemy.orm import Session, selectinload
 
@@ -31,7 +31,7 @@ def admin_metrics(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session
 
 
 @router.patch("/lawyers/{lawyer_id}/verification")
-def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None,
+def verify_lawyer(request: Request, lawyer_id: str, approved: bool = None, status: str = None,
                   rejection_reason: str = None,
                   admin: User = Depends(require_roles(Role.ADMIN)),
                   db: Session = Depends(get_db)):
@@ -68,7 +68,7 @@ def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None,
         "status": profile.verification_status,
         "approved": profile.verified,
         "rejection_reason": profile.rejection_reason
-    })
+    }, request=request)
     db.commit()
     return {
         "lawyer_id": lawyer_id,
@@ -79,7 +79,7 @@ def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None,
 
 
 @router.patch("/lawyers/{lawyer_id}/documents/verify")
-def verify_lawyer_document(lawyer_id: str, doc_type: str, verified: bool = True,
+def verify_lawyer_document(request: Request, lawyer_id: str, doc_type: str, verified: bool = True,
                            admin: User = Depends(require_roles(Role.ADMIN)),
                            db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
@@ -93,7 +93,7 @@ def verify_lawyer_document(lawyer_id: str, doc_type: str, verified: bool = True,
     else:
         raise HTTPException(400, "Invalid document type")
 
-    audit(db, admin, "lawyer.document_verified", "user", lawyer_id, {"doc_type": doc_type, "verified": verified})
+    audit(db, admin, "lawyer.document_verified", "user", lawyer_id, {"doc_type": doc_type, "verified": verified}, request=request)
     db.commit()
     return {"status": "success", "lawyer_id": lawyer_id, "doc_type": doc_type, "verified": verified}
 
@@ -191,12 +191,12 @@ def list_users(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = 
 
 
 @router.patch("/users/{user_id}/active")
-def toggle_user_active(user_id: str, active: bool, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+def toggle_user_active(request: Request, user_id: str, active: bool, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
     user = db.get(User, user_id)
     if not user:
         raise HTTPException(404, "user not found")
     user.active = active
-    audit(db, admin, "user.status_change", "user", user_id, {"active": active})
+    audit(db, admin, "user.status_change", "user", user_id, {"active": active}, request=request)
     db.commit()
     return {"user_id": user_id, "active": active}
 
@@ -238,7 +238,7 @@ def list_disputes(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session
 
 
 @router.patch("/bookings/{booking_id}/resolve")
-def resolve_dispute(booking_id: str, outcome: str, strike_lawyer: bool = False, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+def resolve_dispute(request: Request, booking_id: str, outcome: str, strike_lawyer: bool = False, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
     booking = db.get(Booking, booking_id)
     if not booking:
         raise HTTPException(404, "booking not found")
@@ -262,7 +262,7 @@ def resolve_dispute(booking_id: str, outcome: str, strike_lawyer: bool = False, 
         "outcome": outcome,
         "strike_lawyer": strike_lawyer,
         "auto_resolution_status": booking.auto_resolution_status
-    })
+    }, request=request)
     db.commit()
     return {"booking_id": booking_id, "status": booking.status}
 
@@ -274,6 +274,8 @@ def get_audit_logs(_admin: User = Depends(require_roles(Role.ADMIN)), db: Sessio
     rows = db.execute(query).all()
     result = []
     for log, name in rows:
+        meta = log.metadata_json or {}
+        ip = meta.get("ip_address") if isinstance(meta, dict) else None
         out = AuditLogOut(
             id=log.id,
             actor_id=log.actor_id,
@@ -281,7 +283,8 @@ def get_audit_logs(_admin: User = Depends(require_roles(Role.ADMIN)), db: Sessio
             action=log.action,
             target_type=log.target_type,
             target_id=log.target_id,
-            metadata_json=log.metadata_json or {},
+            metadata_json=meta,
+            ip_address=ip or "127.0.0.1",
             created_at=log.created_at
         )
         result.append(out)
@@ -292,15 +295,16 @@ from ..rate_limiter import rate_limit_dependency
 
 
 @router.post("/config/fees", dependencies=[Depends(rate_limit_dependency("strict"))])
-def update_fees(default_fee: int, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+def update_fees(request: Request, default_fee: int, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
     settings.stripe_platform_fee_percent = default_fee
-    audit(db, admin, "config.fees_updated", "settings", None, {"default_fee": default_fee})
+    audit(db, admin, "config.fees_updated", "settings", None, {"default_fee": default_fee}, request=request)
     db.commit()
     return {"status": "success", "default_fee": default_fee}
 
 
 @router.post("/data-retention/purge", dependencies=[Depends(rate_limit_dependency("strict"))])
 def trigger_data_retention_purge(
+    request: Request,
     dry_run: bool = Query(False, description="If true, preview counts without deleting anything."),
     admin: User = Depends(require_roles(Role.ADMIN)),
     db: Session = Depends(get_db),
@@ -320,7 +324,7 @@ def trigger_data_retention_purge(
     # Import here to avoid circular imports at module load time
     from scripts.data_retention_purge import run_purge
     audit(db, admin, "system.data_retention_purge_triggered", "system", None,
-          {"dry_run": dry_run, "triggered_by": admin.id})
+          {"dry_run": dry_run, "triggered_by": admin.id}, request=request)
     db.commit()
     results = run_purge(dry_run=dry_run)
     return {"status": "ok", "dry_run": dry_run, "results": results}

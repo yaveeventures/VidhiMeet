@@ -6,7 +6,7 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 import pyotp
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
 
@@ -46,7 +46,7 @@ router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
 
 @router.post("/register", response_model=TokenResponse, status_code=201, dependencies=[Depends(rate_limit_dependency("auth"))])
-def register(payload: RegisterRequest, db: Session = Depends(get_db)):
+def register(request: Request, payload: RegisterRequest, db: Session = Depends(get_db)):
     email = payload.email.lower()
 
     if db.scalar(select(User).where(User.email == email)):
@@ -76,13 +76,13 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)):
         )
         db.add(profile)
 
-    audit(db, user, "auth.register", "user", user.id)
+    audit(db, user, "auth.register", "user", user.id, request=request)
     refresh = issue_refresh_token(db, user); db.commit()
     return TokenResponse(access_token=create_access_token(user), refresh_token=refresh)
 
 
 @router.post("/login", response_model=TokenResponse, dependencies=[Depends(rate_limit_dependency("auth"))])
-def login(payload: LoginRequest, db: Session = Depends(get_db)):
+def login(request: Request, payload: LoginRequest, db: Session = Depends(get_db)):
     email = payload.email.lower()
     user = db.scalar(select(User).where(User.email == email))
     if not user or not verify_password(payload.password, user.password_hash):
@@ -101,7 +101,7 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
             raise HTTPException(401, "invalid MFA authentication code")
 
     refresh = issue_refresh_token(db, user)
-    audit(db, user, "auth.login", "user", user.id); db.commit()
+    audit(db, user, "auth.login", "user", user.id, request=request); db.commit()
     return TokenResponse(access_token=create_access_token(user), refresh_token=refresh)
 
 
@@ -268,7 +268,7 @@ def _verify_google_id_token(id_token: str, expected_client_id: str = "") -> dict
 
 
 @router.post("/google", response_model=TokenResponse, dependencies=[Depends(rate_limit_dependency("auth"))])
-def google_auth(payload: GoogleLoginRequest, db: Session = Depends(get_db)):
+def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Depends(get_db)):
     if payload.role == Role.ADMIN:
         raise HTTPException(403, "Google Sign-In is only permitted for client and lawyer accounts")
 
@@ -322,11 +322,11 @@ def google_auth(payload: GoogleLoginRequest, db: Session = Depends(get_db)):
             )
             db.add(profile)
 
-        audit(db, user, "auth.google_register", "user", user.id)
+        audit(db, user, "auth.google_register", "user", user.id, request=request)
     else:
         if not user.active:
             raise HTTPException(403, "account restricted")
-        audit(db, user, "auth.google_login", "user", user.id)
+        audit(db, user, "auth.google_login", "user", user.id, request=request)
 
     refresh = issue_refresh_token(db, user)
     db.commit()

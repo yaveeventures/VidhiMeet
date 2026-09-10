@@ -212,7 +212,7 @@ def lawyer_document_mock_upload(key: str = Form(...), file: UploadFile = File(..
 
 
 @router.post("/api/v1/lawyers/me/documents/confirm")
-def lawyer_document_confirm(filename: str, key: str, doc_type: str,
+def lawyer_document_confirm(request: Request, filename: str, key: str, doc_type: str,
                              user: User = Depends(require_roles(Role.LAWYER)),
                              db: Session = Depends(get_db)):
     from ..sanitizer import sanitize_filename, sanitize_key
@@ -259,7 +259,7 @@ def lawyer_document_confirm(filename: str, key: str, doc_type: str,
     elif doc_type == "profile_picture":
         profile.profile_picture_url = url
 
-    audit(db, user, "lawyer.document_uploaded", "user", user.id, {"filename": filename, "key": key, "doc_type": doc_type})
+    audit(db, user, "lawyer.document_uploaded", "user", user.id, {"filename": filename, "key": key, "doc_type": doc_type}, request=request)
     db.commit()
     return {"status": "success", "key": key}
 

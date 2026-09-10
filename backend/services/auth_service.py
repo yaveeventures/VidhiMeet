@@ -3,20 +3,55 @@ import secrets
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Request
 from ..config import get_settings
 from ..models import AuditLog, RefreshToken, User
 from ..ntp_time import ntp_now
 
 settings = get_settings()
 
-def audit(db: Session | AsyncSession, actor: User | None, action: str, target_type: str, target_id: str | None, metadata=None):
-    """Record a security/compliance event with an NPL/NIC NTP-sourced timestamp."""
+def get_client_ip(request: Request | None) -> str:
+    """Extract real client IP prioritizing Cloudflare and reverse-proxy headers."""
+    if not request:
+        return "127.0.0.1"
+    # Cloudflare sends CF-Connecting-IP (authoritative and sanitized by Cloudflare edge)
+    cf_ip = request.headers.get("cf-connecting-ip")
+    if cf_ip and cf_ip.strip():
+        return cf_ip.strip()
+    # Standard reverse proxy chain (Nginx, ALB, ngrok)
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded and forwarded.strip():
+        return forwarded.split(",")[0].strip()
+    real_ip = request.headers.get("x-real-ip")
+    if real_ip and real_ip.strip():
+        return real_ip.strip()
+    # Direct socket connection host
+    if request.client and request.client.host:
+        return request.client.host
+    return "127.0.0.1"
+
+
+def audit(
+    db: Session | AsyncSession,
+    actor: User | None,
+    action: str,
+    target_type: str,
+    target_id: str | None,
+    metadata=None,
+    request: Request | None = None,
+    ip_address: str | None = None,
+):
+    """Record a security/compliance event with an NPL/NIC NTP-sourced timestamp and real client IP."""
+    meta = dict(metadata or {})
+    if not meta.get("ip_address"):
+        meta["ip_address"] = ip_address or (get_client_ip(request) if request else "127.0.0.1")
+
     audit_entry = AuditLog(
         actor_id=actor.id if actor else None,
         action=action,
         target_type=target_type,
         target_id=target_id,
-        metadata_json=metadata or {},
+        metadata_json=meta,
         created_at=ntp_now(),  # CERT-In compliant: timestamp from NPL/NIC NTP
     )
     db.add(audit_entry)

@@ -328,6 +328,7 @@ class AuditLogOut(BaseModel):
     target_type: str
     target_id: str | None = None
     metadata_json: dict = {}
+    ip_address: str = "127.0.0.1"
     created_at: datetime
     model_config = {"from_attributes": True}
 

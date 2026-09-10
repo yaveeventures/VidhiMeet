@@ -66,3 +66,66 @@ def test_security_response_headers():
     assert "default-src 'self'" in csp
     assert "script-src" in csp
     assert "https://accounts.google.com" in csp
+
+
+def test_get_client_ip_priority():
+    """Verify get_client_ip correctly prioritizes Cloudflare and reverse proxy headers."""
+    from unittest.mock import MagicMock
+    from backend.services.auth_service import get_client_ip
+
+    # None request
+    assert get_client_ip(None) == "127.0.0.1"
+
+    # Direct client host
+    req = MagicMock()
+    req.headers = {}
+    req.client.host = "192.168.1.50"
+    assert get_client_ip(req) == "192.168.1.50"
+
+    # X-Real-IP overrides direct client
+    req.headers = {"x-real-ip": "203.0.113.19"}
+    assert get_client_ip(req) == "203.0.113.19"
+
+    # X-Forwarded-For overrides X-Real-IP
+    req.headers = {
+        "x-real-ip": "203.0.113.19",
+        "x-forwarded-for": "198.51.100.42, 10.0.0.1",
+    }
+    assert get_client_ip(req) == "198.51.100.42"
+
+    # CF-Connecting-IP takes highest precedence
+    req.headers = {
+        "cf-connecting-ip": "49.36.120.85",
+        "x-forwarded-for": "198.51.100.42, 10.0.0.1",
+        "x-real-ip": "203.0.113.19",
+    }
+    assert get_client_ip(req) == "49.36.120.85"
+
+
+def test_audit_records_real_ip():
+    """Verify audit() writes client IP into metadata_json."""
+    from unittest.mock import MagicMock
+    from backend.services.auth_service import audit
+    from backend.models import AuditLog
+
+    db = MagicMock()
+    req = MagicMock()
+    req.headers = {"cf-connecting-ip": "103.21.244.2"}
+    
+    actor = MagicMock()
+    actor.id = "admin-1"
+
+    audit(
+        db=db,
+        actor=actor,
+        action="VERIFY_LAWYER",
+        target_type="lawyer_profile",
+        target_id="lawyer-42",
+        request=req,
+    )
+
+    db.add.assert_called_once()
+    added_entry = db.add.call_args[0][0]
+    assert isinstance(added_entry, AuditLog)
+    assert added_entry.metadata_json["ip_address"] == "103.21.244.2"
+
