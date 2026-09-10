@@ -98,6 +98,16 @@ class Settings(BaseSettings):
     @property
     def origins(self) -> list[str]:
         parsed = [x.strip() for x in self.allowed_origins.split(",") if x.strip()]
+        dev_origins = [
+            "http://localhost:8000",
+            "http://127.0.0.1:8000",
+            "http://localhost:8080",
+            "http://127.0.0.1:8080",
+        ]
+        if not self.production:
+            for d in dev_origins:
+                if d not in parsed:
+                    parsed.append(d)
         for default_origin in [
             "https://vidhimeet.in",
             "https://www.vidhimeet.in",

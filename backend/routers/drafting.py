@@ -215,7 +215,13 @@ def download_drafting_document(key: str, token: str | None = None,
             ".jpeg": "image/jpeg",
             ".png": "image/png"
         }
-        return FileResponse(file_path, filename=os.path.basename(key), media_type=media_types.get(ext, "application/octet-stream"))
+        is_inline_type = ext in (".pdf", ".jpg", ".jpeg", ".png", ".txt")
+        return FileResponse(
+            file_path,
+            filename=os.path.basename(key),
+            media_type=media_types.get(ext, "application/octet-stream"),
+            content_disposition_type="inline" if is_inline_type else "attachment"
+        )
 
     from ..config import get_settings
     settings = get_settings()
@@ -224,7 +230,13 @@ def download_drafting_document(key: str, token: str | None = None,
         from ..services.s3_client import get_s3_client
         client = get_s3_client()
         url = client.generate_presigned_url(
-            "get_object", Params={"Bucket": settings.document_bucket, "Key": key}, ExpiresIn=expiry
+            "get_object",
+            Params={
+                "Bucket": settings.document_bucket,
+                "Key": key,
+                "ResponseContentDisposition": f"inline; filename=\"{os.path.basename(key)}\""
+            },
+            ExpiresIn=expiry
         )
         from fastapi.responses import RedirectResponse
         return RedirectResponse(url)
@@ -233,7 +245,12 @@ def download_drafting_document(key: str, token: str | None = None,
         os.makedirs(os.path.dirname(file_path), exist_ok=True)
         basename = os.path.basename(key)
         _write_mock_pdf(file_path, basename)
-    return FileResponse(file_path, filename=os.path.basename(key), media_type="application/pdf")
+    return FileResponse(
+        file_path,
+        filename=os.path.basename(key),
+        media_type="application/pdf",
+        content_disposition_type="inline"
+    )
 
 
 from ..rate_limiter import rate_limit_dependency

@@ -90,6 +90,8 @@ class LawyerProfile(Base):
     bar_license_verified: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
     aadhaar_verified: Mapped[bool] = mapped_column(Boolean, default=False, server_default="false")
     mobile_number: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
+    rejection_reason: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     strike_count: Mapped[int] = mapped_column(Integer, default=0)
     ical_token: Mapped[str] = mapped_column(String(64), unique=True, default=lambda: secrets.token_urlsafe(48))
     user: Mapped[User] = relationship(back_populates="lawyer_profile")

@@ -222,6 +222,7 @@ class VoucherOut(BaseModel):
 class LawyerOut(BaseModel):
     id: str
     full_name: str
+    email: str | None = None
     practice: list[Practice]
     languages: list
     hourly_fee_minor: int
@@ -238,17 +239,35 @@ class LawyerOut(BaseModel):
     aadhaar_verified: bool = False
     aadhaar_number: str | None = None
     mobile_number: str | None = None
+    rejection_reason: str | None = None
+    verified_at: datetime | None = None
     created_at: datetime
     model_config = {"from_attributes": True}
 
     @field_validator("practice", mode="before")
     @classmethod
     def convert_to_list(cls, v):
+        def _normalize_item(x):
+            if isinstance(x, Practice):
+                return x
+            if isinstance(x, str):
+                s = x.lower().strip()
+                if "property" in s:
+                    return Practice.PROPERTY
+                if "corporate" in s:
+                    return Practice.CORPORATE
+                if "family" in s:
+                    return Practice.FAMILY
+                try:
+                    return Practice(s)
+                except ValueError:
+                    return Practice.PROPERTY
+            return x
+
         if isinstance(v, (str, Practice)):
-            val = v.value if isinstance(v, Practice) else v.lower()
-            return [val]
-        elif isinstance(v, list):
-            return [x.value if isinstance(x, Practice) else (x.lower() if isinstance(x, str) else x) for x in v]
+            return [_normalize_item(v)]
+        elif isinstance(v, (list, tuple, set)):
+            return [_normalize_item(x) for x in v]
         return v
 
 

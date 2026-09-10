@@ -360,18 +360,27 @@ function renderOverview() {
 }
 
 // Verification tab
-async function renderApps(filter = "pending") {
+let currentAppFilter = "pending";
+
+function validateBarNumberFormat(barNum) {
+  if (!barNum) return { valid: false };
+  const barRegex = /^[A-Z]{1,4}\s*\/\s*\d+\s*\/\s*(19|20)\d{2}$/i;
+  return { valid: barRegex.test(barNum.trim()) };
+}
+
+async function renderApps(filter) {
+  if (filter !== undefined) currentAppFilter = filter;
+  const activeFilter = currentAppFilter || "pending";
   let list = [];
-  if (filter === "pending" || filter === "review") {
-    // Pending and in-review both show the unverified set
+  if (activeFilter === "pending" || activeFilter === "review") {
     list = pendingLawyers;
-  } else if (filter === "approved") {
+  } else if (activeFilter === "approved") {
     try {
       list = await LexAPI.lawyers();
     } catch (e) {
       list = [];
     }
-  } else if (filter === "rejected") {
+  } else if (activeFilter === "rejected") {
     try {
       list = await LexAPI.getRejectedLawyers();
       rejectedLawyersCount = list.length;
@@ -386,7 +395,38 @@ async function renderApps(filter = "pending") {
   // Always (re-)populate lawyerMap so clicks always find data
   list.forEach(a => { lawyerMap[a.id] = a; });
 
-  const isActionable = filter === "pending" || filter === "review";
+  // Apply search & practice filters & sorting
+  const searchInput = $("#application-search");
+  const practiceSelect = $("#app-practice-filter");
+  const sortSelect = $("#app-sort-filter");
+
+  const searchVal = (searchInput ? searchInput.value : "").toLowerCase().trim();
+  const practiceVal = (practiceSelect ? practiceSelect.value : "all").toLowerCase();
+  const sortVal = sortSelect ? sortSelect.value : "oldest";
+
+  let filtered = list.filter(a => {
+    if (searchVal) {
+      const nameMatch = (a.full_name || "").toLowerCase().includes(searchVal);
+      const barMatch = (a.bar_number || "").toLowerCase().includes(searchVal);
+      const emailMatch = (a.email || "").toLowerCase().includes(searchVal);
+      if (!nameMatch && !barMatch && !emailMatch) return false;
+    }
+    if (practiceVal && practiceVal !== "all") {
+      const practices = Array.isArray(a.practice) ? a.practice.map(p => String(p).toLowerCase()) : [String(a.practice || "").toLowerCase()];
+      const hasPractice = practices.some(p => p.includes(practiceVal));
+      if (!hasPractice) return false;
+    }
+    return true;
+  });
+
+  // Apply sorting
+  filtered.sort((x, y) => {
+    const tx = new Date(x.created_at || 0).getTime();
+    const ty = new Date(y.created_at || 0).getTime();
+    return sortVal === "newest" ? (ty - tx) : (tx - ty);
+  });
+
+  const isActionable = activeFilter === "pending" || activeFilter === "review";
 
   $("#applications").innerHTML = `
     <div class="table-row head">
@@ -396,35 +436,58 @@ async function renderApps(filter = "pending") {
       <span>Status</span>
       <span></span>
     </div>
-  ` + (list.length ? list.map((a, i) => {
+  ` + (filtered.length ? filtered.map((a, i) => {
     const appInitials = a.full_name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
     const practiceDisplay = mapPracticeToFrontend(a.practice);
-    const statusLabel = filter === "approved" ? "APPROVED" : (filter === "review" ? "IN REVIEW" : filter.toUpperCase());
+    const statusLabel = activeFilter === "approved" ? "APPROVED" : (activeFilter === "review" ? "IN REVIEW" : activeFilter.toUpperCase());
     const actionBtn = isActionable
       ? `<button class="review-btn" data-review-id="${a.id}">Review</button>`
-      : (filter === "approved" || filter === "rejected"
-          ? `<button class="review-btn" data-review-id="${a.id}">${filter === "approved" ? "Preview" : "Review"}</button>`
+      : (activeFilter === "approved" || activeFilter === "rejected"
+          ? `<button class="review-btn" data-review-id="${a.id}">${activeFilter === "approved" ? "Preview" : "Review"}</button>`
           : `<span>—</span>`);
+
+    // Dynamic document status indicator
+    const hasBar = Boolean(a.bar_license_url);
+    const hasId = Boolean(a.aadhaar_url);
+    let docSubtext = "";
+    if (activeFilter === "rejected" && a.rejection_reason) {
+      const shortReason = escapeHtml(a.rejection_reason.slice(0, 40)) + (a.rejection_reason.length > 40 ? "..." : "");
+      docSubtext = `<small style="color:#c53030;" title="${escapeHtml(a.rejection_reason)}">Reason: ${shortReason}</small>`;
+    } else if (hasBar && hasId) {
+      docSubtext = `<small style="color:var(--forest, #265a47); font-weight:600;">✓ 2/2 Docs Uploaded</small>`;
+    } else if (hasBar || hasId) {
+      docSubtext = `<small style="color:#b7791f; font-weight:600;">⚠ 1/2 Docs (${hasBar ? 'No Aadhaar' : 'No Bar Cert'})</small>`;
+    } else {
+      docSubtext = `<small style="color:#e53e3e; font-weight:600;">✕ Awaiting Documents</small>`;
+    }
+
+    // Bar number format check
+    const barFormat = validateBarNumberFormat(a.bar_number);
+    const barBadge = a.bar_number
+      ? (barFormat.valid
+          ? `<span style="font-size:10px; color:#234e52; background:#e6fffa; border:1px solid #b2f5ea; border-radius:3px; padding:1px 4px; margin-left:4px;">BCI ✓</span>`
+          : `<span title="Non-standard format - verify certificate" style="font-size:10px; color:#744210; background:#fffaf0; border:1px solid #fbd38d; border-radius:3px; padding:1px 4px; margin-left:4px;">Format ⚠</span>`)
+      : "";
 
     return `
       <div class="table-row">
         <div class="person">
           <span class="avatar" style="background:${colors[i % colors.length]}">${appInitials}</span>
           <div>
-            <strong>${a.full_name}</strong>
-            <small>Identity check complete</small>
+            <strong>${escapeHtml(a.full_name)}</strong>
+            ${docSubtext}
           </div>
         </div>
-        <span class="tag">${practiceDisplay}</span>
-        <span>${a.bar_number || "Pending"}</span>
+        <span class="tag">${escapeHtml(practiceDisplay)}</span>
+        <span>${escapeHtml(a.bar_number || "Pending")} ${barBadge}</span>
         <span>${statusLabel}</span>
         <div>${actionBtn}</div>
       </div>
     `;
-  }).join("") : `<p class="muted" style="padding:20px;">No applications found.</p>`);
+  }).join("") : `<p class="muted" style="padding:20px;">No applications found matching your criteria.</p>`);
 }
 
-function reviewApplication(id, name, practice, bar, isVerified = false, barLicenseUrl = null, aadhaarUrl = null, barVerified = false, aadhaarVerified = false) {
+function reviewApplication(id, name, practice, bar, isVerified = false, barLicenseUrl = null, aadhaarUrl = null, barVerified = false, aadhaarVerified = false, rejectionReason = null) {
   const appInitials = name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
   const token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token") || "";
 
@@ -436,7 +499,6 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
     }
 
     if (isVerified) {
-      // Approved lawyer preview - show only view button if exists, no verify button
       const viewBtn = resolvedUrl
         ? `<a href="${resolvedUrl}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
         : `<span class="doc-no-upload">Not on file</span>`;
@@ -452,7 +514,6 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
           </div>
         </article>`;
     } else {
-      // Pending review flow
       const viewBtn = resolvedUrl
         ? `<a href="${resolvedUrl}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
         : `<span class="doc-no-upload">Not uploaded</span>`;
@@ -462,7 +523,7 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
           <div class="doc-icon">${docType === 'bar' ? '&#128196;' : '&#128100;'}</div>
           <div class="doc-info">
             <strong>${label}</strong>
-            <small>${subtitle}</small>
+            <small>${fileUrl ? subtitle : '<span style="color:#e53e3e;">Missing required document</span>'}</small>
           </div>
           <div class="doc-actions">
             ${viewBtn}
@@ -475,24 +536,37 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
 
   const approveDisabled = isVerified ? "" : "disabled";
   const actionButtons = isVerified
-    ? `<button class="reject" data-decide-id="${id}" data-decide-approved="false">Revoke verification</button>
+    ? `<button class="reject" id="btn-show-rejection" type="button">Revoke verification</button>
        <button class="ghost" data-close-modal>Close</button>`
-    : `<button class="reject" data-decide-id="${id}" data-decide-approved="false">Reject profile</button>
+    : `<button class="reject" id="btn-show-rejection" type="button">Reject profile</button>
        <button class="primary" id="approve-btn" data-decide-id="${id}" data-decide-approved="true" ${approveDisabled}>Approve lawyer</button>`;
 
   const descriptionText = isVerified
     ? "Verified professional credentials on file for this lawyer."
     : "View and individually verify each document before approving this lawyer profile.";
 
+  const barFormat = validateBarNumberFormat(bar);
+  const barNotice = barFormat.valid
+    ? `<span style="display:inline-block; font-size:11px; background:#e6fffa; color:#234e52; border:1px solid #b2f5ea; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Standard BCI Format ✓</span>`
+    : `<span title="Non-standard Bar Council format. Verify certificate carefully." style="display:inline-block; font-size:11px; background:#fffaf0; color:#744210; border:1px solid #fbd38d; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Check Bar Format ⚠</span>`;
+
+  const previousRejectionNotice = rejectionReason
+    ? `<div style="background:#fff5f5; border-left:4px solid #e53e3e; padding:10px 14px; border-radius:6px; margin:12px 0;">
+        <strong style="color:#9b2c2c; font-size:12px; text-transform:uppercase;">Current Rejection / Revision Reason:</strong>
+        <p style="margin:4px 0 0; font-size:13px; color:#2d3748;">${escapeHtml(rejectionReason)}</p>
+       </div>`
+    : "";
+
   $("#review-content").innerHTML = `
     <small class="eyebrow">CREDENTIAL REVIEW</small>
     <h2>${escapeHtml(name)}</h2>
     <p class="muted">${descriptionText}</p>
+    ${previousRejectionNotice}
     <div class="review-profile">
       <span class="avatar" style="background:${colors[0]}">${appInitials}</span>
       <div>
         <strong>${escapeHtml(name)}</strong>
-        <small>${escapeHtml(practice)} &middot; Bar No: ${escapeHtml(bar)}</small>
+        <small>${escapeHtml(practice)} &middot; Bar No: ${escapeHtml(bar)} ${barNotice}</small>
       </div>
     </div>
     <div class="review-docs">
@@ -500,10 +574,65 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
       ${docRow('id', 'Aadhaar Card', 'Click View to open, then Verify to confirm', aadhaarUrl)}
     </div>
     ${!isVerified ? `<p class="verify-hint">&#9432; Verify uploaded credentials to enable approval.</p>` : ''}
-    <div class="modal-actions">
+    <div class="modal-actions" id="standard-modal-actions">
       ${actionButtons}
     </div>
+
+    <!-- Collapsible Rejection Workflow Form -->
+    <div id="rejection-box" style="display:none; margin-top:16px; padding:16px; background:#fff5f5; border:1px solid #fed7d7; border-radius:8px;">
+      <strong style="color:#c53030; font-size:13px;">Reason for Rejection / Revision Request:</strong>
+      <p style="font-size:12px; color:#4a5568; margin:4px 0 10px;">This note is recorded on the profile and shown on the lawyer's dashboard so they know what to correct.</p>
+      <select id="rejection-preset" style="width:100%; padding:8px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; margin-bottom:8px;">
+        <option value="Bar Council Certificate scan is blurred or illegible">Bar Council Certificate scan is blurred or illegible</option>
+        <option value="Full legal name does not match State Bar Council enrollment record">Full legal name does not match State Bar Council enrollment record</option>
+        <option value="Government Identity Document (Aadhaar / ID) scan is blurred or incomplete">Government Identity Document (Aadhaar / ID) scan is blurred or incomplete</option>
+        <option value="Bar Council Enrollment Number is invalid or not found on Bar rolls">Bar Council Enrollment Number is invalid or not found on Bar rolls</option>
+        <option value="Both Bar License and Government ID are required to complete verification">Both Bar License and Government ID are required to complete verification</option>
+        <option value="custom">Other / Custom note...</option>
+      </select>
+      <textarea id="rejection-custom-note" placeholder="Provide specific instructions or feedback for the candidate..." style="width:100%; min-height:60px; padding:8px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; box-sizing:border-box; margin-bottom:10px; display:none;"></textarea>
+      <div style="display:flex; justify-content:flex-end; gap:8px;">
+        <button type="button" class="ghost" id="cancel-rejection-btn" style="padding:6px 12px; font-size:12px;">Cancel</button>
+        <button type="button" class="reject" id="confirm-rejection-btn" style="padding:6px 14px; font-size:12px; background:#c53030; color:#fff;">Confirm Rejection</button>
+      </div>
+    </div>
   `;
+
+  // Wire up Rejection workflow UI inside the modal
+  const btnShowRejection = $("#btn-show-rejection");
+  const rejectionBox = $("#rejection-box");
+  const standardActions = $("#standard-modal-actions");
+  const rejectionPreset = $("#rejection-preset");
+  const rejectionCustomNote = $("#rejection-custom-note");
+  const cancelRejectionBtn = $("#cancel-rejection-btn");
+  const confirmRejectionBtn = $("#confirm-rejection-btn");
+
+  if (btnShowRejection && rejectionBox) {
+    btnShowRejection.addEventListener("click", () => {
+      rejectionBox.style.display = "block";
+      if (standardActions) standardActions.style.display = "none";
+    });
+  }
+  if (cancelRejectionBtn && rejectionBox) {
+    cancelRejectionBtn.addEventListener("click", () => {
+      rejectionBox.style.display = "none";
+      if (standardActions) standardActions.style.display = "flex";
+    });
+  }
+  if (rejectionPreset && rejectionCustomNote) {
+    rejectionPreset.addEventListener("change", () => {
+      rejectionCustomNote.style.display = rejectionPreset.value === "custom" ? "block" : "none";
+    });
+  }
+  if (confirmRejectionBtn) {
+    confirmRejectionBtn.addEventListener("click", () => {
+      let finalReason = rejectionPreset.value;
+      if (finalReason === "custom") {
+        finalReason = rejectionCustomNote.value.trim() || "Credentials did not meet compliance requirements";
+      }
+      decideVerification(id, false, finalReason);
+    });
+  }
 
   // Wire up Verify buttons & restore session/API verification states
   const storageKey = `admin_doc_verified_${id}`;
@@ -516,15 +645,25 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
   const checkApproveStatus = () => {
     const barHasFile = Boolean(barLicenseUrl);
     const idHasFile = Boolean(aadhaarUrl);
-    const isReady = (!barHasFile || verified.bar) && (!idHasFile || verified.id) && (barHasFile || idHasFile);
-    if (isReady || verified.bar || verified.id) {
-      const approveBtn = $("#approve-btn");
-      if (approveBtn) {
-        approveBtn.disabled = false;
+    const isReady = barHasFile && idHasFile && verified.bar && verified.id;
+    const approveBtn = $("#approve-btn");
+    if (approveBtn) {
+      approveBtn.disabled = !isReady;
+      if (isReady) {
         approveBtn.classList.add("ready");
+      } else {
+        approveBtn.classList.remove("ready");
       }
-      const hint = $("#review-content").querySelector(".verify-hint");
-      if (hint) hint.remove();
+    }
+    const hint = $("#review-content").querySelector(".verify-hint");
+    if (hint) {
+      if (!barHasFile || !idHasFile) {
+        hint.innerHTML = `<span style="color:#c53030; font-weight:600;">&#9888; Candidate has not uploaded both required credentials (${!barHasFile ? 'Missing Bar Certificate' : ''}${!barHasFile && !idHasFile ? ', ' : ''}${!idHasFile ? 'Missing Aadhaar' : ''}). Both are required for approval.</span>`;
+      } else if (!isReady) {
+        hint.innerHTML = `&#9432; Individually verify both documents above to enable profile approval.`;
+      } else {
+        hint.innerHTML = `<span style="color:var(--forest, #265a47); font-weight:600;">&#10003; All documents verified. Profile is ready for approval.</span>`;
+      }
     }
   };
 
@@ -567,14 +706,15 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
   document.body.style.overflow = "hidden";
 }
 
-async function decideVerification(id, approved) {
+async function decideVerification(id, approved, rejectionReason = null) {
   try {
-    await LexAPI.verifyLawyer(id, approved);
+    await LexAPI.verifyLawyer(id, approved, rejectionReason);
     try { sessionStorage.removeItem(`admin_doc_verified_${id}`); } catch (_) {}
-    toast(approved ? "Lawyer approved and profile activated." : "Lawyer rejected.");
+    toast(approved ? "Lawyer approved and profile activated." : "Lawyer rejected. Feedback recorded on profile.");
     $("#review-modal").hidden = true;
     document.body.style.overflow = "";
-    loadData();
+    await loadData();
+    renderApps(currentAppFilter);
   } catch (err) {
     toast("Action failed: " + err.message);
   }
@@ -1219,7 +1359,8 @@ document.addEventListener("click", e => {
         a.bar_license_url,
         a.aadhaar_url,
         Boolean(a.bar_license_verified),
-        Boolean(a.aadhaar_verified)
+        Boolean(a.aadhaar_verified),
+        a.rejection_reason
       );
     } else {
       toast("Could not load lawyer details. Please refresh and try again.");
@@ -1291,6 +1432,20 @@ $("#review-modal").onclick = e => {
 
 $("#role-filter").onchange = e => renderUsers(e.target.value);
 $("#save-fees").onclick = handleSaveFees;
+
+// Application search & filter listeners
+const appSearchInput = $("#application-search");
+if (appSearchInput) {
+  appSearchInput.addEventListener("input", () => renderApps(currentAppFilter));
+}
+const appPracticeSelect = $("#app-practice-filter");
+if (appPracticeSelect) {
+  appPracticeSelect.addEventListener("change", () => renderApps(currentAppFilter));
+}
+const appSortSelect = $("#app-sort-filter");
+if (appSortSelect) {
+  appSortSelect.addEventListener("change", () => renderApps(currentAppFilter));
+}
 
 // Transaction search – re-render on every keystroke
 document.addEventListener("input", e => {

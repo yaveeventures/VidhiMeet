@@ -173,16 +173,23 @@ def require_roles(*roles: "Role"):
     return dependency
 
 
-from cryptography.fernet import Fernet, InvalidToken
+from cryptography.fernet import Fernet, InvalidToken, MultiFernet
 
-def _get_fernet_cipher() -> Fernet:
-    key = settings.data_encryption_key
-    if not key:
-        key = "development-only-data-encryption-key-must-be-changed"
-    # Derive a 32-byte key suitable for Fernet
-    key_bytes = hashlib.sha256(key.encode()).digest()
-    fernet_key = base64.urlsafe_b64encode(key_bytes)
-    return Fernet(fernet_key)
+def _get_fernet_cipher() -> MultiFernet:
+    keys = []
+    if settings.data_encryption_key:
+        keys.append(settings.data_encryption_key)
+    legacy_key = "development-only-data-encryption-key-must-be-changed"
+    if legacy_key not in keys:
+        keys.append(legacy_key)
+
+    ciphers = []
+    for k in keys:
+        key_bytes = hashlib.sha256(k.encode()).digest()
+        fernet_key = base64.urlsafe_b64encode(key_bytes)
+        ciphers.append(Fernet(fernet_key))
+
+    return MultiFernet(ciphers)
 
 
 def encrypt_field(val: str | None) -> str | None:

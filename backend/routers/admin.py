@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 import stripe
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -30,10 +31,13 @@ def admin_metrics(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session
 
 
 @router.patch("/lawyers/{lawyer_id}/verification")
-def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None, admin: User = Depends(require_roles(Role.ADMIN)),
+def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None,
+                  rejection_reason: str = None,
+                  admin: User = Depends(require_roles(Role.ADMIN)),
                   db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
-    if not profile: raise HTTPException(404, "lawyer profile not found")
+    if not profile:
+        raise HTTPException(404, "lawyer profile not found")
     
     if status:
         target_status = status.lower()
@@ -42,14 +46,36 @@ def verify_lawyer(lawyer_id: str, approved: bool = None, status: str = None, adm
     else:
         raise HTTPException(400, "approved or status parameter required")
     
-    profile.verification_status = target_status
-    profile.verified = (target_status == "approved")
     if target_status == "approved":
+        if not profile.bar_license_url or not profile.aadhaar_url:
+            raise HTTPException(400, "Cannot approve lawyer without both Bar Council Certificate and Aadhaar / Govt ID on file")
+        profile.verification_status = "approved"
+        profile.verified = True
         profile.bar_license_verified = True
         profile.aadhaar_verified = True
-    audit(db, admin, "lawyer.verification", "user", lawyer_id, {"status": target_status, "approved": profile.verified})
+        profile.verified_at = datetime.now(timezone.utc)
+        profile.rejection_reason = None
+    else:
+        # Rejection or Revocation
+        profile.verification_status = "rejected"
+        profile.verified = False
+        profile.bar_license_verified = False
+        profile.aadhaar_verified = False
+        profile.verified_at = None
+        profile.rejection_reason = (rejection_reason or "").strip() or "Credentials did not meet compliance requirements"
+
+    audit(db, admin, "lawyer.verification", "user", lawyer_id, {
+        "status": profile.verification_status,
+        "approved": profile.verified,
+        "rejection_reason": profile.rejection_reason
+    })
     db.commit()
-    return {"lawyer_id": lawyer_id, "verified": profile.verified, "verification_status": target_status}
+    return {
+        "lawyer_id": lawyer_id,
+        "verified": profile.verified,
+        "verification_status": profile.verification_status,
+        "rejection_reason": profile.rejection_reason
+    }
 
 
 @router.patch("/lawyers/{lawyer_id}/documents/verify")
@@ -73,48 +99,65 @@ def verify_lawyer_document(lawyer_id: str, doc_type: str, verified: bool = True,
 
 
 @router.get("/lawyers/pending", response_model=list[LawyerOut])
-def list_pending_lawyers(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
-    rows = db.execute(
-        select(LawyerProfile, User).join(User).where(
-            or_(
-                LawyerProfile.verification_status == "pending",
-                LawyerProfile.verification_status.is_(None)
-            ),
-            LawyerProfile.verified.is_(False)
+def list_pending_lawyers(search: str | None = None,
+                         practice: str | None = None,
+                         _admin: User = Depends(require_roles(Role.ADMIN)),
+                         db: Session = Depends(get_db)):
+    stmt = select(LawyerProfile, User).join(User).where(
+        or_(
+            LawyerProfile.verification_status == "pending",
+            LawyerProfile.verification_status.is_(None)
+        ),
+        LawyerProfile.verified.is_(False)
+    ).order_by(User.created_at.asc())
+
+    if search:
+        search_term = f"%{search.strip()}%"
+        stmt = stmt.where(or_(User.full_name.ilike(search_term), LawyerProfile.bar_number.ilike(search_term)))
+
+    rows = db.execute(stmt).all()
+    out = []
+    for p, u in rows:
+        out.append(
+            LawyerOut(
+                id=u.id,
+                full_name=u.full_name,
+                practice=p.practice,
+                languages=p.languages,
+                hourly_fee_minor=p.hourly_fee_minor,
+                rating=float(p.rating or 0),
+                verified=p.verified,
+                verification_status=p.verification_status or "pending",
+                bar_number=p.bar_number,
+                availability=p.availability or {},
+                enrollment_date=p.enrollment_date,
+                practice_address=p.practice_address,
+                bar_license_url=p.bar_license_url,
+                aadhaar_url=p.aadhaar_url,
+                bar_license_verified=getattr(p, "bar_license_verified", False),
+                aadhaar_verified=getattr(p, "aadhaar_verified", False),
+                mobile_number=p.mobile_number,
+                rejection_reason=getattr(p, "rejection_reason", None),
+                verified_at=getattr(p, "verified_at", None),
+                created_at=u.created_at
+            )
         )
-    ).all()
-    return [
-        LawyerOut(
-            id=u.id,
-            full_name=u.full_name,
-            practice=p.practice,
-            languages=p.languages,
-            hourly_fee_minor=p.hourly_fee_minor,
-            rating=float(p.rating or 0),
-            verified=p.verified,
-            verification_status=p.verification_status or "pending",
-            bar_number=p.bar_number,
-            availability=p.availability or {},
-            enrollment_date=p.enrollment_date,
-            practice_address=p.practice_address,
-            bar_license_url=p.bar_license_url,
-            aadhaar_url=p.aadhaar_url,
-            bar_license_verified=getattr(p, "bar_license_verified", False),
-            aadhaar_verified=getattr(p, "aadhaar_verified", False),
-            mobile_number=p.mobile_number,
-            created_at=u.created_at
-        )
-        for p, u in rows
-    ]
+    return out
 
 
 @router.get("/lawyers/rejected", response_model=list[LawyerOut])
-def list_rejected_lawyers(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
-    rows = db.execute(
-        select(LawyerProfile, User).join(User).where(
-            LawyerProfile.verification_status == "rejected"
-        )
-    ).all()
+def list_rejected_lawyers(search: str | None = None,
+                          _admin: User = Depends(require_roles(Role.ADMIN)),
+                          db: Session = Depends(get_db)):
+    stmt = select(LawyerProfile, User).join(User).where(
+        LawyerProfile.verification_status == "rejected"
+    ).order_by(User.created_at.desc())
+
+    if search:
+        search_term = f"%{search.strip()}%"
+        stmt = stmt.where(or_(User.full_name.ilike(search_term), LawyerProfile.bar_number.ilike(search_term)))
+
+    rows = db.execute(stmt).all()
     return [
         LawyerOut(
             id=u.id,
@@ -134,6 +177,8 @@ def list_rejected_lawyers(_admin: User = Depends(require_roles(Role.ADMIN)), db:
             bar_license_verified=getattr(p, "bar_license_verified", False),
             aadhaar_verified=getattr(p, "aadhaar_verified", False),
             mobile_number=p.mobile_number,
+            rejection_reason=getattr(p, "rejection_reason", None),
+            verified_at=getattr(p, "verified_at", None),
             created_at=u.created_at
         )
         for p, u in rows

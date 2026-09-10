@@ -38,7 +38,9 @@ async def lifespan(app: FastAPI):
             is_sqlite = engine.dialect.name == "sqlite"
             cols = [
                 ("bar_license_verified", "BOOLEAN DEFAULT FALSE"),
-                ("aadhaar_verified", "BOOLEAN DEFAULT FALSE")
+                ("aadhaar_verified", "BOOLEAN DEFAULT FALSE"),
+                ("rejection_reason", "VARCHAR(500) NULL"),
+                ("verified_at", "TIMESTAMP WITH TIME ZONE NULL")
             ]
             for col_name, col_def in cols:
                 try:
@@ -158,15 +160,27 @@ async def security_headers_and_rate_limit(request: Request, call_next):
     response = await call_next(request)
     daily_url = "https://*.daily.co"
     daily_wss = "wss://*.daily.co"
+    inline_script_hashes = (
+        "'sha256-BbmeizoUrH9EvlCX6oVHAVbFIP1nCNJ1ZVktMlsXbjs=' "   # Google tag (gtag.js) initialization (LF)
+        "'sha256-svgJ2VyScMMAzTX0iKQULZ/hd+1fRelvuoN/3zDeemo=' "   # Google tag (gtag.js) initialization (CRLF)
+        "'sha256-8+qxb5wPXyVqCJ/aBsePOF2hcL4J/F6tVaqA5dMEBqw=' "   # Lawyer portal synchronous auth pre-check
+        "'sha256-/awCScYc9UBM9w3/6Rvqk5C0NQ8bp6HLHaCBqBEymaM=' "   # Mobile navigation hamburger toggle
+        "'sha256-feWCgMk4R9kSquTOz6w6qDgyqhz8q+fhvO98DAm9fVA='"    # Schema.org structured data JSON-LD
+    )
+    script_policy = (
+        f"script-src 'self' 'unsafe-eval' {inline_script_hashes} https://www.gstatic.com https://www.google.com https://accounts.google.com https://www.googletagmanager.com https://cdnjs.cloudflare.com https://meet.jit.si https://8x8.vc;"
+        if settings.production
+        else "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://www.google.com https://accounts.google.com https://www.googletagmanager.com https://cdnjs.cloudflare.com https://meet.jit.si https://8x8.vc;"
+    )
     response.headers.update({
         "X-Request-ID": request_id,
         "X-Content-Type-Options": "nosniff",
-        "X-Frame-Options": "DENY",
+        "X-Frame-Options": "SAMEORIGIN",
         "X-XSS-Protection": "1; mode=block",
         "Referrer-Policy": "strict-origin-when-cross-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
         "Permissions-Policy": f'camera=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), microphone=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), display-capture=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), geolocation=()',
-        "Content-Security-Policy": f"default-src 'self'; script-src 'self' 'unsafe-eval' https://www.gstatic.com https://www.google.com https://www.googletagmanager.com https://cdnjs.cloudflare.com https://meet.jit.si https://8x8.vc; frame-src {daily_url} https://daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc https://VidhiMeet.firebaseapp.com https://www.google.com; connect-src 'self' {daily_url} {daily_wss} https://api.daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc wss://*.meet.jit.si wss://*.8x8.vc https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src *; object-src 'none'; base-uri 'self'; worker-src blob: https://cdnjs.cloudflare.com;",
+        "Content-Security-Policy": f"default-src 'self'; {script_policy} frame-src 'self' {daily_url} https://daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc https://VidhiMeet.firebaseapp.com https://www.google.com https://accounts.google.com; connect-src 'self' {daily_url} {daily_wss} https://api.daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc wss://*.meet.jit.si wss://*.8x8.vc https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src *; object-src 'self'; base-uri 'self'; worker-src blob: https://cdnjs.cloudflare.com;",
     })
     return response
 

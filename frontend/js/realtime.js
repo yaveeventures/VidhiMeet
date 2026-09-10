@@ -160,8 +160,18 @@ class WebSocketChatClient {
     const token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
     if (!token || !this.bookingId) return;
 
-    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
-    const host = window.location.host;
+    let protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    let host = window.location.host;
+    if (typeof LexAPI !== "undefined" && typeof LexAPI.getBaseUrl === "function") {
+      const base = LexAPI.getBaseUrl();
+      if (base && base.startsWith("http")) {
+        try {
+          const u = new URL(base);
+          host = u.host;
+          protocol = u.protocol === "https:" ? "wss:" : "ws:";
+        } catch (e) {}
+      }
+    }
     const wsUrl = `${protocol}//${host}/api/v1/ws/chat/${this.bookingId}?token=${encodeURIComponent(token)}`;
 
     this.socket = new WebSocket(wsUrl);

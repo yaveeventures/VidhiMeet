@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Request, UploadFile
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -67,11 +67,13 @@ def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session
     return LawyerOut(
         id=user.id,
         full_name=user.full_name,
+        email=user.email,
         practice=p_practices,
         languages=profile.languages,
         hourly_fee_minor=profile.hourly_fee_minor,
         rating=float(profile.rating or 0),
         verified=profile.verified,
+        verification_status=profile.verification_status or "pending",
         bar_number=profile.bar_number,
         availability=profile.availability or {},
         enrollment_date=profile.enrollment_date,
@@ -82,12 +84,14 @@ def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session
         aadhaar_verified=getattr(profile, "aadhaar_verified", False),
         aadhaar_number=profile.aadhaar_number,
         mobile_number=profile.mobile_number,
+        rejection_reason=getattr(profile, "rejection_reason", None),
+        verified_at=getattr(profile, "verified_at", None),
         created_at=user.created_at
     )
 
 
 @router.put("/api/v1/lawyers/me")
-def update_my_profile(payload: LawyerProfileUpdate, user: User = Depends(require_roles(Role.LAWYER)), db: Session = Depends(get_db)):
+def update_my_profile(request: Request, payload: LawyerProfileUpdate, user: User = Depends(require_roles(Role.LAWYER)), db: Session = Depends(get_db)):
     user.full_name = payload.full_name.strip()
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
     if not profile:
@@ -122,7 +126,29 @@ def update_my_profile(payload: LawyerProfileUpdate, user: User = Depends(require
             profile.mobile_number = payload.mobile_number
         if profile.bar_number != payload.bar_number:
             profile.verified = False
-    audit(db, user, "lawyer.profile_updated", "lawyer_profile", user.id)
+
+    # Extract client IP and declarations timestamp for DPDPA compliance audit log
+    client_ip = (
+        request.headers.get("x-forwarded-for", "").split(",")[0].strip()
+        or (request.client.host if request.client else "unknown")
+    )
+    declarations_at = (
+        payload.availability.get("declarations_accepted_at")
+        if isinstance(payload.availability, dict)
+        else None
+    )
+    audit(
+        db,
+        user,
+        "lawyer.profile_updated",
+        "lawyer_profile",
+        user.id,
+        metadata={
+            "ip": client_ip,
+            "bar_number": payload.bar_number,
+            "declarations_accepted_at": declarations_at,
+        },
+    )
     db.commit()
     return {"status": "success"}
 
@@ -278,7 +304,12 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
             ".jpeg": "image/jpeg",
             ".png": "image/png"
         }
-        return FileResponse(file_path, media_type=media_types.get(ext, "application/octet-stream"), filename=os.path.basename(key))
+        return FileResponse(
+            file_path,
+            media_type=media_types.get(ext, "application/octet-stream"),
+            filename=os.path.basename(key),
+            content_disposition_type="inline"
+        )
 
     from ..config import get_settings
     settings = get_settings()
@@ -288,7 +319,13 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
         from ..services.s3_client import get_s3_client
         client = get_s3_client()
         url = client.generate_presigned_url(
-            "get_object", Params={"Bucket": settings.document_bucket, "Key": key}, ExpiresIn=expiry
+            "get_object",
+            Params={
+                "Bucket": settings.document_bucket,
+                "Key": key,
+                "ResponseContentDisposition": f"inline; filename=\"{os.path.basename(key)}\""
+            },
+            ExpiresIn=expiry
         )
         from fastapi.responses import RedirectResponse
         return RedirectResponse(url)
@@ -310,5 +347,5 @@ def download_lawyer_document(lawyer_id: str, key: str, token: str | None = None,
         file_path,
         filename=os.path.basename(key),
         media_type=media_type,
-        headers={"Content-Disposition": f"inline; filename=\"{os.path.basename(key)}\""}
+        content_disposition_type="inline"
     )

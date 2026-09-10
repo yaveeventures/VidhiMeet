@@ -27,17 +27,38 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-tokens.min.css">
-  <link rel="stylesheet" href="css/lawyer.min.css?v=rev-33">
+  <link rel="stylesheet" href="css/lawyer.min.css?v=rev-40">
   <link rel="stylesheet" href="css/cookie-consent.min.css">
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7DTR2BK4ML"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-7DTR2BK4ML', { anonymize_ip: true });
+    // Synchronous auth check to immediately render lawyer sign-in page if not logged in
+    (function() {
+      try {
+        var token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
+        var isLawyer = false;
+        if (token) {
+          var payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+          if (payload && String(payload.role).toLowerCase() === "lawyer") {
+            isLawyer = true;
+          }
+        }
+        if (!isLawyer) {
+          document.documentElement.classList.add("lawyer-not-authenticated");
+        }
+      } catch(e) {
+        document.documentElement.classList.add("lawyer-not-authenticated");
+      }
+    })();
   </script>
+  <style>
+    html.lawyer-not-authenticated #sidebar,
+    html.lawyer-not-authenticated .app {
+      display: none !important;
+    }
+    html.lawyer-not-authenticated #lawyer-auth-page {
+      display: flex !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -85,8 +106,10 @@
             <p>Here’s what’s happening with your practice today.</p>
           </div><button class="primary" data-go="calendar">＋ Manage availability</button>
         </div>
-        <div class="verified"><i>✓</i>
-          <div><strong>Checking profile status...</strong><small>Connecting to advocate portal database...</small></div><button data-go="profile">View status →</button>
+        <div id="overview-verification-container">
+          <div class="verified"><i>✓</i>
+            <div><strong>Checking profile status...</strong><small>Connecting to advocate portal database...</small></div><button data-go="profile">View status →</button>
+          </div>
         </div>
         <div class="stats">
           <article><span>▣</span>
@@ -275,70 +298,368 @@
       </section>
       <section class="view" id="profile">
         <div class="page-head">
-          <div><small class="eyebrow">PUBLIC PROFILE</small>
-            <h1>Profile & verification</h1>
-            <p>Keep professional details and credentials current.</p>
-          </div><button class="primary" id="save-profile-btn">Save profile</button>
+          <div><small class="eyebrow">ADVOCATE ONBOARDING & VERIFICATION</small>
+            <h1>Profile & Verification</h1>
+            <p>Complete the 4-step digital onboarding to activate your practice on VidhiMeet.</p>
+          </div>
+          <button class="primary" id="save-profile-btn" style="min-height:42px;">Submit for Verification →</button>
         </div>
+
+        <!-- Wizard Stepper Indicator -->
+        <div class="wizard-stepper" id="onboarding-stepper">
+          <button type="button" class="wizard-step-btn active" data-wizard-step="1">
+            <span class="step-num">1</span>
+            <span class="step-label">Basic Profile</span>
+          </button>
+          <div class="step-connector"></div>
+          <button type="button" class="wizard-step-btn" data-wizard-step="2">
+            <span class="step-num">2</span>
+            <span class="step-label">Legal Credentials & Courts</span>
+          </button>
+          <div class="step-connector"></div>
+          <button type="button" class="wizard-step-btn" data-wizard-step="3">
+            <span class="step-num">3</span>
+            <span class="step-label">KYC & Documents</span>
+          </button>
+          <div class="step-connector"></div>
+          <button type="button" class="wizard-step-btn" data-wizard-step="4">
+            <span class="step-num">4</span>
+            <span class="step-label">Legal Declarations</span>
+          </button>
+        </div>
+
         <div class="two-col profile">
           <div class="panel">
             <div class="profile-top">
-              <span class="avatar large">AR</span>
+              <span class="avatar large" id="prof-avatar-preview">AR</span>
               <div>
-                <h2>Adv. Aanya Rao</h2>
-                <small>Profile complete</small>
-                <div class="progress"><i style="width:100%"></i></div>
+                <h2 id="prof-header-name">Advocate Profile</h2>
+                <small id="prof-completeness-text">Profile completeness: 0%</small>
+                <div class="progress"><i id="prof-completeness-bar" style="width:0%"></i></div>
               </div>
             </div>
-            <div class="form">
-              <label>Professional name *<input id="prof-name" value="Adv. Aanya Rao" required></label>
-              <label>Bar council number *<input id="prof-bar" value="DL/2014/02841" required></label>
 
-              <label class="full">
-                Practice areas *
-                <div class="practice-checkboxes">
-                  <label><input type="checkbox" name="prof-practice" value="Property Law"> Property Law</label>
-                  <label><input type="checkbox" name="prof-practice" value="Corporate Law"> Corporate Law</label>
-                  <label><input type="checkbox" name="prof-practice" value="Family Law"> Family Law</label>
+            <!-- STEP 1: Basic Profile & Digital Footprint -->
+            <div class="wizard-pane active" id="pane-step-1" data-pane="1">
+              <div class="form-section-divider" style="margin-top:0;"><span>Step 1: Basic Profile & Digital Footprint</span></div>
+              <div class="form">
+                <div class="full profile-photo-card" style="display:flex;align-items:center;gap:16px;background:#faf8f5;padding:14px;border-radius:12px;border:1px solid var(--line);margin-bottom:12px;">
+                  <span class="avatar" id="avatar-thumbnail" style="width:54px;height:54px;font-size:20px;border-radius:50%;background:var(--forest);color:#fff;display:inline-flex;align-items:center;justify-content:center;">AR</span>
+                  <div>
+                    <strong style="display:block;font-size:13px;color:var(--dark);">High-Resolution Profile Photo</strong>
+                    <small style="color:var(--muted);font-size:12px;display:block;margin-bottom:6px;">Upload a professional headshot in advocate court attire.</small>
+                    <button type="button" class="outline" id="upload-avatar-trigger" style="padding:4px 10px;font-size:12px;">Change photo</button>
+                    <input id="profile-pic-file" type="file" accept="image/*" hidden>
+                  </div>
                 </div>
-              </label>
 
-              <div class="form-section-divider"><span>Credentials</span></div>
-
-              <label>Enrollment date *<input id="prof-enrollment" type="date" required></label>
-              <label>Experience<input id="prof-exp" readonly placeholder="Calculated from enrollment date"></label>
-              <label class="full">Practice address *<input id="prof-address" placeholder="Enter full practice address" required></label>
-
-              <div class="form-section-divider"><span>About</span></div>
-
-              <label class="full">Professional summary<textarea id="prof-summary" placeholder="Describe your practice, experience, and specializations…"></textarea></label>
-              <label style="position:relative;">
-                Languages
-                <input id="prof-languages" value="English, Hindi" autocomplete="off" placeholder="e.g. English, Hindi, Kannada…">
-                <div id="lang-dropdown" class="lang-dropdown-menu" hidden></div>
-              </label>
-              <label>Consultation fee (INR)<input id="prof-fee" value="1800" placeholder="e.g. 1800"></label>
-
-              <div class="form-section-divider"><span>Identity</span></div>
-
-              <label>Aadhaar Number *<input id="aadhaar-number" value="" placeholder="12-digit Aadhaar" required></label>
-              <label>Mobile number *<input id="prof-mobile" type="tel" placeholder="10-digit mobile number" maxlength="10" minlength="10" pattern="[6-9][0-9]{9}" required autocomplete="tel"></label>
+                <label>
+                  <span class="field-label-text">Professional Name <span class="req-star">*</span></span>
+                  <input id="prof-name" value="Adv. Aanya Rao" placeholder="Adv. Full Name" required>
+                </label>
+                <label>
+                  <span class="field-label-text">Email Address</span>
+                  <input id="prof-email-display" readonly placeholder="advocate@example.com">
+                </label>
+                <label class="full">
+                  <span class="field-label-text">Practice City <span class="req-star">*</span></span>
+                  <input id="prof-city" placeholder="e.g. New Delhi, Bengaluru, Mumbai" required>
+                </label>
+                <label class="full">
+                  <span class="field-label-text">Practice Chamber / Office Address <span class="req-star">*</span></span>
+                  <input id="prof-address" placeholder="Enter chamber number, court complex or office address" required>
+                </label>
+              </div>
+              <div class="wizard-nav">
+                <div></div>
+                <button type="button" class="primary wizard-next-btn" data-next="2">Next: Legal Credentials & Courts →</button>
+              </div>
             </div>
+
+            <!-- STEP 2: Legal Credentials & Practice Courts -->
+            <div class="wizard-pane" id="pane-step-2" data-pane="2">
+              <div class="form-section-divider" style="margin-top:0;"><span>Step 2: Legal Credentials & Practice Courts</span></div>
+              <div class="form">
+                <div class="field-compound full" style="margin-bottom:12px;">
+                  <span class="field-label-text" style="display:block;margin-bottom:8px;">State Bar Council Registration <span class="req-star">*</span> <small style="color:var(--muted);font-weight:normal;font-size:12px;">(Standard State Bar Council Format)</small></span>
+                  <div class="bar-compound-grid">
+                    <div>
+                      <label class="field-label-text" style="display:block;margin-bottom:4px;font-size:12px;">State Bar Council</label>
+                      <select id="prof-bar-state" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:#fff;font-size:13.5px;">
+                        <option value="">Select State Bar Council...</option>
+                        <option value="D/" data-prefix="D/">Bar Council of Delhi (D/)</option>
+                        <option value="MAH/" data-prefix="MAH/">Bar Council of Maharashtra & Goa (MAH/)</option>
+                        <option value="KAR/" data-prefix="KAR/">Bar Council of Karnataka (KAR/)</option>
+                        <option value="MS/" data-prefix="MS/">Bar Council of Tamil Nadu & Puducherry (MS/)</option>
+                        <option value="UP/" data-prefix="UP/">Bar Council of Uttar Pradesh (UP/)</option>
+                        <option value="WB/" data-prefix="WB/">Bar Council of West Bengal (WB/)</option>
+                        <option value="PH/" data-prefix="PH/">Bar Council of Punjab & Haryana (PH/)</option>
+                        <option value="G/" data-prefix="G/">Bar Council of Gujarat (G/)</option>
+                        <option value="R/" data-prefix="R/">Bar Council of Rajasthan (R/)</option>
+                        <option value="K/" data-prefix="K/">Bar Council of Kerala (K/)</option>
+                        <option value="AP/" data-prefix="AP/">Bar Council of Andhra Pradesh (AP/)</option>
+                        <option value="TS/" data-prefix="TS/">Bar Council of Telangana (TS/)</option>
+                        <option value="BR/" data-prefix="BR/">Bar Council of Bihar (BR/)</option>
+                        <option value="MP/" data-prefix="MP/">Bar Council of Madhya Pradesh (MP/)</option>
+                        <option value="O/" data-prefix="O/">Bar Council of Odisha (O/)</option>
+                        <option value="JH/" data-prefix="JH/">Bar Council of Jharkhand (JH/)</option>
+                        <option value="CG/" data-prefix="CG/">Bar Council of Chhattisgarh (CG/)</option>
+                        <option value="UK/" data-prefix="UK/">Bar Council of Uttarakhand (UK/)</option>
+                        <option value="HIM/" data-prefix="HIM/">Bar Council of Himachal Pradesh (HIM/)</option>
+                        <option value="JK/" data-prefix="JK/">Bar Council of J&K and Ladakh (JK/)</option>
+                        <option value="NE/" data-prefix="NE/">Bar Council of Assam & NE States (NE/)</option>
+                        <option value="MN/" data-prefix="MN/">Bar Council of Manipur (MN/)</option>
+                        <option value="MG/" data-prefix="MG/">Bar Council of Meghalaya (MG/)</option>
+                        <option value="TR/" data-prefix="TR/">Bar Council of Tripura (TR/)</option>
+                        <option value="BCI/" data-prefix="BCI/">Bar Council of India Direct (BCI/)</option>
+                        <option value="OTHER" data-prefix="">Other State Council</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="field-label-text" style="display:block;margin-bottom:4px;font-size:12px;">Enrollment No.</label>
+                      <input id="prof-bar-num" placeholder="e.g. 2841" pattern="[0-9A-Za-z-]+" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);font-size:13.5px;background:#fbfcfb;">
+                    </div>
+                    <div>
+                      <label class="field-label-text" style="display:block;margin-bottom:4px;font-size:12px;">Enrollment Year</label>
+                      <input id="prof-bar-year" placeholder="YYYY" maxlength="4" pattern="[1-2][0-9]{3}" style="width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);font-size:13.5px;background:#fbfcfb;">
+                    </div>
+                  </div>
+                  <input id="prof-bar" type="hidden" value="" required>
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;flex-wrap:wrap;gap:8px;">
+                    <span style="font-size:11px;color:var(--muted);">Standardized Enrollment: <strong id="prof-bar-preview" style="color:var(--forest);font-family:monospace;font-size:12px;">—</strong></span>
+                    <button type="button" id="prof-bar-manual-toggle" style="background:none;border:none;color:var(--forest);font-size:11px;cursor:pointer;text-decoration:underline;padding:0;">Edit manually</button>
+                  </div>
+                  <div id="prof-bar-manual-wrap" style="display:none;margin-top:8px;">
+                    <input id="prof-bar-manual" placeholder="e.g. KAR/1234/2020 or MAH/567/2018" style="width:100%;padding:8px 10px;border-radius:6px;border:1px solid var(--line);font-size:13px;">
+                  </div>
+                </div>
+
+                <label>
+                  <span class="field-label-text">Enrollment Date <span class="req-star">*</span></span>
+                  <input id="prof-enrollment" type="date" required>
+                </label>
+                <label>
+                  <span class="field-label-text">Calculated Experience</span>
+                  <input id="prof-exp" readonly placeholder="Calculated from enrollment date">
+                </label>
+
+                <!-- Document Upload Card for Bar Council Certificate -->
+                <div class="full doc-upload-card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#faf8f5;padding:16px 18px;border-radius:12px;border:1px solid var(--line);margin:6px 0 14px;">
+                  <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:44px;height:44px;border-radius:10px;background:#e8f4ee;color:var(--forest);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">📜</div>
+                    <div>
+                      <strong style="display:block;font-size:13.5px;color:var(--dark);font-family:var(--font-display);">Bar Council Certificate / Identity Card <span class="req-star">*</span></strong>
+                      <small style="color:var(--muted);font-size:12px;display:block;margin-top:2px;">Upload scanned copy or photo of your Bar Council Enrollment Certificate or COP (PDF, JPEG, PNG up to 10MB)</small>
+                      <div style="margin-top:6px;">
+                        <span id="bar-license-status" style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:#eef2ef;color:var(--muted);">Not uploaded</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="button" class="outline" id="upload-bar-btn" style="padding:8px 16px;font-size:12.5px;font-weight:600;white-space:nowrap;">Upload Certificate</button>
+                    <input id="bar-licence-file" type="file" accept=".pdf,image/*" hidden>
+                  </div>
+                </div>
+
+                <div class="full">
+                  <span class="field-label-text" style="display:block;margin-bottom:8px;">Primary Practice Areas <span class="req-star">*</span></span>
+                  <div class="practice-checkboxes">
+                    <label class="court-chip"><input type="checkbox" name="prof-practice" value="Property Law"> <span>🏠 Property Law</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-practice" value="Corporate Law"> <span>💼 Corporate Law</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-practice" value="Family Law"> <span>👨‍👩‍👧 Family Law</span></label>
+                  </div>
+                </div>
+
+                <div class="full">
+                  <span class="field-label-text" style="display:block;margin-bottom:8px;">Courts of Regular Practice <span class="req-star">*</span></span>
+                  <div class="court-chips-grid" id="court-chips-container">
+                    <label class="court-chip"><input type="checkbox" name="prof-courts" value="Supreme Court of India"> <span class="court-chip-icon">🏛️</span> <span>Supreme Court of India</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-courts" value="High Court"> <span class="court-chip-icon">⚖️</span> <span>High Court</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-courts" value="District & Sessions Court"> <span class="court-chip-icon">🏢</span> <span>District & Sessions Court</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-courts" value="NCLT / NCLAT"> <span class="court-chip-icon">💼</span> <span>NCLT / NCLAT</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-courts" value="Debt Recovery Tribunal (DRT)"> <span class="court-chip-icon">🏦</span> <span>DRT / DRAT</span></label>
+                    <label class="court-chip"><input type="checkbox" name="prof-courts" value="Consumer Disputes Forum"> <span class="court-chip-icon">🛡️</span> <span>Consumer Forum</span></label>
+                  </div>
+                </div>
+
+                <label style="position:relative;">
+                  <span class="field-label-text">Languages Spoken</span>
+                  <input id="prof-languages" value="English, Hindi" autocomplete="off" placeholder="e.g. English, Hindi, Kannada…">
+                  <div id="lang-dropdown" class="lang-dropdown-menu" hidden></div>
+                </label>
+                <label>
+                  <span class="field-label-text">Consultation Fee (₹ INR) <span class="req-star">*</span></span>
+                  <input id="prof-fee" value="1800" placeholder="e.g. 1800">
+                </label>
+
+                <label class="full">
+                  <span class="field-label-text">Professional Summary / Bio</span>
+                  <textarea id="prof-summary" placeholder="Describe your legal background, major cases, and areas of advisory…"></textarea>
+                </label>
+              </div>
+              <div class="wizard-nav">
+                <button type="button" class="outline wizard-prev-btn" data-prev="1">← Back to Step 1</button>
+                <button type="button" class="primary wizard-next-btn" data-next="3">Next: Verification & KYC →</button>
+              </div>
+            </div>
+
+            <!-- STEP 3: Verification Documents & KYC -->
+            <div class="wizard-pane" id="pane-step-3" data-pane="3">
+              <div class="form-section-divider" style="margin-top:0;"><span>Step 3: Verification Documents & KYC</span></div>
+              <div class="form">
+                <label>
+                  <span class="field-label-text">Government Aadhaar Number <span class="req-star">*</span></span>
+                  <input id="aadhaar-number" value="" placeholder="12-digit Aadhaar Number" required>
+                </label>
+                <label>
+                  <span class="field-label-text">Mobile Number <span class="req-star">*</span></span>
+                  <input id="prof-mobile" type="tel" placeholder="10-digit mobile number" maxlength="10" minlength="10" pattern="[6-9][0-9]{9}" required autocomplete="tel">
+                </label>
+
+                <!-- Document Upload Card for Aadhaar / Government Photo ID -->
+                <div class="full doc-upload-card" style="display:flex;align-items:center;justify-content:space-between;gap:16px;background:#faf8f5;padding:16px 18px;border-radius:12px;border:1px solid var(--line);margin:4px 0 14px;">
+                  <div style="display:flex;align-items:center;gap:14px;">
+                    <div style="width:44px;height:44px;border-radius:10px;background:#e8f4ee;color:var(--forest);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🪪</div>
+                    <div>
+                      <strong style="display:block;font-size:13.5px;color:var(--dark);font-family:var(--font-display);">Aadhaar Card / Government Photo ID <span class="req-star">*</span></strong>
+                      <small style="color:var(--muted);font-size:12px;display:block;margin-top:2px;">Upload front & back scanned copy or clear photo (PDF, JPEG, PNG up to 10MB) · Encrypted with AES-256</small>
+                      <div style="margin-top:6px;">
+                        <span id="gov-id-status" style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;background:#eef2ef;color:var(--muted);">Not uploaded</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button type="button" class="outline" id="upload-id-btn" style="padding:8px 16px;font-size:12.5px;font-weight:600;white-space:nowrap;">Upload Document</button>
+                    <input id="aadhaar-file" type="file" accept=".pdf,image/*" hidden>
+                  </div>
+                </div>
+
+                <div class="full" style="background:#faf8f5;border:1px solid #ebd9c8;border-radius:12px;padding:16px;margin-bottom:12px;">
+                  <strong style="display:block;font-size:14px;color:var(--dark);margin-bottom:4px;">Payout Bank Account (for consultation settlements)</strong>
+                  <p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Your account details are 256-bit encrypted and used strictly for escrow payout releases.</p>
+                  <div id="bank-status-summary" style="margin-bottom:10px;font-size:13px;">
+                    <span class="muted">Loading bank status...</span>
+                  </div>
+                  <button type="button" class="outline" id="wizard-bank-btn" style="padding:6px 14px;font-size:12px;">Manage Bank Account →</button>
+                </div>
+              </div>
+              <div class="wizard-nav">
+                <button type="button" class="outline wizard-prev-btn" data-prev="2">← Back to Step 2</button>
+                <button type="button" class="primary wizard-next-btn" data-next="4">Next: Legal Declarations →</button>
+              </div>
+            </div>
+
+            <!-- STEP 4: Critical Legal Declarations & Sign-off -->
+            <div class="wizard-pane" id="pane-step-4" data-pane="4">
+              <div class="form-section-divider" style="margin-top:0;"><span>Step 4: Critical Legal Declarations & Sign-off</span></div>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">
+                Please review and explicitly accept the following declarations required under the <strong>Advocates Act, 1961</strong> and <strong>Information Technology Act, 2000 (Section 79 Intermediary Guidelines)</strong>.
+              </p>
+
+              <div class="declaration-card">
+                <label class="declaration-label">
+                  <input type="checkbox" id="decl-good-standing" required>
+                  <div class="declaration-text">
+                    <strong>1. Bar Council Good Standing Certification</strong>
+                    <p>I certify that I am a licensed advocate enrolled in good standing with my State Bar Council and the Bar Council of India, and there are currently no active disciplinary, misconduct, or suspension proceedings against me.</p>
+                  </div>
+                </label>
+              </div>
+
+              <div class="declaration-card">
+                <label class="declaration-label">
+                  <input type="checkbox" id="decl-intermediary" required>
+                  <div class="declaration-text">
+                    <strong>2. Intermediary Status & Sole Professional Liability</strong>
+                    <p>I acknowledge and agree that VidhiMeet operates strictly as a technology intermediary platform. As an independent legal professional, I retain sole and exclusive responsibility for the legal accuracy, drafting quality, legal opinions, and professional outcomes of all consultations provided to clients.</p>
+                  </div>
+                </label>
+              </div>
+
+              <div class="declaration-card">
+                <label class="declaration-label">
+                  <input type="checkbox" id="decl-confidentiality" required>
+                  <div class="declaration-text">
+                    <strong>3. Attorney-Client Privilege & Non-Circumvention</strong>
+                    <p>I agree to maintain absolute attorney-client confidentiality over all digital workspaces on VidhiMeet. I further agree not to solicit clients outside the platform or bypass VidhiMeet's secure escrow payment system for consultations initiated through the platform.</p>
+                  </div>
+                </label>
+              </div>
+
+              <div style="background:#f7f9f8;border:1px solid #d4ded8;border-radius:10px;padding:12px 14px;font-size:12px;color:var(--muted);margin-top:16px;">
+                🔒 <strong>Digital Audit Record:</strong> Upon clicking "Submit for Verification", your declarations, enrollment identity, timestamp, and IP address will be cryptographically logged in compliance with the Digital Personal Data Protection Act, 2023.
+              </div>
+
+              <div class="wizard-nav">
+                <button type="button" class="outline wizard-prev-btn" data-prev="3">← Back to Step 3</button>
+                <button type="button" class="primary" id="wizard-submit-btn" style="padding:10px 24px;font-size:14px;background:var(--forest);">Submit Credentials for Verification →</button>
+              </div>
+            </div>
+
           </div>
-          <div class="panel credentials">
-            <div class="credential-status"><i>✓</i><span><strong>Identity verified</strong><small>Reviewed 12 May
-                  2026</small></span></div>
-            <h2>Professional credentials</h2>
-            <p>▤ <span><strong>Bar Council Certificate</strong><small
-                  id="bar-license-status">Verified</small></span><button type="button" class="outline"
-                id="upload-bar-btn"
-                style="padding:4px 10px;font-size:12px;margin-left:auto;width:auto;cursor:pointer;">Upload</button></p>
-            <p>▤ <span><strong>Aadhaar</strong><small id="gov-id-status">Verified</small></span><button
-                type="button" class="outline" id="upload-id-btn"
-                style="padding:4px 10px;font-size:12px;margin-left:auto;width:auto;cursor:pointer;">Upload</button></p>
-            <input id="bar-licence-file" type="file" hidden><input id="aadhaar-file" type="file" hidden><input
-              id="profile-pic-file" type="file" hidden><small class="privacy">🔒 Credentials are encrypted at rest and
-              only visible to the verification team.</small>
+          <!-- RIGHT COLUMN: Advocate Compliance & Verification Hub -->
+          <div class="panel credentials" id="credentials-sidebar-panel">
+            <div class="credential-status" id="sidebar-credential-badge">
+              <i>✓</i>
+              <span>
+                <strong id="sidebar-verify-title">Verification Status</strong>
+                <small id="sidebar-verify-desc">Awaiting compliance review</small>
+              </span>
+            </div>
+            
+            <h2 style="font-size:17px;margin:16px 0 4px;color:var(--dark);">Verification Overview</h2>
+            <p style="font-size:12px;color:var(--muted);margin:0 0 16px;line-height:1.4;">Submit credentials and documents directly through the 4 steps on the left.</p>
+
+            <div class="sidebar-steps-checklist" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#faf8f5;border:1px solid #ebd9c8;border-radius:10px;font-size:12.5px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span>👤</span>
+                  <strong style="color:var(--dark);font-size:12.5px;">1. Basic Profile</strong>
+                </div>
+                <span id="sidebar-chk-profile" style="font-size:11.5px;font-weight:600;color:var(--forest);">Step 1</span>
+              </div>
+
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#faf8f5;border:1px solid #ebd9c8;border-radius:10px;font-size:12.5px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span>📜</span>
+                  <strong style="color:var(--dark);font-size:12.5px;">2. Bar Council Certificate</strong>
+                </div>
+                <span id="sidebar-chk-bar" style="font-size:11.5px;font-weight:600;color:var(--muted);">Step 2</span>
+              </div>
+
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#faf8f5;border:1px solid #ebd9c8;border-radius:10px;font-size:12.5px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span>🪪</span>
+                  <strong style="color:var(--dark);font-size:12.5px;">3. Government ID & Bank</strong>
+                </div>
+                <span id="sidebar-chk-kyc" style="font-size:11.5px;font-weight:600;color:var(--muted);">Step 3</span>
+              </div>
+
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:#faf8f5;border:1px solid #ebd9c8;border-radius:10px;font-size:12.5px;">
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <span>⚖️</span>
+                  <strong style="color:var(--dark);font-size:12.5px;">4. Legal Declarations</strong>
+                </div>
+                <span id="sidebar-chk-decl" style="font-size:11.5px;font-weight:600;color:var(--muted);">Step 4</span>
+              </div>
+            </div>
+
+            <div class="trust-sla-box">
+              <div class="trust-sla-row">
+                <span style="color:var(--muted);font-size:12px;">Verification Turnaround:</span>
+                <strong style="color:var(--forest);font-size:12px;">12–24 Business Hours</strong>
+              </div>
+              <div class="trust-sla-row">
+                <span style="color:var(--muted);font-size:12px;">Document Encryption:</span>
+                <strong style="color:var(--dark);font-size:12px;">AES-256</strong>
+              </div>
+              <div class="trust-sla-row">
+                <span style="color:var(--muted);font-size:12px;">Advocate Priority Support:</span>
+                <a href="mailto:advocate-support@vidhimeet.in" style="color:var(--forest);font-size:12px;font-weight:600;text-decoration:none;">advocate-support@vidhimeet.in</a>
+              </div>
+            </div>
+
+            <small class="privacy" style="margin-top:14px;display:block;background:#f5f8f6;border:1px solid #dbe6df;border-radius:8px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.5;">🔒 All uploaded credentials are cryptographically encrypted at rest with AES-256 and only accessible to certified verification officers.</small>
           </div>
         </div>
       </section>
@@ -425,7 +746,7 @@
             <div class="password-wrap">
               <input type="password" id="lawyer-reset-new-password" required minlength="12" placeholder="At least 12 characters">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
-                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
               </button>
             </div>
@@ -435,7 +756,7 @@
             <div class="password-wrap">
               <input type="password" id="lawyer-reset-confirm-password" required minlength="12" placeholder="Re-enter new password">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
-                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
               </button>
             </div>
@@ -636,10 +957,10 @@
           </div>
         </div>
         <div style="background:#faf8f5; border:1px solid #e2dacd; border-radius:12px; padding:14px; display:flex; align-items:center; gap:10px;">
-          <span style="font-size:20px;">📞</span>
+          <span style="font-size:20px;">✉️</span>
           <div>
-            <strong style="display:block; font-size:13px; color:#1c2826;">Priority Line</strong>
-            <span style="font-size:11px; color:#8c857b;">1800-102-8434</span>
+            <strong style="display:block; font-size:13px; color:#1c2826;">Advocate Support</strong>
+            <a href="mailto:advocate-support@vidhimeet.in" style="font-size:11px; color:var(--forest); font-weight:600; text-decoration:none;">advocate-support@vidhimeet.in</a>
           </div>
         </div>
       </div>
@@ -666,14 +987,81 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- Welcome Onboarding Stepper Modal -->
+  <div class="backdrop" id="lawyer-welcome-modal" hidden>
+    <div class="call-modal" style="max-width:540px;text-align:left;padding:32px;border-radius:20px;box-shadow:0 24px 48px rgba(0,0,0,0.2);position:relative;">
+      <button id="lawyer-welcome-close" style="position:absolute;right:20px;top:20px;border:0;background:none;font-size:24px;cursor:pointer;color:var(--muted);">×</button>
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:14px;background:#e8f4ee;color:var(--forest);font-size:24px;margin-bottom:14px;">⚖️</div>
+      <small class="eyebrow" style="color:var(--forest);font-weight:700;letter-spacing:0.05em;display:block;">WELCOME TO VIDHIMEET</small>
+      <h2 style="margin:4px 0 8px;font-size:22px;color:var(--dark);">Activate Your Digital Practice</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
+        Welcome, Advocate! Join India's verified network for high-trust video consultations and digital drafting. Complete 4 simple steps to activate client bookings.
+      </p>
+      <div class="welcome-steps-list" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;background:#faf8f5;padding:12px 14px;border-radius:10px;border:1px solid #ebd9c8;">
+          <span style="display:inline-flex;width:24px;height:24px;background:var(--forest);color:#fff;border-radius:50%;font-size:12px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;">1</span>
+          <div>
+            <strong style="font-size:13px;color:var(--dark);display:block;">Complete Practice Details</strong>
+            <small style="color:var(--muted);font-size:12px;">Practice areas, experience, and consultation fee.</small>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;background:#faf8f5;padding:12px 14px;border-radius:10px;border:1px solid #ebd9c8;">
+          <span style="display:inline-flex;width:24px;height:24px;background:var(--forest);color:#fff;border-radius:50%;font-size:12px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;">2</span>
+          <div>
+            <strong style="font-size:13px;color:var(--dark);display:block;">Upload Bar License & Government ID</strong>
+            <small style="color:var(--muted);font-size:12px;">Encrypted credentials routed directly to our compliance desk.</small>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;background:#faf8f5;padding:12px 14px;border-radius:10px;border:1px solid #ebd9c8;">
+          <span style="display:inline-flex;width:24px;height:24px;background:var(--forest);color:#fff;border-radius:50%;font-size:12px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;">3</span>
+          <div>
+            <strong style="font-size:13px;color:var(--dark);display:block;">Verify Identity & Payout Bank Details</strong>
+            <small style="color:var(--muted);font-size:12px;">Fast automated earnings settlement directly to your account.</small>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;">
+        <button type="button" class="outline" id="welcome-dismiss-btn" style="padding:10px 18px;font-size:13px;">Explore Dashboard First</button>
+        <button type="button" class="primary" id="welcome-start-btn" style="padding:10px 20px;font-size:13px;">Start Profile Setup →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Verification SLA Confirmation Modal -->
+  <div class="backdrop" id="review-sla-modal" hidden>
+    <div class="call-modal" style="max-width:500px;text-align:center;padding:32px;border-radius:20px;box-shadow:0 24px 48px rgba(0,0,0,0.2);position:relative;">
+      <button id="review-sla-close" style="position:absolute;right:20px;top:20px;border:0;background:none;font-size:24px;cursor:pointer;color:var(--muted);">×</button>
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:54px;height:54px;border-radius:50%;background:#e8f4ee;color:#15803d;font-size:26px;margin-bottom:14px;">🛡️</div>
+      <small class="eyebrow" style="color:var(--forest);font-weight:700;display:block;">CREDENTIALS SUBMITTED</small>
+      <h2 style="margin:6px 0 10px;font-size:22px;color:var(--dark);">Verification in Progress</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6;">
+        Your Bar Council Certificate and credentials have been securely transmitted to the VidhiMeet Advocate Compliance Desk.
+      </p>
+      <div style="background:#faf8f5;border:1px solid #ebd9c8;border-radius:12px;padding:14px;text-align:left;margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Review Turnaround SLA:</span>
+          <strong style="font-size:13px;color:var(--forest);">12–24 Business Hours</strong>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="font-size:12px;color:var(--muted);">Credential Encryption:</span>
+          <strong style="font-size:12px;color:var(--dark);">AES-256 at Rest</strong>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:12px;color:var(--muted);">Advocate Priority Support:</span>
+          <a href="mailto:advocate-support@vidhimeet.in" style="color:var(--forest);font-size:12px;font-weight:600;text-decoration:none;">advocate-support@vidhimeet.in</a>
+        </div>
+      </div>
+      <button type="button" class="primary" id="review-sla-done-btn" style="width:100%;padding:12px;font-size:14px;border-radius:10px;">Return to Dashboard</button>
+    </div>
+  </div>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/cookie-consent.min.js" defer></script>
   <script src="js/e2ee.min.js" defer></script>
-  <script src="js/api-client.min.js?v=rev-31" defer></script>
+  <script src="js/api-client.min.js?v=rev-39" defer></script>
   <script src="js/daily-js.min.js" defer></script>
-  <script src="js/pdf-annotator.min.js?v=rev-31" defer></script>
-  <script src="js/realtime.min.js?v=rev-31" defer></script>
-  <script src="js/lawyer.min.js?v=rev-33" defer></script>
+  <script src="js/pdf-annotator.min.js?v=rev-39" defer></script>
+  <script src="js/realtime.min.js?v=rev-39" defer></script>
+  <script src="js/lawyer.min.js?v=rev-40" defer></script>
 </body>
 
 </html>

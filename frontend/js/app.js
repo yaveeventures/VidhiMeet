@@ -1643,7 +1643,7 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
           <div class="password-wrap">
             <input type="password" id="reset-new-password" required minlength="12" placeholder="At least 12 characters" value="" />
             <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
-              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
             </button>
           </div>
@@ -1653,7 +1653,7 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
           <div class="password-wrap">
             <input type="password" id="reset-confirm-password" required minlength="12" placeholder="Re-enter new password" value="" />
             <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
-              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
               <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
             </button>
           </div>
@@ -3453,7 +3453,7 @@ function openContactModal() {
       
       <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 14px;">
         <div><strong>📧 Email Support:</strong> <a href="mailto:support@VidhiMeet.in" style="color: #4f46e5; font-weight: 600;">support@VidhiMeet.in</a></div>
-        <div><strong>📞 Toll-Free Phone:</strong> +91 (800) 539-4743 (Mon - Sat, 9 AM - 7 PM IST)</div>
+        <div><strong>📞 Customer Helpline:</strong> <a href="tel:+919632410042" style="color: #4f46e5; font-weight: 600;">+91 96324 10042</a> (Mon - Sat, 9 AM - 7 PM IST)</div>
       </div>
 
       <form id="contact-form" style="display: flex; flex-direction: column; gap: 12px;">
@@ -3710,4 +3710,47 @@ document.addEventListener("click", (e) => {
   btn.setAttribute("title", isPass ? "Hide password" : "Show password");
 });
 
+// Check for inactivity logout notification
+(() => {
+  function checkSessionExpiryNotice() {
+    let reason = "";
+    try {
+      reason = sessionStorage.getItem("vidhimeet_logout_reason") || "";
+      sessionStorage.removeItem("vidhimeet_logout_reason");
+    } catch (e) {}
 
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("reason") === "inactivity" || reason === "inactivity") {
+      if (urlParams.has("reason")) {
+        urlParams.delete("reason");
+        const newQuery = urlParams.toString();
+        const newUrl = window.location.pathname + (newQuery ? "?" + newQuery : "") + window.location.hash;
+        window.history.replaceState({}, document.title, newUrl);
+      }
+      setTimeout(() => {
+        if (typeof toast === "function") {
+          toast("For your security and legal confidentiality, you were signed out due to inactivity. Please sign in again.");
+        }
+      }, 500);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", checkSessionExpiryNotice);
+  } else {
+    checkSessionExpiryNotice();
+  }
+})();
+
+// Route unauthenticated lawyer portal clicks directly to the lawyer sign-in page
+document.addEventListener("click", (e) => {
+  const link = e.target.closest('a[href^="lawyer.html"]');
+  if (!link) return;
+  const user = (typeof LexAPI !== "undefined") ? LexAPI.getCurrentUser() : null;
+  if (!user || user.role !== "lawyer") {
+    e.preventDefault();
+    const href = link.getAttribute("href") || "";
+    const targetHash = href.includes("#register") ? "#register" : "#login";
+    window.location.href = `lawyer.html${targetHash}`;
+  }
+});

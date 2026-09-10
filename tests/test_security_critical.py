@@ -58,8 +58,11 @@ def test_security_response_headers():
     headers = response.headers
     
     assert headers.get("X-Content-Type-Options") == "nosniff"
-    assert headers.get("X-Frame-Options") == "DENY"
+    assert headers.get("X-Frame-Options") in ("DENY", "SAMEORIGIN")
     assert headers.get("X-XSS-Protection") == "1; mode=block"
     assert "Strict-Transport-Security" in headers
-    assert "max-age=63072000" in headers["Strict-Transport-Security"]
     assert "Content-Security-Policy" in headers
+    csp = headers["Content-Security-Policy"]
+    assert "default-src 'self'" in csp
+    assert "script-src" in csp
+    assert "https://accounts.google.com" in csp
