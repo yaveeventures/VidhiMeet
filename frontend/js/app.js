@@ -649,12 +649,6 @@ async function showLawyerProfile(id) {
         <span style="font-size:13px;">${l.practice}</span>
       </div>
     </div>
-    <div id="lawyer-reviews-section">
-      <div style="background:var(--mint);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:12px;color:var(--forest);line-height:1.5;border:1px solid var(--line);">
-        <strong>⚖ Bar Council of India Compliance Notice</strong><br>
-        In accordance with BCI Rule 36 (Section IV, Chapter II, Part VI), advocate ratings and client testimonials are excluded to prevent commercial advertising or solicitation of legal work.
-      </div>
-    </div>
     <div class="actions">
       <button class="ghost secondary" data-action="close-modal">Close</button>
       <button class="primary" id="profile-book-btn">Book consultation &rarr;</button>
