@@ -254,7 +254,7 @@ function render() {
   if (filter === "top") list = list.filter(x => x.rating >= 4.9);
   if (filter === "low") list = list.filter(x => x.fee < 2000);
   
-  const homeList = list.slice(0, 6);
+  const homeList = list.slice(0, 3);
   
   grid.innerHTML = homeList.length 
     ? homeList.map(x => `

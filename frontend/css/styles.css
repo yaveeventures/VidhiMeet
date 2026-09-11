@@ -113,9 +113,6 @@ h1 {
   .how, .security {
     grid-template-columns: 1fr;
   }
-  .lawyer-card:last-child {
-    display: none;
-  }
   .modal h2 {
     font-size: 28px;
   }
@@ -232,9 +229,6 @@ h1 {
     width: 48px;
     height: 48px;
     font-size: 24px;
-  }
-  .lawyer-card:last-child {
-    display: block;
   }
   .lawyer-photo {
     height: 180px;
