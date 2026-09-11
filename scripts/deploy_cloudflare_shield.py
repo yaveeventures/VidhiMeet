@@ -41,8 +41,11 @@ def deploy():
         sys.exit(1)
 
     existing_phases = {}
-    for rset in existing.get("result", []):
-        existing_phases[rset.get("phase")] = rset.get("id")
+    result_list = existing.get("result")
+    if isinstance(result_list, list):
+        for rset in result_list:
+            if isinstance(rset, dict):
+                existing_phases[rset.get("phase")] = rset.get("id")
 
     print(f"[*] Found existing ruleset phases: {list(existing_phases.keys())}")
 

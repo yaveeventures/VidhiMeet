@@ -1,8 +1,13 @@
 import html
 import os
 import re
+from typing import overload
 
 
+@overload
+def sanitize_text(val: None) -> None: ...
+@overload
+def sanitize_text(val: str) -> str: ...
 def sanitize_text(val: str | None) -> str | None:
     """
     Trim whitespace and escape HTML control characters to prevent XSS attacks.
@@ -14,6 +19,10 @@ def sanitize_text(val: str | None) -> str | None:
     return html.escape(val, quote=True)
 
 
+@overload
+def sanitize_filename(val: None) -> None: ...
+@overload
+def sanitize_filename(val: str) -> str: ...
 def sanitize_filename(val: str | None) -> str | None:
     """
     Sanitize a filename by removing directory traversal patterns, null bytes,
@@ -28,6 +37,10 @@ def sanitize_filename(val: str | None) -> str | None:
     return safe_name[:255] if safe_name else "file"
 
 
+@overload
+def sanitize_key(val: None) -> None: ...
+@overload
+def sanitize_key(val: str) -> str: ...
 def sanitize_key(val: str | None) -> str | None:
     """
     Sanitize object storage keys to prevent path traversal.
@@ -41,3 +54,4 @@ def sanitize_key(val: str | None) -> str | None:
     # Disallow path traversal components
     parts = [p for p in clean.split("/") if p and p != ".."]
     return "/".join(parts)
+

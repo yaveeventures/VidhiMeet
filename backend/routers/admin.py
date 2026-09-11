@@ -48,8 +48,8 @@ def admin_metrics(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session
 
 
 @router.patch("/lawyers/{lawyer_id}/verification")
-def verify_lawyer(request: Request, lawyer_id: str, approved: bool = None, status: str = None,
-                  rejection_reason: str = None,
+def verify_lawyer(request: Request, lawyer_id: str, approved: bool | None = None, status: str | None = None,
+                  rejection_reason: str | None = None,
                   admin: User = Depends(require_roles(Role.ADMIN)),
                   db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))

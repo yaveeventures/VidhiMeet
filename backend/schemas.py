@@ -292,7 +292,7 @@ class LawyerProfileUpdate(BaseModel):
 
     @field_validator("full_name", "practice_address", mode="before")
     @classmethod
-    def sanitize_inputs(cls, v: str) -> str:
+    def sanitize_inputs(cls, v: str | None) -> str | None:
         return sanitize_text(v) if isinstance(v, str) else v
 
     @field_validator("practice", mode="before")

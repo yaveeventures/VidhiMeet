@@ -83,8 +83,8 @@ def test_pii_encryption_at_rest(client):
     assert profile_data["mobile_number"] == "9876543210"
 
     # 4. Verify DB storage is encrypted (ciphertext)
-    from conftest import test_engine
-    with test_engine.connect() as conn:
+    from backend.db import engine
+    with engine.connect() as conn:
         row = conn.exec_driver_sql("SELECT aadhaar_number, practice_address, mobile_number FROM lawyer_profiles WHERE id IS NOT NULL").fetchone()
 
     assert row is not None
@@ -117,6 +117,7 @@ def test_right_to_erasure(client):
 
     db = next(get_db())
     user = db.query(User).filter(User.email == "erase_me@example.com").first()
+    assert user is not None
     uid = user.id
 
     # Add an audit log to test anonymization

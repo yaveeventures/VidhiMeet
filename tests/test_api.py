@@ -115,7 +115,9 @@ def test_meeting_token_endpoint(client):
     from backend.models import User
     c_user = db.query(User).filter(User.email == "tclient@example.com").first()
     l_user = db.query(User).filter(User.email == "tlawyer@example.com").first()
-    
+    assert c_user is not None
+    assert l_user is not None
+
     # Verify lawyer profile
     db.query(LawyerProfile).filter(LawyerProfile.user_id == l_user.id).update({"verified": True, "practice": "family"})
     
@@ -175,6 +177,8 @@ def test_verified_reviews_only(client):
     db = next(get_db())
     c_a = db.query(User).filter(User.email == "client_a@example.com").first()
     l_user = db.query(User).filter(User.email == "lawyer_r@example.com").first()
+    assert c_a is not None
+    assert l_user is not None
 
     # Verify lawyer profile
     db.query(LawyerProfile).filter(LawyerProfile.user_id == l_user.id).update({"verified": True, "practice": "family"})
@@ -253,7 +257,9 @@ def test_lawyer_complete_booking_duration_restriction(client):
     db = next(get_db())
     c_user = db.query(User).filter(User.email == "c_comp@example.com").first()
     l_user = db.query(User).filter(User.email == "l_comp@example.com").first()
-    
+    assert c_user is not None
+    assert l_user is not None
+
     # Verify lawyer profile
     db.query(LawyerProfile).filter(LawyerProfile.user_id == l_user.id).update({"verified": True, "practice": "family"})
     

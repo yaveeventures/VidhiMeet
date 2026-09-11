@@ -165,12 +165,14 @@ def calculate_cancellation_policy(booking: Booking, cancelled_by_role: str, now_
     - Client Cancel (<2h / No-Show): 0% Refund (100% Penalty)
     """
     starts_at = booking.starts_at or booking.original_starts_at
-    if starts_at and starts_at.tzinfo is None:
-        starts_at = starts_at.replace(tzinfo=timezone.utc)
-    if now_dt.tzinfo is None:
-        now_dt = now_dt.replace(tzinfo=timezone.utc)
-
-    hours_until_start = (starts_at - now_dt).total_seconds() / 3600.0
+    if starts_at is not None:
+        if starts_at.tzinfo is None:
+            starts_at = starts_at.replace(tzinfo=timezone.utc)
+        if now_dt.tzinfo is None:
+            now_dt = now_dt.replace(tzinfo=timezone.utc)
+        hours_until_start = (starts_at - now_dt).total_seconds() / 3600.0
+    else:
+        hours_until_start = 0.0
 
     if cancelled_by_role in ("lawyer", "admin"):
         policy_tier = "lawyer_cancellation"

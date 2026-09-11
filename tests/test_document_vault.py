@@ -145,6 +145,7 @@ def test_lawyer_document_reupload_replaces_old_file(database, client):
 
     # Verify DB profile updated and status reset
     database.refresh(profile)
+    assert profile.bar_license_url is not None
     assert key2 in profile.bar_license_url
     assert profile.bar_license_verified is False
     assert profile.verification_status == "pending"
