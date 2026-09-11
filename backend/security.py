@@ -83,7 +83,7 @@ def create_access_token(user: Union["User", dict]) -> str:
     role_val = user.role.value if hasattr(user.role, "value") else str(user.role)
     return jwt.encode(
         {
-            "sub": str(user.id),
+            "sub": user.id,
             "role": role_val,
             "full_name": user.full_name,
             "iss": settings.jwt_issuer,
@@ -193,7 +193,7 @@ def _get_fernet_cipher() -> MultiFernet:
 
 
 def encrypt_field(val: str | None) -> str | None:
-    if val is None or not str(val).strip():
+    if val is None or not val.strip():
         return None
     try:
         cipher = _get_fernet_cipher()
@@ -207,7 +207,7 @@ def encrypt_field(val: str | None) -> str | None:
 
 
 def decrypt_field(val: str | None) -> str | None:
-    if val is None or not str(val).strip():
+    if val is None or not val.strip():
         return None
     try:
         cipher = _get_fernet_cipher()
@@ -226,8 +226,8 @@ def validate_participant_access(resource_client_id: str, resource_lawyer_id: str
     from .models import Role
     if current_user.role == Role.ADMIN:
         return
-    user_id_str = str(current_user.id)
-    if user_id_str != str(resource_client_id) and (not resource_lawyer_id or user_id_str != str(resource_lawyer_id)):
+    user_id = current_user.id
+    if user_id != resource_client_id and (not resource_lawyer_id or user_id != resource_lawyer_id):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="record unavailable"
