@@ -14,7 +14,7 @@ from ..services.event_bus import event_bus
 log = structlog.get_logger("events")
 router = APIRouter(tags=["events"])
 
-def authenticate_stream_user(token: Optional[str] = Query(None), request: Request = None, db: Session = Depends(get_db)) -> User:
+def authenticate_stream_user(request: Request, token: Optional[str] = Query(None), db: Session = Depends(get_db)) -> User:
     jwt_token = token
     if not jwt_token and request:
         auth_header = request.headers.get("Authorization")
@@ -36,7 +36,7 @@ async def sse_event_stream(request: Request, user: User = Depends(authenticate_s
     Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto-refresh.
     Pushes events: BOOKING_CREATED, DRAFT_REQUEST_SUBMITTED, PROPOSAL_ACCEPTED, etc.
     """
-    user_id = str(user.id)
+    user_id = user.id
     role_val = user.role.value if hasattr(user.role, "value") else str(user.role)
 
     user_queue = event_bus.subscribe_user(user_id)
