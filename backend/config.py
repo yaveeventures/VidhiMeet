@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     # ── Cashfree Payment Gateway (PG) Configuration ───────────────────────────
     cashfree_app_id: str = ""
     cashfree_secret_key: str = ""
-    cashfree_api_version: str = "2023-08-01"
+    cashfree_api_version: str = "2026-01-01"
     cashfree_mode: str = "sandbox"  # "sandbox" or "production"
     # ── SMTP Email Configuration ───────────────────────────────────────────
     smtp_server: str = ""
