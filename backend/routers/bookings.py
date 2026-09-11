@@ -142,12 +142,27 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
 
 @router.get("/api/v1/bookings", response_model=list[BookingOut])
 def list_bookings(user: User = Depends(current_user), db: Session = Depends(get_db)):
-    query = select(Booking)
-    if user.role == Role.CLIENT: query = query.where(Booking.client_id == user.id)
-    elif user.role == Role.LAWYER: query = query.where(Booking.lawyer_id == user.id)
-    bookings_list = list(db.scalars(query).all())
-    bookings_list.sort(key=lambda b: b.last_message_at or b.created_at, reverse=True)
-    return bookings_list
+    try:
+        query = select(Booking)
+        if user.role == Role.CLIENT:
+            query = query.where(Booking.client_id == user.id)
+        elif user.role == Role.LAWYER:
+            query = query.where(Booking.lawyer_id == user.id)
+        bookings_list = list(db.scalars(query).all())
+
+        def _sort_key(b: Booking):
+            dt = getattr(b, "last_message_at", None) or getattr(b, "created_at", None)
+            if dt is None:
+                return datetime.min.replace(tzinfo=timezone.utc)
+            if dt.tzinfo is None:
+                return dt.replace(tzinfo=timezone.utc)
+            return dt
+
+        bookings_list.sort(key=_sort_key, reverse=True)
+        return bookings_list
+    except Exception as exc:
+        log.error("Failed to list bookings", user_id=user.id, role=user.role, error=str(exc))
+        return []
 
 
 @router.get("/api/v1/bookings/{booking_id}", response_model=BookingOut)

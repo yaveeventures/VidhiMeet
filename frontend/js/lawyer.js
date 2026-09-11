@@ -539,16 +539,25 @@ function escapeHtml(text) {
 
 async function loadData() {
   try {
-    [bookings, lawyerProfile] = await Promise.all([
+    const [bookingsRes, profileRes] = await Promise.allSettled([
       LexAPI.bookings(),
       LexAPI.getProfile()
     ]);
+    bookings = bookingsRes.status === "fulfilled" && Array.isArray(bookingsRes.value) ? bookingsRes.value : [];
+    if (bookingsRes.status === "rejected") {
+      console.warn("Could not load bookings list:", bookingsRes.reason);
+    }
+    if (profileRes.status === "rejected") {
+      throw profileRes.reason;
+    }
+    lawyerProfile = profileRes.value;
+
     // Fetch reviews after we know the lawyer's id
     if (lawyerProfile && lawyerProfile.id) {
       lawyerReviews = await LexAPI.getLawyerReviews(lawyerProfile.id).catch(() => []);
     }
     // Fetch bank account (null if not yet added)
-    bankAccount = await LexAPI.getBankAccount();
+    bankAccount = await LexAPI.getBankAccount().catch(() => null);
     renderAll();
   } catch (err) {
     console.error("Dashboard load failed", err);
@@ -566,9 +575,10 @@ async function loadData() {
 }
 
 function renderAll() {
-  const initials = lawyerProfile.full_name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
-  const firstName = lawyerProfile.full_name.split(" ")[1] || lawyerProfile.full_name.split(" ")[0];
-  const practiceDisplay = mapPracticeToFrontend(lawyerProfile.practice);
+  const lawyerName = (lawyerProfile && lawyerProfile.full_name) || "Advocate";
+  const initials = lawyerName.split(" ").filter(Boolean).map(x => x[0]).join("").slice(0, 2).toUpperCase() || "AD";
+  const firstName = lawyerName.split(" ").filter(Boolean)[1] || lawyerName.split(" ").filter(Boolean)[0] || "Advocate";
+  const practiceDisplay = lawyerProfile ? mapPracticeToFrontend(lawyerProfile.practice) : "General Practice";
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
   const dateStr = new Date().toLocaleDateString("en-IN", {weekday: "long", day: "numeric", month: "long"}).toUpperCase();

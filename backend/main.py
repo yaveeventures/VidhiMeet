@@ -36,21 +36,62 @@ async def lifespan(app: FastAPI):
         from .db import SessionLocal
         with SessionLocal() as session:
             is_sqlite = engine.dialect.name == "sqlite"
-            cols = [
-                ("bar_license_verified", "BOOLEAN DEFAULT FALSE"),
-                ("aadhaar_verified", "BOOLEAN DEFAULT FALSE"),
-                ("rejection_reason", "VARCHAR(500) NULL"),
-                ("verified_at", "TIMESTAMP WITH TIME ZONE NULL")
+            migration_plan = [
+                ("lawyer_profiles", [
+                    ("verification_status", "VARCHAR(20) DEFAULT 'pending'"),
+                    ("bar_license_verified", "BOOLEAN DEFAULT FALSE"),
+                    ("aadhaar_verified", "BOOLEAN DEFAULT FALSE"),
+                    ("rejection_reason", "VARCHAR(500) NULL"),
+                    ("verified_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("strike_count", "INTEGER DEFAULT 0"),
+                    ("ical_token", "VARCHAR(64) NULL"),
+                    ("aadhaar_number", "TEXT NULL"),
+                    ("profile_picture_url", "VARCHAR(255) NULL"),
+                    ("enrollment_date", "VARCHAR(10) NULL"),
+                    ("practice_address", "TEXT NULL"),
+                    ("bar_license_url", "TEXT NULL"),
+                    ("aadhaar_url", "TEXT NULL"),
+                    ("mobile_number", "TEXT NULL"),
+                ]),
+                ("bookings", [
+                    ("cashfree_order_id", "VARCHAR(255) NULL"),
+                    ("original_starts_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("dispute_category", "VARCHAR(50) NULL"),
+                    ("dispute_reason", "TEXT NULL"),
+                    ("disputed_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("lawyer_duration_seconds", "INTEGER DEFAULT 0"),
+                    ("client_duration_seconds", "INTEGER DEFAULT 0"),
+                    ("auto_resolution_status", "VARCHAR(100) NULL"),
+                    ("cancellation_reason", "TEXT NULL"),
+                    ("cancelled_by_role", "VARCHAR(20) NULL"),
+                    ("refund_amount_minor", "INTEGER NULL"),
+                    ("penalty_amount_minor", "INTEGER NULL"),
+                    ("refund_tx_id", "VARCHAR(100) NULL"),
+                    ("voucher_code", "VARCHAR(30) NULL"),
+                    ("relisted_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                ]),
+                ("lawyer_bank_accounts", [
+                    ("verification_txn_id", "VARCHAR(80) NULL"),
+                    ("upi_name", "VARCHAR(255) NULL"),
+                    ("utr", "VARCHAR(100) NULL"),
+                    ("verified_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                ]),
+                ("users", [
+                    ("date_of_birth", "VARCHAR(10) NULL"),
+                    ("mfa_enabled", "BOOLEAN DEFAULT FALSE"),
+                    ("mfa_secret", "VARCHAR(64) NULL"),
+                ]),
             ]
-            for col_name, col_def in cols:
-                try:
-                    if is_sqlite:
-                        session.execute(text(f"ALTER TABLE lawyer_profiles ADD COLUMN {col_name} {col_def};"))
-                    else:
-                        session.execute(text(f"ALTER TABLE lawyer_profiles ADD COLUMN IF NOT EXISTS {col_name} {col_def};"))
-                    session.commit()
-                except Exception as col_err:
-                    session.rollback()
+            for tbl, cols in migration_plan:
+                for col_name, col_def in cols:
+                    try:
+                        if is_sqlite:
+                            session.execute(text(f"ALTER TABLE {tbl} ADD COLUMN {col_name} {col_def};"))
+                        else:
+                            session.execute(text(f"ALTER TABLE {tbl} ADD COLUMN IF NOT EXISTS {col_name} {col_def};"))
+                        session.commit()
+                    except Exception:
+                        session.rollback()
     except Exception as exc:
         log.info("Table migration notice", error=str(exc))
 

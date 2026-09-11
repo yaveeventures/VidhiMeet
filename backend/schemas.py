@@ -137,13 +137,13 @@ class BookingOut(BaseModel):
     id: str
     client_id: str
     lawyer_id: str
-    practice: Practice
+    practice: Practice | str
     starts_at: datetime | None = None
     original_starts_at: datetime | None = None
     duration_minutes: int
     amount_minor: int
     currency: str
-    status: BookingStatus
+    status: BookingStatus | str
     intake: dict
     jitsi_room: str
     video_room: str = ""

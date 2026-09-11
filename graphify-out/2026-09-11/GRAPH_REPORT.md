@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-09-11)
 
 ## Corpus Check
-- 103 files · ~174,416 words
+- 103 files · ~174,463 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1864 nodes · 5007 edges · 83 communities (68 shown, 15 thin omitted)
+- 1864 nodes · 5007 edges · 82 communities (67 shown, 15 thin omitted)
 - Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 589 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c3393129`
+- Built from commit: `5ff66612`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -28,7 +28,6 @@
 - N
 - LawyerProfile
 - Booking
-- sanitize_key
 - LawyerGrid
 - calendar.py
 - check_clock_drift
@@ -118,7 +117,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (83 total, 15 thin omitted)
+## Communities (82 total, 15 thin omitted)
 
 ### Community 0 - "main.py"
 Cohesion: 0.08
@@ -133,8 +132,8 @@ Cohesion: 0.06
 Nodes (83): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience(), calculateProfileCompleteness() (+75 more)
 
 ### Community 3 - "lawyer.js"
-Cohesion: 0.09
-Nodes (28): EncryptedString, _save_ws_message(), current_user(), decode_token(), decrypt_field(), encrypt_field(), _get_fernet_cipher(), optional_user() (+20 more)
+Cohesion: 0.06
+Nodes (43): FrontendStaticFiles, lifespan(), EncryptedString, rate_limit_dependency(), authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto (+35 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.09
@@ -166,23 +165,19 @@ Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.05
-Nodes (56): get_db(), LawyerProfile, create_access_token(), hash_password(), Revoke a JWT by adding its jti to the revocation blocklist., Hash a raw password using Argon2id (OWASP #1 recommendation)., revoke_jti(), test_dispute_intermediary_shield() (+48 more)
+Nodes (52): get_db(), LawyerProfile, create_access_token(), hash_password(), Hash a raw password using Argon2id (OWASP #1 recommendation)., test_dispute_intermediary_shield(), test_dispute_workflow_matrix(), GET /api/v1/admin/ntp-status must return 200 with the expected keys for an admin (+44 more)
 
 ### Community 12 - "Booking"
 Cohesion: 0.06
 Nodes (83): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience(), calculateProfileCompleteness() (+75 more)
 
-### Community 13 - "sanitize_key"
-Cohesion: 0.07
-Nodes (25): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), FrontendStaticFiles, lifespan(), rate_limit_dependency(), health() (+17 more)
-
 ### Community 14 - "LawyerGrid"
-Cohesion: 0.13
-Nodes (26): get_settings(), download_drafting_document(), drafting_document_mock_upload(), drafting_document_presign(), UploadFile, Helper to write a mock PDF file when serving local document downloads., _write_mock_pdf(), download_lawyer_document() (+18 more)
+Cohesion: 0.07
+Nodes (40): get_settings(), Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), download_drafting_document(), drafting_document_mock_upload(), drafting_document_presign() (+32 more)
 
 ### Community 16 - "check_clock_drift"
-Cohesion: 0.21
-Nodes (21): DraftingProposal, DraftingRequest, accept_drafting_proposal(), accept_drafting_request(), add_draft_comment(), approve_draft(), cancel_drafting_request(), check_and_process_auto_approvals() (+13 more)
+Cohesion: 0.16
+Nodes (26): DraftingProposal, DraftingRequest, accept_drafting_proposal(), accept_drafting_request(), add_draft_comment(), approve_draft(), cancel_drafting_request(), check_and_process_auto_approvals() (+18 more)
 
 ### Community 17 - "8dcb01bed07f_initial_schema.py"
 Cohesion: 0.07
@@ -313,8 +308,8 @@ Cohesion: 0.29
 Nodes (6): Verify HTTP exceptions return structured error format., Verify invalid request payloads produce sanitized clean error lists., Verify unhandled 500 exceptions return sanitized public message with request_id, test_http_exception_handling(), test_unhandled_500_error_handling(), test_validation_error_handling()
 
 ### Community 66 - "test_password_reset.py"
-Cohesion: 0.12
-Nodes (34): User, admin_metrics(), get_admin_payouts(), get_audit_logs(), get_ntp_status(), get_platform_feedback(), list_disputes(), list_drafting_transactions() (+26 more)
+Cohesion: 0.15
+Nodes (29): User, admin_metrics(), get_admin_payouts(), get_audit_logs(), get_ntp_status(), get_platform_feedback(), list_disputes(), list_drafting_transactions() (+21 more)
 
 ### Community 69 - "test_document_vault.py"
 Cohesion: 0.05
@@ -368,9 +363,9 @@ Nodes (12): checkInactivity(), ensureModalElement(), getLimits(), getStoredActiv
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `test_password_reset.py` to `main.py`, `services.py`, `lawyer.js`, `LawyerProfile`, `sanitize_key`, `LawyerGrid`, `check_clock_drift`, `8dcb01bed07f_initial_schema.py`, `PlatformFeedback`, `80394484e25e_add_phonepe_transaction_id.py`, `setup`?**
+- **Why does `User` connect `test_password_reset.py` to `main.py`, `services.py`, `lawyer.js`, `LawyerProfile`, `LawyerGrid`, `check_clock_drift`, `8dcb01bed07f_initial_schema.py`, `PlatformFeedback`, `80394484e25e_add_phonepe_transaction_id.py`, `setup`?**
   _High betweenness centrality (0.037) - this node is a cross-community bridge._
-- **Why does `Booking` connect `8dcb01bed07f_initial_schema.py` to `test_password_reset.py`, `services.py`, `lawyer.js`, `LawyerProfile`, `sanitize_key`, `LawyerGrid`, `check_clock_drift`, `PlatformFeedback`, `T`?**
+- **Why does `Booking` connect `8dcb01bed07f_initial_schema.py` to `test_password_reset.py`, `services.py`, `lawyer.js`, `LawyerProfile`, `LawyerGrid`, `check_clock_drift`, `PlatformFeedback`, `T`?**
   _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Why does `_launchDaily()` connect `je` to `ntp_now`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
