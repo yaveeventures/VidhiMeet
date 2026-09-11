@@ -15,8 +15,8 @@
     "semantic_hash": ""
   },
   "backend/main.py": {
-    "mtime": 1789127532.2768695,
-    "ast_hash": "a4791298cb0fe6af4593b77c6a467237",
+    "mtime": 1789130952.6859057,
+    "ast_hash": "5efc9cdd70af18b8fc03dd1a6a736cd6",
     "semantic_hash": ""
   },
   "backend/models.py": {
@@ -65,8 +65,8 @@
     "semantic_hash": ""
   },
   "tests/test_api.py": {
-    "mtime": 1789038646.8959146,
-    "ast_hash": "de7833a3a14a799e4903ff4a77695233",
+    "mtime": 1789130995.5617766,
+    "ast_hash": "cf4902556cc1b845b6ebb2b0c0d5dd58",
     "semantic_hash": ""
   },
   ".agents/rules/graphify.md": {
@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   "backend/routers/auth.py": {
-    "mtime": 1789109636.7797353,
-    "ast_hash": "5fabdc33a72357bb7be30e37a9320f99",
+    "mtime": 1789130939.7869656,
+    "ast_hash": "c54ff7ff827ccab16c480c02365bec72",
     "semantic_hash": ""
   },
   "backend/routers/bank_accounts.py": {

@@ -78,8 +78,27 @@ async def lifespan(app: FastAPI):
                 ))
                 session.commit()
                 log.info("Initial admin accounts provisioned successfully")
+
+            # Safeguard: Reconcile unverified lawyer profiles that were improperly flagged as verified
+            # without formal admin document approval (e.g. legacy Google OAuth registration)
+            from .models import LawyerProfile
+            from sqlalchemy import update
+            session.execute(
+                update(LawyerProfile)
+                .where(
+                    (LawyerProfile.verified.is_(True)) &
+                    (
+                        (LawyerProfile.verification_status == "pending") |
+                        (LawyerProfile.verification_status.is_(None)) |
+                        (LawyerProfile.bar_license_url.is_(None)) |
+                        (LawyerProfile.aadhaar_url.is_(None))
+                    )
+                )
+                .values(verified=False, verification_status="pending")
+            )
+            session.commit()
     except Exception as exc:
-        log.error("Failed to seed initial admin user", error=str(exc))
+        log.error("Failed to seed initial admin user or reconcile profiles", error=str(exc))
 
     # Initialize Redis rate limiter if configured
     await rate_limiter.init_redis()

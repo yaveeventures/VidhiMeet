@@ -315,8 +315,9 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
                 bar_number=payload.bar_number or f"PENDING-{user.id[:8].upper()}",
                 languages=["English"],
                 hourly_fee_minor=100000,
-                rating=5.0,
-                verified=True,
+                rating=0.0,
+                verified=False,
+                verification_status="pending",
                 availability={},
                 practice_address=""
             )
@@ -339,8 +340,9 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
                     bar_number=f"PENDING-{user.id[:8].upper()}",
                     languages=["English"],
                     hourly_fee_minor=100000,
-                    rating=5.0,
-                    verified=True,
+                    rating=0.0,
+                    verified=False,
+                    verification_status="pending",
                     availability={},
                     practice_address=""
                 )

@@ -328,6 +328,10 @@ def test_google_auth_client_registration_and_login(client):
 
 
 def test_google_auth_lawyer_registration(client):
+    from backend.db import SessionLocal
+    from backend.models import User, LawyerProfile
+    from sqlalchemy import select
+
     res = client.post("/api/v1/auth/google", json={
         "id_token": "mock-google-token-glawyer@example.com",
         "role": "lawyer",
@@ -335,6 +339,14 @@ def test_google_auth_lawyer_registration(client):
     })
     assert res.status_code == 200
     assert "access_token" in res.json()
+
+    with SessionLocal() as db:
+        user = db.scalar(select(User).where(User.email == "glawyer@example.com"))
+        assert user is not None
+        profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
+        assert profile is not None
+        assert profile.verified is False
+        assert profile.verification_status == "pending"
 
 
 def test_google_auth_admin_forbidden(client):
