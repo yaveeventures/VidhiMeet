@@ -62,7 +62,6 @@ const LexAPI = (() => {
     }
     const headers = {
       "Content-Type": "application/json",
-      "ngrok-skip-browser-warning": "true",
       ...(options.headers || {})
     };
     if (accessToken) headers.Authorization = `Bearer ${accessToken}`;

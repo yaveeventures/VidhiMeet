@@ -10,6 +10,5 @@ uploads/
 .vscode/
 node_modules/
 coverage.xml
-ngrok3/
 *.zip
 graphify-out/cache/

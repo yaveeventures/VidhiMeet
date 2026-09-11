@@ -18,7 +18,7 @@ def get_client_ip(request: Request | None) -> str:
     cf_ip = request.headers.get("cf-connecting-ip")
     if cf_ip and cf_ip.strip():
         return cf_ip.strip()
-    # Standard reverse proxy chain (Nginx, ALB, ngrok)
+    # Standard reverse proxy chain (Nginx, ALB)
     forwarded = request.headers.get("x-forwarded-for")
     if forwarded and forwarded.strip():
         return forwarded.split(",")[0].strip()

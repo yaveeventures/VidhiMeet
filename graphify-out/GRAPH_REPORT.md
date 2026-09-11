@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-09-11)
 
 ## Corpus Check
-- 103 files · ~174,226 words
+- 103 files · ~174,215 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1864 nodes · 4985 edges · 88 communities (70 shown, 18 thin omitted)
+- 1864 nodes · 4985 edges · 89 communities (71 shown, 18 thin omitted)
 - Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 586 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8379b68d`
+- Built from commit: `f418b6ba`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -95,6 +95,7 @@
 - Settings
 - cashfree_webhook
 - .must_be_adult
+- N
 
 ## God Nodes (most connected - your core abstractions)
 1. `User` - 149 edges
@@ -123,7 +124,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (88 total, 18 thin omitted)
+## Communities (89 total, 18 thin omitted)
 
 ### Community 0 - "main.py"
 Cohesion: 0.13
@@ -210,8 +211,8 @@ Cohesion: 0.23
 Nodes (19): attachCommentListEvents(), changePage(), changeZoom(), cleanPdfText(), closeAnnotatorModal(), deleteComment(), highlightCommentInSidebar(), openAddCommentPrompt() (+11 more)
 
 ### Community 23 - "q"
-Cohesion: 0.07
-Nodes (53): a(), be(), Bo(), Bt(), ce(), cr(), de(), dt() (+45 more)
+Cohesion: 0.08
+Nodes (50): a(), be(), Bo(), Bt(), ce(), cr(), de(), dt() (+42 more)
 
 ### Community 24 - "PlatformFeedback"
 Cohesion: 0.14
@@ -270,8 +271,8 @@ Cohesion: 0.09
 Nodes (50): $(), appPracticeSelect, appSearchInput, appSortSelect, auditLogs, colors, decideVerification(), disputes (+42 more)
 
 ### Community 38 - "processEvent"
-Cohesion: 0.10
-Nodes (14): Ae(), ar(), br, fn(), ft(), hn(), ir(), kr() (+6 more)
+Cohesion: 0.09
+Nodes (17): Ae(), ar(), br, fn(), ft(), hn(), ir(), kr() (+9 more)
 
 ### Community 39 - "Booking"
 Cohesion: 0.36
@@ -295,7 +296,7 @@ Nodes (3): Any, BackgroundTaskManager, Enqueue an async background task safely w
 
 ### Community 45 - "cookie-consent.js"
 Cohesion: 0.08
-Nodes (10): B(), bn(), c(), je(), N(), s(), sn(), we() (+2 more)
+Nodes (6): B(), d(), f(), gn(), je(), we()
 
 ### Community 46 - "test_sql_safety.py"
 Cohesion: 0.32
@@ -342,8 +343,8 @@ Cohesion: 0.22
 Nodes (19): ct(), dn(), Et(), fe(), i(), In(), It(), jt() (+11 more)
 
 ### Community 74 - "gn"
-Cohesion: 0.17
-Nodes (11): d(), f(), ge(), gn(), ie(), me(), ne(), qn() (+3 more)
+Cohesion: 0.31
+Nodes (8): ge(), ie(), me(), ne(), qn(), ue(), ye(), z()
 
 ### Community 75 - ".then"
 Cohesion: 0.27
@@ -372,6 +373,10 @@ Nodes (12): checkInactivity(), ensureModalElement(), getLimits(), getStoredActiv
 ### Community 86 - "cashfree_webhook"
 Cohesion: 0.50
 Nodes (4): cashfree_webhook(), Request, Session, Handle Cashfree PG Webhook events (e.g. PAYMENT_SUCCESS_WEBHOOK, ORDER_PAID).
+
+### Community 88 - "N"
+Cohesion: 0.30
+Nodes (7): bn(), c(), N(), s(), sn(), wn(), xe()
 
 ## Knowledge Gaps
 - **153 isolated node(s):** `deploy_rules.sh script`, `colors`, `metrics`, `pendingLawyers`, `rejectedLawyers` (+148 more)

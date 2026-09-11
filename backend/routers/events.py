@@ -69,7 +69,7 @@ async def sse_event_stream(request: Request, user: User = Depends(authenticate_s
                         task.cancel()
 
                     if not done:
-                        # Heartbeat ping to keep connection alive over proxies / ngrok
+                        # Heartbeat ping to keep connection alive over reverse proxies
                         yield ": ping\n\n"
                         continue
 
