@@ -326,6 +326,25 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
     else:
         if not user.active:
             raise HTTPException(403, "account restricted")
+        if payload.role == Role.LAWYER and user.role != Role.LAWYER:
+            raise HTTPException(403, f"This Google account ({email}) is already registered as a Client. Please sign in with an Advocate account.")
+        if payload.role == Role.CLIENT and user.role != Role.CLIENT:
+            raise HTTPException(403, f"This Google account ({email}) is already registered as an Advocate. Please log in through the Lawyer Portal.")
+        if user.role == Role.LAWYER:
+            profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
+            if not profile:
+                profile = LawyerProfile(
+                    user_id=user.id,
+                    practice=[payload.practice] if payload.practice else [Practice.PROPERTY],
+                    bar_number=f"PENDING-{user.id[:8].upper()}",
+                    languages=["English"],
+                    hourly_fee_minor=100000,
+                    rating=5.0,
+                    verified=True,
+                    availability={},
+                    practice_address=""
+                )
+                db.add(profile)
         audit(db, user, "auth.google_login", "user", user.id, request=request)
 
     refresh = issue_refresh_token(db, user)

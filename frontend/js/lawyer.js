@@ -382,7 +382,11 @@ function initLawyerAuth() {
       btnTarget.innerHTML = `<span class="btn-spinner"></span> <span>Signing in with Google...</span>`;
     }
     try {
-      await performGoogleAuth("lawyer");
+      const authFn = window.performGoogleAuth || (window.LexAPI && LexAPI.performGoogleAuth);
+      if (typeof authFn !== "function") {
+        throw new Error("Google Sign-In is initializing. Please try again.");
+      }
+      await authFn("lawyer");
       const user = LexAPI.getCurrentUser();
       const fullName = user ? user.full_name : "Lawyer";
       toast(`Welcome, ${fullName}!`);
