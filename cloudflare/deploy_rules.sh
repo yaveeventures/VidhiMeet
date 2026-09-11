@@ -74,8 +74,8 @@ curl -s -X POST "${API_BASE}" \
            "action_parameters": {
              "ruleset": "current"
            },
-           "description": "Allow Search Engine Crawlers & SEO Files (/sitemap.xml, /robots.txt)",
-           "expression": "(http.request.uri.path in {\"/sitemap.xml\" \"/robots.txt\"}) or cf.bot_management.verified_bot",
+           "description": "Allow Search Engine Crawlers, SEO Files & Performance Testers (GTmetrix/Lighthouse)",
+           "expression": "(http.request.uri.path in {\"/sitemap.xml\" \"/robots.txt\"}) or cf.bot_management.verified_bot or (http.user_agent contains \"GTmetrix\") or (http.user_agent contains \"Chrome-Lighthouse\")",
            "enabled": true
          },
          {

@@ -86,11 +86,11 @@ def deploy():
         "kind": "zone",
         "phase": "http_request_firewall_custom",
         "rules": [
-            # Rule 1: Known Recon Scanners & Bot Blocking
+            # Rule 1: Known Recon Scanners & Bot Blocking (exempting speed auditors like GTmetrix & Lighthouse)
             {
                 "action": "block",
                 "description": "Block Known Malicious Scanners & Recon Bots",
-                "expression": '(cf.client.bot or http.user_agent contains "nikto" or http.user_agent contains "sqlmap" or http.user_agent contains "nmap" or http.user_agent contains "dirbuster" or http.user_agent contains "gobuster" or http.user_agent contains "wpscan" or http.user_agent contains "masscan" or http.user_agent contains "python-requests" or http.user_agent contains "httpx" or http.user_agent contains "curl" or http.user_agent contains "wget")',
+                "expression": '((cf.client.bot or http.user_agent contains "nikto" or http.user_agent contains "sqlmap" or http.user_agent contains "nmap" or http.user_agent contains "dirbuster" or http.user_agent contains "gobuster" or http.user_agent contains "wpscan" or http.user_agent contains "masscan" or http.user_agent contains "python-requests" or http.user_agent contains "httpx" or http.user_agent contains "curl" or http.user_agent contains "wget") and not (http.user_agent contains "GTmetrix" or http.user_agent contains "Chrome-Lighthouse"))',
                 "enabled": True
             },
             # Rule 2: Challenge Reconnaissance on API Docs & Directory
