@@ -1,3 +1,16 @@
+// Immediately redirect authenticated lawyers to the lawyer portal
+(function enforceLawyerPortalRouting() {
+  try {
+    if (typeof LexAPI !== "undefined" && LexAPI.getCurrentUser) {
+      const user = LexAPI.getCurrentUser();
+      if (user && user.role === "lawyer") {
+        window.location.replace("lawyer.html");
+        return;
+      }
+    }
+  } catch (_) {}
+})();
+
 const mockLawyers = [
   {id:"1",name:"Adv. Aanya Rao",initials:"AR",practice:"Family Law",specialty:"Divorce & Child Custody",rating:4.9,reviews:128,years:12,languages:"English, Hindi, Kannada",fee:1800,available:true,color:"#d9b39b"},
   {id:"2",name:"Adv. Sameer Khanna",initials:"SK",practice:"Corporate Law",specialty:"Contracts & Company Law",rating:4.8,reviews:94,years:9,languages:"English, Hindi, Telugu",fee:2200,available:true,color:"#a8c1b5"},
@@ -1708,6 +1721,10 @@ function renderForgotPassword(redirect = null, fromBooking = false, initialToken
 
 function updateHeader() {
   const user = LexAPI.getCurrentUser();
+  if (user && user.role === "lawyer") {
+    window.location.replace("lawyer.html");
+    return;
+  }
   const headerActions = document.querySelector(".header-actions");
   if (user) {
     const controlConsole = user.role === "admin" 

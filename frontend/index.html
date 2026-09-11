@@ -34,6 +34,23 @@
   <link rel="stylesheet" href="css/design-tokens.min.css">
   <link rel="stylesheet" href="css/styles.min.css?v=rev-35">
   <link rel="stylesheet" href="css/cookie-consent.min.css">
+  <script>
+    (function() {
+      try {
+        const token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token");
+        if (token) {
+          const parts = token.split(".");
+          if (parts.length > 1) {
+            const base64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+            const payload = JSON.parse(atob(base64));
+            if (payload && String(payload.role).toLowerCase() === "lawyer") {
+              window.location.replace("lawyer.html");
+            }
+          }
+        }
+      } catch (_) {}
+    })();
+  </script>
 
 
   <!-- Schema.org JSON-LD Structured Data -->
@@ -409,11 +426,11 @@
   <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
   <script src="js/cookie-consent.min.js" defer></script>
   <script src="js/e2ee.min.js" defer></script>
-  <script src="js/api-client.min.js?v=rev-36" defer></script>
+  <script src="js/api-client.min.js?v=rev-42" defer></script>
   <script src="js/daily-js.min.js" defer></script>
-  <script src="js/pdf-annotator.min.js?v=rev-36" defer></script>
-  <script src="js/realtime.min.js?v=rev-36" defer></script>
-  <script src="js/app.min.js?v=rev-36" defer></script>
+  <script src="js/pdf-annotator.min.js?v=rev-42" defer></script>
+  <script src="js/realtime.min.js?v=rev-42" defer></script>
+  <script src="js/app.min.js?v=rev-42" defer></script>
 </body>
 
 </html>
