@@ -96,6 +96,23 @@ async def lifespan(app: FastAPI):
                 )
                 .values(verified=False, verification_status="pending")
             )
+
+            # Clean up any legacy empty string encrypted fields in DB to prevent decryption crashes
+            session.execute(
+                update(LawyerProfile)
+                .where(LawyerProfile.practice_address == "")
+                .values(practice_address=None)
+            )
+            session.execute(
+                update(LawyerProfile)
+                .where(LawyerProfile.aadhaar_number == "")
+                .values(aadhaar_number=None)
+            )
+            session.execute(
+                update(LawyerProfile)
+                .where(LawyerProfile.mobile_number == "")
+                .values(mobile_number=None)
+            )
             session.commit()
     except Exception as exc:
         log.error("Failed to seed initial admin user or reconcile profiles", error=str(exc))

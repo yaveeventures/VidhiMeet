@@ -193,7 +193,7 @@ def _get_fernet_cipher() -> MultiFernet:
 
 
 def encrypt_field(val: str | None) -> str | None:
-    if val is None:
+    if val is None or not str(val).strip():
         return None
     try:
         cipher = _get_fernet_cipher()
@@ -207,7 +207,7 @@ def encrypt_field(val: str | None) -> str | None:
 
 
 def decrypt_field(val: str | None) -> str | None:
-    if val is None:
+    if val is None or not str(val).strip():
         return None
     try:
         cipher = _get_fernet_cipher()

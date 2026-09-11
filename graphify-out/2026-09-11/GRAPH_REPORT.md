@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-09-11)
 
 ## Corpus Check
-- 103 files · ~174,314 words
+- 103 files · ~174,416 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1864 nodes · 5002 edges · 83 communities (68 shown, 15 thin omitted)
-- Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 585 edges (avg confidence: 0.57)
+- 1864 nodes · 5007 edges · 83 communities (68 shown, 15 thin omitted)
+- Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 589 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `15a35f8d`
+- Built from commit: `c3393129`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -92,12 +92,12 @@
 - Settings
 
 ## God Nodes (most connected - your core abstractions)
-1. `User` - 151 edges
+1. `User` - 152 edges
 2. `Role` - 63 edges
 3. `audit()` - 60 edges
 4. `Practice` - 57 edges
-5. `Booking` - 56 edges
-6. `LawyerProfile` - 52 edges
+5. `LawyerProfile` - 56 edges
+6. `Booking` - 56 edges
 7. `BookingStatus` - 51 edges
 8. `DraftingStatus` - 46 edges
 9. `ProposalStatus` - 44 edges
@@ -166,7 +166,7 @@ Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.05
-Nodes (55): get_db(), LawyerProfile, create_access_token(), hash_password(), Revoke a JWT by adding its jti to the revocation blocklist., Hash a raw password using Argon2id (OWASP #1 recommendation)., revoke_jti(), test_dispute_intermediary_shield() (+47 more)
+Nodes (56): get_db(), LawyerProfile, create_access_token(), hash_password(), Revoke a JWT by adding its jti to the revocation blocklist., Hash a raw password using Argon2id (OWASP #1 recommendation)., revoke_jti(), test_dispute_intermediary_shield() (+48 more)
 
 ### Community 12 - "Booking"
 Cohesion: 0.06
@@ -174,11 +174,11 @@ Nodes (83): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelect
 
 ### Community 13 - "sanitize_key"
 Cohesion: 0.07
-Nodes (23): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), FrontendStaticFiles, lifespan(), rate_limit_dependency(), health() (+15 more)
+Nodes (25): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), FrontendStaticFiles, lifespan(), rate_limit_dependency(), health() (+17 more)
 
 ### Community 14 - "LawyerGrid"
-Cohesion: 0.12
-Nodes (28): get_settings(), download_drafting_document(), drafting_document_mock_upload(), drafting_document_presign(), UploadFile, Helper to write a mock PDF file when serving local document downloads., _write_mock_pdf(), download_lawyer_document() (+20 more)
+Cohesion: 0.13
+Nodes (26): get_settings(), download_drafting_document(), drafting_document_mock_upload(), drafting_document_presign(), UploadFile, Helper to write a mock PDF file when serving local document downloads., _write_mock_pdf(), download_lawyer_document() (+18 more)
 
 ### Community 16 - "check_clock_drift"
 Cohesion: 0.21
@@ -374,11 +374,11 @@ _Questions this graph is uniquely positioned to answer:_
   _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Why does `_launchDaily()` connect `je` to `ntp_now`?**
   _High betweenness centrality (0.012) - this node is a cross-community bridge._
-- **Are the 26 inferred relationships involving `User` (e.g. with `FrontendStaticFiles` and `lifespan()`) actually correct?**
-  _`User` has 26 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 27 inferred relationships involving `User` (e.g. with `FrontendStaticFiles` and `lifespan()`) actually correct?**
+  _`User` has 27 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 41 inferred relationships involving `Role` (e.g. with `FrontendStaticFiles` and `Base`) actually correct?**
   _`Role` has 41 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 42 inferred relationships involving `Practice` (e.g. with `Base` and `AdminPayoutAccountOut`) actually correct?**
   _`Practice` has 42 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 13 inferred relationships involving `Booking` (e.g. with `Base` and `admin_metrics()`) actually correct?**
-  _`Booking` has 13 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 36 inferred relationships involving `LawyerProfile` (e.g. with `FrontendStaticFiles` and `lifespan()`) actually correct?**
+  _`LawyerProfile` has 36 INFERRED edges - model-reasoned connections that need verification._

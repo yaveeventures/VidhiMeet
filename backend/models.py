@@ -17,14 +17,19 @@ class EncryptedString(TypeDecorator):
     cache_ok = False
 
     def process_bind_param(self, value, dialect):
-        if value is None:
+        if value is None or not str(value).strip():
             return None
         return encrypt_field(value)
 
     def process_result_value(self, value, dialect):
-        if value is None:
+        if value is None or not str(value).strip():
             return None
-        return decrypt_field(value)
+        try:
+            return decrypt_field(value)
+        except Exception:
+            # If stored ciphertext cannot be decrypted (legacy plain text or rotated key),
+            # safely treat as None so user's account does not crash with a 500 error.
+            return None
 
 
 

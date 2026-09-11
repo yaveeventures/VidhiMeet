@@ -72,7 +72,7 @@ def register(request: Request, payload: RegisterRequest, db: Session = Depends(g
             verified=False,
             availability={},
             enrollment_date=payload.enrollment_date,
-            practice_address=""
+            practice_address=None
         )
         db.add(profile)
 
@@ -319,7 +319,7 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
                 verified=False,
                 verification_status="pending",
                 availability={},
-                practice_address=""
+                practice_address=None
             )
             db.add(profile)
 
@@ -344,7 +344,7 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
                     verified=False,
                     verification_status="pending",
                     availability={},
-                    practice_address=""
+                    practice_address=None
                 )
                 db.add(profile)
         audit(db, user, "auth.google_login", "user", user.id, request=request)
