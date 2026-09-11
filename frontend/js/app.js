@@ -2762,11 +2762,6 @@ function renderAllLawyers() {
     list = list.filter(x => x.languages.toLowerCase().includes(langVal.toLowerCase()));
   }
   
-  // Apply Rating filter
-  if (ratingVal > 0) {
-    list = list.filter(x => x.rating >= ratingVal);
-  }
-  
   const gridEl = document.getElementById("all-lawyers-grid");
   if (!gridEl) return;
   
@@ -2776,7 +2771,7 @@ function renderAllLawyers() {
           <div class="lawyer-photo" style="background:${x.color}">
             <span class="initials" style="background:${darken(x.color)}">${x.initials}</span>
             ${x.available ? '<span class="badge">AVAILABLE TODAY</span>' : ""}
-            <span class="rating">★ ${x.rating} (${x.reviews})</span>
+            <span class="rating" style="background:#e3f1e7;color:#337953;">✓ Verified</span>
           </div>
           <div class="details">
             <h3>${x.name}</h3>
