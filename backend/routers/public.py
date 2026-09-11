@@ -21,30 +21,26 @@ def health(db: Session = Depends(get_db)):
 @router.get("/api/v1/public/stats")
 def public_stats(db: Session = Depends(get_db)):
     """Public endpoint — no auth required. Returns live platform statistics for the home page."""
-    from sqlalchemy import func, or_
+    from sqlalchemy import func
     from ..models import Practice, Role
 
-    # Per-practice verified lawyer counts
-    counts = {}
-    for practice_val in Practice:
-        counts[practice_val.value] = db.scalar(
-            select(func.count()).select_from(
-                select(LawyerProfile).where(
-                    LawyerProfile.verified.is_(True),
-                    or_(
-                        LawyerProfile.practice.contains(practice_val.value.upper()),
-                        LawyerProfile.practice.contains(practice_val.value.lower())
-                    )
-                ).join(User).where(User.active.is_(True)).subquery()
-            )
-        ) or 0
+    # Fetch verified, active lawyer profiles (compatible across SQLite and PostgreSQL JSON columns)
+    profiles = db.scalars(
+        select(LawyerProfile)
+        .join(User)
+        .where(LawyerProfile.verified.is_(True), User.active.is_(True))
+    ).all()
 
-    # Total verified lawyers
-    total_lawyers = db.scalar(
-        select(func.count()).select_from(
-            select(LawyerProfile).where(LawyerProfile.verified.is_(True)).join(User).where(User.active.is_(True)).subquery()
-        )
-    ) or 0
+    total_lawyers = len(profiles)
+
+    # Per-practice verified lawyer counts
+    counts = {p.value: 0 for p in Practice}
+    for p in profiles:
+        p_practices = p.practice if isinstance(p.practice, list) else [p.practice]
+        practices_str = " ".join(str(x).lower() for x in p_practices)
+        for practice_val in Practice:
+            if practice_val.value.lower() in practices_str:
+                counts[practice_val.value] += 1
 
     # Total active clients
     total_clients = db.scalar(

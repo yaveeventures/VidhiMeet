@@ -343,7 +343,10 @@ const LexAPI = (() => {
         return null;
       }
     },
-    publicStats: () => fetch(getBaseUrl() + "/public/stats").then(r => r.json()).catch(() => null),
+    publicStats: () => fetch(getBaseUrl() + "/public/stats").then(r => {
+      if (!r.ok) return null;
+      return r.json();
+    }).catch(() => null),
     lawyers: filters => cachedRequest(`/lawyers?${new URLSearchParams(filters || {})}`, 10000),
     getProfile: () => request("/lawyers/me"),
     updateProfile: payload => {

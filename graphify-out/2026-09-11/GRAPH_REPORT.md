@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-09-11)
 
 ## Corpus Check
-- 103 files · ~174,226 words
+- 103 files · ~174,125 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1864 nodes · 4985 edges · 88 communities (70 shown, 18 thin omitted)
+- 1864 nodes · 4985 edges · 89 communities (71 shown, 18 thin omitted)
 - Extraction: 88% EXTRACTED · 12% INFERRED · 0% AMBIGUOUS · INFERRED: 586 edges (avg confidence: 0.57)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8379b68d`
+- Built from commit: `51874e83`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -95,6 +95,7 @@
 - Settings
 - cashfree_webhook
 - .must_be_adult
+- N
 
 ## God Nodes (most connected - your core abstractions)
 1. `User` - 149 edges
@@ -123,7 +124,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (88 total, 18 thin omitted)
+## Communities (89 total, 18 thin omitted)
 
 ### Community 0 - "main.py"
 Cohesion: 0.13
@@ -146,8 +147,8 @@ Cohesion: 0.09
 Nodes (50): $(), appPracticeSelect, appSearchInput, appSortSelect, auditLogs, colors, decideVerification(), disputes (+42 more)
 
 ### Community 5 - "daily-js.js"
-Cohesion: 0.12
-Nodes (11): Ae(), ar(), br, fn(), hn(), ir(), mr, pr() (+3 more)
+Cohesion: 0.14
+Nodes (9): Ae(), ar(), br, fn(), hn(), ir(), mr, pr() (+1 more)
 
 ### Community 6 - "main.py"
 Cohesion: 0.06
@@ -155,7 +156,7 @@ Nodes (49): check_clock_drift(), _get_servers(), ntp_now(), ntp_now_ist(), NtpSt
 
 ### Community 7 - "i"
 Cohesion: 0.13
-Nodes (20): be(), bn(), ge(), ie(), Jn(), le(), me(), N() (+12 more)
+Nodes (19): be(), bn(), ge(), ie(), Jn(), me(), N(), ne() (+11 more)
 
 ### Community 8 - "processEvent"
 Cohesion: 0.26
@@ -163,7 +164,7 @@ Nodes (8): ConnectionManager, websocket_chat_endpoint(), current_user(), decode_
 
 ### Community 10 - "N"
 Cohesion: 0.07
-Nodes (38): at(), Bo(), Bs(), cr(), Ds(), ea(), er(), Fo() (+30 more)
+Nodes (37): at(), Bo(), Bs(), dr(), Ds(), ea(), Fo(), Fs() (+29 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.06
@@ -190,8 +191,8 @@ Cohesion: 0.07
 Nodes (48): Booking, Review, Voucher, booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document() (+40 more)
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
-Cohesion: 0.11
-Nodes (24): a(), B(), c(), d(), f(), gn(), h(), ia() (+16 more)
+Cohesion: 0.16
+Nodes (17): a(), B(), c(), d(), f(), gn(), o(), or() (+9 more)
 
 ### Community 19 - "_cors_response"
 Cohesion: 0.18
@@ -202,8 +203,8 @@ Cohesion: 0.07
 Nodes (66): _attemptReconnect(), backdrop, booking, bookingView(), checkHashRoute(), checkSessionExpiryNotice(), _clearReconnectOverlay(), close() (+58 more)
 
 ### Community 21 - "config.py"
-Cohesion: 0.15
-Nodes (28): as(), ct(), dn(), Es(), Et(), fe(), gt(), i() (+20 more)
+Cohesion: 0.09
+Nodes (45): as(), Bt(), cr(), ct(), dn(), ee(), er(), Es() (+37 more)
 
 ### Community 22 - "calendar.py"
 Cohesion: 0.23
@@ -219,7 +220,7 @@ Nodes (21): booking_ics(), _build_ics_calendar(), _build_vevent(), _escape(), _f
 
 ### Community 25 - "models.py"
 Cohesion: 0.16
-Nodes (12): an(), cn(), dr(), _e(), he(), nn(), on(), pe() (+4 more)
+Nodes (12): an(), cn(), _e(), he(), ln(), nn(), on(), pe() (+4 more)
 
 ### Community 26 - "bank_accounts.py"
 Cohesion: 0.23
@@ -242,8 +243,8 @@ Cohesion: 0.13
 Nodes (14): 🛡️ **Admin Console**, 🛠️ Architecture & Tech Stack, 🔍 **Client Portal & Legal Marketplace**, 🚀 Getting Started, 🌟 Key Features, 💼 **Lawyer Portal**, 📄 License & Legal Notice, Option A: Quickstart with Docker Compose (Recommended) (+6 more)
 
 ### Community 31 - "setup"
-Cohesion: 0.13
-Nodes (20): Bt(), ce(), de(), dt(), ee(), ft(), ht(), J() (+12 more)
+Cohesion: 0.22
+Nodes (10): ce(), de(), dt(), ft(), ht(), J(), ke(), processEvent() (+2 more)
 
 ### Community 32 - "Settings"
 Cohesion: 0.14
@@ -372,6 +373,10 @@ Nodes (12): checkInactivity(), ensureModalElement(), getLimits(), getStoredActiv
 ### Community 86 - "cashfree_webhook"
 Cohesion: 0.50
 Nodes (4): cashfree_webhook(), Request, Session, Handle Cashfree PG Webhook events (e.g. PAYMENT_SUCCESS_WEBHOOK, ORDER_PAID).
+
+### Community 88 - "N"
+Cohesion: 0.40
+Nodes (4): In(), q(), setupOnce(), W()
 
 ## Knowledge Gaps
 - **153 isolated node(s):** `deploy_rules.sh script`, `colors`, `metrics`, `pendingLawyers`, `rejectedLawyers` (+148 more)

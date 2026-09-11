@@ -160,21 +160,33 @@ function getYearsExperience(enrollmentDateStr) {
 async function loadPublicStats() {
   try {
     const stats = await LexAPI.publicStats();
-    if (!stats) return;
 
     // ── Practice card counts ──────────────────────────────────────────────────
-    const byPractice = stats.lawyers_by_practice || {};
-    const familyEl = document.getElementById("count-family");
-    const corpEl   = document.getElementById("count-corporate");
-    const propEl   = document.getElementById("count-property");
-    if (familyEl) familyEl.textContent = `${byPractice["family"] ?? 0} verified lawyers`;
-    if (corpEl)   corpEl.textContent   = `${byPractice["corporate"] ?? 0} verified lawyers`;
-    if (propEl)   propEl.textContent   = `${byPractice["property"] ?? 0} verified lawyers`;
+    let byPractice = (stats && stats.lawyers_by_practice) ? stats.lawyers_by_practice : null;
+    if (!byPractice && Array.isArray(lawyers) && lawyers.length > 0) {
+      byPractice = { property: 0, corporate: 0, family: 0 };
+      lawyers.forEach(l => {
+        const practices = Array.isArray(l.practices) ? l.practices : (typeof l.practice === "string" ? l.practice.toLowerCase().split(",") : []);
+        const pStr = practices.join(" ").toLowerCase();
+        if (pStr.includes("property") || pStr.includes("land")) byPractice.property++;
+        if (pStr.includes("corporate") || pStr.includes("company") || pStr.includes("contract")) byPractice.corporate++;
+        if (pStr.includes("family") || pStr.includes("divorce") || pStr.includes("child")) byPractice.family++;
+      });
+    }
+
+    if (byPractice) {
+      const familyEl = document.getElementById("count-family");
+      const corpEl   = document.getElementById("count-corporate");
+      const propEl   = document.getElementById("count-property");
+      if (familyEl) familyEl.textContent = `${byPractice["family"] ?? 0} verified lawyers`;
+      if (corpEl)   corpEl.textContent   = `${byPractice["corporate"] ?? 0} verified lawyers`;
+      if (propEl)   propEl.textContent   = `${byPractice["property"] ?? 0} verified lawyers`;
+    }
 
     // ── "Available today" float ───────────────────────────────────────────────
     const onlineEl = document.getElementById("stat-lawyers-online");
     if (onlineEl) {
-      const total = stats.verified_lawyers || 0;
+      const total = (stats && stats.verified_lawyers) || (Array.isArray(lawyers) ? lawyers.length : 0);
       onlineEl.textContent = `${total} lawyer${total !== 1 ? "s" : ""} available`;
     }
 
