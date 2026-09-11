@@ -709,6 +709,16 @@ async function handlePay() {
     };
 
     const res = await LexAPI.createBooking(payload);
+
+    if (res.payment_session_id && window.Cashfree) {
+      const cfMode = (res.cashfree_mode || "sandbox").toLowerCase() === "production" ? "production" : "sandbox";
+      const cashfree = window.Cashfree({ mode: cfMode });
+      cashfree.checkout({
+        paymentSessionId: res.payment_session_id,
+        redirectTarget: "_self"
+      });
+      return;
+    }
     
     if (res.payment_url) {
       window.location.href = res.payment_url;
@@ -3676,3 +3686,34 @@ document.addEventListener("click", (e) => {
     window.location.href = `lawyer.html${targetHash}`;
   }
 });
+
+// Verify payment return from Cashfree redirect
+(async function checkCashfreeReturn() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookingId = urlParams.get("booking_id");
+  const orderId = urlParams.get("order_id");
+  if (bookingId && (orderId || urlParams.has("order_id"))) {
+    try {
+      if (typeof LexAPI !== "undefined" && LexAPI.verifyBookingPayment) {
+        const verifyRes = await LexAPI.verifyBookingPayment(bookingId);
+        if (verifyRes && verifyRes.status === "success") {
+          if (typeof toast === "function") {
+            toast("Payment successful! Your consultation is confirmed ✓");
+          }
+          const cleanUrl = new URL(window.location.href);
+          cleanUrl.searchParams.delete("booking_id");
+          cleanUrl.searchParams.delete("order_id");
+          window.history.replaceState({}, document.title, cleanUrl.toString());
+          if (typeof booking !== "undefined") {
+            booking.id = bookingId;
+            booking.step = 4;
+            if (typeof bookingView === "function") bookingView();
+            if (typeof open === "function") open();
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Cashfree return verification:", err);
+    }
+  }
+})();

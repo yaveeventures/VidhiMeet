@@ -157,6 +157,9 @@ class BookingOut(BaseModel):
     platform_fee_minor: int = 0
     lawyer_amount_minor: int = 0
     payment_url: str | None = None
+    cashfree_order_id: str | None = None
+    payment_session_id: str | None = None
+    cashfree_mode: str | None = None
     last_message_at: datetime | None = None
     dispute_category: str | None = None
     dispute_reason: str | None = None

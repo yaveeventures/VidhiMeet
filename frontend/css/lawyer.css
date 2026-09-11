@@ -2266,7 +2266,7 @@ main {
 }
 .btn-verify-upi:hover { opacity:.88; }
 .btn-verify-upi:disabled { opacity:.5; cursor:not-allowed; }
-.btn-verify-upi .phonepe-icon { font-size:18px; }
+.btn-verify-upi .verify-icon { font-size:18px; }
 
 /* UTR chip */
 .utr-chip {

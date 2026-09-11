@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-import stripe
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from sqlalchemy import func, or_, select
@@ -11,7 +10,7 @@ from ..models import AuditLog, Booking, BookingStatus, DraftingProposal, Draftin
 from ..ntp_time import check_clock_drift
 from ..schemas import AdminPayoutAccountOut, AuditLogOut, BookingOut, DraftingRequestOut, LawyerOut, UserOut, PlatformFeedbackOut
 from ..security import require_roles
-from ..services import audit
+from ..services import audit, initiate_refund
 
 log = structlog.get_logger("admin")
 settings = get_settings()
@@ -262,12 +261,10 @@ def resolve_dispute(request: Request, booking_id: str, outcome: str, strike_lawy
         raise HTTPException(404, "booking not found")
     if outcome == "refund":
         booking.status = BookingStatus.REFUNDED
-        if settings.stripe_secret_key and booking.stripe_payment_intent_id:
-            try:
-                stripe.api_key = settings.stripe_secret_key
-                stripe.Refund.create(payment_intent=booking.stripe_payment_intent_id)
-            except stripe.error.StripeError as exc:
-                log.error("Stripe dispute refund failed", booking_id=booking_id, error=str(exc))
+        try:
+            initiate_refund(booking, booking.amount_minor, reason="Admin dispute resolution refund")
+        except Exception as exc:
+            log.error("Dispute refund failed", booking_id=booking_id, error=str(exc))
         if strike_lawyer:
             lawyer_profile = db.query(LawyerProfile).filter(LawyerProfile.user_id == booking.lawyer_id).first()
             if lawyer_profile:
@@ -314,7 +311,7 @@ from ..rate_limiter import rate_limit_dependency
 
 @router.post("/config/fees", dependencies=[Depends(rate_limit_dependency("strict"))])
 def update_fees(request: Request, default_fee: int, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
-    settings.stripe_platform_fee_percent = default_fee
+    settings.platform_fee_percent = default_fee
     audit(db, admin, "config.fees_updated", "settings", None, {"default_fee": default_fee}, request=request)
     db.commit()
     return {"status": "success", "default_fee": default_fee}

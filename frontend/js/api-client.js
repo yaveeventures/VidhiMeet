@@ -361,6 +361,7 @@ const LexAPI = (() => {
     completeBooking: id => request(`/bookings/${id}/complete`, {method:"POST"}),
     disputeBooking: (id, payload) => request(`/bookings/${id}/dispute`, {method:"POST", body: payload ? JSON.stringify(payload) : null}),
     confirmPayment: id => request(`/bookings/${id}/confirm-payment`, {method:"POST"}),
+    verifyBookingPayment: id => request(`/bookings/${id}/verify-payment`, {method:"POST"}),
     getCancellationPreview: id => request(`/bookings/${id}/cancellation-preview`),
     cancelBooking: (id, reason) => request(`/bookings/${id}/cancel`, {method:"POST", body: JSON.stringify({reason})}),
     

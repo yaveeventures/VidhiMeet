@@ -85,7 +85,7 @@ def test_pii_encryption_at_rest(client):
     # 4. Verify DB storage is encrypted (ciphertext)
     from conftest import test_engine
     with test_engine.connect() as conn:
-        row = conn.exec_driver_sql("SELECT aadhaar_number, practice_address, mobile_number FROM lawyer_profiles WHERE stripe_account_id IS NULL").fetchone()
+        row = conn.exec_driver_sql("SELECT aadhaar_number, practice_address, mobile_number FROM lawyer_profiles WHERE id IS NOT NULL").fetchone()
 
     assert row is not None
     db_aadhaar, db_address, db_mobile = row

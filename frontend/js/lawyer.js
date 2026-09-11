@@ -1958,7 +1958,7 @@ function renderBankAccount() {
 
   const verifyBtn = bankAccount.verified ? '' : `
     <button class="btn-verify-upi" id="upi-verify-open-btn">
-      <span class="phonepe-icon">✓</span> Verify Bank Account
+      <span class="verify-icon">✓</span> Verify Bank Account
     </button>`;
 
   display.innerHTML = `
@@ -2145,7 +2145,7 @@ async function initiateUpiVerification() {
   }
 }
 
-// Check if returning from PhonePe redirect after UPI verification
+// Check if returning from redirect after UPI verification
 (function checkUpiReturnParam() {
   const params = new URLSearchParams(window.location.search);
   if (params.has("upi_verified") || sessionStorage.getItem("awaiting_upi_verify")) {

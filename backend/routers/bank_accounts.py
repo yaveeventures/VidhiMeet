@@ -100,7 +100,7 @@ def update_bank_account(payload: BankAccountUpdate, user: User = Depends(require
         acct.verified_at = None
         acct.utr = None
         acct.upi_name = None
-        acct.phonepe_txn_id = None
+        acct.verification_txn_id = None
     audit(db, user, "bank_account.updated", "lawyer_bank_account", user.id,
           {"reset_verification": changed_sensitive})
     db.commit()

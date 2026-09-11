@@ -21,7 +21,8 @@ from ..schemas import (
 from ..security import current_user, require_roles
 from ..services import (
     audit, calculate_cancellation_policy, evaluate_daily_meeting_logs,
-    get_daily_meeting_details, initiate_refund, presign_document, validate_intake
+    get_daily_meeting_details, initiate_refund, presign_document, validate_intake,
+    create_cashfree_order, get_cashfree_order
 )
 from ..services.event_bus import event_bus
 
@@ -111,8 +112,19 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                       jitsi_room=f"lc-{secrets.token_urlsafe(24)}")
     db.add(booking); db.flush()
 
+    cf_order = {}
+    try:
+        cf_order = create_cashfree_order(booking, user)
+        booking.cashfree_order_id = cf_order.get("order_id")
+    except Exception as exc:
+        log.error("Failed to generate Cashfree order", error=str(exc))
+
     audit(db, user, "booking.created", "booking", booking.id, {"disclaimer": payload.disclaimer_version})
     db.commit(); db.refresh(booking)
+
+    # Attach transient properties for frontend checkout
+    booking.payment_session_id = cf_order.get("payment_session_id")
+    booking.cashfree_mode = settings.cashfree_mode
 
     try:
         loop = asyncio.get_running_loop()
@@ -290,6 +302,35 @@ def confirm_payment(booking_id: str, user: User = Depends(current_user), db: Ses
     audit(db, user, "booking.payment_confirmed_mock", "booking", booking_id)
     db.commit()
     return {"status": "success", "booking_status": booking.status}
+
+
+@router.post("/api/v1/bookings/{booking_id}/verify-payment")
+def verify_payment(booking_id: str, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    booking = booking_for_participant(booking_id, user, db)
+    if booking.status == BookingStatus.CONFIRMED:
+        return {"status": "success", "booking_status": booking.status.value, "message": "Payment already confirmed"}
+
+    if not booking.cashfree_order_id:
+        # Fallback to direct confirmation if no Cashfree order was attached
+        booking.status = BookingStatus.CONFIRMED
+        audit(db, user, "booking.payment_confirmed_direct", "booking", booking_id)
+        db.commit()
+        return {"status": "success", "booking_status": booking.status.value}
+
+    try:
+        cf_order = get_cashfree_order(booking.cashfree_order_id)
+        order_status = cf_order.get("order_status")
+    except Exception as exc:
+        log.error("Payment verification check failed", booking_id=booking_id, error=str(exc))
+        raise HTTPException(502, f"Payment verification error: {str(exc)}")
+
+    if order_status == "PAID":
+        booking.status = BookingStatus.CONFIRMED
+        audit(db, user, "booking.payment_confirmed", "booking", booking_id, {"cashfree_order_id": booking.cashfree_order_id})
+        db.commit()
+        return {"status": "success", "booking_status": booking.status.value}
+    else:
+        return {"status": "pending", "order_status": order_status, "booking_status": booking.status.value}
 
 
 # ── Messages ──────────────────────────────────────────────────────────────────

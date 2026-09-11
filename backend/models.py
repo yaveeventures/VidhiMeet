@@ -115,7 +115,7 @@ class LawyerBankAccount(Base):
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     utr: Mapped[str | None] = mapped_column(String(100), nullable=True)   # Verification UTR (audit trail)
     upi_name: Mapped[str | None] = mapped_column(String(255), nullable=True)  # VPA display name
-    phonepe_txn_id: Mapped[str | None] = mapped_column(String(80), nullable=True)  # Deprecated verification txn id
+    verification_txn_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
@@ -137,8 +137,7 @@ class Booking(Base):
     intake: Mapped[dict] = mapped_column(JSON)
     disclaimer_version: Mapped[str] = mapped_column(String(30))
     disclaimer_accepted_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    stripe_payment_intent_id: Mapped[str | None] = mapped_column(String(255), unique=True)
-    phonepe_transaction_id: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True)
+    cashfree_order_id: Mapped[str | None] = mapped_column(String(255), unique=True, nullable=True)
     jitsi_room: Mapped[str] = mapped_column(String(255), unique=True)
     documents: Mapped[list] = mapped_column(JSON, default=list)
     chat_key_salt: Mapped[str] = mapped_column(String(64), default=lambda: secrets.token_hex(32))

@@ -24,6 +24,11 @@ class Settings(BaseSettings):
     data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
     trust_proxy: bool = False
     google_client_id: str = ""
+    # ── Cashfree Payment Gateway (PG) Configuration ───────────────────────────
+    cashfree_app_id: str = ""
+    cashfree_secret_key: str = ""
+    cashfree_api_version: str = "2023-08-01"
+    cashfree_mode: str = "sandbox"  # "sandbox" or "production"
     # ── SMTP Email Configuration ───────────────────────────────────────────
     smtp_server: str = ""
     smtp_port: int = 587
@@ -122,6 +127,12 @@ class Settings(BaseSettings):
     @property
     def production(self) -> bool:
         return self.environment.lower() == "production"
+
+    @property
+    def cashfree_base_url(self) -> str:
+        if self.cashfree_mode.lower() == "production":
+            return "https://api.cashfree.com/pg"
+        return "https://sandbox.cashfree.com/pg"
 
 
 @lru_cache
