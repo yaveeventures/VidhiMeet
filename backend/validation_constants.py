@@ -16,6 +16,9 @@ UPI_VPA_REGEX = r"^[\w\.\-]+@[\w\-]+$"
 
 
 # ── Identity & Telephony Regex Patterns ───────────────────────────────────────
+# 10-character Indian Permanent Account Number (PAN): 5 alpha, 4 digits, 1 alpha
+PAN_REGEX = r"^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
+
 # 12-digit Indian Aadhaar number (with or without hyphens)
 AADHAAR_REGEX = r"^\d{12}$|^\d{4}-\d{4}-\d{4}$"
 
@@ -64,6 +67,7 @@ def get_public_validation_rules() -> dict:
         "ifsc_regex": IFSC_REGEX,
         "bank_account_regex": BANK_ACCOUNT_REGEX,
         "upi_vpa_regex": UPI_VPA_REGEX,
+        "pan_regex": PAN_REGEX,
         "aadhaar_regex": AADHAAR_REGEX,
         "mobile_in_regex": MOBILE_IN_REGEX,
         "dpdpa_min_age_years": DPDPA_MIN_AGE_YEARS,

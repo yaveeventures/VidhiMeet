@@ -7,6 +7,7 @@ from .validation_constants import (
     IFSC_REGEX,
     BANK_ACCOUNT_REGEX,
     UPI_VPA_REGEX,
+    PAN_REGEX,
     DPDPA_MIN_AGE_YEARS,
     PASSWORD_MIN_LENGTH,
     PASSWORD_MAX_LENGTH,
@@ -257,6 +258,8 @@ class LawyerOut(BaseModel):
     bar_license_verified: bool = False
     aadhaar_verified: bool = False
     aadhaar_number: str | None = None
+    pan_number: str | None = None
+    pan_number_masked: str | None = None
     mobile_number: str | None = None
     rejection_reason: str | None = None
     verified_at: datetime | None = None
@@ -304,7 +307,16 @@ class LawyerProfileUpdate(BaseModel):
     enrollment_date: str | None = Field(None, max_length=10)
     practice_address: str | None = Field(None, max_length=500)
     aadhaar_number: str | None = Field(None, pattern=r"^\d{12}$|^\d{4}-\d{4}-\d{4}$")
+    pan_number: str | None = Field(None, pattern=PAN_REGEX)
     mobile_number: str | None = Field(None, pattern=r"^[0-9]{10}$")
+
+    @field_validator("pan_number", mode="before")
+    @classmethod
+    def clean_pan(cls, v: str | None) -> str | None:
+        if isinstance(v, str):
+            v = v.strip().upper()
+            return v if v else None
+        return v
 
     @field_validator("full_name", "practice_address", mode="before")
     @classmethod
@@ -409,6 +421,15 @@ class BankAccountCreate(BaseModel):
     ifsc_code: str = Field(..., pattern=IFSC_REGEX)
     bank_name: str = Field(..., min_length=2, max_length=120)
     upi_vpa: str | None = Field(default=None, max_length=255)
+    pan_number: str | None = Field(default=None, pattern=PAN_REGEX)
+
+    @field_validator("pan_number", mode="before")
+    @classmethod
+    def clean_pan(cls, v: str | None) -> str | None:
+        if isinstance(v, str):
+            v = v.strip().upper()
+            return v if v else None
+        return v
 
     @field_validator("account_holder_name", "bank_name")
     @classmethod
@@ -433,6 +454,15 @@ class BankAccountUpdate(BaseModel):
     ifsc_code: str | None = Field(default=None, pattern=IFSC_REGEX)
     bank_name: str | None = Field(default=None, min_length=2, max_length=120)
     upi_vpa: str | None = Field(default=None, max_length=255)
+    pan_number: str | None = Field(default=None, pattern=PAN_REGEX)
+
+    @field_validator("pan_number", mode="before")
+    @classmethod
+    def clean_pan(cls, v: str | None) -> str | None:
+        if isinstance(v, str):
+            v = v.strip().upper()
+            return v if v else None
+        return v
 
     @field_validator("account_holder_name", "bank_name")
     @classmethod
@@ -466,6 +496,8 @@ class BankAccountOut(BaseModel):
     verification_status: str | None = "unverified"
     verification_method: str | None = "reverse_penny_drop"
     verification_id: str | None = None
+    pan_number_masked: str | None = None
+    has_pan: bool = False
     created_at: datetime
     model_config = {'from_attributes': True}
 

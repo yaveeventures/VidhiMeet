@@ -22,6 +22,7 @@ from ..models import (
     DraftingRequest,
     DraftingStatus,
     LawyerBankAccount,
+    LawyerProfile,
     User,
 )
 
@@ -128,6 +129,25 @@ def initiate_lawyer_payout(
         return {
             "status": "held",
             "reason": "Lawyer does not have a verified bank account",
+            "entity_id": entity_id,
+        }
+
+    # 2. Check that PAN is on file (required for TDS compliance under Income Tax Act)
+    lawyer_profile = db.scalar(
+        select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id)
+    )
+    has_pan = bool(lawyer_profile and lawyer_profile.pan_number) or bool(bank_account.pan_number if hasattr(bank_account, 'pan_number') else False)
+    if not has_pan:
+        entity.payout_status = "held"
+        logger.info(
+            "Payout held: Lawyer PAN number not on file",
+            entity_type=entity_type,
+            entity_id=entity_id,
+            lawyer_id=lawyer_id,
+        )
+        return {
+            "status": "held",
+            "reason": "PAN number is required for payout settlement (Income Tax Act compliance). Please update your KYC.",
             "entity_id": entity_id,
         }
 

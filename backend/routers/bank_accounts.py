@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from ..db import get_db
-from ..models import LawyerBankAccount, Role, User
+from ..models import LawyerBankAccount, LawyerProfile, Role, User
 from ..schemas import (
     BankAccountCreate,
     BankAccountOut,
@@ -38,7 +38,21 @@ def _mask_ifsc(raw: str) -> str:
     return "X" * max(0, len(clean) - 4) + clean[-4:] if len(clean) >= 4 else "XXXX"
 
 
-def _bank_account_out(acct: LawyerBankAccount) -> BankAccountOut:
+def _mask_pan(raw: str | None) -> str | None:
+    if not raw:
+        return None
+    clean = raw.strip().upper()
+    if len(clean) == 10:
+        return f"XXXXX{clean[5:]}"
+    return "XXXXXXXXXX"
+
+
+def _bank_account_out(acct: LawyerBankAccount, profile: LawyerProfile | None = None) -> BankAccountOut:
+    if profile is None and acct and acct.user:
+        profile = getattr(acct.user, "lawyer_profile", None)
+    pan_masked = _mask_pan(profile.pan_number) if profile else None
+    has_pan = bool(profile and profile.pan_number)
+
     return BankAccountOut(
         id=acct.id,
         account_holder_name=acct.account_holder_name,
@@ -54,6 +68,8 @@ def _bank_account_out(acct: LawyerBankAccount) -> BankAccountOut:
         verification_status=acct.verification_status or ("verified" if acct.verified else "unverified"),
         verification_method=acct.verification_method or "reverse_penny_drop",
         verification_id=acct.verification_id,
+        pan_number_masked=pan_masked,
+        has_pan=has_pan,
         created_at=acct.created_at,
     )
 
@@ -65,7 +81,8 @@ def get_bank_account(user: User = Depends(require_roles(Role.LAWYER)), db: Sessi
     acct = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == user.id))
     if not acct:
         raise HTTPException(404, "no bank account on record")
-    return _bank_account_out(acct)
+    profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
+    return _bank_account_out(acct, profile=profile)
 
 
 @router.post("/api/v1/lawyers/me/bank-account", response_model=BankAccountOut, status_code=201)
@@ -82,11 +99,16 @@ def add_bank_account(payload: BankAccountCreate, user: User = Depends(require_ro
         upi_vpa=payload.upi_vpa.strip() if payload.upi_vpa else None,
     )
     db.add(acct)
+
+    profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
+    if payload.pan_number and profile:
+        profile.pan_number = payload.pan_number.strip().upper()
+
     audit(db, user, "bank_account.created", "lawyer_bank_account", user.id,
           {"bank_name": acct.bank_name, "ifsc": acct.ifsc_code})
     db.commit()
     db.refresh(acct)
-    return _bank_account_out(acct)
+    return _bank_account_out(acct, profile=profile)
 
 
 @router.put("/api/v1/lawyers/me/bank-account", response_model=BankAccountOut)
@@ -108,6 +130,11 @@ def update_bank_account(payload: BankAccountUpdate, user: User = Depends(require
         acct.bank_name = payload.bank_name.strip()
     if payload.upi_vpa is not None:
         acct.upi_vpa = payload.upi_vpa.strip() or None
+
+    profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
+    if payload.pan_number and profile:
+        profile.pan_number = payload.pan_number.strip().upper()
+
     if changed_sensitive:
         # Reset verification — account details changed
         acct.verified = False

@@ -44,6 +44,15 @@ def lawyers(practice: Practice | None = None, language: str | None = None,
     return results
 
 
+def _mask_pan(pan: str | None) -> str | None:
+    if not pan:
+        return None
+    clean = pan.strip().upper()
+    if len(clean) == 10:
+        return f"XXXXX{clean[5:]}"
+    return "XXXXXXXXXX"
+
+
 @router.get("/api/v1/lawyers/me", response_model=LawyerOut)
 def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
@@ -83,6 +92,8 @@ def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session
         bar_license_verified=getattr(profile, "bar_license_verified", False),
         aadhaar_verified=getattr(profile, "aadhaar_verified", False),
         aadhaar_number=profile.aadhaar_number,
+        pan_number=profile.pan_number,
+        pan_number_masked=_mask_pan(profile.pan_number),
         mobile_number=profile.mobile_number,
         rejection_reason=getattr(profile, "rejection_reason", None),
         verified_at=getattr(profile, "verified_at", None),
@@ -107,6 +118,7 @@ def update_my_profile(request: Request, payload: LawyerProfileUpdate, user: User
             enrollment_date=payload.enrollment_date,
             practice_address=payload.practice_address,
             aadhaar_number=payload.aadhaar_number,
+            pan_number=payload.pan_number,
             mobile_number=payload.mobile_number
         )
         db.add(profile)
@@ -122,6 +134,8 @@ def update_my_profile(request: Request, payload: LawyerProfileUpdate, user: User
             profile.practice_address = payload.practice_address
         if payload.aadhaar_number is not None:
             profile.aadhaar_number = payload.aadhaar_number
+        if payload.pan_number is not None:
+            profile.pan_number = payload.pan_number
         if payload.mobile_number is not None:
             profile.mobile_number = payload.mobile_number
         if profile.bar_number != payload.bar_number:

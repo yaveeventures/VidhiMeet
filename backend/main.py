@@ -82,6 +82,9 @@ async def lifespan(app: FastAPI):
                     ("payout_reference_id", "VARCHAR(100) NULL"),
                     ("payout_at", "TIMESTAMP WITH TIME ZONE NULL"),
                 ]),
+                ("lawyer_profiles", [
+                    ("pan_number", "TEXT NULL"),
+                ]),
                 ("lawyer_bank_accounts", [
                     ("verification_txn_id", "VARCHAR(80) NULL"),
                     ("upi_name", "VARCHAR(255) NULL"),
@@ -160,6 +163,11 @@ async def lifespan(app: FastAPI):
                 update(LawyerProfile)
                 .where(LawyerProfile.aadhaar_number == "")
                 .values(aadhaar_number=None)
+            )
+            session.execute(
+                update(LawyerProfile)
+                .where(LawyerProfile.pan_number == "")
+                .values(pan_number=None)
             )
             session.execute(
                 update(LawyerProfile)

@@ -87,6 +87,7 @@ class LawyerProfile(Base):
     availability: Mapped[dict] = mapped_column(JSON, default=dict)
     # New fields for verification (encrypted at rest for DPDPA compliance)
     aadhaar_number: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
+    pan_number: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     profile_picture_url: Mapped[str | None] = mapped_column(String(255), nullable=True)
     enrollment_date: Mapped[str | None] = mapped_column(String(10), nullable=True)
     practice_address: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)

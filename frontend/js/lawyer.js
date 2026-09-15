@@ -2017,7 +2017,25 @@ function renderBankAccount() {
     d.setDate(d.getDate() + daysUntilFriday);
     payoutDateEl.textContent = d.toLocaleDateString("en-IN", {day:"numeric", month:"long"});
   }
+
+  // PAN warning banner — show if PAN is missing from both bank account and profile
+  const hasPan = (bankAccount && bankAccount.has_pan) ||
+    (lawyerProfile && lawyerProfile.pan_number_masked);
+  const panWarningId = "payout-pan-warning";
+  let panWarning = document.getElementById(panWarningId);
+  if (!hasPan) {
+    if (!panWarning) {
+      panWarning = document.createElement("div");
+      panWarning.id = panWarningId;
+      panWarning.style.cssText = "margin-top:12px;padding:10px 14px;background:#fff7ed;border:1px solid #f97316;border-radius:10px;font-size:12.5px;color:#9a3412;display:flex;align-items:flex-start;gap:8px;";
+      panWarning.innerHTML = `<span style="font-size:16px;flex-shrink:0;">⚠️</span><span><strong>PAN missing — payouts held.</strong> Add your PAN number in Step 3 (KYC) or here to enable payout releases.</span>`;
+      display.after(panWarning);
+    }
+  } else if (panWarning) {
+    panWarning.remove();
+  }
 }
+
 
 function openBankModal(isEdit = false) {
   const modal    = document.getElementById("bank-modal");
@@ -2037,11 +2055,36 @@ function openBankModal(isEdit = false) {
     document.getElementById("bank-vpa").value    = bankAccount.upi_vpa || "";
     document.getElementById("bank-acno").value   = "";
     document.getElementById("bank-acno-confirm").value = "";
+    // Pre-fill PAN placeholder from bank account status or profile
+    const bankPanEl = document.getElementById("bank-pan");
+    if (bankPanEl) {
+      bankPanEl.value = "";
+      const maskedPan = (bankAccount.pan_number_masked) ||
+        (lawyerProfile && lawyerProfile.pan_number_masked) || "";
+      bankPanEl.placeholder = maskedPan || "e.g. ABCDE1234F";
+      const hint = document.getElementById("bank-pan-hint");
+      if (hint && maskedPan) {
+        hint.textContent = `Current: ${maskedPan} — enter new value to update.`;
+        hint.style.color = "var(--forest)";
+      }
+    }
   } else {
     title.textContent    = "Add bank account";
     eyebrow.textContent  = "PAYOUT ACCOUNT";
     submitEl.textContent = "Save account";
     document.getElementById("bank-form").reset();
+    // Pre-fill PAN from profile if already set
+    const bankPanEl = document.getElementById("bank-pan");
+    if (bankPanEl) {
+      bankPanEl.value = "";
+      const maskedPan = lawyerProfile && lawyerProfile.pan_number_masked;
+      bankPanEl.placeholder = maskedPan || "e.g. ABCDE1234F";
+      const hint = document.getElementById("bank-pan-hint");
+      if (hint && maskedPan) {
+        hint.textContent = `Already saved from profile: ${maskedPan} — enter to update.`;
+        hint.style.color = "var(--forest)";
+      }
+    }
   }
   if (errEl) errEl.textContent = "";
   modal.hidden = false;
@@ -2057,6 +2100,7 @@ async function handleBankFormSubmit(e) {
   const acnoCEl = document.getElementById("bank-acno-confirm");
   const ifscEl  = document.getElementById("bank-ifsc");
   const vpaEl   = document.getElementById("bank-vpa");
+  const panBankEl = document.getElementById("bank-pan");
   const holderEl = document.getElementById("bank-holder");
   const bNameEl  = document.getElementById("bank-name");
 
@@ -2064,6 +2108,7 @@ async function handleBankFormSubmit(e) {
   const acnoC  = (acnoCEl?.value || "").trim();
   const ifsc   = (ifscEl?.value || "").trim().toUpperCase();
   const vpa    = (vpaEl?.value || "").trim() || null;
+  const panBank = (panBankEl?.value || "").trim().toUpperCase() || null;
 
   errEl.textContent = "";
   const VR = typeof window !== "undefined" ? window.ValidationRules : null;
@@ -2117,12 +2162,21 @@ async function handleBankFormSubmit(e) {
     }
   }
 
+  const panRegexBank = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  if (panBank && !panRegexBank.test(panBank)) {
+    errEl.textContent = "PAN format is invalid. Expected: ABCDE1234F";
+    if (VR) VR.markFieldInvalid(panBankEl);
+    else panBankEl?.focus();
+    return;
+  }
+
   submitEl.disabled = true;
   submitEl.textContent = "Saving…";
 
   try {
     const payload = { account_holder_name: holder, bank_name: bName, ifsc_code: ifsc, upi_vpa: vpa };
     if (acno) payload.account_number = acno;
+    if (panBank) payload.pan_number = panBank;
 
     if (isEdit) {
       bankAccount = await LexAPI.updateBankAccount(payload);
@@ -2594,6 +2648,17 @@ function validateWizardStep(stepNum) {
       else mobileEl?.focus();
       return false;
     }
+    // PAN is optional in step 3 — validate only if provided
+    const panEl = $("#pan-number");
+    const panVal = (panEl?.value || "").trim().toUpperCase();
+    if (panEl) panEl.value = panVal;
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+    if (panVal && !panRegex.test(panVal)) {
+      toast("PAN format is invalid. Expected format: ABCDE1234F");
+      if (VR) VR.markFieldInvalid(panEl);
+      else panEl?.focus();
+      return false;
+    }
     return true;
   }
 
@@ -2862,6 +2927,23 @@ function renderProfile(force = false) {
     if (feeEl) feeEl.value = lawyerProfile.hourly_fee_minor ? (lawyerProfile.hourly_fee_minor / 100) : "";
     if (aadhaarEl) aadhaarEl.value = lawyerProfile.aadhaar_number || "";
     if (mobileEl) mobileEl.value = lawyerProfile.mobile_number || "";
+    // PAN: show masked value or empty; always editable if not set
+    const panEl = $("#pan-number");
+    const panNote = $("#pan-status-note");
+    if (panEl) {
+      // Do not populate the raw PAN — only show masked form
+      panEl.value = "";
+      panEl.placeholder = lawyerProfile.pan_number_masked || "e.g. ABCDE1234F";
+    }
+    if (panNote) {
+      if (lawyerProfile.pan_number_masked) {
+        panNote.textContent = `✓ Saved: ${lawyerProfile.pan_number_masked} — Enter new value to update.`;
+        panNote.style.color = "var(--forest)";
+      } else {
+        panNote.textContent = "Not provided yet — payouts will be held until PAN is added.";
+        panNote.style.color = "var(--terra)";
+      }
+    }
     if (enrollmentEl) enrollmentEl.value = lawyerProfile.enrollment_date || "";
     if (expEl) expEl.value = calculateExperience(lawyerProfile.enrollment_date);
 
@@ -2952,6 +3034,8 @@ async function handleSaveProfile(e) {
   const feeVal = feeEl ? Math.round(parseFloat(feeEl.value) * 100) : 0;
   const aadhaar = aadhaarEl ? aadhaarEl.value.trim() : "";
   const mobile = mobileEl ? mobileEl.value.trim() : "";
+  const panElSave = $("#pan-number");
+  const panRaw = (panElSave?.value || "").trim().toUpperCase();
 
   // Validate step 1 fields
   if (!name) {
@@ -3039,11 +3123,18 @@ async function handleSaveProfile(e) {
       aadhaar_number: aadhaar,
       enrollment_date: enrollmentDate,
       practice_address: fullPracticeAddress,
-      mobile_number: mobile
+      mobile_number: mobile,
+      ...(panRaw ? { pan_number: panRaw } : {})
     };
     await LexAPI.updateProfile(payload);
     lawyerProfile.mobile_number = mobile;
     lawyerProfile.aadhaar_number = aadhaar;
+    if (panRaw) {
+      lawyerProfile.pan_number_masked = panRaw.slice(0, 5).replace(/./g, 'X') + panRaw.slice(5);
+      // Mask like XXXXXN234F
+      const masked = panRaw[0] + 'X'.repeat(4) + panRaw[5] + panRaw[6] + panRaw[7] + panRaw[8] + panRaw[9];
+      lawyerProfile.pan_number_masked = masked;
+    }
     lawyerProfile.practice_address = fullPracticeAddress;
     lawyerProfile.enrollment_date = enrollmentDate;
     if (!lawyerProfile.availability) lawyerProfile.availability = {};

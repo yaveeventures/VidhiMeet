@@ -39,6 +39,21 @@ def _create_verified_bank(db: Session, user_id: str) -> LawyerBankAccount:
     return acct
 
 
+def _create_lawyer_profile_with_pan(db: Session, user_id: str, pan: str = "ABCDE1234F") -> LawyerProfile:
+    """Creates a LawyerProfile with a PAN number for the given lawyer user."""
+    profile = LawyerProfile(
+        user_id=user_id,
+        practice=["property"],
+        bar_number=f"BARTEST{user_id[:6]}",
+        languages=["English"],
+        hourly_fee_minor=150000,
+        pan_number=pan,
+    )
+    db.add(profile)
+    db.commit()
+    return profile
+
+
 def test_booking_completed_sets_deadline_and_pending_payout(client: TestClient, database: Session):
     client_user = _create_user(database, "cl_payout_1@test.com", Role.CLIENT, "Client One")
     lawyer_user = _create_user(database, "lw_payout_1@test.com", Role.LAWYER, "Lawyer One")
@@ -154,6 +169,7 @@ def test_payout_sweep_processes_expired_bookings(database: Session):
     client_user = _create_user(database, "cl_payout_4@test.com", Role.CLIENT, "Client Four")
     lawyer_user = _create_user(database, "lw_payout_4@test.com", Role.LAWYER, "Lawyer Four")
     _create_verified_bank(database, lawyer_user.id)
+    _create_lawyer_profile_with_pan(database, lawyer_user.id)
 
     now = datetime.now(timezone.utc)
     booking = Booking(
@@ -216,10 +232,47 @@ def test_payout_held_without_verified_bank(database: Session):
     assert booking.payout_status == "held"
 
 
+def test_payout_held_without_pan(database: Session):
+    """Verify payouts are held when lawyer has a verified bank but no PAN on file."""
+    client_user = _create_user(database, "cl_payout_nopan@test.com", Role.CLIENT, "Client NoPAN")
+    lawyer_user = _create_user(database, "lw_payout_nopan@test.com", Role.LAWYER, "Lawyer NoPAN")
+    _create_verified_bank(database, lawyer_user.id)
+    # Deliberately NOT creating a LawyerProfile with PAN
+
+    now = datetime.now(timezone.utc)
+    booking = Booking(
+        client_id=client_user.id,
+        lawyer_id=lawyer_user.id,
+        practice="property",
+        starts_at=now - timedelta(days=8),
+        duration_minutes=45,
+        amount_minor=105000,
+        status=BookingStatus.COMPLETED,
+        completed_at=now - timedelta(days=8),
+        dispute_deadline_at=now - timedelta(days=1),
+        payout_status="pending",
+        intake={},
+        disclaimer_version="2026-01",
+        disclaimer_accepted_at=now - timedelta(days=8),
+        jitsi_room="lc-test-payout-nopan-room",
+    )
+    database.add(booking)
+    database.commit()
+
+    res = sweep_booking_payouts(database)
+    # Should be held due to missing PAN (even though bank account is verified)
+    assert res["held"] >= 1
+
+    database.refresh(booking)
+    assert booking.payout_status == "held"
+
+
+
 def test_draft_payout_triggers_on_approval(client: TestClient, database: Session):
     creator = _create_user(database, "creator_draft_1@test.com", Role.CLIENT, "Draft Creator")
     drafter = _create_user(database, "drafter_1@test.com", Role.LAWYER, "Draft Drafter")
     _create_verified_bank(database, drafter.id)
+    _create_lawyer_profile_with_pan(database, drafter.id)
 
     draft = DraftingRequest(
         title="Commercial Lease Agreement",
@@ -281,6 +334,7 @@ def test_admin_force_release_endpoints(client: TestClient, database: Session):
     admin = _create_user(database, "admin_payout_test@test.com", Role.ADMIN, "Admin User")
     lawyer = _create_user(database, "lawyer_force_test@test.com", Role.LAWYER, "Adv. Force")
     _create_verified_bank(database, lawyer.id)
+    _create_lawyer_profile_with_pan(database, lawyer.id)
     client_user = _create_user(database, "client_force_test@test.com", Role.CLIENT, "Client Force")
 
     # 1. Booking force release
@@ -351,6 +405,7 @@ def test_admin_resolve_dispute_release_triggers_payout(client: TestClient, datab
     admin = _create_user(database, "admin_dispute_rel@test.com", Role.ADMIN, "Admin Resolve")
     lawyer = _create_user(database, "lawyer_dispute_rel@test.com", Role.LAWYER, "Adv. Rel")
     _create_verified_bank(database, lawyer.id)
+    _create_lawyer_profile_with_pan(database, lawyer.id)
     client_user = _create_user(database, "client_dispute_rel@test.com", Role.CLIENT, "Client Rel")
 
     booking = Booking(
