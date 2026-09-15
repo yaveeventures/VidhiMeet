@@ -2,7 +2,18 @@ import enum
 from datetime import date, datetime
 from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
 from .models import BookingStatus, Practice, Role, DraftingStatus, ProposalStatus
-from .sanitizer import sanitize_text, sanitize_filename, sanitize_key
+from .sanitizer import sanitize_text, sanitize_filename, sanitize_key, clean_string
+from .validation_constants import (
+    IFSC_REGEX,
+    BANK_ACCOUNT_REGEX,
+    UPI_VPA_REGEX,
+    DPDPA_MIN_AGE_YEARS,
+    PASSWORD_MIN_LENGTH,
+    PASSWORD_MAX_LENGTH,
+    NAME_MIN_LENGTH,
+    NAME_MAX_LENGTH,
+    BAR_NUMBER_MAX_LENGTH,
+)
 
 
 class GoogleLoginRequest(BaseModel):
@@ -22,10 +33,10 @@ class GoogleLoginRequest(BaseModel):
 
 class RegisterRequest(BaseModel):
     email: EmailStr
-    password: str = Field(min_length=12, max_length=128)
-    full_name: str = Field(min_length=2, max_length=160)
+    password: str = Field(min_length=PASSWORD_MIN_LENGTH, max_length=PASSWORD_MAX_LENGTH)
+    full_name: str = Field(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH)
     role: Role = Role.CLIENT
-    bar_number: str | None = Field(default=None, max_length=100)
+    bar_number: str | None = Field(default=None, max_length=BAR_NUMBER_MAX_LENGTH)
     enrollment_date: str | None = Field(default=None, max_length=50)
     practice: Practice | None = None
     consent_privacy_policy: bool = False
@@ -65,9 +76,9 @@ class RegisterRequest(BaseModel):
             return dob
         today = date.today()
         age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
-        if age < 18:
+        if age < DPDPA_MIN_AGE_YEARS:
             raise ValueError(
-                "You must be at least 18 years old to register. "
+                f"You must be at least {DPDPA_MIN_AGE_YEARS} years old to register. "
                 "Processing personal data of minors requires verifiable parental consent "
                 "under the Digital Personal Data Protection Act, 2023 (Section 9)."
             )
@@ -76,7 +87,7 @@ class RegisterRequest(BaseModel):
 
 class LoginRequest(BaseModel):
     email: EmailStr = Field(..., max_length=256)
-    password: str = Field(..., min_length=1, max_length=128)
+    password: str = Field(..., min_length=1, max_length=PASSWORD_MAX_LENGTH)
     totp_code: str | None = Field(default=None, max_length=6)
 
 
@@ -174,6 +185,11 @@ class BookingOut(BaseModel):
     refund_tx_id: str | None = None
     voucher_code: str | None = None
     relisted_at: datetime | None = None
+    completed_at: datetime | None = None
+    dispute_deadline_at: datetime | None = None
+    payout_status: str | None = None
+    payout_reference_id: str | None = None
+    payout_at: datetime | None = None
     model_config = {"from_attributes": True}
 
 
@@ -388,9 +404,9 @@ class ReviewOut(BaseModel):
 # ── Bank Account ──────────────────────────────────────────────────────────────
 
 class BankAccountCreate(BaseModel):
-    account_holder_name: str = Field(..., min_length=2, max_length=160)
-    account_number: str = Field(..., min_length=6, max_length=18, pattern=r'^\d{6,18}$')
-    ifsc_code: str = Field(..., pattern=r'^[A-Z]{4}0[A-Z0-9]{6}$')
+    account_holder_name: str = Field(..., min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH)
+    account_number: str = Field(..., min_length=6, max_length=18, pattern=BANK_ACCOUNT_REGEX)
+    ifsc_code: str = Field(..., pattern=IFSC_REGEX)
     bank_name: str = Field(..., min_length=2, max_length=120)
     upi_vpa: str | None = Field(default=None, max_length=255)
 
@@ -412,9 +428,9 @@ class BankAccountCreate(BaseModel):
 
 
 class BankAccountUpdate(BaseModel):
-    account_holder_name: str | None = Field(default=None, min_length=2, max_length=160)
-    account_number: str | None = Field(default=None, min_length=6, max_length=18, pattern=r'^\d{6,18}$')
-    ifsc_code: str | None = Field(default=None, pattern=r'^[A-Z]{4}0[A-Z0-9]{6}$')
+    account_holder_name: str | None = Field(default=None, min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH)
+    account_number: str | None = Field(default=None, min_length=6, max_length=18, pattern=BANK_ACCOUNT_REGEX)
+    ifsc_code: str | None = Field(default=None, pattern=IFSC_REGEX)
     bank_name: str | None = Field(default=None, min_length=2, max_length=120)
     upi_vpa: str | None = Field(default=None, max_length=255)
 
@@ -447,8 +463,38 @@ class BankAccountOut(BaseModel):
     verified: bool
     verified_at: datetime | None = None
     utr: str | None = None
+    verification_status: str | None = "unverified"
+    verification_method: str | None = "reverse_penny_drop"
+    verification_id: str | None = None
     created_at: datetime
     model_config = {'from_attributes': True}
+
+
+class RpdInitiateResponse(BaseModel):
+    verification_id: str
+    reference_id: str | None = None
+    status: str
+    payment_link: str | None = None
+    qr_code: str | None = None
+    upi_intent: dict | None = None
+    valid_upto: int | str | None = None
+    amount: float = 1.0
+    currency: str = "INR"
+    is_mock: bool = False
+    message: str = "Scan UPI QR code or click UPI app link to complete ₹1 verification."
+
+
+class RpdStatusResponse(BaseModel):
+    verification_id: str
+    status: str
+    verified: bool
+    utr: str | None = None
+    account_holder_name: str | None = None
+    bank_name: str | None = None
+    account_number_masked: str | None = None
+    ifsc_code: str | None = None
+    upi_vpa: str | None = None
+    message: str
 
 
 class AdminPayoutAccountOut(BaseModel):
@@ -542,11 +588,45 @@ class DraftingRequestOut(BaseModel):
     drafter_amount_minor: int
     submitted_at: datetime | None = None
     auto_approve_at: datetime | None = None
+    completed_at: datetime | None = None
+    payout_status: str | None = None
+    payout_reference_id: str | None = None
+    payout_at: datetime | None = None
     created_at: datetime
     proposals: list[DraftingProposalOut] = []
     documents: list = []
     comments: list[DraftCommentOut] = []
     model_config = {"from_attributes": True}
+
+
+class PayoutSweepStats(BaseModel):
+    total: int = 0
+    processed: int = 0
+    held: int = 0
+    failed: int = 0
+
+
+class PayoutSweepResult(BaseModel):
+    bookings: PayoutSweepStats
+    drafts: PayoutSweepStats
+    total_processed: int = 0
+    total_held: int = 0
+    total_failed: int = 0
+
+
+class PendingPayoutOut(BaseModel):
+    entity_type: str
+    id: str
+    lawyer_id: str | None = None
+    lawyer_name: str | None = None
+    client_name: str | None = None
+    amount_minor: int
+    total_amount_minor: int
+    payout_status: str
+    payout_reference_id: str | None = None
+    completed_at: str | None = None
+    dispute_deadline_at: str | None = None
+    dispute_window_expired: bool = False
 
 
 class DraftSubmit(BaseModel):

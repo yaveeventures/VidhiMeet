@@ -877,21 +877,78 @@
     </div>
   </div>
 
-  <!-- UPI Verification Modal -->
+  <!-- Cashfree Reverse Penny Drop (RPD) Verification Modal -->
   <div class="backdrop" id="upi-verify-modal" hidden>
-    <div class="call-modal" style="max-width:420px;text-align:center;">
-      <button id="upi-verify-close">×</button>
-      <div style="font-size:40px;margin-bottom:10px;">📱</div>
-      <small class="eyebrow">UPI IDENTITY VERIFICATION</small>
-      <h2 style="margin:8px 0;">Verify via UPI</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.6;">
-        Verify your bank account and UPI details to enable automatic payout releases.<br>
-        On success, your account identity is confirmed.
+    <div class="call-modal" style="max-width:460px;text-align:center;padding:28px 24px;border-radius:20px;position:relative;">
+      <button id="upi-verify-close" style="position:absolute;right:18px;top:18px;border:none;background:none;font-size:24px;cursor:pointer;color:var(--muted);">×</button>
+      
+      <div style="width:48px;height:48px;margin:0 auto 12px;background:#e8f4ee;color:#15803d;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;">🛡️</div>
+      <small class="eyebrow" style="color:var(--forest);font-weight:700;display:block;margin-bottom:4px;">CASHFREE SECURE ID · REVERSE PENNY DROP</small>
+      <h2 style="margin:4px 0 8px;font-size:22px;color:var(--dark);">Verify Bank Account via UPI</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;">
+        Scan the QR code or click your UPI app to pay <strong>₹1.00</strong>. Your bank details and UTR will be verified instantly.
       </p>
-      <div id="upi-verify-bank-info" style="background:var(--surface);border-radius:10px;padding:14px;margin-bottom:20px;text-align:left;"></div>
-      <p id="upi-verify-error" style="color:var(--terra);font-size:13px;margin-bottom:10px;"></p>
-      <button class="primary" id="upi-verify-confirm-btn" style="width:100%;">Verify Bank Account →</button>
-      <p style="font-size:11px;color:var(--muted);margin-top:12px;">Secured by VidhiMeet</p>
+
+      <!-- Existing Bank Details (if verifying pre-entered account) -->
+      <div id="upi-verify-bank-info" style="background:#faf8f5;border:1px solid #ebd9c8;border-radius:10px;padding:12px;margin-bottom:16px;text-align:left;display:none;"></div>
+
+      <!-- Initial / Loading State -->
+      <div id="rpd-init-view">
+        <button class="primary" id="upi-verify-confirm-btn" style="width:100%;padding:12px;font-size:15px;border-radius:10px;">
+          ⚡ Generate ₹1 UPI QR Code →
+        </button>
+      </div>
+
+      <!-- Active QR & UPI Intent Section -->
+      <div id="rpd-active-view" style="display:none;margin-top:10px;">
+        <div style="background:#ffffff;border:2px dashed #173c3033;border-radius:14px;padding:16px;display:inline-block;margin-bottom:12px;">
+          <img id="rpd-qr-image" src="" alt="Scan with any UPI App" style="width:180px;height:180px;display:block;margin:0 auto;border-radius:8px;">
+          <div style="margin-top:8px;font-size:12px;color:var(--forest);font-weight:700;">Scan with GPay, PhonePe, Paytm, or BHIM</div>
+        </div>
+
+        <div style="display:flex;justify-content:center;align-items:center;gap:12px;margin-bottom:14px;">
+          <span style="background:#e8f4ee;color:#15803d;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700;">Amount: ₹1.00</span>
+          <span style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700;" id="rpd-timer">Valid: 10:00</span>
+        </div>
+
+        <!-- Mobile UPI Apps Intent Row -->
+        <div id="rpd-mobile-intents" style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <a id="rpd-intent-gpay" href="#" class="secondary" style="display:block;padding:10px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;background:#f3f4f6;color:#111;">
+            Pay with UPI App / Intent ↗
+          </a>
+        </div>
+
+        <!-- Live Listening Indicator -->
+        <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:12px;">
+          <span class="spinner-inline" style="display:inline-block;width:12px;height:12px;border:2px solid #15803d;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;"></span>
+          <span id="rpd-status-text">Listening for payment confirmation...</span>
+        </div>
+
+        <button type="button" class="ghost" id="rpd-check-status-btn" style="width:100%;font-size:13px;padding:8px;border:1px solid var(--line);border-radius:8px;margin-bottom:8px;">
+          ↻ Check Verification Status
+        </button>
+
+        <!-- Dev/Mock Simulation Trigger -->
+        <div id="rpd-simulate-box" style="margin-top:10px;padding:8px;background:#f8fafc;border:1px dashed #94a3b8;border-radius:8px;display:none;">
+          <button type="button" id="rpd-simulate-pay-btn" style="background:#0f172a;color:#fff;border:none;padding:6px 12px;font-size:11px;border-radius:6px;cursor:pointer;">
+            ⚡ Simulate ₹1 Payment (Dev Testing)
+          </button>
+        </div>
+      </div>
+
+      <!-- Success Screen -->
+      <div id="rpd-success-view" style="display:none;padding:16px 0;">
+        <div style="font-size:44px;color:#15803d;margin-bottom:10px;">✓</div>
+        <h3 style="margin:0 0 6px;font-size:18px;color:#15803d;">Bank Account Verified!</h3>
+        <p id="rpd-success-details" style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;"></p>
+        <button type="button" class="primary" id="rpd-success-done-btn" style="width:100%;padding:10px;border-radius:8px;">Done</button>
+      </div>
+
+      <p id="upi-verify-error" style="color:var(--terra);font-size:12px;margin:8px 0 0;font-weight:600;"></p>
+      <div style="font-size:11px;color:var(--muted);margin-top:14px;border-top:1px solid #eee;padding-top:10px;line-height:1.4;">
+        🔒 Encrypted bank verification powered by Cashfree Payments India Pvt Ltd.<br>
+        ₹1 test deposit is 100% refunded to your account within 24–48 hours.
+      </div>
     </div>
   </div>
 
@@ -1056,12 +1113,13 @@
   </div>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/cookie-consent.min.js" defer></script>
+  <script src="js/validation-rules.min.js?v=rev-43" defer></script>
   <script src="js/e2ee.min.js" defer></script>
-  <script src="js/api-client.min.js?v=rev-42" defer></script>
+  <script src="js/api-client.min.js?v=rev-43" defer></script>
   <script src="js/daily-js.min.js" defer></script>
-  <script src="js/pdf-annotator.min.js?v=rev-42" defer></script>
-  <script src="js/realtime.min.js?v=rev-42" defer></script>
-  <script src="js/lawyer.min.js?v=rev-42" defer></script>
+  <script src="js/pdf-annotator.min.js?v=rev-43" defer></script>
+  <script src="js/realtime.min.js?v=rev-43" defer></script>
+  <script src="js/lawyer.min.js?v=rev-43" defer></script>
 </body>
 
 </html>

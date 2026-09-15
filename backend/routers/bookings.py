@@ -265,10 +265,23 @@ def complete_booking(booking_id: str, user: User = Depends(current_user), db: Se
         if duration_mins < 15.0:
             raise HTTPException(400, f"Consultation duration is too short ({duration_mins:.1f} mins). A minimum call duration of 15 minutes is required before completing a booking.")
 
+    now = datetime.now(timezone.utc)
     booking.status = BookingStatus.COMPLETED
-    audit(db, user, "booking.completed", "booking", booking_id)
+    booking.completed_at = now
+    booking.dispute_deadline_at = now + timedelta(days=settings.dispute_window_days)
+    booking.payout_status = "pending"
+    audit(db, user, "booking.completed", "booking", booking_id, {
+        "completed_at": booking.completed_at.isoformat(),
+        "dispute_deadline_at": booking.dispute_deadline_at.isoformat(),
+    })
     db.commit()
-    return {"booking_id": booking_id, "status": booking.status}
+    return {
+        "booking_id": booking_id,
+        "status": booking.status,
+        "completed_at": booking.completed_at,
+        "dispute_deadline_at": booking.dispute_deadline_at,
+        "payout_status": booking.payout_status,
+    }
 
 
 @router.post("/api/v1/bookings/{booking_id}/dispute")
@@ -276,6 +289,15 @@ def dispute_booking(booking_id: str, payload: DisputeCreate | None = None, user:
     booking = booking_for_participant(booking_id, user, db)
     if booking.status not in (BookingStatus.CONFIRMED, BookingStatus.IN_PROGRESS, BookingStatus.COMPLETED):
         raise HTTPException(400, "only confirmed, in-progress or completed bookings can be disputed")
+
+    # Enforce 7-day dispute window if the booking was completed
+    if booking.status == BookingStatus.COMPLETED and booking.dispute_deadline_at:
+        now = datetime.now(timezone.utc)
+        deadline = booking.dispute_deadline_at
+        if deadline.tzinfo is None:
+            deadline = deadline.replace(tzinfo=timezone.utc)
+        if now > deadline:
+            raise HTTPException(400, "Dispute window has expired (7 days after completion). Escrow funds are locked or released.")
     
     category = payload.category.value if payload else "quality_other"
     reason = payload.reason if payload else "Dispute raised by participant"

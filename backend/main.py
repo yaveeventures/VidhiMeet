@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import secrets
 from contextlib import asynccontextmanager
@@ -69,6 +70,17 @@ async def lifespan(app: FastAPI):
                     ("refund_tx_id", "VARCHAR(100) NULL"),
                     ("voucher_code", "VARCHAR(30) NULL"),
                     ("relisted_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("completed_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("dispute_deadline_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("payout_status", "VARCHAR(30) DEFAULT 'pending'"),
+                    ("payout_reference_id", "VARCHAR(100) NULL"),
+                    ("payout_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                ]),
+                ("drafting_requests", [
+                    ("completed_at", "TIMESTAMP WITH TIME ZONE NULL"),
+                    ("payout_status", "VARCHAR(30) NULL"),
+                    ("payout_reference_id", "VARCHAR(100) NULL"),
+                    ("payout_at", "TIMESTAMP WITH TIME ZONE NULL"),
                 ]),
                 ("lawyer_bank_accounts", [
                     ("verification_txn_id", "VARCHAR(80) NULL"),
@@ -182,7 +194,29 @@ async def lifespan(app: FastAPI):
         except (OSError, RuntimeError, KeyError, ValueError) as exc:  # pragma: no cover
             log.error("NTP startup check raised an error", error=str(exc))
 
+    # ── Background Task: Automated 6-hour escrow payout sweep ────────────────
+    async def _payout_sweep_worker():
+        while True:
+            try:
+                await asyncio.sleep(6 * 3600)  # Runs every 6 hours
+                from .db import SessionLocal
+                from .services.payout_service import sweep_all_payouts
+                with SessionLocal() as session:
+                    sweep_all_payouts(session)
+            except asyncio.CancelledError:
+                break
+            except Exception as exc:
+                log.error("Periodic payout sweep background task encountered error", error=str(exc))
+
+    sweep_task = asyncio.create_task(_payout_sweep_worker())
+
     yield
+
+    sweep_task.cancel()
+    try:
+        await sweep_task
+    except asyncio.CancelledError:
+        pass
 
     # Clean shutdown of async database engine pool
     await async_engine.dispose()
@@ -312,7 +346,11 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     clean_errors = []
     for err in exc.errors():
         loc = " -> ".join([str(x) for x in err.get("loc", []) if str(x) != "body"])
-        clean_errors.append({"field": loc or "payload", "message": err.get("msg", "Invalid value")})
+        clean_errors.append({
+            "field": loc or "payload",
+            "message": err.get("msg", "Invalid value"),
+            "type": err.get("type", "value_error"),
+        })
 
     res = JSONResponse(
         status_code=422,

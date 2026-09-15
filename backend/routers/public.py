@@ -72,3 +72,16 @@ def submit_feedback(
     db.commit()
     return {"status": "ok", "message": "Feedback submitted successfully"}
 
+
+@router.get("/api/v1/public/validation-rules")
+def get_validation_rules():
+    """
+    Public endpoint exposing canonical platform validation rules and constraints
+    for client-side pre-flight synchronization.
+    """
+    from ..validation_constants import get_public_validation_rules
+    return {
+        "status": "ok",
+        "rules": get_public_validation_rules()
+    }
+

@@ -1,0 +1,175 @@
+/**
+ * VidhiMeet Validation Rules & Constraints Module
+ * Single Source of Truth for client-side pre-flight validations,
+ * matching backend/validation_constants.py exactly.
+ */
+(function (root, factory) {
+  if (typeof define === "function" && define.amd) {
+    define([], factory);
+  } else if (typeof module === "object" && module.exports) {
+    module.exports = factory();
+  } else {
+    root.ValidationRules = factory();
+  }
+})(typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+
+  const RULES = {
+    IFSC_REGEX: /^[A-Z]{4}0[A-Z0-9]{6}$/,
+    BANK_ACCOUNT_REGEX: /^\d{6,18}$/,
+    UPI_VPA_REGEX: /^[\w\.\-]+@[\w\-]+$/,
+    AADHAAR_REGEX: /^\d{12}$|^\d{4}-\d{4}-\d{4}$/,
+    MOBILE_IN_REGEX: /^[6-9][0-9]{9}$/,
+    DPDPA_MIN_AGE_YEARS: 18,
+    PASSWORD_MIN_LENGTH: 12,
+    PASSWORD_MAX_LENGTH: 128,
+    NAME_MIN_LENGTH: 2,
+    NAME_MAX_LENGTH: 160,
+    MAX_DOCUMENT_SIZE_BYTES: 20 * 1024 * 1024, // 20 MB
+    ALLOWED_DOCUMENT_MIME_TYPES: [
+      "application/pdf",
+      "image/jpeg",
+      "image/png",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ],
+    ALLOWED_DOCUMENT_EXTENSIONS: [".pdf", ".jpg", ".jpeg", ".png", ".docx"]
+  };
+
+  function isValidIFSC(code) {
+    if (!code || typeof code !== "string") return false;
+    return RULES.IFSC_REGEX.test(code.trim().toUpperCase());
+  }
+
+  function isValidAccountNumber(acc) {
+    if (!acc || typeof acc !== "string") return false;
+    return RULES.BANK_ACCOUNT_REGEX.test(acc.trim());
+  }
+
+  function isValidVpa(vpa) {
+    if (!vpa || typeof vpa !== "string") return false;
+    return RULES.UPI_VPA_REGEX.test(vpa.trim());
+  }
+
+  function isValidAadhaar(aadhaar) {
+    if (!aadhaar || typeof aadhaar !== "string") return false;
+    return RULES.AADHAAR_REGEX.test(aadhaar.trim());
+  }
+
+  function isValidMobile(mobile) {
+    if (!mobile || typeof mobile !== "string") return false;
+    return RULES.MOBILE_IN_REGEX.test(mobile.trim());
+  }
+
+  function calculateAge(dobString) {
+    if (!dobString) return 0;
+    const today = new Date();
+    const birthDate = new Date(dobString);
+    if (isNaN(birthDate.getTime())) return 0;
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  function isAdult(dobString) {
+    return calculateAge(dobString) >= RULES.DPDPA_MIN_AGE_YEARS;
+  }
+
+  function validateFile(file) {
+    if (!file) {
+      return { valid: false, error: "No file selected." };
+    }
+
+    const fileType = file.type || "";
+    const fileName = file.name || "";
+    const ext = "." + fileName.split(".").pop().toLowerCase();
+
+    const mimeAllowed = !fileType || RULES.ALLOWED_DOCUMENT_MIME_TYPES.includes(fileType);
+    const extAllowed = RULES.ALLOWED_DOCUMENT_EXTENSIONS.includes(ext);
+
+    if (!mimeAllowed && !extAllowed) {
+      return {
+        valid: false,
+        error: `Skipped ${fileName}: Only PDF, JPEG, PNG, or DOCX documents are allowed.`
+      };
+    }
+
+    if (file.size > RULES.MAX_DOCUMENT_SIZE_BYTES) {
+      const maxMb = Math.round(RULES.MAX_DOCUMENT_SIZE_BYTES / (1024 * 1024));
+      return {
+        valid: false,
+        error: `Skipped ${fileName}: File size exceeds maximum limit of ${maxMb} MB.`
+      };
+    }
+
+    return { valid: true };
+  }
+
+  function markFieldInvalid(element, errorMessage = "") {
+    if (!element) return;
+    element.setAttribute("aria-invalid", "true");
+    element.classList.add("input-invalid");
+
+    // Clear invalid state once user types or changes input
+    const clear = () => {
+      element.removeAttribute("aria-invalid");
+      element.classList.remove("input-invalid");
+      element.removeEventListener("input", clear);
+      element.removeEventListener("change", clear);
+    };
+    element.addEventListener("input", clear, { once: true });
+    element.addEventListener("change", clear, { once: true });
+
+    if (typeof element.focus === "function") {
+      element.focus();
+    }
+  }
+
+  function clearFieldValidation(element) {
+    if (!element) return;
+    element.removeAttribute("aria-invalid");
+    element.classList.remove("input-invalid");
+  }
+
+  async function syncFromBackend(baseUrl = "") {
+    try {
+      const endpoint = (baseUrl ? baseUrl.replace(/\/+$/, "") : "") + "/api/v1/public/validation-rules";
+      const resp = await fetch(endpoint);
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data && data.rules) {
+          if (data.rules.ifsc_regex) RULES.IFSC_REGEX = new RegExp(data.rules.ifsc_regex);
+          if (data.rules.bank_account_regex) RULES.BANK_ACCOUNT_REGEX = new RegExp(data.rules.bank_account_regex);
+          if (data.rules.upi_vpa_regex) RULES.UPI_VPA_REGEX = new RegExp(data.rules.upi_vpa_regex);
+          if (data.rules.aadhaar_regex) RULES.AADHAAR_REGEX = new RegExp(data.rules.aadhaar_regex);
+          if (data.rules.mobile_in_regex) RULES.MOBILE_IN_REGEX = new RegExp(data.rules.mobile_in_regex);
+          if (data.rules.dpdpa_min_age_years) RULES.DPDPA_MIN_AGE_YEARS = data.rules.dpdpa_min_age_years;
+          if (data.rules.max_document_size_bytes) RULES.MAX_DOCUMENT_SIZE_BYTES = data.rules.max_document_size_bytes;
+          if (data.rules.allowed_document_mime_types) RULES.ALLOWED_DOCUMENT_MIME_TYPES = data.rules.allowed_document_mime_types;
+          if (data.rules.allowed_document_extensions) RULES.ALLOWED_DOCUMENT_EXTENSIONS = data.rules.allowed_document_extensions;
+        }
+      }
+    } catch (e) {
+      // Offline or network error: fallback quietly to compiled constants
+      console.warn("ValidationRules syncFromBackend skipped, using built-in constants.");
+    }
+  }
+
+  return {
+    RULES,
+    isValidIFSC,
+    isValidAccountNumber,
+    isValidVpa,
+    isValidAadhaar,
+    isValidMobile,
+    calculateAge,
+    isAdult,
+    validateFile,
+    markFieldInvalid,
+    clearFieldValidation,
+    syncFromBackend
+  };
+});

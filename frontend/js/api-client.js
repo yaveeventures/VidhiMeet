@@ -397,6 +397,10 @@ const LexAPI = (() => {
     },
     verifyLawyerDocument: (id, docType, verified = true) => request(`/admin/lawyers/${id}/documents/verify?doc_type=${docType}&verified=${verified}`, {method:"PATCH"}),
     getAdminPayouts: () => request("/admin/payouts"),
+    getPendingPayouts: () => request("/admin/payouts/pending"),
+    triggerPayoutSweep: () => request("/admin/payouts/sweep", { method: "POST" }),
+    forceReleaseBookingPayout: (id) => request(`/admin/payouts/bookings/${id}/release`, { method: "POST" }),
+    forceReleaseDraftPayout: (id) => request(`/admin/payouts/drafts/${id}/release`, { method: "POST" }),
     getPlatformFeedback: () => request("/admin/feedback"),
     submitPlatformFeedback: (payload) => request("/public/feedback", {method:"POST", body:JSON.stringify(payload)}),
     
@@ -415,6 +419,12 @@ const LexAPI = (() => {
     updateBankAccount: payload => request("/lawyers/me/bank-account", {method:"PUT", body:JSON.stringify(payload)}),
     deleteBankAccount: () => request("/lawyers/me/bank-account", {method:"DELETE"}),
     initiateUpiVerification: () => request("/lawyers/me/bank-account/verify", {method:"POST"}),
+    initiateReversePennyDrop: () => request("/lawyers/me/bank-account/reverse-penny-drop/initiate", {method:"POST"}),
+    getReversePennyDropStatus: (verificationId = "") => {
+      const q = verificationId ? `?verification_id=${encodeURIComponent(verificationId)}` : "";
+      return request(`/lawyers/me/bank-account/reverse-penny-drop/status${q}`);
+    },
+    mockCompleteReversePennyDrop: (payload = {}) => request("/lawyers/me/bank-account/reverse-penny-drop/mock-complete", {method:"POST", body:JSON.stringify(payload)}),
 
     // Drafting Features
     listDraftingRequests: () => request("/drafting"),

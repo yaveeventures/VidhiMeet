@@ -75,13 +75,20 @@ def check_and_process_auto_approvals(db: Session):
     )
     expired_requests = db.scalars(expired_query).all()
     for req in expired_requests:
+        now_ts = datetime.now(timezone.utc)
         req.status = DraftingStatus.COMPLETED
+        req.completed_at = now_ts
+        req.payout_status = "pending"
+        from ..services.payout_service import initiate_lawyer_payout
+        initiate_lawyer_payout(req, req.drafter_id, req.drafter_amount_minor, db, entity_type="draft")
         audit(db, None, "drafting.auto_approved_7day_window", "drafting_request", req.id, {
             "agreed_price": req.agreed_price_minor,
             "platform_fee": req.platform_fee_minor,
             "lawyer_amount": req.drafter_amount_minor,
+            "payout_status": req.payout_status,
+            "payout_reference_id": req.payout_reference_id,
             "submitted_at": req.submitted_at.isoformat() if req.submitted_at else None,
-            "auto_approved_at": datetime.now(timezone.utc).isoformat(),
+            "auto_approved_at": now_ts.isoformat(),
             "reason": "7-day client revision inactivity auto-approval window expired"
         })
     if expired_requests:
@@ -564,6 +571,11 @@ def approve_draft(request_id: str, request: Request, user: User = Depends(curren
 
     now_ts = datetime.now(timezone.utc)
     req.status = DraftingStatus.COMPLETED
+    req.completed_at = now_ts
+    req.payout_status = "pending"
+
+    from ..services.payout_service import initiate_lawyer_payout
+    initiate_lawyer_payout(req, req.drafter_id, req.drafter_amount_minor, db, entity_type="draft")
 
     client_ip = request.client.host if (request and request.client) else "unknown"
     user_agent = request.headers.get("user-agent", "unknown") if request else "unknown"
@@ -572,6 +584,8 @@ def approve_draft(request_id: str, request: Request, user: User = Depends(curren
         "agreed_price": req.agreed_price_minor,
         "platform_fee": req.platform_fee_minor,
         "lawyer_amount": req.drafter_amount_minor,
+        "payout_status": req.payout_status,
+        "payout_reference_id": req.payout_reference_id,
         "client_ip": client_ip,
         "user_agent": user_agent,
         "draft_file_key": req.draft_file_key,

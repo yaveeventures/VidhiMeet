@@ -51,6 +51,7 @@ def database():
     Base.metadata.create_all(bind=test_engine)
     db = TestingSessionLocal()
     def _override_get_db():
+        db.expire_all()
         try:
             yield db
         finally:

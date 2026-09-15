@@ -20,6 +20,36 @@ def sanitize_text(val: str | None) -> str | None:
 
 
 @overload
+def clean_string(val: None, max_length: int | None = None) -> None: ...
+@overload
+def clean_string(val: str, max_length: int | None = None) -> str: ...
+def clean_string(val: str | None, max_length: int | None = None) -> str | None:
+    """
+    Sanitize raw user string input without HTML entity encoding to prevent double-escaping
+    when stored in the database and later rendered via template escapeHtml() or export utilities.
+
+    - Removes null bytes and non-printable control characters (preserves standard tabs and newlines).
+    - Removes explicit script and iframe injection tags.
+    - Trims leading/trailing whitespace.
+    - Constrains to max_length if specified.
+    """
+    if val is None:
+        return None
+    # Remove null bytes and non-printable control chars except \t and \n
+    cleaned = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", val)
+    # Strip script/iframe injection tags if present
+    cleaned = re.sub(r"(?i)<\s*(script|iframe|object|embed)[^>]*>.*?</\s*\1\s*>", "", cleaned)
+    cleaned = re.sub(r"(?i)<\s*(script|iframe|object|embed)[^>]*>", "", cleaned)
+    cleaned = cleaned.strip()
+    if max_length and len(cleaned) > max_length:
+        cleaned = cleaned[:max_length]
+    return cleaned
+
+
+sanitize_input = clean_string
+
+
+@overload
 def sanitize_filename(val: None) -> None: ...
 @overload
 def sanitize_filename(val: str) -> str: ...

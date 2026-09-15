@@ -56,10 +56,10 @@ def test_review_create_bounds_and_sanitizing():
     assert rev.comment == "&lt;b&gt;Great service!&lt;/b&gt;"
 
     with pytest.raises(ValidationError):
-        ReviewCreate(rating=6, comment="Invalid rating")
+        ReviewCreate.model_validate({"rating": 6, "comment": "Invalid rating"})
 
     with pytest.raises(ValidationError):
-        ReviewCreate(rating=0, comment="Invalid rating")
+        ReviewCreate.model_validate({"rating": 0, "comment": "Invalid rating"})
 
 
 def test_bank_account_vpa_validation():
@@ -92,4 +92,25 @@ def test_drafting_request_bounds_and_sanitization():
 
     # Out of bounds price
     with pytest.raises(ValidationError):
-        DraftingRequestCreate(title="Title", description="Desc", price_minor=500)
+        DraftingRequestCreate.model_validate({"title": "Title", "description": "Desc", "price_minor": 500})
+
+
+def test_clean_string_prevents_double_escaping():
+    from backend.sanitizer import clean_string, sanitize_input
+
+    # Valid characters like & and ' are preserved as raw strings rather than converted to &amp; / &#x27;
+    raw_text = "Smith & Sons Legal, O'Connor Chambers"
+    assert clean_string(raw_text) == "Smith & Sons Legal, O'Connor Chambers"
+    assert sanitize_input(raw_text) == "Smith & Sons Legal, O'Connor Chambers"
+
+    # Strips null bytes and control chars
+    with_null = "Hello\x00World\x07!"
+    assert clean_string(with_null) == "HelloWorld!"
+
+    # Strips script tags while preserving text
+    with_script = "Hello <script>alert('xss')</script> World"
+    assert clean_string(with_script) == "Hello  World"
+
+    # Handles None and whitespace
+    assert clean_string(None) is None
+    assert clean_string("   trimmed   ") == "trimmed"

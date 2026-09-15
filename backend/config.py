@@ -29,6 +29,9 @@ class Settings(BaseSettings):
     cashfree_secret_key: str = ""
     cashfree_api_version: str = "2026-01-01"
     cashfree_mode: str = "sandbox"  # "sandbox" or "production"
+    cashfree_payout_app_id: str = ""
+    cashfree_payout_secret_key: str = ""
+    dispute_window_days: int = 7
     # ── SMTP Email Configuration ───────────────────────────────────────────
     smtp_server: str = ""
     smtp_port: int = 587
@@ -133,6 +136,12 @@ class Settings(BaseSettings):
         if self.cashfree_mode.lower() == "production":
             return "https://api.cashfree.com/pg"
         return "https://sandbox.cashfree.com/pg"
+
+    @property
+    def cashfree_verification_base_url(self) -> str:
+        if self.cashfree_mode.lower() == "production":
+            return "https://api.cashfree.com/verification"
+        return "https://sandbox.cashfree.com/verification"
 
 
 @lru_cache

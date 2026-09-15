@@ -8,9 +8,15 @@ from ..config import get_settings
 from ..db import get_db
 from ..models import AuditLog, Booking, BookingStatus, DraftingProposal, DraftingRequest, DraftingStatus, LawyerBankAccount, LawyerProfile, Role, User
 from ..ntp_time import check_clock_drift
-from ..schemas import AdminPayoutAccountOut, AuditLogOut, BookingOut, DraftingRequestOut, LawyerOut, UserOut, PlatformFeedbackOut
+from ..schemas import (
+    AdminPayoutAccountOut, AuditLogOut, BookingOut, DraftingRequestOut, LawyerOut,
+    PayoutSweepResult, PendingPayoutOut, PlatformFeedbackOut, UserOut
+)
 from ..security import require_roles
 from ..services import audit, initiate_refund
+from ..services.payout_service import (
+    get_pending_payouts, initiate_lawyer_payout, sweep_all_payouts
+)
 
 log = structlog.get_logger("admin")
 settings = get_settings()
@@ -38,11 +44,28 @@ def admin_metrics(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session
         )
     ) or 0
 
+    pending_bookings = db.scalars(
+        select(Booking).where(
+            Booking.status == BookingStatus.COMPLETED,
+            Booking.payout_status.in_(["pending", "held", "failed"])
+        )
+    ).all()
+    pending_drafts = db.scalars(
+        select(DraftingRequest).where(
+            DraftingRequest.status == DraftingStatus.COMPLETED,
+            DraftingRequest.payout_status.in_(["pending", "held", "failed"])
+        )
+    ).all()
+    pending_payouts_count = len(pending_bookings) + len(pending_drafts)
+    pending_payouts_amount_minor = sum(b.lawyer_amount_minor for b in pending_bookings) + sum(d.drafter_amount_minor for d in pending_drafts)
+
     return {
         "users": db.scalar(select(func.count()).select_from(User)),
         "verified_lawyers": db.scalar(select(func.count()).select_from(LawyerProfile).where(LawyerProfile.verified.is_(True))),
         "bookings": db.scalar(select(func.count()).select_from(Booking)),
         "escrow_minor": booking_escrow + drafting_escrow,
+        "pending_payouts_count": pending_payouts_count,
+        "pending_payouts_amount_minor": pending_payouts_amount_minor,
     }
 
 
@@ -270,7 +293,11 @@ def resolve_dispute(request: Request, booking_id: str, outcome: str, strike_lawy
             if lawyer_profile:
                 lawyer_profile.strike_count = (lawyer_profile.strike_count or 0) + 1
     elif outcome == "release":
+        now = datetime.now(timezone.utc)
         booking.status = BookingStatus.COMPLETED
+        booking.completed_at = booking.completed_at or now
+        booking.payout_status = "pending"
+        initiate_lawyer_payout(booking, booking.lawyer_id, booking.lawyer_amount_minor, db, entity_type="booking")
     else:
         raise HTTPException(400, "invalid outcome")
     audit(db, admin, "booking.dispute_resolved", "booking", booking_id, {
@@ -403,4 +430,77 @@ def get_platform_feedback(_admin: User = Depends(require_roles(Role.ADMIN)), db:
     from ..models import PlatformFeedback
     feedbacks = db.scalars(select(PlatformFeedback).order_by(PlatformFeedback.created_at.desc())).all()
     return list(feedbacks)
+
+
+@router.get("/payouts/pending", response_model=list[PendingPayoutOut])
+def list_pending_payouts(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+    """
+    Returns unified list of bookings and drafting requests awaiting payout release.
+    """
+    return get_pending_payouts(db)
+
+
+@router.post("/payouts/sweep", response_model=PayoutSweepResult)
+def run_payout_sweep(request: Request, admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+    """
+    Manually triggers escrow release sweep:
+    - Automatically releases consultations past the 7-day dispute window
+    - Retries pending/held drafting request payouts
+    """
+    res = sweep_all_payouts(db)
+    audit(db, admin, "admin.payout_sweep_executed", "payout", None, res, request=request)
+    db.commit()
+    return res
+
+
+@router.post("/payouts/bookings/{booking_id}/release")
+def force_release_booking_payout(
+    booking_id: str,
+    request: Request,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db),
+):
+    """
+    Admin override: Force-release escrow payout for a specific completed booking to lawyer's bank account.
+    """
+    booking = db.get(Booking, booking_id)
+    if not booking:
+        raise HTTPException(404, "Booking not found")
+    if booking.status != BookingStatus.COMPLETED:
+        raise HTTPException(400, f"Cannot release payout for booking in status {booking.status}")
+
+    res = initiate_lawyer_payout(booking, booking.lawyer_id, booking.lawyer_amount_minor, db, entity_type="booking")
+    audit(db, admin, "admin.payout_force_released", "booking", booking_id, {
+        "lawyer_id": booking.lawyer_id,
+        "amount_minor": booking.lawyer_amount_minor,
+        "result": res,
+    }, request=request)
+    db.commit()
+    return {"booking_id": booking_id, "payout": res}
+
+
+@router.post("/payouts/drafts/{draft_id}/release")
+def force_release_draft_payout(
+    draft_id: str,
+    request: Request,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db),
+):
+    """
+    Admin override: Force-release payout for a completed drafting request to drafter's bank account.
+    """
+    draft = db.get(DraftingRequest, draft_id)
+    if not draft:
+        raise HTTPException(404, "Drafting request not found")
+    if draft.status != DraftingStatus.COMPLETED:
+        raise HTTPException(400, f"Cannot release payout for draft in status {draft.status}")
+
+    res = initiate_lawyer_payout(draft, draft.drafter_id, draft.drafter_amount_minor, db, entity_type="draft")
+    audit(db, admin, "admin.payout_force_released", "drafting_request", draft_id, {
+        "drafter_id": draft.drafter_id,
+        "amount_minor": draft.drafter_amount_minor,
+        "result": res,
+    }, request=request)
+    db.commit()
+    return {"draft_id": draft_id, "payout": res}
 

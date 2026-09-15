@@ -20,6 +20,7 @@ let draftingTransactions = [];
 let disputes = [];
 let auditLogs = [];
 let payouts = [];
+let pendingPayouts = [];
 let userFeedbacks = [];
 // Map for safe lookup from onclick handlers
 const lawyerMap = {};
@@ -58,6 +59,7 @@ function mapPracticeToBackend(p) {
   return p;
 }
 
+
 function escapeHtml(text) {
   return text
     .replace(/&/g, "&amp;")
@@ -71,7 +73,7 @@ async function loadData() {
   try {
     const [
       metricsRes, pendingRes, rejectedRes, approvedRes, usersRes,
-      txRes, draftTxRes, disputesRes, auditRes, payoutsRes, feedbackRes
+      txRes, draftTxRes, disputesRes, auditRes, payoutsRes, pendingPayoutsRes, feedbackRes
     ] = await Promise.allSettled([
       LexAPI.metrics(),
       LexAPI.getPendingLawyers(),
@@ -83,6 +85,7 @@ async function loadData() {
       LexAPI.getDisputes(),
       LexAPI.getAuditLogs(),
       LexAPI.getAdminPayouts(),
+      LexAPI.getPendingPayouts(),
       LexAPI.getPlatformFeedback()
     ]);
 
@@ -107,6 +110,7 @@ async function loadData() {
     disputes = val(disputesRes, []);
     auditLogs = val(auditRes, []);
     payouts = val(payoutsRes, []);
+    pendingPayouts = val(pendingPayoutsRes, []);
     userFeedbacks = val(feedbackRes, []);
 
     renderAll();
@@ -932,6 +936,15 @@ function renderDisputes(filter = "open") {
           <span>Slot Duration: <b>${d.duration_minutes || 45} mins</b></span>
         </div>
 
+        ${d.dispute_deadline_at ? `
+          <div style="font-size:12px; padding:4px 0;">
+            ${new Date(d.dispute_deadline_at) < new Date() 
+              ? `<span style="color:#721c24; font-weight:600;">🔒 7-day dispute window closed on ${new Date(d.dispute_deadline_at).toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"})}</span>`
+              : `<span style="color:#856404; font-weight:600;">⏳ 7-day dispute window open until ${new Date(d.dispute_deadline_at).toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"})}</span>`
+            }
+          </div>
+        ` : ""}
+
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:4px;">
           <small style="color:var(--muted); font-size:11px;">${isResolved ? "Case Closed" : "Awaiting Resolution (Section 79 IT Act)"}</small>
           ${actionButtons}
@@ -1546,7 +1559,121 @@ function updateBadgeCounts() {
   if (rejectedTabB) rejectedTabB.textContent = rejectedLawyersCount;
 }
 
+window.forceReleasePayout = async function(entityType, id) {
+  if (!confirm(`Force-release payout for this ${entityType}? Funds will transfer to the lawyer's bank account.`)) return;
+  try {
+    if (entityType === "booking") {
+      await LexAPI.forceReleaseBookingPayout(id);
+    } else {
+      await LexAPI.forceReleaseDraftPayout(id);
+    }
+    toast("Payout released successfully.");
+    await loadData();
+  } catch (err) {
+    toast(`Payout release failed: ${err.message || err}`, true);
+  }
+};
+
 function renderPayouts() {
+  // 1. Hook sweep button
+  const sweepBtn = document.getElementById("btn-run-payout-sweep");
+  if (sweepBtn && !sweepBtn.dataset.bound) {
+    sweepBtn.dataset.bound = "true";
+    sweepBtn.onclick = async () => {
+      sweepBtn.disabled = true;
+      sweepBtn.textContent = "Running Sweep...";
+      try {
+        const res = await LexAPI.triggerPayoutSweep();
+        toast(`Payout sweep complete: ${res.total_processed} released, ${res.total_held} held, ${res.total_failed} failed.`);
+        await loadData();
+      } catch (err) {
+        toast(`Sweep failed: ${err.message || err}`, true);
+      } finally {
+        sweepBtn.disabled = false;
+        sweepBtn.textContent = "⚡ Run Payout Sweep";
+      }
+    };
+  }
+
+  // 2. Render Pending Escrow Payouts Table
+  const pendingContainer = $("#pending-payouts-table");
+  if (pendingContainer) {
+    if (!pendingPayouts || pendingPayouts.length === 0) {
+      pendingContainer.innerHTML = `
+        <div class="empty" style="padding: 28px; text-align: center; color: var(--muted);">
+          <span style="font-size: 28px;">✓</span>
+          <p style="margin-top: 8px; font-weight: 500;">All completed consultations and approved drafts have been settled.</p>
+        </div>`;
+    } else {
+      const pendingRows = pendingPayouts.map(p => {
+        const typeBadge = p.entity_type === "booking"
+          ? '<span style="background:#e8f4f0;color:#1e4b3c;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;">📞 Consultation</span>'
+          : '<span style="background:#fef3e2;color:#b45309;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;">✍ Drafting</span>';
+
+        const amount = `₹${(p.amount_minor / 100).toLocaleString('en-IN')}`;
+
+        let statusPill = "";
+        if (p.payout_status === "held") {
+          statusPill = '<span class="status-pill" style="background:#fff3cd;color:#856404;border:1px solid #ffeeba;">Held (Unverified Bank)</span>';
+        } else if (p.payout_status === "failed") {
+          statusPill = '<span class="status-pill status-rejected">Failed</span>';
+        } else if (p.payout_status === "paid") {
+          statusPill = '<span class="status-pill status-confirmed">Paid</span>';
+        } else {
+          statusPill = '<span class="status-pill status-pending">Pending Release</span>';
+        }
+
+        let deadlineInfo = "";
+        if (p.entity_type === "draft") {
+          deadlineInfo = '<span style="color:var(--forest);font-size:12px;font-weight:600;">⚡ Immediate on Approval</span>';
+        } else if (p.dispute_window_expired) {
+          deadlineInfo = '<span style="color:var(--forest);font-size:12px;font-weight:600;">✓ 7-Day Window Expired (Ready)</span>';
+        } else if (p.dispute_deadline_at) {
+          const dDate = new Date(p.dispute_deadline_at).toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
+          deadlineInfo = `<span style="color:#856404;font-size:12px;font-weight:600;">⏳ Window ends ${dDate}</span>`;
+        } else {
+          deadlineInfo = '<span style="color:var(--muted);font-size:12px;">7-Day Hold</span>';
+        }
+
+        return `
+          <tr>
+            <td>${typeBadge}</td>
+            <td>
+              <strong>${escapeHtml(p.lawyer_name || "Lawyer")}</strong>
+              <div style="font-size:11px;color:var(--muted);">ID: ${escapeHtml(p.lawyer_id || "")}</div>
+            </td>
+            <td>${escapeHtml(p.client_name || "Client")}</td>
+            <td><strong>${amount}</strong></td>
+            <td>${deadlineInfo}</td>
+            <td>${statusPill}</td>
+            <td>
+              <button class="review-btn" onclick="forceReleasePayout('${p.entity_type}', '${p.id}')" style="background:var(--forest);font-size:11px;padding:4px 10px;">Force Release</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      pendingContainer.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Lawyer / Drafter</th>
+              <th>Client</th>
+              <th>Payout Amount</th>
+              <th>Dispute Window</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${pendingRows}
+          </tbody>
+        </table>`;
+    }
+  }
+
+  // 3. Render Verified Lawyer Bank Accounts Table
   const container = $("#payouts-table");
   if (!container) return;
   if (!payouts || payouts.length === 0) {

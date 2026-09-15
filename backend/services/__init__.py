@@ -15,6 +15,11 @@ from .payment_service import (
 )
 from .compliance_service import verify_ntp_compliance
 from .dispute_service import evaluate_daily_meeting_logs
+from .cashfree_rpd_service import (
+    initiate_reverse_penny_drop,
+    get_reverse_penny_drop_status,
+    mock_complete_reverse_penny_drop,
+)
 
 __all__ = [
     "audit",
@@ -32,5 +37,8 @@ __all__ = [
     "initiate_refund",
     "verify_ntp_compliance",
     "evaluate_daily_meeting_logs",
+    "initiate_reverse_penny_drop",
+    "get_reverse_penny_drop_status",
+    "mock_complete_reverse_penny_drop",
 ]
 

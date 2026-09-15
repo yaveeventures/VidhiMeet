@@ -1531,21 +1531,31 @@ function renderRegister(redirect = null, fromBooking = false) {
     const role = "client";
     const errDiv = document.querySelector("#auth-error");
     errDiv.textContent = "";
+    const VR = typeof window !== "undefined" ? window.ValidationRules : null;
 
     if (password !== confirmPassword) {
       errDiv.textContent = "Passwords do not match. Please re-enter your password.";
+      const confirmEl = document.querySelector("#reg-confirm-password");
+      if (VR) VR.markFieldInvalid(confirmEl);
+      else confirmEl?.focus();
       return;
     }
 
-    // Client-side age check (server also validates)
+    // Client-side age check (server also validates under DPDP §9)
     if (dob) {
-      const today = new Date();
-      const birthDate = new Date(dob);
-      const age = today.getFullYear() - birthDate.getFullYear()
-        - ((today.getMonth() < birthDate.getMonth() ||
-            (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) ? 1 : 0);
-      if (age < 18) {
+      const dobEl = document.querySelector("#reg-dob");
+      const isAdult = VR ? VR.isAdult(dob) : (() => {
+        const today = new Date();
+        const birthDate = new Date(dob);
+        const age = today.getFullYear() - birthDate.getFullYear()
+          - ((today.getMonth() < birthDate.getMonth() ||
+              (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) ? 1 : 0);
+        return age >= 18;
+      })();
+      if (!isAdult) {
         errDiv.textContent = "You must be at least 18 years old to register (DPDP Act 2023, Section 9).";
+        if (VR) VR.markFieldInvalid(dobEl);
+        else dobEl?.focus();
         return;
       }
     }

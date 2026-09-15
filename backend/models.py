@@ -121,6 +121,10 @@ class LawyerBankAccount(Base):
     utr: Mapped[str | None] = mapped_column(String(100), nullable=True)   # Verification UTR (audit trail)
     upi_name: Mapped[str | None] = mapped_column(String(255), nullable=True)  # VPA display name
     verification_txn_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    verification_id: Mapped[str | None] = mapped_column(String(80), nullable=True, index=True)  # Cashfree RPD ID
+    reference_id: Mapped[str | None] = mapped_column(String(80), nullable=True)  # Cashfree Reference ID
+    verification_method: Mapped[str | None] = mapped_column(String(40), default="reverse_penny_drop")
+    verification_status: Mapped[str | None] = mapped_column(String(30), default="unverified")  # unverified, pending, verified, failed
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
@@ -161,6 +165,11 @@ class Booking(Base):
     refund_tx_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
     voucher_code: Mapped[str | None] = mapped_column(String(30), nullable=True)
     relisted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    dispute_deadline_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    payout_status: Mapped[str | None] = mapped_column(String(30), default="pending", nullable=True)
+    payout_reference_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    payout_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
@@ -335,6 +344,10 @@ class DraftingRequest(Base):
     draft_filename: Mapped[str | None] = mapped_column(String(255), nullable=True)
     documents: Mapped[list] = mapped_column(JSON, default=list)
     submitted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    payout_status: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    payout_reference_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    payout_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
