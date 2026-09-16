@@ -683,5 +683,15 @@
     "mtime": 1789469381.2668934,
     "ast_hash": "3dda202ac7763d2c5d5f1aaa7e584b0d",
     "semantic_hash": ""
+  },
+  "migrations/versions/9a86c98e523c_enforce_rls_service_role_policies.py": {
+    "mtime": 1789537395.2672892,
+    "ast_hash": "22f2e46f01bd68b512517299433fed35",
+    "semantic_hash": ""
+  },
+  "scripts/supabase_rls_hardening.sql": {
+    "mtime": 1789537401.8456216,
+    "ast_hash": "146a036ab3cbbf3adbd4ec70c1542bfe",
+    "semantic_hash": ""
   }
 }

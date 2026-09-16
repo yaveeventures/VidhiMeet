@@ -1,4 +1,5 @@
 import time
+from typing import TypedDict, cast
 from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Request, Response, UploadFile
 from sqlalchemy import select
 from sqlalchemy.orm import Session, defer
@@ -14,14 +15,20 @@ settings = get_settings()
 
 router = APIRouter(tags=["lawyers"])
 
+
+class LawyersCache(TypedDict):
+    data: list[LawyerOut] | None
+    timestamp: float
+
+
 # Fast in-memory cache for public lawyers listing
-_LAWYERS_CACHE = {"data": None, "timestamp": 0}
-_CACHE_TTL = 30  # 30 seconds TTL
+_LAWYERS_CACHE: LawyersCache = {"data": None, "timestamp": 0.0}
+_CACHE_TTL = 30.0  # 30 seconds TTL
 
 
 def invalidate_lawyers_cache():
     _LAWYERS_CACHE["data"] = None
-    _LAWYERS_CACHE["timestamp"] = 0
+    _LAWYERS_CACHE["timestamp"] = 0.0
 
 
 @router.get("/api/v1/lawyers", response_model=list[LawyerOut])
@@ -112,8 +119,8 @@ def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session
         db.add(profile)
         db.commit()
         db.refresh(profile)
-
-    p_practices = profile.practice if isinstance(profile.practice, list) else [profile.practice]
+    raw_practice = profile.practice if isinstance(profile.practice, list) else ([profile.practice] if profile.practice else [])
+    p_practices = cast(list[Practice], raw_practice)
     return LawyerOut(
         id=user.id,
         full_name=user.full_name,
