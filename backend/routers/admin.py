@@ -17,6 +17,7 @@ from ..services import audit, initiate_refund
 from ..services.payout_service import (
     get_pending_payouts, initiate_lawyer_payout, sweep_all_payouts
 )
+from .lawyers import invalidate_lawyers_cache
 
 log = structlog.get_logger("admin")
 settings = get_settings()
@@ -110,6 +111,7 @@ def verify_lawyer(request: Request, lawyer_id: str, approved: bool | None = None
         "rejection_reason": profile.rejection_reason
     }, request=request)
     db.commit()
+    invalidate_lawyers_cache()
     return {
         "lawyer_id": lawyer_id,
         "verified": profile.verified,
@@ -135,6 +137,7 @@ def verify_lawyer_document(request: Request, lawyer_id: str, doc_type: str, veri
 
     audit(db, admin, "lawyer.document_verified", "user", lawyer_id, {"doc_type": doc_type, "verified": verified}, request=request)
     db.commit()
+    invalidate_lawyers_cache()
     return {"status": "success", "lawyer_id": lawyer_id, "doc_type": doc_type, "verified": verified}
 
 

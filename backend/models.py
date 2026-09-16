@@ -62,7 +62,7 @@ class User(Base):
     password_hash: Mapped[str] = mapped_column(String(255))
     full_name: Mapped[str] = mapped_column(String(160))
     role: Mapped[Role] = mapped_column(Enum(Role))
-    active: Mapped[bool] = mapped_column(Boolean, default=True)
+    active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
     # DPDP §9 — age verification; stored to prove user was 18+ at registration time
     date_of_birth: Mapped[str | None] = mapped_column(String(10), nullable=True)  # ISO-8601 date string
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)

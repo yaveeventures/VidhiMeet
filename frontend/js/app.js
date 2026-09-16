@@ -27,6 +27,8 @@ const intake = {
 };
 
 let lawyers = [];
+let isLawyersLoading = false;
+let lawyersLoadingPromise = null;
 let practice = "Property Law", filter = "all", booking = {};
 let clientChatInterval = null;
 
@@ -34,6 +36,28 @@ const grid = document.querySelector("#lawyer-grid");
 const backdrop = document.querySelector("#backdrop");
 const modal = document.querySelector(".modal");
 const content = document.querySelector("#modal-content");
+
+function renderLawyerSkeletons(target, count = 3) {
+  const container = typeof target === "string" ? document.getElementById(target) : target;
+  if (!container) return;
+  const items = Array.from({ length: count }).map(() => `
+    <article class="lawyer-card skeleton" aria-hidden="true">
+      <div class="lawyer-photo">
+        <span class="initials"></span>
+      </div>
+      <div class="details">
+        <div class="skeleton-box skeleton-line title"></div>
+        <div class="skeleton-box skeleton-line sub"></div>
+        <div class="skeleton-box skeleton-line meta"></div>
+        <div class="card-bottom">
+          <div class="skeleton-box skeleton-line" style="width:70px; height:20px; margin:0;"></div>
+          <div class="skeleton-box skeleton-line btn"></div>
+        </div>
+      </div>
+    </article>
+  `).join("");
+  container.innerHTML = items;
+}
 
 const money = n => new Intl.NumberFormat("en-IN", {style: "currency", currency: "INR", maximumFractionDigits: 0}).format(n);
 
@@ -231,43 +255,67 @@ async function loadPublicStats() {
 }
 
 async function loadLawyers() {
-  const isLocalhost = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
-  try {
-    const list = await LexAPI.lawyers();
-    lawyers = list.map(x => ({
-      id: x.id,
-      name: x.full_name,
-      practices: x.practice || [],
-      practice: mapPracticeToFrontend(x.practice),
-      specialty: getSpecialty(x.practice),
-      rating: x.rating || 0.0,
-      reviews: Math.floor((x.rating || 5.0) * 20) + (x.id.charCodeAt(0) % 15),
-      years: getYearsExperience(x.enrollment_date) !== null ? getYearsExperience(x.enrollment_date) : (5 + (x.id.charCodeAt(0) % 15)),
-      languages: x.languages.join(", "),
-      fee: x.hourly_fee_minor / 100,
-      available: true,
-      availability: x.availability || {},
-      color: getColorForName(x.full_name),
-      initials: x.full_name.split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()
-    }));
-    if (lawyers.length === 0 && isLocalhost) {
-      lawyers = mockLawyers;
-    }
-  } catch (err) {
-    console.error("Failed to load lawyers:", err);
-    if (isLocalhost) {
-      lawyers = mockLawyers;
-    } else {
-      lawyers = [];
+  if (isLawyersLoading && lawyersLoadingPromise) {
+    return lawyersLoadingPromise;
+  }
+  isLawyersLoading = true;
+
+  if (!lawyers.length) {
+    if (grid) renderLawyerSkeletons(grid, 3);
+    const allGrid = document.getElementById("all-lawyers-grid");
+    if (allGrid && allGrid.children.length === 0) {
+      renderLawyerSkeletons(allGrid, 6);
     }
   }
-  render();
-  // Populate live stats after lawyers are loaded (so trust faces can use real initials)
-  loadPublicStats();
+
+  const isLocalhost = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
+  lawyersLoadingPromise = (async () => {
+    try {
+      const list = await LexAPI.lawyers();
+      lawyers = (list || []).map(x => ({
+        id: x.id,
+        name: x.full_name,
+        practices: x.practice || [],
+        practice: mapPracticeToFrontend(x.practice),
+        specialty: getSpecialty(x.practice),
+        rating: x.rating || 0.0,
+        reviews: Math.floor((x.rating || 5.0) * 20) + (x.id.charCodeAt(0) % 15),
+        years: getYearsExperience(x.enrollment_date) !== null ? getYearsExperience(x.enrollment_date) : (5 + (x.id.charCodeAt(0) % 15)),
+        languages: (x.languages || []).join(", "),
+        fee: x.hourly_fee_minor / 100,
+        available: true,
+        availability: x.availability || {},
+        color: getColorForName(x.full_name),
+        initials: (x.full_name || "Advocate").split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase()
+      }));
+      if (lawyers.length === 0 && isLocalhost) {
+        lawyers = mockLawyers;
+      }
+    } catch (err) {
+      console.error("Failed to load lawyers:", err);
+      if (isLocalhost) {
+        lawyers = mockLawyers;
+      } else {
+        lawyers = [];
+      }
+    } finally {
+      isLawyersLoading = false;
+      lawyersLoadingPromise = null;
+    }
+    render();
+    renderAllLawyers();
+    loadPublicStats();
+  })();
+
+  return lawyersLoadingPromise;
 }
 
 
 function render() {
+  if (isLawyersLoading && !lawyers.length) {
+    if (grid) renderLawyerSkeletons(grid, 3);
+    return;
+  }
   let list = lawyers.filter(x => {
     const selectedBackend = mapPracticeToBackend(practice);
     if (x.practices) {
@@ -281,6 +329,7 @@ function render() {
   
   const homeList = list.slice(0, 3);
   
+  if (!grid) return;
   grid.innerHTML = homeList.length 
     ? homeList.map(x => `
         <article class="lawyer-card" data-preview="${x.id}">
@@ -290,11 +339,11 @@ function render() {
             <span class="rating" style="background:#e3f1e7;color:#337953;">✓ Verified</span>
           </div>
           <div class="details">
-            <h3>${x.name}</h3>
-            <p class="specialty">${x.specialty}</p>
+            <h3>${escapeHtml(x.name)}</h3>
+            <p class="specialty">${escapeHtml(x.specialty)}</p>
             <div class="meta">
               <span>◷ ${x.years} yrs exp.</span>
-              <span>◌ ${x.languages}</span>
+              <span>◌ ${escapeHtml(x.languages)}</span>
             </div>
             <div class="card-bottom">
               <span><strong>${money(x.fee)}</strong> <small>/ session</small></span>
@@ -2751,14 +2800,14 @@ if (loginRedirect) {
 
 // ── All Lawyers View ─────────────────────────────────────────────────────────
 
-function showAllLawyersView() {
+async function showAllLawyersView() {
   const allLawyersSection = document.querySelector("#all-lawyers-view");
   const mainEl = document.querySelector("main");
   const myMeetingsSection = document.querySelector("#my-meetings");
   
-  mainEl.style.display = "none";
-  myMeetingsSection.style.display = "none";
-  allLawyersSection.style.display = "";
+  if (mainEl) mainEl.style.display = "none";
+  if (myMeetingsSection) myMeetingsSection.style.display = "none";
+  if (allLawyersSection) allLawyersSection.style.display = "";
   window.scrollTo({ top: 0, behavior: "smooth" });
   
   // Reset filters to defaults on view load
@@ -2769,10 +2818,28 @@ function showAllLawyersView() {
   if (filterLang) filterLang.value = "all";
   if (filterRating) filterRating.value = "0";
   
+  // If lawyers haven't finished loading yet, show skeleton cards and await
+  if (isLawyersLoading && lawyersLoadingPromise) {
+    renderLawyerSkeletons("all-lawyers-grid", 6);
+    await lawyersLoadingPromise;
+  } else if (!lawyers.length) {
+    renderLawyerSkeletons("all-lawyers-grid", 6);
+    await loadLawyers();
+  }
+
   renderAllLawyers();
 }
 
 function renderAllLawyers() {
+  const gridEl = document.getElementById("all-lawyers-grid");
+  if (!gridEl) return;
+
+  // If data is currently fetching, display modern skeleton placeholders
+  if (isLawyersLoading && !lawyers.length) {
+    renderLawyerSkeletons("all-lawyers-grid", 6);
+    return;
+  }
+  
   const expVal = parseInt(document.getElementById("filter-experience")?.value) || 0;
   const langVal = document.getElementById("filter-language")?.value || "all";
   const ratingVal = parseFloat(document.getElementById("filter-rating")?.value) || 0;
@@ -2786,14 +2853,16 @@ function renderAllLawyers() {
   
   // Apply Language filter
   if (langVal !== "all") {
-    list = list.filter(x => x.languages.toLowerCase().includes(langVal.toLowerCase()));
+    list = list.filter(x => (x.languages || "").toLowerCase().includes(langVal.toLowerCase()));
+  }
+
+  // Apply Rating filter
+  if (ratingVal > 0) {
+    list = list.filter(x => (x.rating || 0) >= ratingVal);
   }
   
-  const gridEl = document.getElementById("all-lawyers-grid");
-  if (!gridEl) return;
-  
-  gridEl.innerHTML = list.length 
-    ? list.map(x => `
+  if (list.length > 0) {
+    gridEl.innerHTML = list.map(x => `
         <article class="lawyer-card" data-preview="${x.id}">
           <div class="lawyer-photo" style="background:${x.color}">
             <span class="initials" style="background:${darken(x.color)}">${x.initials}</span>
@@ -2801,11 +2870,11 @@ function renderAllLawyers() {
             <span class="rating" style="background:#e3f1e7;color:#337953;">✓ Verified</span>
           </div>
           <div class="details">
-            <h3>${x.name}</h3>
-            <p class="specialty">${x.specialty}</p>
+            <h3>${escapeHtml(x.name)}</h3>
+            <p class="specialty">${escapeHtml(x.specialty)}</p>
             <div class="meta">
               <span>◷ ${x.years} yrs exp.</span>
-              <span>◌ ${x.languages}</span>
+              <span>◌ ${escapeHtml(x.languages)}</span>
             </div>
             <div class="card-bottom">
               <span><strong>${money(x.fee)}</strong> <small>/ session</small></span>
@@ -2813,8 +2882,17 @@ function renderAllLawyers() {
             </div>
           </div>
         </article>
-      `).join("")
-    : `<p class="lead" style="grid-column: 1/-1; text-align: center; padding: 40px 0; color: var(--muted);">No lawyers match your selected filters. Try adjusting them.</p>`;
+      `).join("");
+  } else if (!lawyers.length) {
+    gridEl.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 48px 24px; background: white; border-radius: 16px; border: 1px dashed var(--line); margin: 20px 0;">
+        <h4 style="font-size: 18px; color: var(--forest); font-weight: 700; margin-bottom: 8px;">No lawyers available right now</h4>
+        <p style="font-size: 14px; color: var(--muted); margin-bottom: 16px;">We could not reach the lawyer network or no verified advocates are listed yet.</p>
+        <button class="primary" onclick="loadLawyers()" style="min-height: 40px; padding: 8px 20px; font-size: 13px;">⟳ Retry Loading</button>
+      </div>`;
+  } else {
+    gridEl.innerHTML = `<p class="lead" style="grid-column: 1/-1; text-align: center; padding: 40px 0; color: var(--muted);">No lawyers match your selected filters. Try adjusting them.</p>`;
+  }
 }
 
 

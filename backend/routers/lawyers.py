@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Request, UploadFile
+import time
+from fastapi import APIRouter, Depends, File, Form, Header, HTTPException, Request, Response, UploadFile
 from sqlalchemy import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, defer
 
 from ..config import get_settings
 from ..db import get_db
@@ -13,13 +14,46 @@ settings = get_settings()
 
 router = APIRouter(tags=["lawyers"])
 
+# Fast in-memory cache for public lawyers listing
+_LAWYERS_CACHE = {"data": None, "timestamp": 0}
+_CACHE_TTL = 30  # 30 seconds TTL
+
+
+def invalidate_lawyers_cache():
+    _LAWYERS_CACHE["data"] = None
+    _LAWYERS_CACHE["timestamp"] = 0
+
 
 @router.get("/api/v1/lawyers", response_model=list[LawyerOut])
-def lawyers(practice: Practice | None = None, language: str | None = None,
+def lawyers(response: Response,
+            practice: Practice | None = None, language: str | None = None,
             max_fee_minor: int | None = None,
             db: Session = Depends(get_db)):
-    query = select(LawyerProfile, User).join(User).where(LawyerProfile.verified.is_(True), User.active.is_(True))
-    if max_fee_minor: query = query.where(LawyerProfile.hourly_fee_minor <= max_fee_minor)
+    response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
+
+    now = time.time()
+    # Serve from in-memory cache for default unfiltered queries
+    if not practice and not language and not max_fee_minor:
+        if _LAWYERS_CACHE["data"] is not None and (now - _LAWYERS_CACHE["timestamp"]) < _CACHE_TTL:
+            return _LAWYERS_CACHE["data"]
+
+    # Defer all unused encrypted and large columns to avoid unnecessary DB load and AES decryptions
+    query = (
+        select(LawyerProfile, User)
+        .join(User)
+        .options(
+            defer(LawyerProfile.aadhaar_number),
+            defer(LawyerProfile.pan_number),
+            defer(LawyerProfile.practice_address),
+            defer(LawyerProfile.bar_license_url),
+            defer(LawyerProfile.aadhaar_url),
+            defer(LawyerProfile.mobile_number),
+            defer(LawyerProfile.rejection_reason),
+        )
+        .where(LawyerProfile.verified.is_(True), User.active.is_(True))
+    )
+    if max_fee_minor:
+        query = query.where(LawyerProfile.hourly_fee_minor <= max_fee_minor)
     rows = db.execute(query).all()
 
     results = []
@@ -34,13 +68,20 @@ def lawyers(practice: Practice | None = None, language: str | None = None,
             id=u.id, full_name=u.full_name, practice=p_practices, languages=p.languages,
             hourly_fee_minor=p.hourly_fee_minor, rating=float(p.rating or 0),
             verified=p.verified, bar_number=p.bar_number, availability=p.availability or {},
-            enrollment_date=p.enrollment_date, practice_address=p.practice_address,
-            bar_license_url=p.bar_license_url, aadhaar_url=p.aadhaar_url,
+            enrollment_date=p.enrollment_date,
+            practice_address=None,
+            bar_license_url=None,
+            aadhaar_url=None,
             bar_license_verified=getattr(p, "bar_license_verified", False),
             aadhaar_verified=getattr(p, "aadhaar_verified", False),
-            mobile_number=p.mobile_number,
+            mobile_number=None,
             created_at=u.created_at
         ))
+
+    if not practice and not language and not max_fee_minor:
+        _LAWYERS_CACHE["data"] = results
+        _LAWYERS_CACHE["timestamp"] = now
+
     return results
 
 
@@ -164,6 +205,7 @@ def update_my_profile(request: Request, payload: LawyerProfileUpdate, user: User
         },
     )
     db.commit()
+    invalidate_lawyers_cache()
     return {"status": "success"}
 
 

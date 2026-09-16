@@ -2288,3 +2288,62 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
   box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2) !important;
   outline: none;
 }
+
+/* ── Lawyer Card Skeleton Loading ─────────────────────────────────────────── */
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-box {
+  background: linear-gradient(90deg, #edf3ef 25%, #dbe8dd 50%, #edf3ef 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite ease-in-out;
+  border-radius: 6px;
+}
+
+.lawyer-card.skeleton {
+  pointer-events: none;
+  user-select: none;
+}
+
+.lawyer-card.skeleton .lawyer-photo {
+  background: #eef3ee;
+}
+
+.lawyer-card.skeleton .initials {
+  background: #dce5dd;
+  box-shadow: none;
+}
+
+.skeleton-line {
+  height: 14px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.skeleton-line.title {
+  height: 22px;
+  width: 70%;
+  margin-bottom: 8px;
+}
+
+.skeleton-line.sub {
+  height: 14px;
+  width: 50%;
+  margin-bottom: 16px;
+}
+
+.skeleton-line.meta {
+  height: 12px;
+  width: 85%;
+  margin-bottom: 18px;
+}
+
+.skeleton-line.btn {
+  height: 38px;
+  width: 105px;
+  border-radius: 99px;
+  margin: 0;
+}
+
