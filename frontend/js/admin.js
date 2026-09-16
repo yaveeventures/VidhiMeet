@@ -546,110 +546,299 @@ async function renderApps(filter) {
   }).join("") : `<p class="muted" style="padding:20px;">No applications found matching your criteria.</p>`);
 }
 
-function reviewApplication(id, name, practice, bar, isVerified = false, barLicenseUrl = null, aadhaarUrl = null, barVerified = false, aadhaarVerified = false, rejectionReason = null) {
+async function reviewApplication(id, name, practice, bar, isVerified = false, barLicenseUrl = null, aadhaarUrl = null, barVerified = false, aadhaarVerified = false, rejectionReason = null) {
   const appInitials = name.split(" ").map(x => x[0]).join("").slice(0, 2).toUpperCase();
   const token = sessionStorage.getItem("lex_access_token") || localStorage.getItem("lex_access_token") || "";
 
-  function docRow(docType, label, subtitle, fileUrl) {
-    let resolvedUrl = "";
-    if (fileUrl) {
-      const rawUrl = fileUrl.includes("?") ? `${fileUrl}&token=${encodeURIComponent(token)}` : `${fileUrl}?token=${encodeURIComponent(token)}`;
-      resolvedUrl = (typeof LexAPI !== "undefined" && LexAPI.resolveUploadUrl) ? LexAPI.resolveUploadUrl(rawUrl) : rawUrl;
-    }
+  // Show modal immediately with loading indicator
+  $("#review-modal").hidden = false;
+  document.body.style.overflow = "hidden";
 
-    if (isVerified) {
-      const viewBtn = resolvedUrl
-        ? `<a href="${resolvedUrl}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
-        : `<span class="doc-no-upload">Not on file</span>`;
-      return `
-        <article class="doc-row doc-row-verified" id="doc-row-${docType}">
-          <div class="doc-icon">${docType === 'bar' ? '&#128196;' : '&#128100;'}</div>
-          <div class="doc-info">
-            <strong>${label}</strong>
-            <small>Verified credential</small>
-          </div>
-          <div class="doc-actions">
-            ${viewBtn}
-          </div>
-        </article>`;
-    } else {
-      const viewBtn = resolvedUrl
-        ? `<a href="${resolvedUrl}" target="_blank" class="doc-view-btn" title="Open document in new tab">&#128065; View</a>`
-        : `<span class="doc-no-upload">Not uploaded</span>`;
-      const verifyBtn = `<button class="doc-verify-btn" data-doc="${docType}" title="Upload a document first" ${fileUrl ? '' : 'disabled'}>&#10003; Verify</button>`;
-      return `
-        <article class="doc-row" id="doc-row-${docType}">
-          <div class="doc-icon">${docType === 'bar' ? '&#128196;' : '&#128100;'}</div>
-          <div class="doc-info">
-            <strong>${label}</strong>
-            <small>${fileUrl ? subtitle : '<span style="color:#e53e3e;">Missing required document</span>'}</small>
-          </div>
-          <div class="doc-actions">
-            ${viewBtn}
-            ${verifyBtn}
-          </div>
-          <div class="doc-status" id="doc-status-${docType}"></div>
-        </article>`;
-    }
+  $("#review-content").innerHTML = `
+    <small class="eyebrow">CREDENTIAL REVIEW</small>
+    <h2>${escapeHtml(name)}</h2>
+    <p class="muted">Loading complete verification dossier...</p>
+    <div style="padding: 40px 0; text-align: center; color: var(--muted);">
+      <span style="display:inline-block; animation: pulse-green 1s infinite;">⏳ Fetching credentials, Bar records, and banking verification...</span>
+    </div>
+  `;
+
+  // Fetch full verification dossier
+  let dossier = null;
+  try {
+    dossier = await LexAPI.getLawyerVerificationDossier(id);
+  } catch (err) {
+    console.warn("Could not fetch verification dossier:", err);
   }
 
-  const approveDisabled = isVerified ? "" : "disabled";
-  const actionButtons = isVerified
+  // Fallback defaults if dossier fetch fails
+  const prof = (dossier && dossier.profile) || {};
+  const user = (dossier && dossier.user) || { full_name: name };
+  const bank = (dossier && dossier.bank_account) || null;
+  const checks = (dossier && dossier.checks) || {};
+
+  const activeBarUrl = prof.bar_license_url || barLicenseUrl;
+  const activeAadhaarUrl = prof.aadhaar_url || aadhaarUrl;
+  const activeBarVerified = prof.bar_license_verified !== undefined ? Boolean(prof.bar_license_verified) : Boolean(barVerified);
+  const activeAadhaarVerified = prof.aadhaar_verified !== undefined ? Boolean(prof.aadhaar_verified) : Boolean(aadhaarVerified);
+  const activeVerified = prof.verified !== undefined ? Boolean(prof.verified) : Boolean(isVerified);
+  const activeRejectionReason = prof.rejection_reason || rejectionReason;
+
+  function resolveDocUrl(fileUrl) {
+    if (!fileUrl) return "";
+    const rawUrl = fileUrl.includes("?") ? `${fileUrl}&token=${encodeURIComponent(token)}` : `${fileUrl}?token=${encodeURIComponent(token)}`;
+    return (typeof LexAPI !== "undefined" && LexAPI.resolveUploadUrl) ? LexAPI.resolveUploadUrl(rawUrl) : rawUrl;
+  }
+
+  const resolvedBarUrl = resolveDocUrl(activeBarUrl);
+  const resolvedAadhaarUrl = resolveDocUrl(activeAadhaarUrl);
+
+  const barFormat = validateBarNumberFormat(prof.bar_number || bar);
+  const barNotice = barFormat.valid
+    ? `<span style="display:inline-block; font-size:11px; background:#e6fffa; color:#234e52; border:1px solid #b2f5ea; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Standard BCI Format ✓</span>`
+    : `<span title="Non-standard Bar Council format. Verify certificate carefully." style="display:inline-block; font-size:11px; background:#fffaf0; color:#744210; border:1px solid #fbd38d; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Check Bar Format ⚠</span>`;
+
+  const previousRejectionNotice = activeRejectionReason
+    ? `<div style="background:#fff5f5; border-left:4px solid #e53e3e; padding:10px 14px; border-radius:6px; margin:12px 0;">
+        <strong style="color:#9b2c2c; font-size:12px; text-transform:uppercase;">Current Rejection / Revision Reason:</strong>
+        <p style="margin:4px 0 0; font-size:13px; color:#2d3748;">${escapeHtml(activeRejectionReason)}</p>
+       </div>`
+    : "";
+
+  const approveDisabled = activeVerified ? "" : "disabled";
+  const actionButtons = activeVerified
     ? `<button class="reject" id="btn-show-rejection" type="button">Revoke verification</button>
        <button class="ghost" data-close-modal>Close</button>`
     : `<button class="reject" id="btn-show-rejection" type="button">Reject profile</button>
        <button class="primary" id="approve-btn" data-decide-id="${id}" data-decide-approved="true" ${approveDisabled}>Approve lawyer</button>`;
 
-  const descriptionText = isVerified
+  const descriptionText = activeVerified
     ? "Verified professional credentials on file for this lawyer."
-    : "View and individually verify each document before approving this lawyer profile.";
+    : "Review submitted fields alongside uploaded documents and verify credentials before approval.";
 
-  const barFormat = validateBarNumberFormat(bar);
-  const barNotice = barFormat.valid
-    ? `<span style="display:inline-block; font-size:11px; background:#e6fffa; color:#234e52; border:1px solid #b2f5ea; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Standard BCI Format ✓</span>`
-    : `<span title="Non-standard Bar Council format. Verify certificate carefully." style="display:inline-block; font-size:11px; background:#fffaf0; color:#744210; border:1px solid #fbd38d; padding:2px 6px; border-radius:4px; margin-left:6px; font-weight:600;">Check Bar Format ⚠</span>`;
-
-  const previousRejectionNotice = rejectionReason
-    ? `<div style="background:#fff5f5; border-left:4px solid #e53e3e; padding:10px 14px; border-radius:6px; margin:12px 0;">
-        <strong style="color:#9b2c2c; font-size:12px; text-transform:uppercase;">Current Rejection / Revision Reason:</strong>
-        <p style="margin:4px 0 0; font-size:13px; color:#2d3748;">${escapeHtml(rejectionReason)}</p>
-       </div>`
+  // Year mismatch banner
+  const yearMismatchBanner = checks.year_mismatch
+    ? `<div class="dossier-warning-banner">
+        <span style="font-size:20px; line-height:1;">⚠️</span>
+        <div>
+          <strong style="color:#c53030;">Critical Warning: Enrollment Year Mismatch!</strong>
+          <p style="margin:2px 0 0; color:#744210;">
+            Bar Registration No indicates year <b>${checks.bar_year}</b>, but submitted Enrollment Date is <b>${escapeHtml(prof.enrollment_date || "")}</b> (year <b>${checks.enrollment_year}</b>).
+            Inspect the date printed on the Bar Council Certificate to prevent experience misrepresentation.
+          </p>
+        </div>
+      </div>`
     : "";
+
+  // Bank section HTML
+  let bankSectionHtml = "";
+  if (bank) {
+    const rpdStatusHtml = bank.verified
+      ? `<span style="font-size:11px; background:#e6fffa; color:#234e52; border:1px solid #b2f5ea; padding:2px 8px; border-radius:4px; font-weight:700;">✓ RPD Verified</span>`
+      : `<span style="font-size:11px; background:#fffaf0; color:#744210; border:1px solid #fbd38d; padding:2px 8px; border-radius:4px; font-weight:700;">${escapeHtml(bank.verification_status || "Pending")}</span>`;
+
+    bankSectionHtml = `
+      <div class="dossier-card">
+        <div class="dossier-card-header">
+          <div class="dossier-card-title"><i>💳</i> 3. Bank Account & PAN Identity Matching</div>
+          ${rpdStatusHtml}
+        </div>
+        <div class="dossier-grid">
+          <div class="dossier-field">
+            <span class="dossier-field-label">Account Holder Name</span>
+            <div class="dossier-field-val">${escapeHtml(bank.account_holder_name || "N/A")}</div>
+          </div>
+          <div class="dossier-field">
+            <span class="dossier-field-label">Bank Name</span>
+            <div class="dossier-field-val">${escapeHtml(bank.bank_name || "N/A")}</div>
+          </div>
+          <div class="dossier-field">
+            <span class="dossier-field-label">Account Number</span>
+            <div class="dossier-field-val">
+              <span id="txt-bank-acct">${escapeHtml(bank.account_number_masked || "N/A")}</span>
+              ${bank.account_number ? `<button type="button" class="dossier-reveal-btn" data-target="txt-bank-acct" data-masked="${escapeHtml(bank.account_number_masked || "")}" data-raw="${escapeHtml(bank.account_number || "")}">👁 Reveal</button>` : ''}
+            </div>
+          </div>
+          <div class="dossier-field">
+            <span class="dossier-field-label">IFSC Code</span>
+            <div class="dossier-field-val">${escapeHtml(bank.ifsc_code || "N/A")}</div>
+          </div>
+          <div class="dossier-field">
+            <span class="dossier-field-label">UPI VPA</span>
+            <div class="dossier-field-val">${escapeHtml(bank.upi_vpa || "N/A")}</div>
+          </div>
+          <div class="dossier-field">
+            <span class="dossier-field-label">PAN Number</span>
+            <div class="dossier-field-val">
+              <span id="txt-pan-no">${escapeHtml(prof.pan_number_masked || "Not provided")}</span>
+              ${prof.pan_number ? `<button type="button" class="dossier-reveal-btn" data-target="txt-pan-no" data-masked="${escapeHtml(prof.pan_number_masked || "")}" data-raw="${escapeHtml(prof.pan_number || "")}">👁 Reveal</button>` : ''}
+            </div>
+          </div>
+        </div>
+        ${bank.upi_name || bank.utr ? `
+          <div style="font-size:11px; background:#f0fff4; border:1px solid #c6f6d5; border-radius:6px; padding:6px 10px; margin-top:8px; color:#22543d;">
+            ${bank.upi_name ? `Cashfree Verified Name: <b>${escapeHtml(bank.upi_name)}</b> &middot; ` : ''}
+            ${bank.utr ? `Audit UTR: <code>${escapeHtml(bank.utr)}</code> &middot; ` : ''}
+            Method: ${escapeHtml(bank.verification_method || "reverse_penny_drop")}
+          </div>` : ''}
+      </div>
+    `;
+  } else {
+    bankSectionHtml = `
+      <div class="dossier-card">
+        <div class="dossier-card-header">
+          <div class="dossier-card-title"><i>💳</i> 3. Bank Account & PAN Identity Matching</div>
+          <span style="font-size:11px; background:#edf2f7; color:#4a5568; padding:2px 8px; border-radius:4px; font-weight:600;">Not Added</span>
+        </div>
+        <p style="margin:4px 0 0; font-size:12px; color:#718096;">Lawyer has not submitted payout bank account or PAN details yet.</p>
+      </div>
+    `;
+  }
 
   $("#review-content").innerHTML = `
     <small class="eyebrow">CREDENTIAL REVIEW</small>
-    <h2>${escapeHtml(name)}</h2>
+    <h2>${escapeHtml(user.full_name || name)}</h2>
     <p class="muted">${descriptionText}</p>
     ${previousRejectionNotice}
-    <div class="review-profile">
+
+    <div class="review-profile" style="margin-bottom:14px;">
       <span class="avatar" style="background:${colors[0]}">${appInitials}</span>
       <div>
-        <strong>${escapeHtml(name)}</strong>
-        <small>${escapeHtml(practice)} &middot; Bar No: ${escapeHtml(bar)} ${barNotice}</small>
+        <strong>${escapeHtml(user.full_name || name)}</strong>
+        <small>${escapeHtml(practice)} &middot; Email: ${escapeHtml(user.email || "N/A")} &middot; Registered: ${new Date(user.created_at || Date.now()).toLocaleDateString("en-IN")}</small>
       </div>
     </div>
-    <div class="review-docs">
-      ${docRow('bar', 'Bar Council Certificate', 'Click View to open, then Verify to confirm', barLicenseUrl)}
-      ${docRow('id', 'Aadhaar Card', 'Click View to open, then Verify to confirm', aadhaarUrl)}
+
+    <!-- Card 1: Bar Council Certificate & Enrollment Matching -->
+    <div class="dossier-card">
+      <div class="dossier-card-header">
+        <div class="dossier-card-title"><i>⚖</i> 1. Bar Council Registration & Certificate</div>
+        <span class="doc-status" id="doc-status-bar">${activeBarVerified ? '<span class="doc-status-ok">✓ Verified</span>' : ''}</span>
+      </div>
+
+      ${yearMismatchBanner}
+
+      <div class="dossier-grid">
+        <div class="dossier-field">
+          <span class="dossier-field-label">Advocate Legal Name</span>
+          <div class="dossier-field-val">${escapeHtml(user.full_name || name)}</div>
+        </div>
+        <div class="dossier-field">
+          <span class="dossier-field-label">Bar Registration No</span>
+          <div class="dossier-field-val">${escapeHtml(prof.bar_number || bar)} ${barNotice}</div>
+        </div>
+        <div class="dossier-field">
+          <span class="dossier-field-label">Claimed Enrollment Date</span>
+          <div class="dossier-field-val" style="color:${checks.year_mismatch ? '#c53030' : '#2d3748'}; font-weight:700;">
+            ${escapeHtml(prof.enrollment_date || "Not provided")}
+          </div>
+        </div>
+        <div class="dossier-field">
+          <span class="dossier-field-label">Calculated Experience</span>
+          <div class="dossier-field-val">${escapeHtml(checks.experience_text || "N/A")}</div>
+        </div>
+      </div>
+
+      <div class="dossier-doc-strip" id="doc-row-bar">
+        <div class="dossier-doc-info">
+          <span style="font-size:18px;">📄</span>
+          <div>
+            <strong>Bar Council Certificate / Identity Card</strong>
+            <small style="display:block; color:#718096;">${activeBarUrl ? 'Official scanned certificate on file' : '<span style="color:#e53e3e;">Missing certificate</span>'}</small>
+          </div>
+        </div>
+        <div class="doc-actions">
+          ${resolvedBarUrl ? `<a href="${resolvedBarUrl}" target="_blank" class="doc-view-btn">&#128065; View Certificate</a>` : `<span class="doc-no-upload">Not uploaded</span>`}
+          ${activeVerified
+            ? `<span style="font-size:11px; color:#22543d; font-weight:700;">✓ Verified</span>`
+            : `<button class="doc-verify-btn" data-doc="bar" ${activeBarUrl ? '' : 'disabled'}>&#10003; Verify</button>`
+          }
+        </div>
+      </div>
     </div>
-    ${!isVerified ? `<p class="verify-hint">&#9432; Verify uploaded credentials to enable approval.</p>` : ''}
+
+    <!-- Card 2: Identity & Government ID (Aadhaar) Matching -->
+    <div class="dossier-card">
+      <div class="dossier-card-header">
+        <div class="dossier-card-title"><i>🪪</i> 2. Identity & Government ID (Aadhaar)</div>
+        <span class="doc-status" id="doc-status-id">${activeAadhaarVerified ? '<span class="doc-status-ok">✓ Verified</span>' : ''}</span>
+      </div>
+
+      <div class="dossier-grid">
+        <div class="dossier-field">
+          <span class="dossier-field-label">Full Name on Record</span>
+          <div class="dossier-field-val">${escapeHtml(user.full_name || name)}</div>
+        </div>
+        <div class="dossier-field">
+          <span class="dossier-field-label">Aadhaar Number (DPDPA)</span>
+          <div class="dossier-field-val">
+            <span id="txt-aadhaar-no">${escapeHtml(prof.aadhaar_number_masked || "Not provided")}</span>
+            ${prof.aadhaar_number ? `<button type="button" class="dossier-reveal-btn" data-target="txt-aadhaar-no" data-masked="${escapeHtml(prof.aadhaar_number_masked || "")}" data-raw="${escapeHtml(prof.aadhaar_number || "")}">👁 Reveal</button>` : ''}
+          </div>
+        </div>
+        <div class="dossier-field">
+          <span class="dossier-field-label">Mobile Number</span>
+          <div class="dossier-field-val">${escapeHtml(prof.mobile_number || "Not provided")}</div>
+        </div>
+        <div class="dossier-field">
+          <span class="dossier-field-label">Practice / Chamber Address</span>
+          <div class="dossier-field-val">${escapeHtml(prof.practice_address || "Not provided")}</div>
+        </div>
+      </div>
+
+      <div class="dossier-doc-strip" id="doc-row-id">
+        <div class="dossier-doc-info">
+          <span style="font-size:18px;">👤</span>
+          <div>
+            <strong>Government Identity Document (Aadhaar Card)</strong>
+            <small style="display:block; color:#718096;">${activeAadhaarUrl ? 'AES-256 encrypted credential on file' : '<span style="color:#e53e3e;">Missing Aadhaar</span>'}</small>
+          </div>
+        </div>
+        <div class="doc-actions">
+          ${resolvedAadhaarUrl ? `<a href="${resolvedAadhaarUrl}" target="_blank" class="doc-view-btn">&#128065; View Aadhaar</a>` : `<span class="doc-no-upload">Not uploaded</span>`}
+          ${activeVerified
+            ? `<span style="font-size:11px; color:#22543d; font-weight:700;">✓ Verified</span>`
+            : `<button class="doc-verify-btn" data-doc="id" ${activeAadhaarUrl ? '' : 'disabled'}>&#10003; Verify</button>`
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: Bank Account & PAN Identity Matching -->
+    ${bankSectionHtml}
+
+    ${!activeVerified ? `<p class="verify-hint">&#9432; Cross-check documents and verify both credentials above to enable approval.</p>` : ''}
+
     <div class="modal-actions" id="standard-modal-actions">
       ${actionButtons}
     </div>
 
-    <!-- Collapsible Rejection Workflow Form -->
-    <div id="rejection-box" style="display:none; margin-top:16px; padding:16px; background:#fff5f5; border:1px solid #fed7d7; border-radius:8px;">
+    <!-- Collapsible Rejection Workflow Form with Quick Chips -->
+    <div id="rejection-box" style="display:none; margin-top:16px; padding:16px; background:#fff5f5; border:1px solid #fed7d7; border-radius:10px;">
       <strong style="color:#c53030; font-size:13px;">Reason for Rejection / Revision Request:</strong>
-      <p style="font-size:12px; color:#4a5568; margin:4px 0 10px;">This note is recorded on the profile and shown on the lawyer's dashboard so they know what to correct.</p>
+      <p style="font-size:12px; color:#4a5568; margin:4px 0 8px;">Click a quick preset chip below or provide custom feedback for the advocate:</p>
+
+      <!-- Quick Preset Rejection Chips -->
+      <div class="rejection-chips-container">
+        <button type="button" class="rejection-chip" data-reason="Enrollment date does not match Bar Council Certificate. Please update your enrollment date to match the official certificate.">📅 Date Mismatch with Certificate</button>
+        <button type="button" class="rejection-chip" data-reason="Bar Registration Number year does not match your claimed Enrollment Date. Please correct the date/year.">⚠️ Bar No & Date Year Mismatch</button>
+        <button type="button" class="rejection-chip" data-reason="Full legal name on profile does not match State Bar Council enrollment records.">👤 Name Mismatch with Bar Roll</button>
+        <button type="button" class="rejection-chip" data-reason="Bar Council Certificate scan is blurred or illegible. Please upload a clear scanned copy or photo.">📄 Certificate Blurred/Illegible</button>
+        <button type="button" class="rejection-chip" data-reason="Government Identity Document (Aadhaar / ID) scan is blurred or incomplete. Please re-upload.">🪪 Aadhaar Blurred/Incomplete</button>
+        <button type="button" class="rejection-chip" data-reason="Name or details mismatch between Government ID and Bar Council Certificate.">⚖️ ID & Bar Name Mismatch</button>
+        <button type="button" class="rejection-chip" data-reason="PAN or Bank Account holder name does not match advocate profile name.">💳 Bank / PAN Mismatch</button>
+      </div>
+
       <select id="rejection-preset" style="width:100%; padding:8px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; margin-bottom:8px;">
-        <option value="Bar Council Certificate scan is blurred or illegible">Bar Council Certificate scan is blurred or illegible</option>
+        <option value="Enrollment date does not match Bar Council Certificate. Please update your enrollment date to match the official certificate.">Enrollment date does not match Bar Council Certificate</option>
+        <option value="Bar Council Certificate scan is blurred or illegible. Please upload a clear scanned copy.">Bar Council Certificate scan is blurred or illegible</option>
         <option value="Full legal name does not match State Bar Council enrollment record">Full legal name does not match State Bar Council enrollment record</option>
         <option value="Government Identity Document (Aadhaar / ID) scan is blurred or incomplete">Government Identity Document (Aadhaar / ID) scan is blurred or incomplete</option>
         <option value="Bar Council Enrollment Number is invalid or not found on Bar rolls">Bar Council Enrollment Number is invalid or not found on Bar rolls</option>
         <option value="Both Bar License and Government ID are required to complete verification">Both Bar License and Government ID are required to complete verification</option>
         <option value="custom">Other / Custom note...</option>
       </select>
-      <textarea id="rejection-custom-note" placeholder="Provide specific instructions or feedback for the candidate..." style="width:100%; min-height:60px; padding:8px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; box-sizing:border-box; margin-bottom:10px; display:none;"></textarea>
+      <textarea id="rejection-custom-note" placeholder="Provide specific instructions or feedback for the candidate..." style="width:100%; min-height:70px; padding:8px; border:1px solid #cbd5e0; border-radius:6px; font-size:13px; box-sizing:border-box; margin-bottom:10px;"></textarea>
       <div style="display:flex; justify-content:flex-end; gap:8px;">
         <button type="button" class="ghost" id="cancel-rejection-btn" style="padding:6px 12px; font-size:12px;">Cancel</button>
         <button type="button" class="reject" id="confirm-rejection-btn" style="padding:6px 14px; font-size:12px; background:#c53030; color:#fff;">Confirm Rejection</button>
@@ -657,12 +846,46 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
     </div>
   `;
 
+  // Wire up Reveal Toggles
+  $("#review-content").querySelectorAll(".dossier-reveal-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const targetId = btn.dataset.target;
+      const targetEl = document.getElementById(targetId);
+      if (!targetEl) return;
+      const isRevealed = btn.dataset.revealed === "true";
+      if (isRevealed) {
+        targetEl.textContent = btn.dataset.masked || "••••";
+        btn.textContent = "👁 Reveal";
+        btn.dataset.revealed = "false";
+      } else {
+        targetEl.textContent = btn.dataset.raw || targetEl.textContent;
+        btn.textContent = "🔒 Hide";
+        btn.dataset.revealed = "true";
+      }
+    });
+  });
+
+  // Wire up Quick Rejection Chips
+  const rejectionCustomNote = $("#rejection-custom-note");
+  const rejectionPreset = $("#rejection-preset");
+  $("#review-content").querySelectorAll(".rejection-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const reason = chip.dataset.reason;
+      if (rejectionCustomNote) {
+        rejectionCustomNote.value = reason;
+      }
+      if (rejectionPreset) {
+        rejectionPreset.value = "custom";
+      }
+      $("#review-content").querySelectorAll(".rejection-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+    });
+  });
+
   // Wire up Rejection workflow UI inside the modal
   const btnShowRejection = $("#btn-show-rejection");
   const rejectionBox = $("#rejection-box");
   const standardActions = $("#standard-modal-actions");
-  const rejectionPreset = $("#rejection-preset");
-  const rejectionCustomNote = $("#rejection-custom-note");
   const cancelRejectionBtn = $("#cancel-rejection-btn");
   const confirmRejectionBtn = $("#confirm-rejection-btn");
 
@@ -670,6 +893,9 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
     btnShowRejection.addEventListener("click", () => {
       rejectionBox.style.display = "block";
       if (standardActions) standardActions.style.display = "none";
+      if (rejectionPreset && rejectionCustomNote && !rejectionCustomNote.value) {
+        rejectionCustomNote.value = rejectionPreset.value === "custom" ? "" : rejectionPreset.value;
+      }
     });
   }
   if (cancelRejectionBtn && rejectionBox) {
@@ -680,30 +906,29 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
   }
   if (rejectionPreset && rejectionCustomNote) {
     rejectionPreset.addEventListener("change", () => {
-      rejectionCustomNote.style.display = rejectionPreset.value === "custom" ? "block" : "none";
+      if (rejectionPreset.value !== "custom") {
+        rejectionCustomNote.value = rejectionPreset.value;
+      }
     });
   }
   if (confirmRejectionBtn) {
     confirmRejectionBtn.addEventListener("click", () => {
-      let finalReason = rejectionPreset.value;
-      if (finalReason === "custom") {
-        finalReason = rejectionCustomNote.value.trim() || "Credentials did not meet compliance requirements";
-      }
+      let finalReason = (rejectionCustomNote && rejectionCustomNote.value.trim()) || (rejectionPreset && rejectionPreset.value) || "Credentials did not meet compliance requirements";
       decideVerification(id, false, finalReason);
     });
   }
 
   // Wire up Verify buttons & restore session/API verification states
   const storageKey = `admin_doc_verified_${id}`;
-  let verified = { bar: Boolean(barVerified), id: Boolean(aadhaarVerified) };
+  let verified = { bar: Boolean(activeBarVerified), id: Boolean(activeAadhaarVerified) };
   try {
     const saved = sessionStorage.getItem(storageKey);
     if (saved) verified = Object.assign(verified, JSON.parse(saved));
   } catch (_) {}
 
   const checkApproveStatus = () => {
-    const barHasFile = Boolean(barLicenseUrl);
-    const idHasFile = Boolean(aadhaarUrl);
+    const barHasFile = Boolean(activeBarUrl);
+    const idHasFile = Boolean(activeAadhaarUrl);
     const isReady = barHasFile && idHasFile && verified.bar && verified.id;
     const approveBtn = $("#approve-btn");
     if (approveBtn) {
@@ -719,7 +944,7 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
       if (!barHasFile || !idHasFile) {
         hint.innerHTML = `<span style="color:#c53030; font-weight:600;">&#9888; Candidate has not uploaded both required credentials (${!barHasFile ? 'Missing Bar Certificate' : ''}${!barHasFile && !idHasFile ? ', ' : ''}${!idHasFile ? 'Missing Aadhaar' : ''}). Both are required for approval.</span>`;
       } else if (!isReady) {
-        hint.innerHTML = `&#9432; Individually verify both documents above to enable profile approval.`;
+        hint.innerHTML = `&#9432; Cross-check documents and verify both credentials above to enable profile approval.`;
       } else {
         hint.innerHTML = `<span style="color:var(--forest, #265a47); font-weight:600;">&#10003; All documents verified. Profile is ready for approval.</span>`;
       }
@@ -736,7 +961,7 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
     const row = $("#doc-row-" + doc);
     if (row) row.classList.add("doc-row-verified");
     const status = $("#doc-status-" + doc);
-    if (status) { status.textContent = "Verified"; status.className = "doc-status-ok"; }
+    if (status) { status.innerHTML = '<span class="doc-status-ok">✓ Verified</span>'; }
   };
 
   // Restore pre-verified buttons if reopened
@@ -760,10 +985,8 @@ function reviewApplication(id, name, practice, bar, isVerified = false, barLicen
       }
     });
   });
-
-  $("#review-modal").hidden = false;
-  document.body.style.overflow = "hidden";
 }
+
 
 async function decideVerification(id, approved, rejectionReason = null) {
   try {
@@ -1429,7 +1652,7 @@ document.addEventListener("click", e => {
   }
 
   // Close button inside review modal
-  if (e.target.closest("[data-close-modal]")) {
+  if (e.target.closest("[data-close-modal]") || e.target.closest("#review-modal .close")) {
     $("#review-modal").hidden = true;
     document.body.style.overflow = "";
   }

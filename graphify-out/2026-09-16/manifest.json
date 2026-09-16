@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "backend/routers/lawyers.py": {
-    "mtime": 1789486763.0865283,
-    "ast_hash": "f30cf2a7a5eb9633b44ded4ce51c5859",
+    "mtime": 1789538042.1052399,
+    "ast_hash": "9536d614d3858c1f0e2c77233db8a8aa",
     "semantic_hash": ""
   },
   "backend/routers/public.py": {

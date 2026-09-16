@@ -171,6 +171,17 @@ def update_my_profile(request: Request, payload: LawyerProfileUpdate, user: User
         )
         db.add(profile)
     else:
+        # Check if critical verified credential fields were altered
+        critical_change = False
+        if profile.bar_number != payload.bar_number:
+            critical_change = True
+        if payload.enrollment_date is not None and profile.enrollment_date != payload.enrollment_date:
+            critical_change = True
+        if payload.aadhaar_number is not None and profile.aadhaar_number != payload.aadhaar_number:
+            critical_change = True
+        if payload.pan_number is not None and profile.pan_number != payload.pan_number:
+            critical_change = True
+
         profile.practice = payload.practice
         profile.bar_number = payload.bar_number
         profile.languages = payload.languages
@@ -186,8 +197,13 @@ def update_my_profile(request: Request, payload: LawyerProfileUpdate, user: User
             profile.pan_number = payload.pan_number
         if payload.mobile_number is not None:
             profile.mobile_number = payload.mobile_number
-        if profile.bar_number != payload.bar_number:
+
+        if critical_change and (profile.verified or profile.verification_status == "approved"):
             profile.verified = False
+            profile.verification_status = "pending"
+            profile.bar_license_verified = False
+            profile.aadhaar_verified = False
+            profile.verified_at = None
 
     # Extract client IP and declarations timestamp for DPDPA compliance audit log
     client_ip = (
@@ -314,16 +330,19 @@ def lawyer_document_confirm(request: Request, filename: str, key: str, doc_type:
         profile.bar_license_verified = False
         profile.verified = False
         profile.verification_status = "pending"
+        profile.verified_at = None
     elif doc_type == "aadhaar":
         profile.aadhaar_url = url
         profile.aadhaar_verified = False
         profile.verified = False
         profile.verification_status = "pending"
+        profile.verified_at = None
     elif doc_type == "profile_picture":
         profile.profile_picture_url = url
 
     audit(db, user, "lawyer.document_uploaded", "user", user.id, {"filename": filename, "key": key, "doc_type": doc_type}, request=request)
     db.commit()
+    invalidate_lawyers_cache()
     return {"status": "success", "key": key}
 
 

@@ -1302,3 +1302,142 @@ main {
   background: #95a79c;
 }
 
+/* ==========================================================================
+   Verification Dossier & Document Matching Cards
+   ========================================================================== */
+.dossier-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.dossier-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #edf2f7;
+}
+.dossier-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a202c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.dossier-card-title i {
+  font-style: normal;
+  font-size: 16px;
+}
+.dossier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+}
+.dossier-field {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.dossier-field-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #718096;
+  letter-spacing: 0.4px;
+  margin-bottom: 3px;
+}
+.dossier-field-val {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  word-break: break-word;
+}
+.dossier-reveal-btn {
+  background: white;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  cursor: pointer;
+  color: #4a5568;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+.dossier-reveal-btn:hover {
+  background: #edf2f7;
+  color: #1a202c;
+}
+.dossier-warning-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fffaf0;
+  border: 1px solid #fbd38d;
+  border-left: 4px solid #dd6b20;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  font-size: 12px;
+  color: #744210;
+  line-height: 1.4;
+}
+.dossier-doc-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed #e2e8f0;
+}
+.dossier-doc-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #4a5568;
+}
+
+/* Quick Rejection Chips */
+.rejection-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 12px;
+}
+.rejection-chip {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+  border-radius: 14px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+.rejection-chip:hover {
+  background: #feebc8;
+  border-color: #fbd38d;
+  color: #744210;
+}
+.rejection-chip.active {
+  background: #fed7d7;
+  border-color: #fc8181;
+  color: #9b2c2c;
+  font-weight: 600;
+}
+
+

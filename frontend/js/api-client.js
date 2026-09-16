@@ -396,6 +396,7 @@ const LexAPI = (() => {
       return request(`/admin/lawyers/${id}/verification?${q.toString()}`, { method: "PATCH" });
     },
     verifyLawyerDocument: (id, docType, verified = true) => request(`/admin/lawyers/${id}/documents/verify?doc_type=${docType}&verified=${verified}`, {method:"PATCH"}),
+    getLawyerVerificationDossier: (id) => request(`/admin/lawyers/${id}/verification-dossier`),
     getAdminPayouts: () => request("/admin/payouts"),
     getPendingPayouts: () => request("/admin/payouts/pending"),
     triggerPayoutSweep: () => request("/admin/payouts/sweep", { method: "POST" }),

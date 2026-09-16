@@ -141,6 +141,147 @@ def verify_lawyer_document(request: Request, lawyer_id: str, doc_type: str, veri
     return {"status": "success", "lawyer_id": lawyer_id, "doc_type": doc_type, "verified": verified}
 
 
+@router.get("/lawyers/{lawyer_id}/verification-dossier")
+def get_lawyer_verification_dossier(
+    lawyer_id: str,
+    _admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    import re
+    user = db.get(User, lawyer_id)
+    if not user:
+        raise HTTPException(404, "Lawyer user not found")
+    profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
+    if not profile:
+        raise HTTPException(404, "Lawyer profile not found")
+    bank = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == lawyer_id))
+
+    # Helper for Aadhaar
+    raw_aadhaar = profile.aadhaar_number or ""
+    aadhaar_clean = raw_aadhaar.replace("-", "").replace(" ", "")
+    masked_aadhaar = f"XXXX-XXXX-{aadhaar_clean[-4:]}" if len(aadhaar_clean) == 12 else (raw_aadhaar or "Not provided")
+
+    # Helper for PAN
+    raw_pan = profile.pan_number or ""
+    pan_clean = raw_pan.strip().upper()
+    masked_pan = f"XXXXX{pan_clean[5:]}" if len(pan_clean) == 10 else (raw_pan or "Not provided")
+
+    # Helper for Bank
+    bank_data = None
+    if bank:
+        raw_acct = bank.account_number or ""
+        acct_clean = raw_acct.replace(" ", "")
+        masked_acct = ("•" * max(0, len(acct_clean) - 4) + acct_clean[-4:]) if len(acct_clean) >= 4 else (raw_acct or "Not provided")
+
+        raw_ifsc = bank.ifsc_code or ""
+        ifsc_clean = raw_ifsc.replace(" ", "")
+        masked_ifsc = ("•" * max(0, len(ifsc_clean) - 4) + ifsc_clean[-4:]) if len(ifsc_clean) >= 4 else (raw_ifsc or "Not provided")
+
+        bank_data = {
+            "id": bank.id,
+            "account_holder_name": bank.account_holder_name,
+            "bank_name": bank.bank_name,
+            "account_number": raw_acct,
+            "account_number_masked": masked_acct,
+            "ifsc_code": raw_ifsc,
+            "ifsc_code_masked": masked_ifsc,
+            "upi_vpa": bank.upi_vpa,
+            "verified": bank.verified,
+            "verification_status": bank.verification_status,
+            "upi_name": bank.upi_name,
+            "utr": bank.utr,
+            "verification_method": bank.verification_method,
+            "verified_at": bank.verified_at,
+        }
+
+    # Extract years to detect mismatch
+    bar_year = None
+    if profile.bar_number:
+        matches = re.findall(r"\b(19\d{2}|20\d{2})\b", profile.bar_number)
+        if matches:
+            bar_year = matches[-1]
+
+    enrollment_year = None
+    if profile.enrollment_date:
+        enr_matches = re.findall(r"\b(19\d{2}|20\d{2})\b", profile.enrollment_date)
+        if enr_matches:
+            enrollment_year = enr_matches[0] if profile.enrollment_date.startswith(("19", "20")) else enr_matches[-1]
+
+    year_mismatch = bool(bar_year and enrollment_year and bar_year != enrollment_year)
+
+    # Calculate experience
+    experience_text = "N/A"
+    if profile.enrollment_date:
+        try:
+            parts = profile.enrollment_date.strip().split("-")
+            if len(parts) == 3:
+                if len(parts[0]) == 4:
+                    enr_dt = datetime(int(parts[0]), int(parts[1]), int(parts[2]), tzinfo=timezone.utc)
+                else:
+                    enr_dt = datetime(int(parts[2]), int(parts[1]), int(parts[0]), tzinfo=timezone.utc)
+                now_dt = datetime.now(timezone.utc)
+                diff_days = (now_dt - enr_dt).days
+                if diff_days >= 0:
+                    years = diff_days // 365
+                    months = (diff_days % 365) // 30
+                    if years > 0:
+                        experience_text = f"{years} yr{'s' if years > 1 else ''}" + (f" {months} mo{'s' if months > 1 else ''}" if months > 0 else "")
+                    else:
+                        experience_text = f"{max(1, months)} month{'s' if months > 1 else ''}"
+                else:
+                    experience_text = "Future Date (Invalid)"
+        except Exception:
+            experience_text = "Invalid date format"
+
+    # Standard bar format check
+    bar_format_valid = False
+    if profile.bar_number:
+        bar_format_valid = bool(re.match(r"^[A-Za-z]{1,4}\s*/\s*\d+\s*/\s*(19|20)\d{2}$", profile.bar_number.strip()))
+
+    return {
+        "user": {
+            "id": user.id,
+            "full_name": user.full_name,
+            "email": user.email,
+            "active": user.active,
+            "created_at": user.created_at,
+        },
+        "profile": {
+            "id": profile.id,
+            "bar_number": profile.bar_number,
+            "enrollment_date": profile.enrollment_date,
+            "practice": profile.practice if isinstance(profile.practice, list) else [profile.practice],
+            "languages": profile.languages or [],
+            "hourly_fee_minor": profile.hourly_fee_minor,
+            "rating": float(profile.rating or 0),
+            "verified": profile.verified,
+            "verification_status": profile.verification_status or "pending",
+            "verified_at": profile.verified_at,
+            "rejection_reason": profile.rejection_reason,
+            "practice_address": profile.practice_address,
+            "mobile_number": profile.mobile_number,
+            "aadhaar_number": raw_aadhaar,
+            "aadhaar_number_masked": masked_aadhaar,
+            "pan_number": raw_pan,
+            "pan_number_masked": masked_pan,
+            "bar_license_url": profile.bar_license_url,
+            "bar_license_verified": getattr(profile, "bar_license_verified", False),
+            "aadhaar_url": profile.aadhaar_url,
+            "aadhaar_verified": getattr(profile, "aadhaar_verified", False),
+            "availability": profile.availability or {},
+        },
+        "bank_account": bank_data,
+        "checks": {
+            "bar_format_valid": bar_format_valid,
+            "bar_year": bar_year,
+            "enrollment_year": enrollment_year,
+            "year_mismatch": year_mismatch,
+            "experience_text": experience_text,
+        }
+    }
+
+
+
 @router.get("/lawyers/pending", response_model=list[LawyerOut])
 def list_pending_lawyers(search: str | None = None,
                          practice: str | None = None,
