@@ -436,3 +436,38 @@ def request_erasure(user: User = Depends(current_user), db: Session = Depends(ge
 
     db.commit()
     return Response(status_code=204)
+
+
+@router.get("/me", dependencies=[Depends(rate_limit_dependency("authenticated"))])
+def get_me(user: User = Depends(current_user)):
+    """Return basic profile info for the current user, including whether phone is set."""
+    return {
+        "id": user.id,
+        "email": user.email,
+        "full_name": user.full_name,
+        "role": user.role,
+        "phone_set": bool(user.phone),
+    }
+
+
+@router.patch("/me/phone", dependencies=[Depends(rate_limit_dependency("authenticated"))])
+def update_phone(payload: dict, user: User = Depends(current_user), db: Session = Depends(get_db)):
+    """
+    Save the user's mobile number (10 digits, Indian).
+    Called by the frontend phone-collection modal before initiating Cashfree checkout.
+    The number is stored encrypted (DPDP sensitive personal data).
+    """
+    import re
+    phone_raw = str(payload.get("phone", "")).strip()
+    digits = re.sub(r"\D", "", phone_raw)
+    # Strip leading 91 country code if provided as 91XXXXXXXXXX
+    if len(digits) == 12 and digits.startswith("91"):
+        digits = digits[2:]
+    if len(digits) != 10:
+        raise HTTPException(422, "Phone number must be exactly 10 digits (Indian mobile number).")
+    if not digits[0] in "6789":
+        raise HTTPException(422, "Phone number must start with 6, 7, 8, or 9.")
+
+    user.phone = digits
+    db.commit()
+    return {"status": "ok", "message": "Phone number saved."}

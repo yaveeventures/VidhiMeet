@@ -65,11 +65,14 @@ class User(Base):
     active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
     # DPDP §9 — age verification; stored to prove user was 18+ at registration time
     date_of_birth: Mapped[str | None] = mapped_column(String(10), nullable=True)  # ISO-8601 date string
+    # Phone number — collected at checkout; stored encrypted (DPDP sensitive personal data)
+    phone: Mapped[str | None] = mapped_column(EncryptedString, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     mfa_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
     mfa_secret: Mapped[str | None] = mapped_column(String(64), nullable=True)
     lawyer_profile: Mapped["LawyerProfile | None"] = relationship(back_populates="user", uselist=False)
     bank_account: Mapped["LawyerBankAccount | None"] = relationship(back_populates="user", uselist=False)
+
 
 
 class LawyerProfile(Base):

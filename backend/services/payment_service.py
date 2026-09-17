@@ -25,23 +25,21 @@ def _sanitize_phone(phone: str | None) -> str:
 def _phone_for_user(user: User) -> str:
     """
     Return a 10-digit phone for Cashfree order creation.
-    Priority: LawyerProfile.mobile_number → deterministic hash from email
-    (Cashfree requires a phone field; clients do not have a phone column yet.
-    TODO: add phone to User model and collect at registration/checkout.)
+    Priority: user.phone (collected at checkout) → LawyerProfile.mobile_number → hash fallback
     """
-    # For lawyers booking via their own account
-    profile = getattr(user, "lawyer_profile", None)
-    if profile:
-        raw = getattr(profile, "mobile_number", None)
-        if raw:
-            return _sanitize_phone(raw)
+    # Real phone collected at checkout
+    if getattr(user, "phone", None):
+        return _sanitize_phone(user.phone)
 
-    # Derive a consistent 10-digit number from email so each user gets a unique
-    # placeholder instead of everyone sharing 9999999999 on the checkout page.
+    # Lawyer's own mobile number from their profile
+    profile = getattr(user, "lawyer_profile", None)
+    if profile and getattr(profile, "mobile_number", None):
+        return _sanitize_phone(profile.mobile_number)
+
+    # Last resort: deterministic placeholder from email hash (never exposes a real number)
     digest = hashlib.sha256(user.email.encode()).hexdigest()
     numeric = re.sub(r"[^0-9]", "", digest)
-    placeholder = ("9" + numeric)[:10].ljust(10, "0")
-    return placeholder
+    return ("9" + numeric)[:10].ljust(10, "0")
 
 
 def _get_cf_headers() -> dict[str, str]:

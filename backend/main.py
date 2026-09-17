@@ -99,6 +99,7 @@ async def lifespan(app: FastAPI):
                     ("date_of_birth", "VARCHAR(10) NULL"),
                     ("mfa_enabled", "BOOLEAN DEFAULT FALSE"),
                     ("mfa_secret", "VARCHAR(64) NULL"),
+                    ("phone", "TEXT NULL"),
                 ]),
             ]
             for tbl, cols in migration_plan:
