@@ -33,10 +33,17 @@ class SlidingWindowRateLimiter:
         if s.redis_url:
             try:
                 import redis.asyncio as redis
-                self._redis_client = redis.from_url(s.redis_url, decode_responses=True)
+                self._redis_client = redis.from_url(
+                    s.redis_url,
+                    decode_responses=True,
+                    socket_connect_timeout=5,
+                    socket_timeout=5,
+                )
                 await self._redis_client.ping()
                 log.info("Redis rate limiter connected successfully")
-            except (ImportError, RuntimeError, OSError, RedisError) as e:
+            except Exception as e:
+                # Catch-all: SSL errors, connection refused, timeout, import errors, etc.
+                # Redis is optional — never crash the app on a Redis failure.
                 log.warning("Redis connection failed for rate limiter, falling back to in-memory", error=str(e))
                 self._redis_client = None
 
