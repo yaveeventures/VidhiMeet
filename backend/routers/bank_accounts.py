@@ -21,7 +21,10 @@ from ..services import (
     mock_complete_reverse_penny_drop,
 )
 
+import structlog
+
 router = APIRouter(tags=["bank-accounts"])
+logger = structlog.get_logger("bank_accounts")
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -166,37 +169,55 @@ def rpd_initiate(user: User = Depends(require_roles(Role.LAWYER)), db: Session =
     Initiate Cashfree Reverse Penny Drop (RPD) to add or verify a lawyer's bank account.
     Returns a ₹1 UPI payment request (QR code, payment link, UPI intent).
     """
-    acct = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == user.id))
+    try:
+        acct = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == user.id))
+    except Exception as db_err:
+        logger.error("Failed to query lawyer_bank_accounts", user_id=user.id, error=str(db_err))
+        raise HTTPException(500, detail="Database error accessing bank account. Please ensure database migrations have been executed.")
+
     if acct and acct.verified:
         raise HTTPException(400, "Bank account is already verified")
 
-    rpd_data = initiate_reverse_penny_drop(user)
+    try:
+        rpd_data = initiate_reverse_penny_drop(user)
+    except ValueError as ve:
+        logger.warning("Cashfree RPD validation failed", user_id=user.id, error=str(ve))
+        raise HTTPException(400, detail=str(ve))
+    except Exception as exc:
+        logger.error("Cashfree RPD initiation exception", user_id=user.id, error=str(exc))
+        raise HTTPException(502, detail=f"Cashfree verification service unavailable: {str(exc)}")
+
     verification_id = rpd_data["verification_id"]
 
-    if acct:
-        acct.verification_id = verification_id
-        acct.reference_id = rpd_data.get("reference_id")
-        acct.verification_method = "reverse_penny_drop"
-        acct.verification_status = "pending"
-    else:
-        # Create a pending placeholder record so verification_id is tracked
-        acct = LawyerBankAccount(
-            user_id=user.id,
-            account_holder_name=user.full_name or "Advocate",
-            account_number="PENDING",
-            ifsc_code="PENDING",
-            bank_name="Pending UPI Verification",
-            verification_id=verification_id,
-            reference_id=rpd_data.get("reference_id"),
-            verification_method="reverse_penny_drop",
-            verification_status="pending",
-            verified=False,
-        )
-        db.add(acct)
+    try:
+        if acct:
+            acct.verification_id = verification_id
+            acct.reference_id = rpd_data.get("reference_id")
+            acct.verification_method = "reverse_penny_drop"
+            acct.verification_status = "pending"
+        else:
+            # Create a pending placeholder record so verification_id is tracked
+            acct = LawyerBankAccount(
+                user_id=user.id,
+                account_holder_name=user.full_name or "Advocate",
+                account_number="PENDING",
+                ifsc_code="PENDING",
+                bank_name="Pending UPI Verification",
+                verification_id=verification_id,
+                reference_id=rpd_data.get("reference_id"),
+                verification_method="reverse_penny_drop",
+                verification_status="pending",
+                verified=False,
+            )
+            db.add(acct)
 
-    audit(db, user, "bank_account.rpd_initiated", "lawyer_bank_account", user.id,
-          {"verification_id": verification_id})
-    db.commit()
+        audit(db, user, "bank_account.rpd_initiated", "lawyer_bank_account", user.id,
+              {"verification_id": verification_id})
+        db.commit()
+    except Exception as db_commit_err:
+        db.rollback()
+        logger.error("Failed to persist RPD session to database", user_id=user.id, error=str(db_commit_err))
+        raise HTTPException(500, detail="Database error saving verification record. Please run the Supabase migration script.")
 
     return RpdInitiateResponse(
         verification_id=verification_id,

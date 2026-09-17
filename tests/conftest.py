@@ -3,6 +3,9 @@ os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 os.environ["JWT_SECRET"] = "test-secret-that-is-at-least-thirty-two-characters"
 os.environ["CASHFREE_APP_ID"] = ""
 os.environ["CASHFREE_SECRET_KEY"] = ""
+os.environ["CASHFREE_VERIFICATION_APP_ID"] = ""
+os.environ["CASHFREE_VERIFICATION_SECRET_KEY"] = ""
+os.environ["CASHFREE_PUBLIC_KEY"] = ""
 os.environ["CASHFREE_MODE"] = "sandbox"
 
 from backend.config import get_settings

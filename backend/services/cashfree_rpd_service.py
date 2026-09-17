@@ -19,12 +19,63 @@ settings = get_settings()
 _MOCK_RPD_SESSIONS: dict[str, dict[str, Any]] = {}
 
 
+def _get_verification_credentials() -> tuple[str, str]:
+    app_id = (settings.cashfree_verification_app_id or settings.cashfree_app_id or "").strip()
+    secret = (settings.cashfree_verification_secret_key or settings.cashfree_secret_key or "").strip()
+    return app_id, secret
+
+
+def _generate_cf_signature(client_id: str) -> str | None:
+    """
+    Encrypt clientId.timestamp using RSA with Cashfree's Public Key.
+    Used when Two-Factor Authentication is configured as Public Key on Cashfree.
+    """
+    pub_key_raw = (settings.cashfree_public_key or "").strip()
+    if not pub_key_raw or not client_id:
+        return None
+    try:
+        import base64
+        import time
+        from cryptography.hazmat.primitives import serialization, hashes
+        from cryptography.hazmat.primitives.asymmetric import padding
+
+        if not pub_key_raw.startswith("-----BEGIN"):
+            pub_key_pem = f"-----BEGIN PUBLIC KEY-----\n{pub_key_raw}\n-----END PUBLIC KEY-----"
+        else:
+            pub_key_pem = pub_key_raw
+
+        timestamp = int(time.time())
+        data = f"{client_id}.{timestamp}".encode("utf-8")
+        public_key = serialization.load_pem_public_key(pub_key_pem.encode("utf-8"))
+        try:
+            encrypted = public_key.encrypt(
+                data,
+                padding.OAEP(
+                    mgf=padding.MGF1(algorithm=hashes.SHA1()),
+                    algorithm=hashes.SHA1(),
+                    label=None,
+                ),
+            )
+        except Exception:
+            encrypted = public_key.encrypt(data, padding.PKCS1v15())
+        return base64.b64encode(encrypted).decode("utf-8")
+    except Exception as exc:
+        logger.error("Failed to generate Cashfree RSA signature", error=str(exc))
+        return None
+
+
 def _get_verification_headers() -> dict[str, str]:
-    return {
-        "x-client-id": settings.cashfree_app_id,
-        "x-client-secret": settings.cashfree_secret_key,
+    app_id, secret = _get_verification_credentials()
+    headers = {
+        "x-client-id": app_id,
+        "x-client-secret": secret,
+        "x-api-version": "2024-12-01",
         "Content-Type": "application/json",
     }
+    sig = _generate_cf_signature(app_id)
+    if sig:
+        headers["x-cf-signature"] = sig
+    return headers
 
 
 def initiate_reverse_penny_drop(lawyer: User, return_url: str | None = None) -> dict[str, Any]:
@@ -34,11 +85,12 @@ def initiate_reverse_penny_drop(lawyer: User, return_url: str | None = None) -> 
     """
     verification_id = f"rpd_{lawyer.id[:8]}_{int(time.time())}"
     lawyer_name = lawyer.full_name or "Advocate"
-    phone = getattr(lawyer, "phone", None) or "9999999999"
     redirect = return_url or "https://lawyer.vidhimeet.in/lawyer.html"
 
+    app_id, secret = _get_verification_credentials()
+
     # Fallback to mock session in dev or test environments when keys are unconfigured
-    if not settings.cashfree_app_id or not settings.cashfree_secret_key:
+    if not app_id or not secret:
         logger.info("Cashfree keys not set; creating mock RPD session", lawyer_id=lawyer.id, verification_id=verification_id)
         mock_upi_uri = f"upi://pay?pa=vidhimeet.verify@cashfree&pn=VidhiMeet%20Verification&am=1.00&cu=INR&tr={verification_id}"
         mock_data = {
@@ -71,7 +123,6 @@ def initiate_reverse_penny_drop(lawyer: User, return_url: str | None = None) -> 
     payload = {
         "verification_id": verification_id,
         "name": lawyer_name,
-        "phone": phone,
         "redirect_url": redirect,
     }
 
@@ -81,23 +132,61 @@ def initiate_reverse_penny_drop(lawyer: User, return_url: str | None = None) -> 
             if res.status_code in (200, 201):
                 data = res.json()
                 logger.info("Cashfree RPD request created", verification_id=verification_id, status=data.get("status"))
+                
+                raw_qr = data.get("qr_code") or data.get("qrCode") or ""
+                if raw_qr and not raw_qr.startswith("data:") and not raw_qr.startswith("http"):
+                    raw_qr = f"data:image/png;base64,{raw_qr}"
+
+                upi_uri = data.get("upi_link") or data.get("upi_uri") or ""
+                upi_intent = data.get("upi_intent") or data.get("upiIntent") or {}
+                if not upi_intent and upi_uri:
+                    upi_intent = {
+                        "upi_uri": upi_uri,
+                        "gpay_link": data.get("gpay") or upi_uri,
+                        "phonepe_link": data.get("phonepe") or upi_uri,
+                        "paytm_link": data.get("paytm") or upi_uri,
+                        "bhim_link": data.get("bhim") or upi_uri,
+                    }
+
+                raw_valid = data.get("valid_upto")
+                valid_epoch = int(time.time()) + 600
+                if isinstance(raw_valid, (int, float)):
+                    valid_epoch = int(raw_valid)
+                elif isinstance(raw_valid, str):
+                    try:
+                        from datetime import datetime
+                        dt = datetime.fromisoformat(raw_valid.replace("Z", "+00:00"))
+                        valid_epoch = int(dt.timestamp())
+                    except Exception:
+                        valid_epoch = int(time.time()) + 600
+
                 return {
                     "verification_id": verification_id,
-                    "reference_id": data.get("reference_id"),
+                    "reference_id": str(data.get("ref_id") or data.get("reference_id") or ""),
                     "status": data.get("status", "PENDING"),
-                    "payment_link": data.get("payment_link"),
-                    "qr_code": data.get("qr_code") or data.get("qrCode"),
-                    "upi_intent": data.get("upi_intent") or data.get("upiIntent") or {},
-                    "valid_upto": data.get("valid_upto"),
+                    "payment_link": data.get("url") or data.get("payment_link") or upi_uri,
+                    "qr_code": raw_qr,
+                    "upi_intent": upi_intent,
+                    "valid_upto": valid_epoch,
                     "amount": 1.0,
                     "currency": "INR",
                     "is_mock": False,
                 }
-            logger.error("Cashfree RPD creation failed", status_code=res.status_code, body=res.text)
-            raise ValueError(f"Cashfree RPD error: {res.text}")
+            
+            # Parse error response cleanly from Cashfree
+            error_msg = f"Status {res.status_code}"
+            try:
+                err_data = res.json()
+                error_msg = err_data.get("message") or err_data.get("error", {}).get("message") or res.text
+            except Exception:
+                error_msg = res.text or error_msg
+            logger.error("Cashfree RPD creation failed", status_code=res.status_code, error=error_msg)
+            raise ValueError(f"Cashfree RPD error: {error_msg}")
+    except ValueError:
+        raise
     except Exception as exc:
         logger.error("Failed to initiate Cashfree RPD", error=str(exc))
-        raise
+        raise ValueError(f"Unable to connect to Cashfree verification service: {str(exc)}")
 
 
 def get_reverse_penny_drop_status(verification_id: str) -> dict[str, Any]:
@@ -131,7 +220,8 @@ def get_reverse_penny_drop_status(verification_id: str) -> dict[str, Any]:
             "message": "Awaiting UPI payment of ₹1 by lawyer.",
         }
 
-    if not settings.cashfree_app_id or not settings.cashfree_secret_key:
+    app_id, secret = _get_verification_credentials()
+    if not app_id or not secret:
         return {
             "verification_id": verification_id,
             "status": "PENDING",
@@ -139,38 +229,50 @@ def get_reverse_penny_drop_status(verification_id: str) -> dict[str, Any]:
             "message": "Awaiting UPI payment confirmation.",
         }
 
-    # Live Cashfree API call
-    url = f"{settings.cashfree_verification_base_url}/reverse-penny-drop"
+    # Live Cashfree API call — try /remitter/status first, then /reverse-penny-drop
+    urls_to_try = [
+        f"{settings.cashfree_verification_base_url}/remitter/status",
+        f"{settings.cashfree_verification_base_url}/reverse-penny-drop",
+    ]
+    headers = _get_verification_headers()
+    params = {"verification_id": verification_id}
+
+    last_error = ""
     try:
         with httpx.Client(timeout=15.0) as client:
-            res = client.get(url, headers=_get_verification_headers(), params={"verification_id": verification_id})
-            if res.status_code == 200:
-                data = res.json()
-                status = (data.get("status") or "").upper()
-                remitter = data.get("remitter_details") or data.get("account_details") or data
+            for url in urls_to_try:
+                res = client.get(url, headers=headers, params=params)
+                if res.status_code == 200:
+                    data = res.json()
+                    status = (data.get("status") or "").upper()
+                    remitter = data.get("remitter_details") or data.get("account_details") or data
 
-                is_success = status == "SUCCESS"
-                return {
-                    "verification_id": verification_id,
-                    "reference_id": data.get("reference_id"),
-                    "status": status,
-                    "verified": is_success,
-                    "utr": remitter.get("utr") or data.get("utr"),
-                    "account_number": remitter.get("account_number") or remitter.get("bank_account") or data.get("account_number"),
-                    "ifsc": (remitter.get("ifsc") or data.get("ifsc") or "").upper(),
-                    "account_holder_name": remitter.get("name_at_bank") or remitter.get("account_holder_name") or data.get("name_at_bank"),
-                    "bank_name": remitter.get("bank_name") or data.get("bank_name") or "Verified Bank",
-                    "upi_vpa": remitter.get("vpa") or remitter.get("upi_id") or data.get("vpa"),
-                    "upi_name": remitter.get("upi_name") or remitter.get("name_at_bank"),
-                    "name_match_score": data.get("name_match_score", 100),
-                    "message": "Bank account verified successfully" if is_success else f"Status: {status}",
-                }
-            logger.error("Failed to fetch Cashfree RPD status", status_code=res.status_code, body=res.text)
+                    is_success = status == "SUCCESS"
+                    return {
+                        "verification_id": verification_id,
+                        "reference_id": str(data.get("ref_id") or data.get("reference_id") or ""),
+                        "status": status,
+                        "verified": is_success,
+                        "utr": remitter.get("utr") or data.get("utr"),
+                        "account_number": remitter.get("account_number") or remitter.get("bank_account") or data.get("account_number"),
+                        "ifsc": (remitter.get("ifsc") or data.get("ifsc") or "").upper(),
+                        "account_holder_name": remitter.get("name_at_bank") or remitter.get("account_holder_name") or data.get("name_at_bank"),
+                        "bank_name": remitter.get("bank_name") or data.get("bank_name") or "Verified Bank",
+                        "upi_vpa": remitter.get("vpa") or remitter.get("upi_id") or data.get("vpa"),
+                        "upi_name": remitter.get("upi_name") or remitter.get("name_at_bank"),
+                        "name_match_score": data.get("name_match_score", 100),
+                        "message": "Bank account verified successfully" if is_success else f"Status: {status}",
+                    }
+                elif res.status_code != 404:
+                    last_error = f"HTTP {res.status_code}: {res.text}"
+                    break
+
+            logger.error("Failed to fetch Cashfree RPD status", error=last_error)
             return {
                 "verification_id": verification_id,
-                "status": "ERROR",
+                "status": "PENDING",
                 "verified": False,
-                "message": f"Cashfree verification service error ({res.status_code}).",
+                "message": "Awaiting UPI payment confirmation.",
             }
     except Exception as exc:
         logger.error("Error querying Cashfree RPD status", error=str(exc))

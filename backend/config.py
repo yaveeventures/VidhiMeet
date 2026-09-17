@@ -24,13 +24,16 @@ class Settings(BaseSettings):
     data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
     trust_proxy: bool = False
     google_client_id: str = ""
-    # ── Cashfree Payment Gateway (PG) Configuration ───────────────────────────
+    # ── Cashfree Payment Gateway (PG) & Secure ID Configuration ───────────────
     cashfree_app_id: str = ""
     cashfree_secret_key: str = ""
     cashfree_api_version: str = "2026-01-01"
     cashfree_mode: str = "sandbox"  # "sandbox" or "production"
     cashfree_payout_app_id: str = ""
     cashfree_payout_secret_key: str = ""
+    cashfree_verification_app_id: str = ""
+    cashfree_verification_secret_key: str = ""
+    cashfree_public_key: str = ""
     dispute_window_days: int = 7
     # ── SMTP Email Configuration ───────────────────────────────────────────
     smtp_server: str = ""
