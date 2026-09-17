@@ -3847,6 +3847,16 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
   box-shadow: 0 4px 20px rgba(23, 60, 48, 0.04);
 }
 
+#payout-account-panel #bank-account-display {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  background: transparent !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
 #payout-account-panel .panel-head {
   display: flex;
   justify-content: space-between;
