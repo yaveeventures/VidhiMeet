@@ -103,19 +103,45 @@ log = structlog.get_logger("security")
 
 _REVOKED_JTIS: set[str] = set()
 
+# Separate sync Redis client for JTI blocklist operations.
+# rate_limiter.redis is async (redis.asyncio) — cannot be called from sync routes.
+_sync_redis = None
+
+def _get_sync_redis():
+    """Lazily create a synchronous Redis client for JTI blocklist checks."""
+    global _sync_redis
+    if _sync_redis is not None:
+        return _sync_redis
+    try:
+        import redis as redis_sync
+        url = settings.redis_url
+        if url and url != "redis://localhost:6379/0":
+            _sync_redis = redis_sync.from_url(
+                url,
+                decode_responses=True,
+                socket_connect_timeout=2,
+                socket_timeout=2,
+            )
+            _sync_redis.ping()  # Validate connection
+    except Exception as exc:
+        log.debug("Sync Redis client unavailable, JTI blocklist uses memory only", error=str(exc))
+        _sync_redis = None
+    return _sync_redis
+
+
 def revoke_jti(jti: str, exp_timestamp: float | None = None) -> None:
-    """Revoke a JWT by adding its jti to the revocation blocklist."""
+    """Revoke a JWT by adding its jti to the in-memory + Redis revocation blocklist."""
     if not jti:
         return
     _REVOKED_JTIS.add(jti)
     try:
-        from .rate_limiter import rate_limiter
-        if rate_limiter.redis:
+        r = _get_sync_redis()
+        if r:
             ttl = int(exp_timestamp - datetime.now(timezone.utc).timestamp()) if exp_timestamp else 3600
             if ttl > 0:
-                rate_limiter.redis.setex(f"revoked_jti:{jti}", ttl, "1")
-    except (AttributeError, TypeError, OSError) as exc:
-        log.debug("Redis revocation failed, using memory blocklist", error=str(exc))
+                r.setex(f"revoked_jti:{jti}", ttl, "1")
+    except Exception as exc:
+        log.debug("Redis JTI revocation failed, using memory blocklist", error=str(exc))
 
 
 def decode_token(token: str) -> dict:
@@ -123,17 +149,19 @@ def decode_token(token: str) -> dict:
         payload = jwt.decode(token, settings.jwt_secret, algorithms=["HS256"], issuer=settings.jwt_issuer)
         jti = payload.get("jti")
         if jti:
+            # In-memory check (always reliable within this process)
             if jti in _REVOKED_JTIS:
                 raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="token has been revoked")
+            # Sync Redis check (cross-process revocation, e.g. logout on another instance)
             try:
-                from .rate_limiter import rate_limiter
-                if rate_limiter.redis and rate_limiter.redis.get(f"revoked_jti:{jti}"):
-                    _REVOKED_JTIS.add(jti)
+                r = _get_sync_redis()
+                if r and r.get(f"revoked_jti:{jti}"):
+                    _REVOKED_JTIS.add(jti)  # Cache locally
                     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="token has been revoked")
             except HTTPException:
                 raise
-            except (AttributeError, TypeError, OSError) as exc:
-                log.debug("Redis revocation check failed, using memory blocklist", error=str(exc))
+            except Exception as exc:
+                log.debug("Redis JTI check failed, using memory blocklist", error=str(exc))
         return payload
     except jwt.PyJWTError as exc:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid or expired token") from exc
