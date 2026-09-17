@@ -13,13 +13,35 @@ settings = get_settings()
 
 
 def _sanitize_phone(phone: str | None) -> str:
-    """Format phone number for Cashfree requirements (10 digits)."""
+    """Format phone number for Cashfree requirements (10 digits, no country code)."""
     if not phone:
         return "9999999999"
     digits = re.sub(r"\D", "", phone)
     if len(digits) >= 10:
-        return digits[-10:]
+        return digits[-10:]  # Strip +91 country code if present, take last 10
     return digits.ljust(10, "0")
+
+
+def _phone_for_user(user: User) -> str:
+    """
+    Return a 10-digit phone for Cashfree order creation.
+    Priority: LawyerProfile.mobile_number → deterministic hash from email
+    (Cashfree requires a phone field; clients do not have a phone column yet.
+    TODO: add phone to User model and collect at registration/checkout.)
+    """
+    # For lawyers booking via their own account
+    profile = getattr(user, "lawyer_profile", None)
+    if profile:
+        raw = getattr(profile, "mobile_number", None)
+        if raw:
+            return _sanitize_phone(raw)
+
+    # Derive a consistent 10-digit number from email so each user gets a unique
+    # placeholder instead of everyone sharing 9999999999 on the checkout page.
+    digest = hashlib.sha256(user.email.encode()).hexdigest()
+    numeric = re.sub(r"[^0-9]", "", digest)
+    placeholder = ("9" + numeric)[:10].ljust(10, "0")
+    return placeholder
 
 
 def _get_cf_headers() -> dict[str, str]:
@@ -39,9 +61,9 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
     order_id = f"order_{booking.id.replace('-', '')}"
     amount = round(booking.amount_minor / 100.0, 2)
     customer_id = f"cust_{user.id.replace('-', '')[:30]}"
-    customer_phone = _sanitize_phone(getattr(user, "phone", None))
+    customer_phone = _phone_for_user(user)
     customer_email = user.email or "customer@vidhimeet.in"
-    customer_name = getattr(user, "name", None) or "Client"
+    customer_name = user.full_name or "Client"
 
     # In dev or test environments without API keys, return mock order
     if not settings.cashfree_app_id or not settings.cashfree_secret_key:
