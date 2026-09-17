@@ -39,10 +39,15 @@ def _generate_cf_signature(client_id: str) -> str | None:
         from cryptography.hazmat.primitives import serialization, hashes
         from cryptography.hazmat.primitives.asymmetric import padding
 
-        if not pub_key_raw.startswith("-----BEGIN"):
-            pub_key_pem = f"-----BEGIN PUBLIC KEY-----\n{pub_key_raw}\n-----END PUBLIC KEY-----"
-        else:
-            pub_key_pem = pub_key_raw
+        clean_body = (
+            "".join(pub_key_raw.split())
+            .replace("-----BEGINPUBLICKEY-----", "")
+            .replace("-----ENDPUBLICKEY-----", "")
+            .replace("-----BEGIN PUBLIC KEY-----", "")
+            .replace("-----END PUBLIC KEY-----", "")
+            .strip('\'"')
+        )
+        pub_key_pem = f"-----BEGIN PUBLIC KEY-----\n{clean_body}\n-----END PUBLIC KEY-----"
 
         timestamp = int(time.time())
         data = f"{client_id}.{timestamp}".encode("utf-8")
