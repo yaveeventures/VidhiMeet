@@ -700,8 +700,8 @@
     "semantic_hash": ""
   },
   "backend/services/invoice_service.py": {
-    "mtime": 1789735337.0590065,
-    "ast_hash": "12a2aee0c01994a55953b9bc800ef37c",
+    "mtime": 1789735779.8466852,
+    "ast_hash": "effbf192fe585e482561d1af4be2d489",
     "semantic_hash": ""
   },
   "tests/test_invoicing.py": {

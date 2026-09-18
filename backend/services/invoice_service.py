@@ -673,6 +673,14 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
 
     subject = f"VidhiMeet — Consultation Confirmed & Payment Receipt ({inv_number})"
 
+    receipt_url = f"https://vidhimeet.in/api/v1/bookings/{booking.id}/receipt"
+    try:
+        from ..security import create_access_token
+        view_token = create_access_token(client)
+        receipt_url = f"https://vidhimeet.in/api/v1/bookings/{booking.id}/receipt?token={view_token}"
+    except Exception:
+        pass
+
     html_content = f"""<!doctype html>
 <html>
 <head>
@@ -686,6 +694,7 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
     th, td {{ padding: 10px 12px; text-align: left; font-size: 13.5px; border-bottom: 1px solid #e2e8f0; }}
     th {{ background: #f8fafc; font-weight: 700; color: #475569; }}
     .total {{ font-weight: 800; font-size: 16px; color: #1b4332; }}
+    .btn {{ display: inline-block; background-color: #1b4332; color: #ffffff !important; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 14px; text-align: center; }}
     .footer {{ font-size: 11.5px; color: #64748b; margin-top: 24px; border-top: 1px solid #e2e8f0; padding-top: 16px; line-height: 1.5; }}
   </style>
 </head>
@@ -730,6 +739,12 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
       </tbody>
     </table>
 
+    <div style="text-align: center; margin: 26px 0 20px;">
+      <a href="{receipt_url}" target="_blank" class="btn">
+        🧾 View &amp; Print Official Tax Invoice (PDF)
+      </a>
+    </div>
+
     <p style="font-size: 13px; color: #334155;">
       You can access your secure video room 15 minutes before the scheduled time directly from your VidhiMeet dashboard.
     </p>
@@ -743,8 +758,11 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
 
     # Dispatch via Resend API or SMTP
     smtp_server = (getattr(settings, "smtp_server", "") or "").strip()
+    smtp_port = int(getattr(settings, "smtp_port", 587) or 587)
+    smtp_user = (getattr(settings, "smtp_user", "") or "").strip()
     smtp_password = (getattr(settings, "smtp_password", "") or "").strip()
 
+    # 1. Resend HTTPS API (Port 443) - reliable in serverless/PaaS
     if smtp_password.startswith("re_") or smtp_server.lower() == "smtp.resend.com":
         try:
             payload = {
@@ -768,5 +786,39 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
                     return True
         except Exception as exc:
             log.warning("Failed to send receipt email via Resend API", error=str(exc))
+
+    # 2. Standard SMTP Dispatch (Supports SSL port 465 and STARTTLS port 587)
+    if smtp_server and smtp_user:
+        try:
+            from email.message import EmailMessage
+            msg = EmailMessage()
+            msg["Subject"] = subject
+            msg["From"] = f"VidhiMeet <{from_email}>"
+            msg["To"] = to_email
+            msg.set_content(
+                f"Your consultation with Advocate {lawyer_name} is confirmed.\n"
+                f"Total Paid: ₹{total_paid:,.2f}\n"
+                f"Invoice / Receipt No: {inv_number}\n"
+                f"View and print your official Tax Invoice: {receipt_url}"
+            )
+            msg.add_alternative(html_content, subtype="html")
+
+            if smtp_port == 465:
+                context = ssl.create_default_context()
+                with smtplib.SMTP_SSL(smtp_server, smtp_port, context=context, timeout=10) as server:
+                    server.login(smtp_user, smtp_password)
+                    server.send_message(msg)
+            else:
+                with smtplib.SMTP(smtp_server, smtp_port, timeout=10) as server:
+                    server.starttls()
+                    server.login(smtp_user, smtp_password)
+                    server.send_message(msg)
+
+            log.info("Booking receipt email dispatched via SMTP", recipient=to_email, booking_id=booking.id)
+            return True
+        except Exception as exc:
+            log.warning("Failed to send receipt email via SMTP", error=str(exc))
+    else:
+        log.info("Booking receipt email generated (SMTP/Resend not configured in environment)", recipient=to_email, receipt_url=receipt_url)
 
     return False
