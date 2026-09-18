@@ -669,7 +669,7 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
     platform_fee = round(booking.client_platform_fee_minor / 100.0, 2)
     lawyer_name = lawyer.full_name if lawyer else (booking.lawyer_name or "Verified Advocate")
     scheduled_str = booking.starts_at.strftime("%d %b %Y, %I:%M %p UTC") if booking.starts_at else "Scheduled"
-    from_email = getattr(settings, "smtp_from_email", "no-reply@vidhimeet.in") or "no-reply@vidhimeet.in"
+    from_email = getattr(settings, "smtp_from_email", "support@vidhimeet.in") or "support@vidhimeet.in"
 
     subject = f"VidhiMeet — Consultation Confirmed & Payment Receipt ({inv_number})"
 
@@ -766,8 +766,9 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
     if smtp_password.startswith("re_") or smtp_server.lower() == "smtp.resend.com":
         try:
             payload = {
-                "from": f"VidhiMeet <{from_email}>",
+                "from": f"VidhiMeet Billing <{from_email}>",
                 "to": [to_email],
+                "reply_to": from_email,
                 "subject": subject,
                 "html": html_content,
             }
@@ -793,7 +794,8 @@ def send_booking_receipt_email(booking: Booking, client: User, lawyer: User | No
             from email.message import EmailMessage
             msg = EmailMessage()
             msg["Subject"] = subject
-            msg["From"] = f"VidhiMeet <{from_email}>"
+            msg["From"] = f"VidhiMeet Billing <{from_email}>"
+            msg["Reply-To"] = from_email
             msg["To"] = to_email
             msg.set_content(
                 f"Your consultation with Advocate {lawyer_name} is confirmed.\n"

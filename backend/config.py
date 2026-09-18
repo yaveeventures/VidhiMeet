@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     smtp_port: int = 587
     smtp_user: str = ""
     smtp_password: str = ""
-    smtp_from_email: str = "no-reply@vidhimeet.in"
+    smtp_from_email: str = "support@vidhimeet.in"
     # ── Company & Invoicing Details (Yavee Ventures Pvt Ltd) ─────────────────
     company_name: str = "Yavee Ventures Private Limited"
     company_brand: str = "VidhiMeet"

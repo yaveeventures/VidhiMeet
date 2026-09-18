@@ -82,11 +82,12 @@ def send_password_reset_email(to_email: str, raw_token: str):
     Sends password reset email containing the secret token/link.
     Uses Resend HTTPS API (Port 443) or standard SMTP configuration.
     """
-    from_email = getattr(settings, "smtp_from_email", "") or "no-reply@vidhimeet.in"
+    from_email = getattr(settings, "smtp_from_email", "") or "support@vidhimeet.in"
     reset_url = f"https://vidhimeet.in/?token={raw_token}"
     msg = EmailMessage()
     msg["Subject"] = "VidhiMeet — Password Reset Request"
-    msg["From"] = from_email
+    msg["From"] = f"VidhiMeet Security <{from_email}>"
+    msg["Reply-To"] = from_email
     msg["To"] = to_email
 
     plain_text = (
@@ -146,8 +147,9 @@ def send_password_reset_email(to_email: str, raw_token: str):
     if smtp_password.startswith("re_") or smtp_server.lower() == "smtp.resend.com":
         try:
             payload = {
-                "from": f"VidhiMeet <{from_email}>",
+                "from": f"VidhiMeet Security <{from_email}>",
                 "to": [to_email],
+                "reply_to": from_email,
                 "subject": "VidhiMeet — Password Reset Request",
                 "html": html_content,
                 "text": plain_text
