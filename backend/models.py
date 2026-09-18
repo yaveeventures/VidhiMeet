@@ -137,6 +137,7 @@ class LawyerBankAccount(Base):
 
 class Booking(Base):
     __tablename__ = "bookings"
+    __allow_unmapped__ = True
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     client_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
     lawyer_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
@@ -176,6 +177,10 @@ class Booking(Base):
     payout_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
+
+    # Transient properties for payment gateway checkout response
+    payment_session_id: str | None = None
+    cashfree_mode: str | None = None
 
     client: Mapped["User"] = relationship("User", foreign_keys=[client_id])
     lawyer: Mapped["User"] = relationship("User", foreign_keys=[lawyer_id])

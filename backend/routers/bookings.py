@@ -56,8 +56,10 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
     validate_intake(payload.practice, payload.intake)
     lawyer = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == payload.lawyer_id,
                                                     LawyerProfile.verified.is_(True)))
+    if not lawyer:
+        raise HTTPException(404, "verified lawyer not found for this practice")
     p_practices = [x.lower() for x in lawyer.practice] if isinstance(lawyer.practice, list) else [str(lawyer.practice).lower()]
-    if not lawyer or payload.practice.value.lower() not in p_practices:
+    if payload.practice.value.lower() not in p_practices:
         raise HTTPException(404, "verified lawyer not found for this practice")
 
     # ── Lawyer Availability & Working Hours Check ─────────────────────────────
@@ -130,7 +132,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
 
     try:
         loop = asyncio.get_running_loop()
-        loop.create_task(event_bus.publish_user(str(payload.lawyer_id), "BOOKING_CREATED", {
+        loop.create_task(event_bus.publish_user(payload.lawyer_id, "BOOKING_CREATED", {
             "booking_id": booking.id,
             "client_name": user.full_name,
             "practice": payload.practice,
@@ -268,13 +270,14 @@ def complete_booking(booking_id: str, user: User = Depends(current_user), db: Se
             raise HTTPException(400, f"Consultation duration is too short ({duration_mins:.1f} mins). A minimum call duration of 15 minutes is required before completing a booking.")
 
     now = datetime.now(timezone.utc)
+    deadline = now + timedelta(days=settings.dispute_window_days)
     booking.status = BookingStatus.COMPLETED
     booking.completed_at = now
-    booking.dispute_deadline_at = now + timedelta(days=settings.dispute_window_days)
+    booking.dispute_deadline_at = deadline
     booking.payout_status = "pending"
     audit(db, user, "booking.completed", "booking", booking_id, {
-        "completed_at": booking.completed_at.isoformat(),
-        "dispute_deadline_at": booking.dispute_deadline_at.isoformat(),
+        "completed_at": now.isoformat(),
+        "dispute_deadline_at": deadline.isoformat(),
     })
     db.commit()
     return {
@@ -399,7 +402,7 @@ def send_message(booking_id: str, payload: MessageCreate, user: User = Depends(c
     db.commit()
     db.refresh(msg)
 
-    recipient_user_id = str(booking.lawyer_id) if user.id == booking.client_id else str(booking.client_id)
+    recipient_user_id = booking.lawyer_id if user.id == booking.client_id else booking.client_id
     try:
         loop = asyncio.get_running_loop()
         loop.create_task(event_bus.publish_user(recipient_user_id, "CHAT_MESSAGE_RECEIVED", {
