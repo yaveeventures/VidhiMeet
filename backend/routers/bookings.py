@@ -391,8 +391,8 @@ def verify_payment(booking_id: str, user: User = Depends(current_user), db: Sess
 @router.get("/api/v1/bookings/{booking_id}/receipt", response_class=HTMLResponse)
 def get_booking_receipt(
     booking_id: str,
+    request: Request,
     token: str | None = None,
-    request: Request = None,
     db: Session = Depends(get_db)
 ):
     """
@@ -431,8 +431,8 @@ def get_booking_receipt(
 @router.get("/api/v1/bookings/{booking_id}/settlement-advice", response_class=HTMLResponse)
 def get_lawyer_settlement_advice(
     booking_id: str,
+    request: Request,
     token: str | None = None,
-    request: Request = None,
     db: Session = Depends(get_db)
 ):
     """
