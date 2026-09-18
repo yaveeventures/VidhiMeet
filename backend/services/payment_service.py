@@ -43,9 +43,9 @@ def _phone_for_user(user: User) -> str:
 
 
 def _get_cf_headers() -> dict[str, str]:
-    app_id = str(settings.cashfree_app_id or "").strip().strip("'\"")
-    secret_key = str(settings.cashfree_secret_key or "").strip().strip("'\"")
-    api_version = str(settings.cashfree_api_version or "2026-01-01").strip().strip("'\"")
+    app_id = settings.cashfree_app_id.strip().strip("'\"")
+    secret_key = settings.cashfree_secret_key.strip().strip("'\"")
+    api_version = settings.cashfree_api_version.strip().strip("'\"")
     return {
         "x-client-id": app_id,
         "x-client-secret": secret_key,
