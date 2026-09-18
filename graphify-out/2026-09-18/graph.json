@@ -140,7 +140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_db",
-      "community": 14,
+      "community": 26,
       "norm_label": "db.py"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "backend_db_safe_json_deserializer",
-      "community": 14,
+      "community": 26,
       "norm_label": "safe_json_deserializer()"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_db_get_db",
-      "community": 14,
+      "community": 68,
       "norm_label": "get_db()"
     },
     {
@@ -190,7 +190,7 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "backend_db_get_async_db",
-      "community": 14,
+      "community": 26,
       "norm_label": "get_async_db()"
     },
     {
@@ -250,7 +250,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_main",
-      "community": 14,
+      "community": 66,
       "norm_label": "main.py"
     },
     {
@@ -270,7 +270,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "fastapi",
-      "community": 14,
+      "community": 85,
       "norm_label": "fastapi"
     },
     {
@@ -400,7 +400,7 @@
       "source_location": "L424",
       "_origin": "ast",
       "id": "backend_main_metrics",
-      "community": 14,
+      "community": 66,
       "norm_label": "metrics()"
     },
     {
@@ -410,7 +410,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "backend_main_frontendstaticfiles",
-      "community": 17,
+      "community": 66,
       "norm_label": "frontendstaticfiles"
     },
     {
@@ -420,7 +420,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "staticfiles",
-      "community": 17,
+      "community": 66,
       "norm_label": "staticfiles"
     },
     {
@@ -600,7 +600,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "backend_models_lawyerprofile",
-      "community": 24,
+      "community": 68,
       "norm_label": "lawyerprofile"
     },
     {
@@ -620,7 +620,7 @@
       "source_location": "L138",
       "_origin": "ast",
       "id": "backend_models_booking",
-      "community": 68,
+      "community": 87,
       "norm_label": "booking"
     },
     {
@@ -630,7 +630,7 @@
       "source_location": "L190",
       "_origin": "ast",
       "id": "backend_models_booking_client_name",
-      "community": 68,
+      "community": 87,
       "norm_label": ".client_name()"
     },
     {
@@ -640,7 +640,7 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_name",
-      "community": 68,
+      "community": 87,
       "norm_label": ".lawyer_name()"
     },
     {
@@ -650,7 +650,7 @@
       "source_location": "L198",
       "_origin": "ast",
       "id": "backend_models_booking_base_price_minor",
-      "community": 68,
+      "community": 87,
       "norm_label": ".base_price_minor()"
     },
     {
@@ -660,7 +660,7 @@
       "source_location": "L205",
       "_origin": "ast",
       "id": "backend_models_booking_client_platform_fee_minor",
-      "community": 68,
+      "community": 87,
       "norm_label": ".client_platform_fee_minor()"
     },
     {
@@ -670,7 +670,7 @@
       "source_location": "L209",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_platform_fee_minor",
-      "community": 68,
+      "community": 87,
       "norm_label": ".lawyer_platform_fee_minor()"
     },
     {
@@ -680,7 +680,7 @@
       "source_location": "L214",
       "_origin": "ast",
       "id": "backend_models_booking_platform_fee_minor",
-      "community": 68,
+      "community": 87,
       "norm_label": ".platform_fee_minor()"
     },
     {
@@ -690,7 +690,7 @@
       "source_location": "L218",
       "_origin": "ast",
       "id": "backend_models_booking_lawyer_amount_minor",
-      "community": 68,
+      "community": 87,
       "norm_label": ".lawyer_amount_minor()"
     },
     {
@@ -700,7 +700,7 @@
       "source_location": "L222",
       "_origin": "ast",
       "id": "backend_models_booking_video_room",
-      "community": 68,
+      "community": 87,
       "norm_label": ".video_room()"
     },
     {
@@ -710,7 +710,7 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "backend_models_booking_room_name",
-      "community": 68,
+      "community": 87,
       "norm_label": ".room_name()"
     },
     {
@@ -790,7 +790,7 @@
       "source_location": "L293",
       "_origin": "ast",
       "id": "backend_models_review",
-      "community": 26,
+      "community": 86,
       "norm_label": "review"
     },
     {
@@ -800,7 +800,7 @@
       "source_location": "L308",
       "_origin": "ast",
       "id": "backend_models_review_client_name",
-      "community": 26,
+      "community": 86,
       "norm_label": ".client_name()"
     },
     {
@@ -940,7 +940,7 @@
       "source_location": "L432",
       "_origin": "ast",
       "id": "backend_models_platformfeedback",
-      "community": 26,
+      "community": 97,
       "norm_label": "platformfeedback"
     },
     {
@@ -950,7 +950,7 @@
       "source_location": "L443",
       "_origin": "ast",
       "id": "backend_models_platformfeedback_user_name",
-      "community": 26,
+      "community": 97,
       "norm_label": ".user_name()"
     },
     {
@@ -960,7 +960,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "backend_models_platformfeedback_user_email",
-      "community": 26,
+      "community": 97,
       "norm_label": ".user_email()"
     },
     {
@@ -970,7 +970,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "backend_models_voucher",
-      "community": 26,
+      "community": 86,
       "norm_label": "voucher"
     },
     {
@@ -980,7 +980,7 @@
       "source_location": "L465",
       "_origin": "ast",
       "id": "backend_models_voucher_user_email",
-      "community": 26,
+      "community": 86,
       "norm_label": ".user_email()"
     },
     {
@@ -1500,7 +1500,7 @@
       "source_location": "L520",
       "_origin": "ast",
       "id": "backend_routers_admin_get_ntp_status",
-      "community": 6,
+      "community": 17,
       "norm_label": "get_ntp_status()"
     },
     {
@@ -1590,7 +1590,7 @@
       "source_location": "L521",
       "_origin": "ast",
       "id": "backend_routers_admin_rationale_521",
-      "community": 6,
+      "community": 17,
       "norm_label": "cert-in / dpdp forensic compliance \u2014 ntp clock synchronization status.      retu"
     },
     {
@@ -1720,7 +1720,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "backend_routers_auth_enable_mfa",
-      "community": 17,
+      "community": 16,
       "norm_label": "enable_mfa()"
     },
     {
@@ -1810,7 +1810,7 @@
       "source_location": "L442",
       "_origin": "ast",
       "id": "backend_routers_auth_get_me",
-      "community": 17,
+      "community": 26,
       "norm_label": "get_me()"
     },
     {
@@ -1840,7 +1840,7 @@
       "source_location": "L125",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_125",
-      "community": 17,
+      "community": 16,
       "norm_label": "verify totp code and enable 2fa on the account."
     },
     {
@@ -1880,7 +1880,7 @@
       "source_location": "L443",
       "_origin": "ast",
       "id": "backend_routers_auth_rationale_443",
-      "community": 17,
+      "community": 26,
       "norm_label": "return basic profile info for the current user, including whether phone is set."
     },
     {
@@ -2140,7 +2140,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "backend_routers_bookings_create_booking",
-      "community": 87,
+      "community": 86,
       "norm_label": "create_booking()"
     },
     {
@@ -2190,7 +2190,7 @@
       "source_location": "L213",
       "_origin": "ast",
       "id": "backend_routers_bookings_document_upload",
-      "community": 86,
+      "community": 16,
       "norm_label": "document_upload()"
     },
     {
@@ -2200,7 +2200,7 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "backend_routers_bookings_confirm_document",
-      "community": 86,
+      "community": 16,
       "norm_label": "confirm_document()"
     },
     {
@@ -2260,7 +2260,7 @@
       "source_location": "L432",
       "_origin": "ast",
       "id": "backend_routers_bookings_get_lawyer_settlement_advice",
-      "community": 86,
+      "community": 87,
       "norm_label": "get_lawyer_settlement_advice()"
     },
     {
@@ -2350,7 +2350,7 @@
       "source_location": "L438",
       "_origin": "ast",
       "id": "backend_routers_bookings_rationale_438",
-      "community": 86,
+      "community": 87,
       "norm_label": "generate and serve print-ready advocate disbursement & settlement voucher.     s"
     },
     {
@@ -2640,7 +2640,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "backend_routers_drafting_download_drafting_document",
-      "community": 16,
+      "community": 14,
       "norm_label": "download_drafting_document()"
     },
     {
@@ -2650,7 +2650,7 @@
       "source_location": "L267",
       "_origin": "ast",
       "id": "backend_routers_drafting_drafting_document_presign",
-      "community": 14,
+      "community": 16,
       "norm_label": "drafting_document_presign()"
     },
     {
@@ -2820,7 +2820,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_events",
-      "community": 14,
+      "community": 85,
       "norm_label": "events.py"
     },
     {
@@ -2830,7 +2830,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_events_authenticate_stream_user",
-      "community": 14,
+      "community": 85,
       "norm_label": "authenticate_stream_user()"
     },
     {
@@ -2840,7 +2840,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_request",
-      "community": 14,
+      "community": 85,
       "norm_label": "request"
     },
     {
@@ -2850,7 +2850,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_events_py_session",
-      "community": 14,
+      "community": 85,
       "norm_label": "session"
     },
     {
@@ -2860,7 +2860,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "backend_routers_events_sse_event_stream",
-      "community": 14,
+      "community": 85,
       "norm_label": "sse_event_stream()"
     },
     {
@@ -2870,7 +2870,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_routers_events_rationale_35",
-      "community": 14,
+      "community": 85,
       "norm_label": "server-sent events (sse) stream endpoint for real-time notifications and ui auto"
     },
     {
@@ -2910,7 +2910,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "backend_routers_lawyers_invalidate_lawyers_cache",
-      "community": 14,
+      "community": 17,
       "norm_label": "invalidate_lawyers_cache()"
     },
     {
@@ -3040,7 +3040,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_public",
-      "community": 14,
+      "community": 97,
       "norm_label": "public.py"
     },
     {
@@ -3090,7 +3090,7 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "backend_routers_public_get_validation_rules",
-      "community": 10,
+      "community": 97,
       "norm_label": "get_validation_rules()"
     },
     {
@@ -3120,7 +3120,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "backend_routers_public_rationale_78",
-      "community": 10,
+      "community": 97,
       "norm_label": "public endpoint exposing canonical platform validation rules and constraints"
     },
     {
@@ -3130,7 +3130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_webhooks",
-      "community": 14,
+      "community": 87,
       "norm_label": "webhooks.py"
     },
     {
@@ -3140,7 +3140,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_webhooks_webhook_status",
-      "community": 14,
+      "community": 87,
       "norm_label": "webhook_status()"
     },
     {
@@ -3320,7 +3320,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "backend_sanitizer_sanitize_filename",
-      "community": 10,
+      "community": 16,
       "norm_label": "sanitize_filename()"
     },
     {
@@ -3330,7 +3330,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "backend_sanitizer_sanitize_key",
-      "community": 10,
+      "community": 14,
       "norm_label": "sanitize_key()"
     },
     {
@@ -3360,7 +3360,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "backend_sanitizer_rationale_57",
-      "community": 10,
+      "community": 16,
       "norm_label": "sanitize a filename by removing directory traversal patterns, null bytes,     an"
     },
     {
@@ -3370,7 +3370,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "backend_sanitizer_rationale_75",
-      "community": 10,
+      "community": 14,
       "norm_label": "sanitize object storage keys to prevent path traversal.     ensures relative key"
     },
     {
@@ -3420,7 +3420,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_schemas_registerrequest",
-      "community": 0,
+      "community": 10,
       "norm_label": "registerrequest"
     },
     {
@@ -3450,7 +3450,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "backend_schemas_registerrequest_no_admin_signup",
-      "community": 0,
+      "community": 10,
       "norm_label": ".no_admin_signup()"
     },
     {
@@ -3460,7 +3460,7 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "backend_schemas_registerrequest_validate_consent",
-      "community": 0,
+      "community": 10,
       "norm_label": ".validate_consent()"
     },
     {
@@ -3470,7 +3470,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "backend_schemas_registerrequest_must_be_adult",
-      "community": 19,
+      "community": 10,
       "norm_label": ".must_be_adult()"
     },
     {
@@ -3480,7 +3480,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "date",
-      "community": 19,
+      "community": 10,
       "norm_label": "date"
     },
     {
@@ -3760,7 +3760,7 @@
       "source_location": "L367",
       "_origin": "ast",
       "id": "backend_schemas_messagecreate",
-      "community": 0,
+      "community": 10,
       "norm_label": "messagecreate"
     },
     {
@@ -3790,7 +3790,7 @@
       "source_location": "L394",
       "_origin": "ast",
       "id": "backend_schemas_reviewcreate",
-      "community": 0,
+      "community": 10,
       "norm_label": "reviewcreate"
     },
     {
@@ -3860,7 +3860,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate",
-      "community": 0,
+      "community": 10,
       "norm_label": "bankaccountupdate"
     },
     {
@@ -3870,7 +3870,7 @@
       "source_location": "L461",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate_clean_pan",
-      "community": 0,
+      "community": 10,
       "norm_label": ".clean_pan()"
     },
     {
@@ -3890,7 +3890,7 @@
       "source_location": "L474",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate_validate_vpa",
-      "community": 0,
+      "community": 10,
       "norm_label": ".validate_vpa()"
     },
     {
@@ -4060,7 +4060,7 @@
       "source_location": "L671",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_key",
-      "community": 10,
+      "community": 14,
       "norm_label": ".clean_key()"
     },
     {
@@ -4070,7 +4070,7 @@
       "source_location": "L676",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_filename",
-      "community": 10,
+      "community": 16,
       "norm_label": ".clean_filename()"
     },
     {
@@ -4120,7 +4120,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "backend_schemas_rationale_75",
-      "community": 19,
+      "community": 10,
       "norm_label": "reject registration if the user is under 18 (dpdp act 2023, section 9)."
     },
     {
@@ -4130,7 +4130,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_security",
-      "community": 14,
+      "community": 85,
       "norm_label": "security.py"
     },
     {
@@ -4170,7 +4170,7 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "backend_security_get_sync_redis",
-      "community": 14,
+      "community": 85,
       "norm_label": "_get_sync_redis()"
     },
     {
@@ -4180,7 +4180,7 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "backend_security_revoke_jti",
-      "community": 14,
+      "community": 85,
       "norm_label": "revoke_jti()"
     },
     {
@@ -4190,7 +4190,7 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "backend_security_decode_token",
-      "community": 14,
+      "community": 85,
       "norm_label": "decode_token()"
     },
     {
@@ -4200,7 +4200,7 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "backend_security_current_user",
-      "community": 14,
+      "community": 16,
       "norm_label": "current_user()"
     },
     {
@@ -4210,7 +4210,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "httpauthorizationcredentials",
-      "community": 14,
+      "community": 85,
       "norm_label": "httpauthorizationcredentials"
     },
     {
@@ -4220,7 +4220,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_security_py_session",
-      "community": 14,
+      "community": 85,
       "norm_label": "session"
     },
     {
@@ -4230,7 +4230,7 @@
       "source_location": "L181",
       "_origin": "ast",
       "id": "backend_security_optional_user",
-      "community": 14,
+      "community": 85,
       "norm_label": "optional_user()"
     },
     {
@@ -4240,7 +4240,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "backend_security_require_roles",
-      "community": 14,
+      "community": 62,
       "norm_label": "require_roles()"
     },
     {
@@ -4320,7 +4320,7 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "backend_security_rationale_111",
-      "community": 14,
+      "community": 85,
       "norm_label": "lazily create a synchronous redis client for jti blocklist checks."
     },
     {
@@ -4330,7 +4330,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "backend_security_rationale_133",
-      "community": 14,
+      "community": 85,
       "norm_label": "revoke a jwt by adding its jti to the in-memory + redis revocation blocklist."
     },
     {
@@ -4350,7 +4350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_init",
-      "community": 85,
+      "community": 14,
       "norm_label": "__init__.py"
     },
     {
@@ -4360,7 +4360,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_auth_service",
-      "community": 26,
+      "community": 6,
       "norm_label": "auth_service.py"
     },
     {
@@ -4370,7 +4370,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "backend_services_auth_service_get_client_ip",
-      "community": 3,
+      "community": 92,
       "norm_label": "get_client_ip()"
     },
     {
@@ -4380,7 +4380,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_auth_service_py_request",
-      "community": 3,
+      "community": 92,
       "norm_label": "request"
     },
     {
@@ -4400,7 +4400,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_auth_service_py_session",
-      "community": 16,
+      "community": 26,
       "norm_label": "session"
     },
     {
@@ -4410,7 +4410,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "asyncsession",
-      "community": 16,
+      "community": 26,
       "norm_label": "asyncsession"
     },
     {
@@ -4440,7 +4440,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "backend_services_auth_service_rationale_14",
-      "community": 3,
+      "community": 92,
       "norm_label": "extract real client ip prioritizing cloudflare and reverse-proxy headers."
     },
     {
@@ -4470,7 +4470,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_booking_service",
-      "community": 86,
+      "community": 87,
       "norm_label": "booking_service.py"
     },
     {
@@ -4490,7 +4490,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "backend_services_booking_service_get_daily_meeting_details",
-      "community": 86,
+      "community": 87,
       "norm_label": "get_daily_meeting_details()"
     },
     {
@@ -4500,7 +4500,7 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "backend_services_booking_service_verify_daily_meeting_duration",
-      "community": 86,
+      "community": 87,
       "norm_label": "verify_daily_meeting_duration()"
     },
     {
@@ -4510,7 +4510,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "backend_services_booking_service_calculate_cancellation_policy",
-      "community": 86,
+      "community": 87,
       "norm_label": "calculate_cancellation_policy()"
     },
     {
@@ -4520,7 +4520,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_booking_service_py_datetime",
-      "community": 86,
+      "community": 87,
       "norm_label": "datetime"
     },
     {
@@ -4530,7 +4530,7 @@
       "source_location": "L160",
       "_origin": "ast",
       "id": "backend_services_booking_service_rationale_160",
-      "community": 86,
+      "community": 87,
       "norm_label": "calculate refund and penalty breakdown based on policy matrix:     - lawyer canc"
     },
     {
@@ -4710,7 +4710,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "backend_services_dispute_service_evaluate_daily_meeting_logs",
-      "community": 85,
+      "community": 87,
       "norm_label": "evaluate_daily_meeting_logs()"
     },
     {
@@ -4720,7 +4720,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_dispute_service_py_session",
-      "community": 85,
+      "community": 87,
       "norm_label": "session"
     },
     {
@@ -4730,7 +4730,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "backend_services_dispute_service_rationale_13",
-      "community": 85,
+      "community": 87,
       "norm_label": "queries daily.co rest api or room session logs for the booking's room,     calcu"
     },
     {
@@ -4760,7 +4760,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_event_bus",
-      "community": 86,
+      "community": 3,
       "norm_label": "event_bus.py"
     },
     {
@@ -4870,7 +4870,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_invoice_service",
-      "community": 85,
+      "community": 14,
       "norm_label": "invoice_service.py"
     },
     {
@@ -4880,7 +4880,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_services_invoice_service_get_invoice_number",
-      "community": 85,
+      "community": 14,
       "norm_label": "get_invoice_number()"
     },
     {
@@ -4890,7 +4890,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "backend_services_invoice_service_calculate_tax_breakdown",
-      "community": 85,
+      "community": 14,
       "norm_label": "calculate_tax_breakdown()"
     },
     {
@@ -4900,7 +4900,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "backend_services_invoice_service_generate_client_receipt_html",
-      "community": 85,
+      "community": 14,
       "norm_label": "generate_client_receipt_html()"
     },
     {
@@ -4910,7 +4910,7 @@
       "source_location": "L465",
       "_origin": "ast",
       "id": "backend_services_invoice_service_generate_lawyer_settlement_advice_html",
-      "community": 85,
+      "community": 14,
       "norm_label": "generate_lawyer_settlement_advice_html()"
     },
     {
@@ -4920,7 +4920,7 @@
       "source_location": "L657",
       "_origin": "ast",
       "id": "backend_services_invoice_service_send_booking_receipt_email",
-      "community": 85,
+      "community": 14,
       "norm_label": "send_booking_receipt_email()"
     },
     {
@@ -4930,7 +4930,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_services_invoice_service_rationale_18",
-      "community": 85,
+      "community": 14,
       "norm_label": "generate deterministic, collision-free invoice number."
     },
     {
@@ -4940,7 +4940,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "backend_services_invoice_service_rationale_26",
-      "community": 85,
+      "community": 14,
       "norm_label": "calculate gst breakdown for platform fee (inclusive of 18% gst).     sac code: 9"
     },
     {
@@ -4950,7 +4950,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_services_invoice_service_rationale_48",
-      "community": 85,
+      "community": 14,
       "norm_label": "generate print-ready, legally compliant html tax invoice & receipt for the clien"
     },
     {
@@ -4960,7 +4960,7 @@
       "source_location": "L466",
       "_origin": "ast",
       "id": "backend_services_invoice_service_rationale_466",
-      "community": 85,
+      "community": 14,
       "norm_label": "generate print-ready settlement advice (payout disbursement voucher) for advocat"
     },
     {
@@ -4970,7 +4970,7 @@
       "source_location": "L658",
       "_origin": "ast",
       "id": "backend_services_invoice_service_rationale_658",
-      "community": 85,
+      "community": 14,
       "norm_label": "send an automated booking confirmation and payment receipt email to the client"
     },
     {
@@ -4980,7 +4980,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_malware_scanner",
-      "community": 19,
+      "community": 85,
       "norm_label": "malware_scanner.py"
     },
     {
@@ -5440,7 +5440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_validation_constants",
-      "community": 10,
+      "community": 97,
       "norm_label": "validation_constants.py"
     },
     {
@@ -5450,7 +5450,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_validation_constants_get_public_validation_rules",
-      "community": 10,
+      "community": 97,
       "norm_label": "get_public_validation_rules()"
     },
     {
@@ -5460,7 +5460,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_validation_constants_rationale_1",
-      "community": 10,
+      "community": 97,
       "norm_label": "canonical validation constants and statutory limits for vidhimeet. serves as the"
     },
     {
@@ -5470,7 +5470,7 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "backend_validation_constants_rationale_62",
-      "community": 10,
+      "community": 97,
       "norm_label": "returns a dictionary of validation rules safe to expose publicly to frontend cli"
     },
     {
@@ -8678,7 +8678,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_q",
-      "community": 18,
+      "community": 21,
       "norm_label": "q()"
     },
     {
@@ -9528,7 +9528,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mt",
-      "community": 18,
+      "community": 21,
       "norm_label": "mt()"
     },
     {
@@ -9618,7 +9618,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_bt",
-      "community": 7,
+      "community": 18,
       "norm_label": "bt()"
     },
     {
@@ -9898,7 +9898,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pn",
-      "community": 21,
+      "community": 18,
       "norm_label": "pn()"
     },
     {
@@ -9908,7 +9908,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vn",
-      "community": 7,
+      "community": 18,
       "norm_label": "vn()"
     },
     {
@@ -9988,7 +9988,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_rn",
-      "community": 7,
+      "community": 21,
       "norm_label": "rn()"
     },
     {
@@ -10018,7 +10018,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_kn",
-      "community": 18,
+      "community": 5,
       "norm_label": "kn()"
     },
     {
@@ -10098,7 +10098,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_sr",
-      "community": 5,
+      "community": 7,
       "norm_label": "sr()"
     },
     {
@@ -10318,7 +10318,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_addeventprocessor",
-      "community": 5,
+      "community": 21,
       "norm_label": ".addeventprocessor()"
     },
     {
@@ -10578,7 +10578,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_kr",
-      "community": 5,
+      "community": 7,
       "norm_label": "kr()"
     },
     {
@@ -10728,7 +10728,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_na",
-      "community": 64,
+      "community": 7,
       "norm_label": "na()"
     },
     {
@@ -10738,7 +10738,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ra",
-      "community": 64,
+      "community": 7,
       "norm_label": "ra()"
     },
     {
@@ -16678,7 +16678,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_py",
-      "community": 92,
+      "community": 26,
       "norm_label": "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
     },
     {
@@ -16688,7 +16688,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_upgrade",
-      "community": 92,
+      "community": 26,
       "norm_label": "upgrade()"
     },
     {
@@ -16698,7 +16698,7 @@
       "source_location": "L118",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_versions_9b17288bd3cf_add_cancellation_fields_and_vouchers_downgrade",
-      "community": 92,
+      "community": 26,
       "norm_label": "downgrade()"
     },
     {
@@ -17078,7 +17078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_py",
-      "community": 14,
+      "community": 26,
       "norm_label": "reset_users.py"
     },
     {
@@ -17088,7 +17088,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_reset_users_rationale_1",
-      "community": 14,
+      "community": 26,
       "norm_label": "reset script: delete all users (lawyers, clients, admin) and related data, then"
     },
     {
@@ -17098,7 +17098,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_scripts_seed_py",
-      "community": 14,
+      "community": 26,
       "norm_label": "seed.py"
     },
     {
@@ -17456,7 +17456,7 @@
       "source_location": "L336",
       "_origin": "ast",
       "id": "tests_test_api_test_google_auth_lawyer_registration",
-      "community": 24,
+      "community": 68,
       "norm_label": "test_google_auth_lawyer_registration()"
     },
     {
@@ -17776,7 +17776,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "tests_test_cashfree_test_cashfree_webhook_endpoint",
-      "community": 87,
+      "community": 11,
       "norm_label": "test_cashfree_webhook_endpoint()"
     },
     {
@@ -18536,7 +18536,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_escrow_payout",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_escrow_payout.py"
     },
     {
@@ -18546,7 +18546,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_create_user",
-      "community": 40,
+      "community": 11,
       "norm_label": "_create_user()"
     },
     {
@@ -18556,7 +18556,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_py_session",
-      "community": 40,
+      "community": 11,
       "norm_label": "session"
     },
     {
@@ -18566,7 +18566,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_create_verified_bank",
-      "community": 40,
+      "community": 11,
       "norm_label": "_create_verified_bank()"
     },
     {
@@ -18576,7 +18576,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_create_lawyer_profile_with_pan",
-      "community": 40,
+      "community": 11,
       "norm_label": "_create_lawyer_profile_with_pan()"
     },
     {
@@ -18586,7 +18586,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_booking_completed_sets_deadline_and_pending_payout",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_booking_completed_sets_deadline_and_pending_payout()"
     },
     {
@@ -18596,7 +18596,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_py_testclient",
-      "community": 40,
+      "community": 11,
       "norm_label": "testclient"
     },
     {
@@ -18606,7 +18606,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_dispute_window_enforced",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_dispute_window_enforced()"
     },
     {
@@ -18616,7 +18616,7 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_dispute_within_window_allowed",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_dispute_within_window_allowed()"
     },
     {
@@ -18626,7 +18626,7 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_payout_sweep_processes_expired_bookings",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_payout_sweep_processes_expired_bookings()"
     },
     {
@@ -18636,7 +18636,7 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_payout_held_without_verified_bank",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_payout_held_without_verified_bank()"
     },
     {
@@ -18646,7 +18646,7 @@
       "source_location": "L235",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_payout_held_without_pan",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_payout_held_without_pan()"
     },
     {
@@ -18656,7 +18656,7 @@
       "source_location": "L271",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_draft_payout_triggers_on_approval",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_draft_payout_triggers_on_approval()"
     },
     {
@@ -18666,7 +18666,7 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_draft_payout_held_without_verified_bank",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_draft_payout_held_without_verified_bank()"
     },
     {
@@ -18676,7 +18676,7 @@
       "source_location": "L333",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_admin_force_release_endpoints",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_admin_force_release_endpoints()"
     },
     {
@@ -18686,7 +18686,7 @@
       "source_location": "L385",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_admin_pending_payouts_and_sweep_endpoints",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_admin_pending_payouts_and_sweep_endpoints()"
     },
     {
@@ -18696,7 +18696,7 @@
       "source_location": "L404",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_test_admin_resolve_dispute_release_triggers_payout",
-      "community": 40,
+      "community": 11,
       "norm_label": "test_admin_resolve_dispute_release_triggers_payout()"
     },
     {
@@ -18706,7 +18706,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_rationale_43",
-      "community": 40,
+      "community": 11,
       "norm_label": "creates a lawyerprofile with a pan number for the given lawyer user."
     },
     {
@@ -18716,7 +18716,7 @@
       "source_location": "L236",
       "_origin": "ast",
       "id": "tests_test_escrow_payout_rationale_236",
-      "community": 40,
+      "community": 11,
       "norm_label": "verify payouts are held when lawyer has a verified bank but no pan on file."
     },
     {
@@ -18726,7 +18726,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_invoicing",
-      "community": 85,
+      "community": 14,
       "norm_label": "test_invoicing.py"
     },
     {
@@ -18736,7 +18736,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "tests_test_invoicing_test_tax_breakdown_math",
-      "community": 85,
+      "community": 14,
       "norm_label": "test_tax_breakdown_math()"
     },
     {
@@ -18746,7 +18746,7 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "tests_test_invoicing_test_invoice_number_generation",
-      "community": 85,
+      "community": 14,
       "norm_label": "test_invoice_number_generation()"
     },
     {
@@ -18756,7 +18756,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "tests_test_invoicing_test_client_receipt_html_content",
-      "community": 85,
+      "community": 14,
       "norm_label": "test_client_receipt_html_content()"
     },
     {
@@ -18766,7 +18766,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "tests_test_invoicing_test_settlement_advice_html_content",
-      "community": 85,
+      "community": 14,
       "norm_label": "test_settlement_advice_html_content()"
     },
     {
@@ -18776,7 +18776,7 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "tests_test_invoicing_test_receipt_api_access_control",
-      "community": 98,
+      "community": 87,
       "norm_label": "test_receipt_api_access_control()"
     },
     {
@@ -18786,7 +18786,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_invoicing_py_testclient",
-      "community": 98,
+      "community": 87,
       "norm_label": "testclient"
     },
     {
@@ -18796,7 +18796,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "tests_test_invoicing_py_session",
-      "community": 98,
+      "community": 87,
       "norm_label": "session"
     },
     {
@@ -18806,7 +18806,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "tests_test_invoicing_rationale_20",
-      "community": 85,
+      "community": 14,
       "norm_label": "verify 18% inclusive gst calculation for platform fee."
     },
     {
@@ -18816,7 +18816,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "tests_test_invoicing_rationale_32",
-      "community": 85,
+      "community": 14,
       "norm_label": "verify deterministic invoice number structure."
     },
     {
@@ -18826,7 +18826,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "tests_test_invoicing_rationale_44",
-      "community": 85,
+      "community": 14,
       "norm_label": "verify client receipt html contains all legal, tax, and company requirements."
     },
     {
@@ -18836,7 +18836,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "tests_test_invoicing_rationale_96",
-      "community": 85,
+      "community": 14,
       "norm_label": "verify advocate settlement voucher contains payout calculations and intermediary"
     },
     {
@@ -18846,7 +18846,7 @@
       "source_location": "L134",
       "_origin": "ast",
       "id": "tests_test_invoicing_rationale_134",
-      "community": 98,
+      "community": 87,
       "norm_label": "test api endpoint authentication, authorization, and direct token query param."
     },
     {
@@ -19356,7 +19356,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_py",
-      "community": 14,
+      "community": 11,
       "norm_label": "test_payout_masking.py"
     },
     {
@@ -19366,7 +19366,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_test_payout_bank_account_encryption_at_rest",
-      "community": 62,
+      "community": 11,
       "norm_label": "test_payout_bank_account_encryption_at_rest()"
     },
     {
@@ -19396,7 +19396,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_rationale_9",
-      "community": 62,
+      "community": 11,
       "norm_label": "verify that both account_number and ifsc_code are encrypted at rest in the datab"
     },
     {
@@ -19546,7 +19546,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_realtime",
-      "community": 86,
+      "community": 11,
       "norm_label": "test_realtime.py"
     },
     {
@@ -19556,7 +19556,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_test_realtime_test_event_bus_pub_sub",
-      "community": 86,
+      "community": 11,
       "norm_label": "test_event_bus_pub_sub()"
     },
     {
@@ -19726,7 +19726,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "tests_test_security_critical_test_get_client_ip_priority",
-      "community": 3,
+      "community": 92,
       "norm_label": "test_get_client_ip_priority()"
     },
     {
@@ -19786,7 +19786,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "tests_test_security_critical_rationale_72",
-      "community": 3,
+      "community": 92,
       "norm_label": "verify get_client_ip correctly prioritizes cloudflare and reverse proxy headers."
     },
     {
@@ -19806,7 +19806,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_security_high",
-      "community": 14,
+      "community": 85,
       "norm_label": "test_security_high.py"
     },
     {
@@ -19826,7 +19826,7 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "tests_test_security_high_test_jwt_logout_and_revocation",
-      "community": 14,
+      "community": 85,
       "norm_label": "test_jwt_logout_and_revocation()"
     },
     {
@@ -19846,7 +19846,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "tests_test_security_high_rationale_66",
-      "community": 14,
+      "community": 85,
       "norm_label": "test logout endpoint revokes jwt access token (jti blocklist)."
     },
     {
@@ -19856,7 +19856,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_security_medium",
-      "community": 19,
+      "community": 85,
       "norm_label": "test_security_medium.py"
     },
     {
@@ -19876,7 +19876,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_rejects_malicious_pdf_js",
-      "community": 19,
+      "community": 85,
       "norm_label": "test_malware_scanner_rejects_malicious_pdf_js()"
     },
     {
@@ -19886,7 +19886,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_rejects_vba_macro_binaries",
-      "community": 19,
+      "community": 85,
       "norm_label": "test_malware_scanner_rejects_vba_macro_binaries()"
     },
     {
@@ -19896,7 +19896,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_accepts_clean_pdf",
-      "community": 19,
+      "community": 85,
       "norm_label": "test_malware_scanner_accepts_clean_pdf()"
     },
     {
@@ -19926,7 +19926,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_42",
-      "community": 19,
+      "community": 85,
       "norm_label": "verify scan_document_payload rejects pdf files containing embedded javascript tr"
     },
     {
@@ -19936,7 +19936,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_58",
-      "community": 19,
+      "community": 85,
       "norm_label": "verify scan_document_payload rejects office document archives containing vba mac"
     },
     {
@@ -19946,7 +19946,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_70",
-      "community": 19,
+      "community": 85,
       "norm_label": "verify scan_document_payload accepts clean pdf files."
     },
     {
@@ -42429,6 +42429,28 @@
       "weight": 1.0,
       "source": "tests_test_password_reset",
       "target": "backend_security_verify_password",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/invoice_service.py",
+      "source_location": "L678",
+      "weight": 1.0,
+      "source": "backend_services_invoice_service",
+      "target": "backend_security_create_access_token",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/services/invoice_service.py",
+      "source_location": "L679",
+      "weight": 1.0,
+      "source": "backend_services_invoice_service_send_booking_receipt_email",
+      "target": "backend_security_create_access_token",
       "confidence_score": 1.0
     },
     {
@@ -81063,5 +81085,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "345e73de6c62bbbd952d6b2d555271ce23765a90"
+  "built_at_commit": "2436bbf424c6b1ea2e12963bfcb07ccb2a029bfa"
 }

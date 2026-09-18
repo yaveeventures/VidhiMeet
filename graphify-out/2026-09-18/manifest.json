@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1789720666.907025,
-    "ast_hash": "2d2668c21f2f13543cece67408e45706",
+    "mtime": 1789738025.278681,
+    "ast_hash": "2940da0853ef5dd3b30025a36b6aed51",
     "semantic_hash": ""
   },
   "backend/db.py": {
@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "backend/routers/bookings.py": {
-    "mtime": 1789720979.9517524,
-    "ast_hash": "721bf0c86d0e6ee01d7e54796e0fe22c",
+    "mtime": 1789735955.5076706,
+    "ast_hash": "a31f369544cf47d9172897a1edab03a7",
     "semantic_hash": ""
   },
   "backend/routers/drafting.py": {
@@ -300,8 +300,8 @@
     "semantic_hash": ""
   },
   "backend/services/auth_service.py": {
-    "mtime": 1789127564.6644435,
-    "ast_hash": "da3106c15e16bcade1403795edf575b9",
+    "mtime": 1789738042.2594335,
+    "ast_hash": "be753dd58bd0209caf7518196744b3d7",
     "semantic_hash": ""
   },
   "backend/services/booking_service.py": {
@@ -700,8 +700,8 @@
     "semantic_hash": ""
   },
   "backend/services/invoice_service.py": {
-    "mtime": 1789735337.0590065,
-    "ast_hash": "12a2aee0c01994a55953b9bc800ef37c",
+    "mtime": 1789738060.8097248,
+    "ast_hash": "294eccd3c018d0e16f580713a89b600d",
     "semantic_hash": ""
   },
   "tests/test_invoicing.py": {

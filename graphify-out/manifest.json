@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1789720666.907025,
-    "ast_hash": "2d2668c21f2f13543cece67408e45706",
+    "mtime": 1789738025.278681,
+    "ast_hash": "2940da0853ef5dd3b30025a36b6aed51",
     "semantic_hash": ""
   },
   "backend/db.py": {
@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "backend/routers/bookings.py": {
-    "mtime": 1789720979.9517524,
-    "ast_hash": "721bf0c86d0e6ee01d7e54796e0fe22c",
+    "mtime": 1789735955.5076706,
+    "ast_hash": "a31f369544cf47d9172897a1edab03a7",
     "semantic_hash": ""
   },
   "backend/routers/drafting.py": {
@@ -170,8 +170,8 @@
     "semantic_hash": ""
   },
   "frontend/js/admin.js": {
-    "mtime": 1789539749.4065998,
-    "ast_hash": "4bc65584d89d8124a3d1dc258d5534de",
+    "mtime": 1789739420.5663779,
+    "ast_hash": "8e7af972205879800d2fa2133b5dfa8a",
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
@@ -230,8 +230,8 @@
     "semantic_hash": ""
   },
   "frontend/admin.html": {
-    "mtime": 1789407587.681556,
-    "ast_hash": "c85a7891d42e94e034ffe6956725936a",
+    "mtime": 1789739139.6592035,
+    "ast_hash": "6ccc76c2ba9ee6013a0b33e3ab6a71b1",
     "semantic_hash": ""
   },
   "frontend/index.html": {
@@ -300,8 +300,8 @@
     "semantic_hash": ""
   },
   "backend/services/auth_service.py": {
-    "mtime": 1789127564.6644435,
-    "ast_hash": "da3106c15e16bcade1403795edf575b9",
+    "mtime": 1789738042.2594335,
+    "ast_hash": "be753dd58bd0209caf7518196744b3d7",
     "semantic_hash": ""
   },
   "backend/services/booking_service.py": {
@@ -535,57 +535,57 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.min.js": {
-    "mtime": 1789734867.2852623,
+    "mtime": 1789739455.4188447,
     "ast_hash": "0fd5558af9c017bbd9112244d9ae6e6c",
     "semantic_hash": ""
   },
   "frontend/js/admin.min.js": {
-    "mtime": 1789734867.297343,
-    "ast_hash": "7c1aff1d04ca9687f9cff34589883b82",
+    "mtime": 1789739455.4309757,
+    "ast_hash": "9464ba576ce73e4ad93a1908e881527f",
     "semantic_hash": ""
   },
   "frontend/js/api-client.min.js": {
-    "mtime": 1789734867.304674,
+    "mtime": 1789739455.4381943,
     "ast_hash": "1d3bd77774378b5e15522e4e03918774",
     "semantic_hash": ""
   },
   "frontend/js/app.min.js": {
-    "mtime": 1789734867.3277245,
+    "mtime": 1789739455.4602044,
     "ast_hash": "959fd87402f5e9fe17b9fb0dbc92fc7e",
     "semantic_hash": ""
   },
   "frontend/js/cookie-consent.min.js": {
-    "mtime": 1789734867.3314176,
+    "mtime": 1789739455.4633873,
     "ast_hash": "31ae49c56cd7c8dbb845efdbce491c20",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.min.js": {
-    "mtime": 1789734867.3418345,
+    "mtime": 1789739455.4715698,
     "ast_hash": "1b9bbe3f5f65a87798aa436d262d3055",
     "semantic_hash": ""
   },
   "frontend/js/e2ee.min.js": {
-    "mtime": 1789734867.3436165,
+    "mtime": 1789739455.473271,
     "ast_hash": "c1893a293ec88cab478eef5234872eec",
     "semantic_hash": ""
   },
   "frontend/js/firebase-phone-auth.min.js": {
-    "mtime": 1789734867.34462,
+    "mtime": 1789739455.474998,
     "ast_hash": "c38dec4f6d2c3585f2ad813c014ecbd4",
     "semantic_hash": ""
   },
   "frontend/js/lawyer.min.js": {
-    "mtime": 1789734867.3667264,
+    "mtime": 1789739455.4987009,
     "ast_hash": "a473b18e39ec678e940a583803dc4d98",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.min.js": {
-    "mtime": 1789734867.373156,
+    "mtime": 1789739455.505687,
     "ast_hash": "493e61ce228708c0f1f949d7aa7181dd",
     "semantic_hash": ""
   },
   "frontend/js/realtime.min.js": {
-    "mtime": 1789734867.373156,
+    "mtime": 1789739455.507885,
     "ast_hash": "75828ee6fc96fd40a4eb696c0b7763e8",
     "semantic_hash": ""
   },
@@ -630,7 +630,7 @@
     "semantic_hash": ""
   },
   "frontend/js/validation-rules.min.js": {
-    "mtime": 1789734867.3834164,
+    "mtime": 1789739455.5104957,
     "ast_hash": "c52bac716c7c8c628848c20f9813d21b",
     "semantic_hash": ""
   },
@@ -700,8 +700,8 @@
     "semantic_hash": ""
   },
   "backend/services/invoice_service.py": {
-    "mtime": 1789735779.8466852,
-    "ast_hash": "effbf192fe585e482561d1af4be2d489",
+    "mtime": 1789738060.8097248,
+    "ast_hash": "294eccd3c018d0e16f580713a89b600d",
     "semantic_hash": ""
   },
   "tests/test_invoicing.py": {

@@ -37,18 +37,44 @@
     </div>
   </div>
 
+  <div class="stats payout-stats" style="margin-bottom: 24px;">
+    <article>
+      <p>Escrow In Hold</p>
+      <strong id="stat-payout-held">₹0</strong>
+      <small id="stat-payout-held-sub">Pending 7-day dispute window</small>
+    </article>
+    <article>
+      <p>Ready for Settlement</p>
+      <strong id="stat-payout-ready" style="color: #2e7d32;">₹0</strong>
+      <small id="stat-payout-ready-sub">Window cleared or approved</small>
+    </article>
+    <article>
+      <p>Advocate Bank Accounts</p>
+      <strong id="stat-payout-banks">0</strong>
+      <small id="stat-payout-banks-sub">0 verified accounts</small>
+    </article>
+    <article>
+      <p>Settlement Schedule</p>
+      <strong style="color: #1e4d3b;">Weekly (Fridays)</strong>
+      <small>Automated Cashfree Sweep</small>
+    </article>
+  </div>
+
   <div class="panel-head" style="margin-top: 16px;">
     <div>
       <h2 style="font-size: 18px; margin: 0 0 4px;">Pending Escrow Payouts</h2>
       <p style="margin: 0; font-size: 13px; color: var(--muted);">Completed consultations and approved drafts queued for payout</p>
     </div>
   </div>
-  <div class="panel table" id="pending-payouts-table" style="margin-bottom: 28px;"></div>
+  <div class="panel table" id="pending-payouts-table" style="margin-bottom: 32px;"></div>
 
-  <div class="panel-head">
+  <div class="panel-head" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
     <div>
-      <h2 style="font-size: 18px; margin: 0 0 4px;">Verified Lawyer Bank Accounts</h2>
-      <p style="margin: 0; font-size: 13px; color: var(--muted);">Encrypted at rest (AES-Fernet) and masked to safeguard banking privacy</p>
+      <h2 style="font-size: 18px; margin: 0 0 4px;">Registered Lawyer Bank Accounts</h2>
+      <p style="margin: 0; font-size: 13px; color: var(--muted);">Encrypted at rest (AES-256) and masked to safeguard banking privacy</p>
+    </div>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <label class="search" style="margin: 0; height: 38px; min-width: 280px;">⌕ <input id="bank-search" placeholder="Search lawyer, bank, account..."></label>
     </div>
   </div>
   <div class="panel table" id="payouts-table"></div>
