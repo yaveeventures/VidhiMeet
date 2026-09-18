@@ -1,7 +1,7 @@
 # Graph Report - VidhiMeet  (2026-09-18)
 
 ## Corpus Check
-- 120 files · ~198,019 words
+- 120 files · ~198,054 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6d91f7d5`
+- Built from commit: `00e3829d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -140,7 +140,7 @@ Nodes (89): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelect
 
 ### Community 3 - "lawyer.js"
 Cohesion: 0.05
-Nodes (56): Base, EncryptedString, now(), PlatformFeedback, datetime, Review, WebhookEvent, authenticate_stream_user() (+48 more)
+Nodes (50): Base, EncryptedString, now(), PlatformFeedback, datetime, Review, WebhookEvent, authenticate_stream_user() (+42 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.09
@@ -168,7 +168,7 @@ Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.05
-Nodes (68): get_db(), Booking, LawyerProfile, create_access_token(), hash_password(), Hash a raw password using Argon2id (OWASP #1 recommendation)., test_dispute_intermediary_shield(), test_dispute_workflow_matrix() (+60 more)
+Nodes (70): get_db(), LawyerProfile, create_access_token(), hash_password(), Hash a raw password using Argon2id (OWASP #1 recommendation)., test_dispute_intermediary_shield(), test_dispute_workflow_matrix(), GET /api/v1/admin/ntp-status must return 200 with the expected keys for an admin (+62 more)
 
 ### Community 12 - "Booking"
 Cohesion: 0.06
@@ -224,7 +224,7 @@ Nodes (7): cn(), _e(), nn(), on(), qe(), un(), ze()
 
 ### Community 26 - "_cors_response"
 Cohesion: 0.08
-Nodes (45): AsyncSession, AuditLog, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), get_me() (+37 more)
+Nodes (47): AsyncSession, AuditLog, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), get_me() (+39 more)
 
 ### Community 27 - "test_rate_limiter.py"
 Cohesion: 0.12
@@ -355,8 +355,8 @@ Cohesion: 0.36
 Nodes (12): checkInactivity(), ensureModalElement(), getLimits(), getStoredActiveTime(), hideWarningModal(), isCallImmune(), LexAPI, performLogout() (+4 more)
 
 ### Community 86 - "User"
-Cohesion: 0.07
-Nodes (51): Message, Voucher, booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document(), confirm_payment() (+43 more)
+Cohesion: 0.06
+Nodes (53): Booking, Message, Voucher, booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document() (+45 more)
 
 ### Community 90 - "test_error_handling.py"
 Cohesion: 0.29

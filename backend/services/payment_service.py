@@ -43,17 +43,20 @@ def _phone_for_user(user: User) -> str:
 
 
 def _get_cf_headers() -> dict[str, str]:
+    app_id = str(settings.cashfree_app_id or "").strip().strip("'\"")
+    secret_key = str(settings.cashfree_secret_key or "").strip().strip("'\"")
+    api_version = str(settings.cashfree_api_version or "2026-01-01").strip().strip("'\"")
     return {
-        "x-client-id": settings.cashfree_app_id,
-        "x-client-secret": settings.cashfree_secret_key,
-        "x-api-version": settings.cashfree_api_version,
+        "x-client-id": app_id,
+        "x-client-secret": secret_key,
+        "x-api-version": api_version,
         "Content-Type": "application/json",
     }
 
 
 def create_cashfree_order(booking: Booking, user: User, return_url: str | None = None) -> dict:
     """
-    Create an order in Cashfree PG V3 API (2023-08-01).
+    Create an order in Cashfree PG V3 API (2023-08-01 / 2026-01-01).
     Returns order details including payment_session_id.
     """
     order_id = f"order_{booking.id.replace('-', '')}"
@@ -101,6 +104,10 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
             data = resp.json()
             logger.info("Cashfree order created successfully", booking_id=booking.id, order_id=order_id)
             return data
+    except httpx.HTTPStatusError as exc:
+        err_detail = exc.response.text
+        logger.error("Cashfree API error", booking_id=booking.id, status=exc.response.status_code, body=err_detail)
+        raise RuntimeError(f"Payment gateway error: {exc.response.status_code} - {err_detail}") from exc
     except Exception as exc:
         logger.error("Failed to create Cashfree order", booking_id=booking.id, error=str(exc))
         raise RuntimeError(f"Payment gateway error: {exc}") from exc

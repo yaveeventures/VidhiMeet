@@ -831,7 +831,11 @@ async function collectPhone() {
       btn.disabled = true; btn.textContent = "Saving...";
 
       try {
-        await LexAPI.request("/auth/me/phone", { method: "PATCH", body: JSON.stringify({ phone: digits }) });
+        if (typeof LexAPI.updatePhone === "function") {
+          await LexAPI.updatePhone(digits);
+        } else if (typeof LexAPI.request === "function") {
+          await LexAPI.request("/auth/me/phone", { method: "PATCH", body: JSON.stringify({ phone: digits }) });
+        }
         sessionStorage.setItem("vm_phone_confirmed", "1");
         cleanup();
         resolve(true);

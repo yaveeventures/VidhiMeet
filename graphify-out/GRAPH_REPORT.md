@@ -1,7 +1,7 @@
 # Graph Report - VidhiMeet  (2026-09-18)
 
 ## Corpus Check
-- 120 files · ~198,054 words
+- 120 files · ~198,163 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `00e3829d`
+- Built from commit: `10743860`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -156,15 +156,15 @@ Nodes (47): check_clock_drift(), _get_servers(), ntp_now(), ntp_now_ist(), NtpSt
 
 ### Community 7 - "i"
 Cohesion: 0.05
-Nodes (40): as(), be(), ce(), de(), dr(), dt(), Es(), g() (+32 more)
+Nodes (55): as(), at(), Bo(), Bs(), ce(), cr(), de(), dr() (+47 more)
 
 ### Community 9 - "User"
 Cohesion: 0.07
-Nodes (10): B(), bn(), je(), N(), sn(), we(), wn(), Ws() (+2 more)
+Nodes (10): B(), bn(), je(), Jn(), N(), sn(), we(), wn() (+2 more)
 
 ### Community 10 - "N"
-Cohesion: 0.11
-Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
+Cohesion: 0.19
+Nodes (13): be(), ge(), ie(), le(), me(), ne(), oe(), qn() (+5 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.05
@@ -191,8 +191,8 @@ Cohesion: 0.14
 Nodes (34): User, admin_metrics(), force_release_booking_payout(), force_release_draft_payout(), get_admin_payouts(), get_audit_logs(), get_lawyer_verification_dossier(), get_ntp_status() (+26 more)
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
-Cohesion: 0.14
-Nodes (25): a(), Bt(), c(), cr(), d(), ee(), er(), f() (+17 more)
+Cohesion: 0.13
+Nodes (29): a(), Bt(), c(), d(), ee(), f(), gn(), gt() (+21 more)
 
 ### Community 19 - "_cors_response"
 Cohesion: 0.10

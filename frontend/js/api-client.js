@@ -475,6 +475,8 @@ const LexAPI = (() => {
       }
       return false;
     },
+    updatePhone: (phone) => request("/auth/me/phone", { method: "PATCH", body: JSON.stringify({ phone }) }),
+    request: (path, options) => request(path, options),
     resolveUploadUrl: (url) => resolveUploadUrl(url),
     getBaseUrl: () => getBaseUrl()
   };
