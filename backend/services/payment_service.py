@@ -65,6 +65,9 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
 
     # In dev or test environments without API keys, return mock order
     if not settings.cashfree_app_id or not settings.cashfree_secret_key:
+        if settings.cashfree_mode.lower() == "production" or settings.production:
+            logger.error("Cashfree keys missing in production environment", booking_id=booking.id)
+            raise RuntimeError("Payment gateway error: CASHFREE_APP_ID or CASHFREE_SECRET_KEY is missing in server environment.")
         logger.info("Cashfree keys missing, returning mock order session for testing/dev", booking_id=booking.id)
         return {
             "order_id": order_id,

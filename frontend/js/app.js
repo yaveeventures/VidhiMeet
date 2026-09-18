@@ -903,7 +903,15 @@ async function handlePay() {
     const res = await LexAPI.createBooking(payload);
 
     if (res.payment_session_id && window.Cashfree) {
-      const cfMode = (res.cashfree_mode || "sandbox").toLowerCase() === "production" ? "production" : "sandbox";
+      if (res.payment_session_id.startsWith("mock_session_")) {
+        console.warn("Dev mock session detected — bypassing Cashfree gateway.");
+        booking.id = res.id;
+        booking.starts_at = res.starts_at;
+        booking.step = 4;
+        bookingView();
+        return;
+      }
+      const cfMode = (res.cashfree_mode || "production").toLowerCase() === "production" ? "production" : "sandbox";
       const cashfree = window.Cashfree({ mode: cfMode });
       cashfree.checkout({
         paymentSessionId: res.payment_session_id,
@@ -915,6 +923,10 @@ async function handlePay() {
     if (res.payment_url) {
       window.location.href = res.payment_url;
       return;
+    }
+    
+    if (!res.payment_session_id) {
+      throw new Error("Payment session could not be initialized. Please try again or contact support.");
     }
     
     booking.id = res.id;

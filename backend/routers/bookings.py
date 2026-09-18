@@ -118,6 +118,8 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         booking.cashfree_order_id = cf_order.get("order_id")
     except Exception as exc:
         log.error("Failed to generate Cashfree order", error=str(exc))
+        if settings.cashfree_mode.lower() == "production" or settings.production:
+            raise HTTPException(502, f"Payment gateway error: {exc}")
 
     audit(db, user, "booking.created", "booking", booking.id, {"disclaimer": payload.disclaimer_version})
     db.commit(); db.refresh(booking)
