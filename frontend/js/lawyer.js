@@ -1236,6 +1236,11 @@ function renderSessionTable(type = "upcoming") {
         : `<button class="btn-action btn-complete disabled" disabled title="Consultation can only be completed during or after the scheduled session time">✓ Complete</button>`;
 
       actionBtn = `<div class="action-btn-group">${joinBtn}${completeBtn}</div>`;
+    } else if (s.status === "completed") {
+      actionBtn = `<div class="action-btn-group">
+        <button class="btn-action btn-details" data-intake-id="${s.id}">📋 Details</button>
+        <a href="${LexAPI.getSettlementAdviceUrl(s.id)}" target="_blank" rel="noopener" class="btn-action" style="text-decoration:none;display:inline-flex;align-items:center;gap:4px;" title="Disbursement Advice Voucher">🧾 Settlement</a>
+      </div>`;
     } else {
       actionBtn = `<button class="btn-action btn-details" data-intake-id="${s.id}">📋 View details</button>`;
     }
@@ -1887,7 +1892,7 @@ function renderEarnings() {
     if (b.status === "completed") {
       allTx.push({
         date: dateStr,
-        desc: `Consultation · ${b.client_name || "Client"}`,
+        desc: `Consultation · ${b.client_name || "Client"} <a href="${LexAPI.getSettlementAdviceUrl(b.id)}" target="_blank" rel="noopener" style="font-size:11.5px;color:var(--forest,#1e4d3b);text-decoration:underline;margin-left:6px;">🧾 Settlement Advice</a>`,
         status: "Released",
         amount: `+${money(b.base_price_minor ? b.base_price_minor / 100 : b.amount_minor / 100)}`,
         green: true

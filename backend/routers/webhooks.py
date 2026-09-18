@@ -103,5 +103,14 @@ async def cashfree_webhook(request: Request, db: Session = Depends(get_db)):
             booking.status = BookingStatus.CONFIRMED
             db.commit()
             log.info("Booking confirmed via Cashfree webhook", booking_id=booking.id, order_id=order_id)
+            try:
+                from ..models import User
+                from ..services import send_booking_receipt_email
+                client_user = db.get(User, booking.client_id)
+                lawyer_user = db.get(User, booking.lawyer_id)
+                if client_user:
+                    send_booking_receipt_email(booking, client_user, lawyer_user)
+            except Exception as exc:
+                log.warning("Webhook failed to dispatch receipt email", error=str(exc))
 
     return {"status": "OK"}

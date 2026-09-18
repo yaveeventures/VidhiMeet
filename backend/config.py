@@ -41,6 +41,13 @@ class Settings(BaseSettings):
     smtp_user: str = ""
     smtp_password: str = ""
     smtp_from_email: str = "no-reply@vidhimeet.in"
+    # ── Company & Invoicing Details (Yavee Ventures Pvt Ltd) ─────────────────
+    company_name: str = "Yavee Ventures Private Limited"
+    company_brand: str = "VidhiMeet"
+    company_gstin: str = "29AABCY1943Q1ZM"
+    company_address: str = "R.S NO. 212/1K, Plot No.13, Bombay Chawl, Gokak, Belgaum, Karnataka - 591307, India"
+    company_support_email: str = "support@vidhimeet.in"
+    company_pan: str = "AABCY1943Q"
     # ── Rate Limiting Configurable Settings ───────────────────────────────────
     rate_limit_enabled: bool = True
     rate_limit_auth_per_min: int = 10           # Stricter: Login, register, refresh, password reset

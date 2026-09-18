@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "backend/config.py": {
-    "mtime": 1789628472.7967815,
-    "ast_hash": "e39e3bdf807dbdbb953f4458d4b21bcc",
+    "mtime": 1789720666.907025,
+    "ast_hash": "2d2668c21f2f13543cece67408e45706",
     "semantic_hash": ""
   },
   "backend/db.py": {
@@ -145,8 +145,8 @@
     "semantic_hash": ""
   },
   "backend/routers/bookings.py": {
-    "mtime": 1789707054.0760539,
-    "ast_hash": "e9f0260fefbbe4be11883a617b756e21",
+    "mtime": 1789720979.9517524,
+    "ast_hash": "721bf0c86d0e6ee01d7e54796e0fe22c",
     "semantic_hash": ""
   },
   "backend/routers/drafting.py": {
@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "backend/routers/webhooks.py": {
-    "mtime": 1789401544.6775684,
-    "ast_hash": "d2e8d2cffd1e3d6a6a7ff10d90eebfce",
+    "mtime": 1789721022.4688148,
+    "ast_hash": "9160c6c88cff3bba3349c66d596da2e4",
     "semantic_hash": ""
   },
   "frontend/js/admin.js": {
@@ -175,13 +175,13 @@
     "semantic_hash": ""
   },
   "frontend/js/api-client.js": {
-    "mtime": 1789713573.6625307,
-    "ast_hash": "3950215544f7061ba187db6cd74fbebd",
+    "mtime": 1789721060.5397904,
+    "ast_hash": "caa9547a4b350efbc70b8086f4d493c7",
     "semantic_hash": ""
   },
   "frontend/js/app.js": {
-    "mtime": 1789713589.462086,
-    "ast_hash": "88e2cfb5ed1e79edf88e21ef4c06b409",
+    "mtime": 1789722269.5169919,
+    "ast_hash": "016528846222a598ed3dc984dad5d30c",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.js": {
@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1789636327.0750897,
-    "ast_hash": "412568a17f033fc64f3bb75b756be64b",
+    "mtime": 1789722330.6741533,
+    "ast_hash": "2e777df0f6e4fdf46dc9d24b152efb4b",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "backend/services/__init__.py": {
-    "mtime": 1789401457.3438852,
-    "ast_hash": "74aec2d3439655a3b38320c6c3ffd072",
+    "mtime": 1789720843.1344373,
+    "ast_hash": "5e7d330451de8b88ab488001726c0024",
     "semantic_hash": ""
   },
   "backend/services/auth_service.py": {
@@ -535,57 +535,57 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.min.js": {
-    "mtime": 1789713665.7466867,
+    "mtime": 1789734867.2852623,
     "ast_hash": "0fd5558af9c017bbd9112244d9ae6e6c",
     "semantic_hash": ""
   },
   "frontend/js/admin.min.js": {
-    "mtime": 1789713665.7584107,
+    "mtime": 1789734867.297343,
     "ast_hash": "7c1aff1d04ca9687f9cff34589883b82",
     "semantic_hash": ""
   },
   "frontend/js/api-client.min.js": {
-    "mtime": 1789713665.7634428,
-    "ast_hash": "ffff428e7debe98df297615edf7588ad",
+    "mtime": 1789734867.304674,
+    "ast_hash": "1d3bd77774378b5e15522e4e03918774",
     "semantic_hash": ""
   },
   "frontend/js/app.min.js": {
-    "mtime": 1789713665.7845843,
-    "ast_hash": "68afc62a7f1c17dcacb2965131c24cd2",
+    "mtime": 1789734867.3277245,
+    "ast_hash": "959fd87402f5e9fe17b9fb0dbc92fc7e",
     "semantic_hash": ""
   },
   "frontend/js/cookie-consent.min.js": {
-    "mtime": 1789713665.7876034,
+    "mtime": 1789734867.3314176,
     "ast_hash": "31ae49c56cd7c8dbb845efdbce491c20",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.min.js": {
-    "mtime": 1789713665.796662,
+    "mtime": 1789734867.3418345,
     "ast_hash": "1b9bbe3f5f65a87798aa436d262d3055",
     "semantic_hash": ""
   },
   "frontend/js/e2ee.min.js": {
-    "mtime": 1789713665.7985475,
+    "mtime": 1789734867.3436165,
     "ast_hash": "c1893a293ec88cab478eef5234872eec",
     "semantic_hash": ""
   },
   "frontend/js/firebase-phone-auth.min.js": {
-    "mtime": 1789713665.7995598,
+    "mtime": 1789734867.34462,
     "ast_hash": "c38dec4f6d2c3585f2ad813c014ecbd4",
     "semantic_hash": ""
   },
   "frontend/js/lawyer.min.js": {
-    "mtime": 1789713665.8237228,
-    "ast_hash": "823434ad2b8baef23c61f37698778155",
+    "mtime": 1789734867.3667264,
+    "ast_hash": "a473b18e39ec678e940a583803dc4d98",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.min.js": {
-    "mtime": 1789713665.8301575,
+    "mtime": 1789734867.373156,
     "ast_hash": "493e61ce228708c0f1f949d7aa7181dd",
     "semantic_hash": ""
   },
   "frontend/js/realtime.min.js": {
-    "mtime": 1789713665.8321655,
+    "mtime": 1789734867.373156,
     "ast_hash": "75828ee6fc96fd40a4eb696c0b7763e8",
     "semantic_hash": ""
   },
@@ -630,7 +630,7 @@
     "semantic_hash": ""
   },
   "frontend/js/validation-rules.min.js": {
-    "mtime": 1789713665.8342066,
+    "mtime": 1789734867.3834164,
     "ast_hash": "c52bac716c7c8c628848c20f9813d21b",
     "semantic_hash": ""
   },
@@ -697,6 +697,16 @@
   "scripts/add_rpd_columns.sql": {
     "mtime": 1789543501.8727067,
     "ast_hash": "8ddb8376413d5324cc27197bc4da65d6",
+    "semantic_hash": ""
+  },
+  "backend/services/invoice_service.py": {
+    "mtime": 1789735337.0590065,
+    "ast_hash": "12a2aee0c01994a55953b9bc800ef37c",
+    "semantic_hash": ""
+  },
+  "tests/test_invoicing.py": {
+    "mtime": 1789735376.4846845,
+    "ast_hash": "640c385ec8b6d6a032303957a0b360f7",
     "semantic_hash": ""
   }
 }

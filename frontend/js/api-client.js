@@ -477,6 +477,8 @@ const LexAPI = (() => {
     },
     updatePhone: (phone) => request("/auth/me/phone", { method: "PATCH", body: JSON.stringify({ phone }) }),
     request: (path, options) => request(path, options),
+    getBookingReceiptUrl: (bookingId) => `${getBaseUrl()}/bookings/${encodeURIComponent(bookingId)}/receipt?token=${encodeURIComponent(accessToken || "")}`,
+    getSettlementAdviceUrl: (bookingId) => `${getBaseUrl()}/bookings/${encodeURIComponent(bookingId)}/settlement-advice?token=${encodeURIComponent(accessToken || "")}`,
     resolveUploadUrl: (url) => resolveUploadUrl(url),
     getBaseUrl: () => getBaseUrl()
   };

@@ -4,6 +4,7 @@ from datetime import datetime, timedelta, timezone
 
 import structlog
 from fastapi import APIRouter, Depends, HTTPException, Request, Response
+from fastapi.responses import HTMLResponse
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -22,7 +23,8 @@ from ..security import current_user, require_roles
 from ..services import (
     audit, calculate_cancellation_policy, evaluate_daily_meeting_logs,
     get_daily_meeting_details, initiate_refund, presign_document, validate_intake,
-    create_cashfree_order, get_cashfree_order
+    create_cashfree_order, get_cashfree_order,
+    generate_client_receipt_html, generate_lawyer_settlement_advice_html, send_booking_receipt_email
 )
 from ..services.event_bus import event_bus
 
@@ -370,9 +372,101 @@ def verify_payment(booking_id: str, user: User = Depends(current_user), db: Sess
         booking.status = BookingStatus.CONFIRMED
         audit(db, user, "booking.payment_confirmed", "booking", booking_id, {"cashfree_order_id": booking.cashfree_order_id})
         db.commit()
+
+        # Dispatch automated booking confirmation and tax receipt email
+        try:
+            client_user = db.get(User, booking.client_id)
+            lawyer_user = db.get(User, booking.lawyer_id)
+            send_booking_receipt_email(booking, client_user or user, lawyer_user)
+        except Exception as exc:
+            log.warning("Failed to dispatch booking confirmation email", booking_id=booking_id, error=str(exc))
+
         return {"status": "success", "booking_status": booking.status.value}
     else:
         return {"status": "pending", "order_status": order_status, "booking_status": booking.status.value}
+
+
+# ── Tax Invoicing & Receipts ──────────────────────────────────────────────────
+
+@router.get("/api/v1/bookings/{booking_id}/receipt", response_class=HTMLResponse)
+def get_booking_receipt(
+    booking_id: str,
+    token: str | None = None,
+    request: Request = None,
+    db: Session = Depends(get_db)
+):
+    """
+    Generate and serve print-ready client Tax Invoice & Receipt (PDF format via print).
+    Supports Bearer header or ?token= query parameter for direct browser tab display.
+    """
+    from ..security import decode_token
+
+    raw_token = None
+    auth_header = request.headers.get("authorization") if request else None
+    if auth_header and auth_header.startswith("Bearer "):
+        raw_token = auth_header.split(" ")[1]
+    elif token:
+        raw_token = token
+
+    if not raw_token:
+        raise HTTPException(401, "Authentication required to view tax invoice & receipt.")
+
+    try:
+        payload = decode_token(raw_token)
+        auth_user = db.get(User, payload.get("sub"))
+    except Exception as exc:
+        raise HTTPException(401, "Invalid or expired session token") from exc
+
+    if not auth_user:
+        raise HTTPException(401, "User not found")
+
+    booking = booking_for_participant(booking_id, auth_user, db)
+    client_user = db.get(User, booking.client_id)
+    lawyer_user = db.get(User, booking.lawyer_id)
+
+    html_content = generate_client_receipt_html(booking, client_user or auth_user, lawyer_user)
+    return HTMLResponse(content=html_content, status_code=200)
+
+
+@router.get("/api/v1/bookings/{booking_id}/settlement-advice", response_class=HTMLResponse)
+def get_lawyer_settlement_advice(
+    booking_id: str,
+    token: str | None = None,
+    request: Request = None,
+    db: Session = Depends(get_db)
+):
+    """
+    Generate and serve print-ready Advocate Disbursement & Settlement Voucher.
+    Supports Bearer header or ?token= query parameter for direct browser tab display.
+    """
+    from ..security import decode_token
+
+    raw_token = None
+    auth_header = request.headers.get("authorization") if request else None
+    if auth_header and auth_header.startswith("Bearer "):
+        raw_token = auth_header.split(" ")[1]
+    elif token:
+        raw_token = token
+
+    if not raw_token:
+        raise HTTPException(401, "Authentication required to view settlement advice.")
+
+    try:
+        payload = decode_token(raw_token)
+        auth_user = db.get(User, payload.get("sub"))
+    except Exception as exc:
+        raise HTTPException(401, "Invalid or expired session token") from exc
+
+    if not auth_user:
+        raise HTTPException(401, "User not found")
+
+    booking = db.get(Booking, booking_id)
+    if not booking or (auth_user.role != Role.ADMIN and auth_user.id != booking.lawyer_id):
+        raise HTTPException(404, "Settlement advice not found or access restricted to assigned advocate.")
+
+    lawyer_user = db.get(User, booking.lawyer_id) or auth_user
+    html_content = generate_lawyer_settlement_advice_html(booking, lawyer_user)
+    return HTMLResponse(content=html_content, status_code=200)
 
 
 # ── Messages ──────────────────────────────────────────────────────────────────

@@ -20,6 +20,12 @@ from .cashfree_rpd_service import (
     get_reverse_penny_drop_status,
     mock_complete_reverse_penny_drop,
 )
+from .invoice_service import (
+    generate_client_receipt_html,
+    generate_lawyer_settlement_advice_html,
+    send_booking_receipt_email,
+    get_invoice_number,
+)
 
 __all__ = [
     "audit",
