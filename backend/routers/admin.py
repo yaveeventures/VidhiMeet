@@ -6,11 +6,11 @@ from sqlalchemy.orm import Session, selectinload
 
 from ..config import get_settings
 from ..db import get_db
-from ..models import AuditLog, Booking, BookingStatus, DraftingProposal, DraftingRequest, DraftingStatus, LawyerBankAccount, LawyerProfile, Role, User
+from ..models import AuditLog, Booking, BookingStatus, DraftingProposal, DraftingRequest, DraftingStatus, LawyerBankAccount, LawyerProfile, Role, User, Voucher
 from ..ntp_time import check_clock_drift
 from ..schemas import (
-    AdminPayoutAccountOut, AuditLogOut, BookingOut, DraftingRequestOut, LawyerOut,
-    PayoutSweepResult, PendingPayoutOut, PlatformFeedbackOut, UserOut
+    AdminPayoutAccountOut, AdminVoucherOut, AuditLogOut, BookingOut, DraftingRequestOut, LawyerOut,
+    PayoutSweepResult, PendingPayoutOut, PlatformFeedbackOut, PromoVoucherCreate, UserOut
 )
 from ..security import require_roles
 from ..services import audit, initiate_refund
@@ -647,4 +647,117 @@ def force_release_draft_payout(
     }, request=request)
     db.commit()
     return {"draft_id": draft_id, "payout": res}
+
+
+# ── Promotional Vouchers ──────────────────────────────────────────────────────
+
+@router.get("/vouchers", response_model=list[AdminVoucherOut])
+def list_vouchers(
+    _admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    """
+    List all vouchers (promotional campaigns and cancellation vouchers) with stats.
+    """
+    query = select(Voucher).order_by(Voucher.created_at.desc())
+    return list(db.scalars(query).all())
+
+
+@router.post("/vouchers", response_model=AdminVoucherOut, status_code=201)
+def create_promotional_voucher(
+    payload: PromoVoucherCreate,
+    request: Request,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    """
+    Create a new promotional discount voucher with admin-chosen discount %.
+    """
+    existing = db.scalar(select(Voucher).where(func.upper(Voucher.code) == payload.code.upper()))
+    if existing:
+        raise HTTPException(400, f"A voucher with code '{payload.code}' already exists.")
+
+    expires_at = payload.expires_at
+    if not expires_at:
+        from datetime import timedelta
+        expires_at = datetime.now(timezone.utc) + timedelta(days=30)
+    elif expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+
+    if expires_at <= datetime.now(timezone.utc):
+        raise HTTPException(422, "Expiry date must be in the future.")
+
+    voucher = Voucher(
+        code=payload.code.upper(),
+        discount_percent=payload.discount_percent,
+        expires_at=expires_at,
+        is_promotional=True,
+        max_uses=payload.max_uses,
+        times_used=0,
+        is_active=True,
+        description=payload.description,
+        created_by=admin.id,
+        used=False
+    )
+    db.add(voucher)
+    db.flush()
+
+    audit(db, admin, "admin.voucher_created", "voucher", voucher.id, {
+        "code": voucher.code,
+        "discount_percent": voucher.discount_percent,
+        "max_uses": voucher.max_uses,
+        "expires_at": voucher.expires_at.isoformat(),
+        "description": voucher.description
+    }, request=request)
+    db.commit()
+    db.refresh(voucher)
+    return voucher
+
+
+@router.patch("/vouchers/{voucher_id}/toggle", response_model=AdminVoucherOut)
+def toggle_voucher_status(
+    voucher_id: str,
+    active: bool = Query(...),
+    request: Request = None,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    """
+    Toggle active / paused status of a promotional voucher.
+    """
+    voucher = db.get(Voucher, voucher_id)
+    if not voucher:
+        raise HTTPException(404, "Voucher not found.")
+
+    voucher.is_active = active
+    audit(db, admin, "admin.voucher_status_toggled", "voucher", voucher.id, {
+        "code": voucher.code,
+        "is_active": active
+    }, request=request)
+    db.commit()
+    db.refresh(voucher)
+    return voucher
+
+
+@router.delete("/vouchers/{voucher_id}")
+def delete_voucher(
+    voucher_id: str,
+    request: Request = None,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    """
+    Delete a promotional voucher.
+    """
+    voucher = db.get(Voucher, voucher_id)
+    if not voucher:
+        raise HTTPException(404, "Voucher not found.")
+
+    code = voucher.code
+    db.delete(voucher)
+    audit(db, admin, "admin.voucher_deleted", "voucher", voucher_id, {
+        "code": code
+    }, request=request)
+    db.commit()
+    return {"message": f"Voucher '{code}' deleted successfully", "id": voucher_id}
 

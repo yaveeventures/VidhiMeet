@@ -1,16 +1,16 @@
 # Graph Report - VidhiMeet  (2026-09-19)
 
 ## Corpus Check
-- 122 files · ~202,968 words
+- 122 files · ~203,641 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 2110 nodes · 5661 edges · 98 communities (79 shown, 19 thin omitted)
-- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 631 edges (avg confidence: 0.58)
+- 2114 nodes · 5669 edges · 99 communities (81 shown, 18 thin omitted)
+- Extraction: 89% EXTRACTED · 11% INFERRED · 0% AMBIGUOUS · INFERRED: 635 edges (avg confidence: 0.58)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9034d093`
+- Built from commit: `c1e9edba`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -119,6 +119,8 @@
 10. `create_access_token()` - 48 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `test_admin_ntp_status_endpoint_accessible_by_admin()` --calls--> `get_db()`  [INFERRED]
+  tests/test_ntp.py → backend/db.py
 - `get_user_by_email()` --indirect_call--> `User`  [INFERRED]
   tests/test_drafting.py → backend/models.py
 - `test_admin_ntp_status_endpoint_accessible_by_admin()` --indirect_call--> `User`  [INFERRED]
@@ -127,29 +129,27 @@
   tests/test_cancellation.py → backend/models.py
 - `test_client_cancel_between_2h_and_24h_partial_refund()` --indirect_call--> `User`  [INFERRED]
   tests/test_cancellation.py → backend/models.py
-- `test_client_cancel_more_than_24h_full_refund()` --indirect_call--> `User`  [INFERRED]
-  tests/test_cancellation.py → backend/models.py
 
 ## Import Cycles
 - None detected.
 
-## Communities (98 total, 19 thin omitted)
+## Communities (99 total, 18 thin omitted)
 
 ### Community 0 - "main.py"
-Cohesion: 0.25
-Nodes (43): BookingStatus, DraftingStatus, Practice, ProposalStatus, str, Role, AdminPayoutAccountOut, AuditLogOut (+35 more)
+Cohesion: 0.19
+Nodes (48): BookingStatus, DraftingStatus, Practice, ProposalStatus, str, Role, lawyers(), Response (+40 more)
 
 ### Community 1 - "mr"
 Cohesion: 0.06
-Nodes (70): _attemptReconnect(), backdrop, booking, bookingView(), checkHashRoute(), checkSessionExpiryNotice(), _clearReconnectOverlay(), close() (+62 more)
+Nodes (72): _attemptReconnect(), backdrop, booking, bookingView(), checkHashRoute(), checkSessionExpiryNotice(), _clearReconnectOverlay(), close() (+64 more)
 
 ### Community 2 - "je"
 Cohesion: 0.06
 Nodes (89): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience(), calculateProfileCompleteness() (+81 more)
 
 ### Community 3 - "lawyer.js"
-Cohesion: 0.11
-Nodes (22): EncryptedString, _save_ws_message(), decrypt_field(), encrypt_field(), _get_fernet_cipher(), Enforce strict participant boundary isolation (BOLA/IDOR defense)., validate_participant_access(), get_client_ip() (+14 more)
+Cohesion: 0.10
+Nodes (24): EncryptedString, _save_ws_message(), decrypt_field(), encrypt_field(), _get_fernet_cipher(), Enforce strict participant boundary isolation (BOLA/IDOR defense)., validate_participant_access(), get_client_ip() (+16 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.09
@@ -172,12 +172,12 @@ Cohesion: 0.07
 Nodes (10): B(), bn(), je(), N(), sn(), we(), wn(), Ws() (+2 more)
 
 ### Community 10 - "N"
-Cohesion: 0.07
-Nodes (20): clean_string(), Trim whitespace and escape HTML control characters to prevent XSS attacks.     R, Sanitize raw user string input without HTML entity encoding to prevent double-es, sanitize_text(), BankAccountUpdate, DraftingRequestCreate, DraftSubmit, MessageCreate (+12 more)
+Cohesion: 0.05
+Nodes (32): create_review(), get_validation_rules(), Public endpoint exposing canonical platform validation rules and constraints, clean_string(), Trim whitespace and escape HTML control characters to prevent XSS attacks.     R, Sanitize raw user string input without HTML entity encoding to prevent double-es, sanitize_text(), BankAccountCreate (+24 more)
 
 ### Community 11 - "LawyerProfile"
-Cohesion: 0.05
-Nodes (59): FrontendStaticFiles, lifespan(), LawyerProfile, Rotate (invalidate) the lawyer's iCal token and issue a new one., rotate_ical_token(), public_stats(), Public endpoint — no auth required. Returns live platform statistics for the hom, create_access_token() (+51 more)
+Cohesion: 0.07
+Nodes (61): lifespan(), create_access_token(), hash_password(), Hash a raw password using Argon2id (OWASP #1 recommendation)., test_dispute_intermediary_shield(), test_dispute_workflow_matrix(), GET /api/v1/admin/ntp-status must return 200 with the expected keys for an admin, test_admin_ntp_status_endpoint_accessible_by_admin() (+53 more)
 
 ### Community 12 - "Booking"
 Cohesion: 0.06
@@ -188,28 +188,28 @@ Cohesion: 0.10
 Nodes (33): _auth(), Tests for Cashfree Reverse Penny Drop (RPD) bank account verification.  All test, Polling status before payment returns PENDING / verified=False., Polling status without a verification_id and no account returns 400., Simulating payment via mock-complete marks account verified., After mock-complete, bank account record has real account/IFSC, not PENDING., Mock-complete with no active session returns 400., Polling status after mock-complete returns SUCCESS and account details. (+25 more)
 
 ### Community 14 - "LawyerGrid"
-Cohesion: 0.07
-Nodes (41): get_settings(), rate_limit_dependency(), download_drafting_document(), drafting_document_mock_upload(), UploadFile, Helper to write a mock PDF file when serving local document downloads., _write_mock_pdf(), download_lawyer_document() (+33 more)
+Cohesion: 0.17
+Nodes (10): Verify that requests exceeding the auth limit return HTTP 429 with Retry-After h, Verify per-account and per-IP exponential backoff triggers after max free attemp, Verify that rate limit tier thresholds are dynamically configurable via Settings, Verify that 5 rate limit violations trigger a 15-minute 403 IP block., Verify that disabling rate_limit_enabled setting allows requests without limits., test_auth_exponential_backoff(), test_auth_rate_limiting(), test_configurable_tier_thresholds() (+2 more)
 
 ### Community 16 - "check_clock_drift"
-Cohesion: 0.19
-Nodes (23): DraftComment, DraftingProposal, DraftingRequest, accept_drafting_proposal(), accept_drafting_request(), add_draft_comment(), approve_draft(), cancel_drafting_request() (+15 more)
+Cohesion: 0.11
+Nodes (36): AsyncSession, DraftComment, DraftingProposal, DraftingRequest, accept_drafting_proposal(), accept_drafting_request(), add_draft_comment(), approve_draft() (+28 more)
 
 ### Community 17 - "admin.py"
-Cohesion: 0.14
-Nodes (34): User, admin_metrics(), force_release_booking_payout(), force_release_draft_payout(), get_admin_payouts(), get_audit_logs(), get_lawyer_verification_dossier(), get_ntp_status() (+26 more)
+Cohesion: 0.11
+Nodes (34): admin_metrics(), force_release_booking_payout(), force_release_draft_payout(), get_admin_payouts(), get_audit_logs(), get_lawyer_verification_dossier(), get_ntp_status(), get_platform_feedback() (+26 more)
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
 Cohesion: 0.14
 Nodes (25): a(), Bt(), c(), cr(), d(), ee(), er(), f() (+17 more)
 
 ### Community 19 - "_cors_response"
-Cohesion: 0.22
-Nodes (6): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), Verify structlog processor scrubs sensitive PII fields and credentials from log, test_structlog_pii_scrubbing_processor()
+Cohesion: 0.14
+Nodes (14): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), Perform deep structural payload inspection on document uploads.     Detects embe, scan_document_payload(), Verify structlog processor scrubs sensitive PII fields and credentials from log, Verify scan_document_payload rejects PDF files containing embedded JavaScript tr (+6 more)
 
 ### Community 20 - "ntp_now"
 Cohesion: 0.07
-Nodes (68): _attemptReconnect(), backdrop, booking, bookingView(), checkHashRoute(), checkSessionExpiryNotice(), _clearReconnectOverlay(), close() (+60 more)
+Nodes (70): _attemptReconnect(), backdrop, booking, bookingView(), checkHashRoute(), checkSessionExpiryNotice(), _clearReconnectOverlay(), close() (+62 more)
 
 ### Community 21 - "config.py"
 Cohesion: 0.12
@@ -224,8 +224,8 @@ Cohesion: 0.07
 Nodes (53): a(), be(), Bo(), Bt(), ce(), cr(), de(), dt() (+45 more)
 
 ### Community 24 - "PlatformFeedback"
-Cohesion: 0.16
-Nodes (19): booking_ics(), _build_ics_calendar(), _build_vevent(), _escape(), _fmt_dt(), _fold(), get_ical_token(), lawyer_ical_feed() (+11 more)
+Cohesion: 0.14
+Nodes (21): booking_ics(), _build_ics_calendar(), _build_vevent(), _escape(), _fmt_dt(), _fold(), get_ical_token(), lawyer_ical_feed() (+13 more)
 
 ### Community 25 - "models.py"
 Cohesion: 0.20
@@ -233,7 +233,7 @@ Nodes (7): cn(), _e(), nn(), on(), qe(), un(), ze()
 
 ### Community 26 - "_cors_response"
 Cohesion: 0.09
-Nodes (37): AsyncSession, Message, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), get_me() (+29 more)
+Nodes (39): Base, FrontendStaticFiles, AuditLog, PasswordResetToken, RefreshToken, Review, UserConsent, WebhookEvent (+31 more)
 
 ### Community 27 - "test_rate_limiter.py"
 Cohesion: 0.12
@@ -280,8 +280,8 @@ Cohesion: 0.36
 Nodes (7): main(), _print_human(), _query_server(), ntp_sync_check.py ----------------- CERT-In / DPDP NTP Compliance — Standalone c, Query a single NTP server, return structured result dict., Run NTP drift checks. Returns 0 on success, 1 on failure., run_check()
 
 ### Community 40 - "test_escrow_payout.py"
-Cohesion: 0.15
-Nodes (34): _call_cashfree_transfer(), get_payout_api_base_url(), get_pending_payouts(), initiate_lawyer_payout(), Any, Session, Cashfree Payouts and Escrow Release Service. Manages automated and administrativ, Dispatches payout to the lawyer for a completed booking or drafting request. (+26 more)
+Cohesion: 0.23
+Nodes (16): _call_cashfree_transfer(), get_payout_api_base_url(), get_pending_payouts(), initiate_lawyer_payout(), Any, Session, Cashfree Payouts and Escrow Release Service. Manages automated and administrativ, Dispatches payout to the lawyer for a completed booking or drafting request. (+8 more)
 
 ### Community 41 - "SSEClient"
 Cohesion: 0.25
@@ -324,12 +324,12 @@ Cohesion: 0.11
 Nodes (32): at(), Bo(), Bs(), Ds(), ea(), Fo(), Fs(), Go() (+24 more)
 
 ### Community 66 - "websocket_chat_endpoint"
-Cohesion: 0.19
+Cohesion: 0.18
 Nodes (16): _cors_response(), http_exception_handler(), integrity_exception_handler(), Exception, Request, Standardized HTTP Exception Handler:     - Private Layer: Log operational client, Validation Exception Handler:     - Private Layer: Log detailed field errors to, Database Integrity Exception Handler:     - Private Layer: Log full database err (+8 more)
 
 ### Community 68 - "Booking"
-Cohesion: 0.09
-Nodes (13): get_db(), AuditLog, GET /api/v1/admin/ntp-status must return 200 with the expected keys for an admin, test_admin_ntp_status_endpoint_accessible_by_admin(), test_google_auth_lawyer_registration(), test_lawyer_complete_booking_duration_restriction(), test_meeting_token_endpoint(), test_verified_reviews_only() (+5 more)
+Cohesion: 0.10
+Nodes (16): LawyerProfile, get_my_profile(), lawyer_document_confirm(), lawyer_document_presign(), _mask_pan(), Request, Session, update_my_profile() (+8 more)
 
 ### Community 69 - "test_document_vault.py"
 Cohesion: 0.05
@@ -376,20 +376,20 @@ Cohesion: 0.36
 Nodes (12): checkInactivity(), ensureModalElement(), getLimits(), getStoredActiveTime(), hideWarningModal(), isCallImmune(), LexAPI, performLogout() (+4 more)
 
 ### Community 85 - "__init__.py"
-Cohesion: 0.11
-Nodes (23): authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), current_user(), decode_token(), _get_sync_redis() (+15 more)
+Cohesion: 0.08
+Nodes (31): get_settings(), get_db(), Message, Voucher, rate_limit_dependency(), authenticate_stream_user(), Request, Session (+23 more)
 
 ### Community 86 - "User"
-Cohesion: 0.10
-Nodes (41): Review, Voucher, booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document(), confirm_payment() (+33 more)
+Cohesion: 0.11
+Nodes (36): User, get_me(), logout(), Response, Log out user and revoke current access token (jti) via Redis blocklist., Return basic profile info for the current user, including whether phone is set., booking_for_participant(), cancel_booking() (+28 more)
 
 ### Community 87 - "test_cashfree.py"
-Cohesion: 0.07
-Nodes (37): Booking, cashfree_webhook(), Request, Session, Handle Cashfree PG Webhook events (e.g. PAYMENT_SUCCESS_WEBHOOK, ORDER_PAID)., calculate_tax_breakdown(), generate_client_receipt_html(), generate_lawyer_settlement_advice_html() (+29 more)
+Cohesion: 0.08
+Nodes (24): Booking, now(), datetime, calculate_tax_breakdown(), generate_client_receipt_html(), generate_lawyer_settlement_advice_html(), get_invoice_number(), Generate deterministic, collision-free invoice number. (+16 more)
 
 ### Community 88 - "test_rate_limiter.py"
-Cohesion: 0.15
-Nodes (9): BankAccountCreate, Canonical Validation Constants and Statutory Limits for VidhiMeet. Serves as the, test_bank_account_vpa_validation(), Verify GET /api/v1/public/validation-rules returns correct schema., Verify IFSC and account number patterns work as expected in Pydantic models., Verify DPDP Act §9 minimum age validation in RegisterRequest., test_bank_account_validation_rules(), test_dpdpa_age_verification_validation() (+1 more)
+Cohesion: 0.13
+Nodes (21): cashfree_webhook(), Request, Session, Handle Cashfree PG Webhook events (e.g. PAYMENT_SUCCESS_WEBHOOK, ORDER_PAID)., create_cashfree_order(), get_cashfree_order(), _get_cf_headers(), initiate_refund() (+13 more)
 
 ### Community 90 - "test_error_handling.py"
 Cohesion: 0.29
@@ -398,6 +398,10 @@ Nodes (6): Verify HTTP exceptions return structured error format., Verify invali
 ### Community 91 - "Cashfree Payments — Integration Skills"
 Cohesion: 0.40
 Nodes (4): Cashfree Payments — Integration Skills, How to use these skills, Shared Conventions, Skill Map
+
+### Community 92 - "9b17288bd3cf_add_cancellation_fields_and_vouchers.py"
+Cohesion: 0.27
+Nodes (9): calculate_cancellation_policy(), get_daily_meeting_details(), datetime, Calculate refund and penalty breakdown based on policy matrix:     - Lawyer Canc, validate_intake(), verify_daily_meeting_duration(), evaluate_daily_meeting_logs(), Session (+1 more)
 
 ### Community 93 - "Cashfree Payments — Integration Skills"
 Cohesion: 0.40
@@ -416,23 +420,23 @@ Cohesion: 0.40
 Nodes (4): Cashfree Payments — Integration Skills, How to use these skills, Shared Conventions, Skill Map
 
 ### Community 97 - "submit_feedback"
-Cohesion: 0.09
-Nodes (15): Base, now(), PlatformFeedback, datetime, WebhookEvent, get_validation_rules(), health(), Session (+7 more)
+Cohesion: 0.29
+Nodes (5): PlatformFeedback, health(), Session, Public endpoint allowing users to submit platform feedback., submit_feedback()
 
 ## Knowledge Gaps
 - **170 isolated node(s):** `deploy_rules.sh script`, `colors`, `metrics`, `pendingLawyers`, `rejectedLawyers` (+165 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **19 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `admin.py` to `submit_feedback`, `websocket_chat_endpoint`, `lawyer.js`, `Booking`, `services.py`, `main.py`, `test_escrow_payout.py`, `LawyerProfile`, `LawyerGrid`, `check_clock_drift`, `__init__.py`, `User`, `test_cashfree.py`, `PlatformFeedback`, `_cors_response`, `80394484e25e_add_phonepe_transaction_id.py`, `Booking`?**
-  _High betweenness centrality (0.031) - this node is a cross-community bridge._
+- **Why does `User` connect `User` to `main.py`, `lawyer.js`, `main.py`, `N`, `LawyerProfile`, `check_clock_drift`, `admin.py`, `_cors_response`, `PlatformFeedback`, `_cors_response`, `80394484e25e_add_phonepe_transaction_id.py`, `services.py`, `test_escrow_payout.py`, `Booking`, `Booking`, `__init__.py`, `test_cashfree.py`, `test_rate_limiter.py`, `9b17288bd3cf_add_cancellation_fields_and_vouchers.py`, `submit_feedback`?**
+  _High betweenness centrality (0.035) - this node is a cross-community bridge._
 - **Why does `_launchDaily()` connect `Booking` to `mr`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._
-- **Why does `get_settings()` connect `LawyerGrid` to `submit_feedback`, `websocket_chat_endpoint`, `SlidingWindowRateLimiter`, `main.py`, `test_escrow_payout.py`, `LawyerProfile`, `check_clock_drift`, `admin.py`, `__init__.py`, `User`, `test_cashfree.py`, `Settings`, `_cors_response`, `T`, `Booking`?**
-  _High betweenness centrality (0.009) - this node is a cross-community bridge._
+- **Why does `get_settings()` connect `__init__.py` to `SlidingWindowRateLimiter`, `main.py`, `test_escrow_payout.py`, `T`, `check_clock_drift`, `admin.py`, `test_cashfree.py`, `test_rate_limiter.py`, `Settings`, `_cors_response`, `9b17288bd3cf_add_cancellation_fields_and_vouchers.py`, `Booking`?**
+  _High betweenness centrality (0.010) - this node is a cross-community bridge._
 - **Are the 30 inferred relationships involving `User` (e.g. with `FrontendStaticFiles` and `lifespan()`) actually correct?**
   _`User` has 30 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 17 inferred relationships involving `Booking` (e.g. with `Base` and `admin_metrics()`) actually correct?**

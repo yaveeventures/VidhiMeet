@@ -452,14 +452,20 @@ class Voucher(Base):
     __tablename__ = "vouchers"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
     code: Mapped[str] = mapped_column(String(30), unique=True, index=True)
-    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True)
+    user_id: Mapped[str | None] = mapped_column(ForeignKey("users.id"), nullable=True, index=True)
     discount_percent: Mapped[int] = mapped_column(Integer, default=20)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     used: Mapped[bool] = mapped_column(Boolean, default=False)
+    is_promotional: Mapped[bool] = mapped_column(Boolean, default=False)
+    max_uses: Mapped[int] = mapped_column(Integer, default=1)
+    times_used: Mapped[int] = mapped_column(Integer, default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    description: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    created_by: Mapped[str | None] = mapped_column(ForeignKey("users.id"), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
-    user: Mapped["User"] = relationship("User")
-
+    user: Mapped["User | None"] = relationship("User", foreign_keys=[user_id])
+    creator: Mapped["User | None"] = relationship("User", foreign_keys=[created_by])
 
     @property
     def user_email(self) -> str:

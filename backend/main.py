@@ -101,6 +101,14 @@ async def lifespan(app: FastAPI):
                     ("mfa_secret", "VARCHAR(64) NULL"),
                     ("phone", "TEXT NULL"),
                 ]),
+                ("vouchers", [
+                    ("is_promotional", "BOOLEAN DEFAULT FALSE"),
+                    ("max_uses", "INTEGER DEFAULT 1"),
+                    ("times_used", "INTEGER DEFAULT 0"),
+                    ("is_active", "BOOLEAN DEFAULT TRUE"),
+                    ("description", "VARCHAR(255) NULL"),
+                    ("created_by", "VARCHAR(36) NULL"),
+                ]),
             ]
             for tbl, cols in migration_plan:
                 for col_name, col_def in cols:
@@ -112,6 +120,13 @@ async def lifespan(app: FastAPI):
                         session.commit()
                     except Exception:
                         session.rollback()
+
+            if not is_sqlite:
+                try:
+                    session.execute(text("ALTER TABLE vouchers ALTER COLUMN user_id DROP NOT NULL;"))
+                    session.commit()
+                except Exception:
+                    session.rollback()
     except Exception as exc:
         log.info("Table migration notice", error=str(exc))
 

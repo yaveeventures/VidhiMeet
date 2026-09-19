@@ -401,9 +401,22 @@ const LexAPI = (() => {
     getPendingPayouts: () => request("/admin/payouts/pending"),
     triggerPayoutSweep: () => request("/admin/payouts/sweep", { method: "POST" }),
     forceReleaseBookingPayout: (id) => request(`/admin/payouts/bookings/${id}/release`, { method: "POST" }),
-    forceReleaseDraftPayout: (id) => request(`/admin/payouts/drafts/${id}/release`, { method: "POST" }),
     getPlatformFeedback: () => request("/admin/feedback"),
     submitPlatformFeedback: (payload) => request("/public/feedback", {method:"POST", body:JSON.stringify(payload)}),
+
+    // Promotional & Rebooking Vouchers
+    validateVoucher: (code, lawyerId, durationMinutes = 45) =>
+      request("/bookings/validate-voucher", {
+        method: "POST",
+        body: JSON.stringify({ code, lawyer_id: lawyerId, duration_minutes: durationMinutes })
+      }),
+    getAdminVouchers: () => request("/admin/vouchers"),
+    createAdminVoucher: (payload) =>
+      request("/admin/vouchers", { method: "POST", body: JSON.stringify(payload) }),
+    toggleAdminVoucher: (id, active) =>
+      request(`/admin/vouchers/${id}/toggle?active=${active}`, { method: "PATCH" }),
+    deleteAdminVoucher: (id) =>
+      request(`/admin/vouchers/${id}`, { method: "DELETE" }),
     
     // Reviews
     submitReview: (bookingId, rating, comment) => request(`/bookings/${bookingId}/review`, {method:"POST", body:JSON.stringify({rating, comment})}),

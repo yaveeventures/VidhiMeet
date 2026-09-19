@@ -131,6 +131,7 @@ class BookingCreate(BaseModel):
     intake: dict
     disclaimer_accepted: bool
     disclaimer_version: str = Field(default="2026-01", max_length=20)
+    voucher_code: str | None = Field(default=None, max_length=30)
 
 
 class DisputeCategory(str, enum.Enum):
@@ -233,8 +234,60 @@ class VoucherOut(BaseModel):
     discount_percent: int
     expires_at: datetime
     used: bool
+    is_promotional: bool = False
+    max_uses: int = 1
+    times_used: int = 0
+    is_active: bool = True
+    description: str | None = None
     created_at: datetime
     model_config = {"from_attributes": True}
+
+
+class PromoVoucherCreate(BaseModel):
+    code: str = Field(..., min_length=3, max_length=30)
+    discount_percent: int = Field(..., ge=1, le=100)
+    expires_at: datetime | None = None
+    max_uses: int = Field(default=1, ge=0)
+    description: str | None = Field(default=None, max_length=255)
+
+    @field_validator("code")
+    @classmethod
+    def format_code(cls, v: str) -> str:
+        code_clean = v.strip().upper()
+        if not code_clean.replace("-", "").replace("_", "").isalnum():
+            raise ValueError("Voucher code must contain only alphanumeric characters, dashes, or underscores")
+        return code_clean
+
+
+class AdminVoucherOut(BaseModel):
+    id: str
+    code: str
+    discount_percent: int
+    expires_at: datetime
+    used: bool
+    is_promotional: bool
+    max_uses: int
+    times_used: int
+    is_active: bool
+    description: str | None = None
+    created_at: datetime
+    model_config = {"from_attributes": True}
+
+
+class VoucherValidateRequest(BaseModel):
+    code: str = Field(..., min_length=2, max_length=30)
+    lawyer_id: str = Field(..., min_length=1)
+    duration_minutes: int = Field(default=45, ge=30, le=45)
+
+
+class VoucherValidateResponse(BaseModel):
+    valid: bool
+    code: str
+    discount_percent: int
+    original_amount_minor: int
+    discount_amount_minor: int
+    final_amount_minor: int
+    message: str
 
 
 

@@ -17,7 +17,8 @@ from ..models import (
 )
 from ..schemas import (
     BookingCreate, BookingOut, CancellationPreviewOut, CancellationRequest, CancellationResultOut,
-    DisputeCreate, MessageCreate, MessageOut, ReviewCreate, ReviewOut
+    DisputeCreate, MessageCreate, MessageOut, ReviewCreate, ReviewOut,
+    VoucherValidateRequest, VoucherValidateResponse
 )
 from ..security import current_user, require_roles
 from ..services import (
@@ -108,24 +109,67 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         raise HTTPException(409, "This time slot is already booked for this lawyer.")
 
     fee = max(3500, round(lawyer.hourly_fee_minor * 0.05))
+    total_minor = lawyer.hourly_fee_minor + fee
+
+    voucher = None
+    if payload.voucher_code:
+        code_clean = payload.voucher_code.strip().upper()
+        voucher = db.scalar(select(Voucher).where(func.upper(Voucher.code) == code_clean))
+        if not voucher:
+            raise HTTPException(400, "Invalid voucher code")
+        if not voucher.is_active:
+            raise HTTPException(400, "This voucher is inactive")
+        now_dt = datetime.now(timezone.utc)
+        exp = voucher.expires_at
+        if exp.tzinfo is None:
+            exp = exp.replace(tzinfo=timezone.utc)
+        if exp <= now_dt:
+            raise HTTPException(400, "This voucher has expired")
+        if voucher.used:
+            raise HTTPException(400, "This voucher has already been used")
+        if voucher.user_id and voucher.user_id != user.id:
+            raise HTTPException(403, "This voucher belongs to another user")
+        if voucher.max_uses > 0 and voucher.times_used >= voucher.max_uses:
+            raise HTTPException(400, "This promotional voucher has reached its redemption limit")
+
+        discount_minor = round(total_minor * (voucher.discount_percent / 100))
+        amount_minor = max(0, total_minor - discount_minor)
+    else:
+        amount_minor = total_minor
+
     booking = Booking(client_id=user.id, lawyer_id=payload.lawyer_id, practice=payload.practice,
                       starts_at=payload.starts_at, duration_minutes=payload.duration_minutes,
-                      amount_minor=lawyer.hourly_fee_minor + fee, intake=payload.intake,
+                      amount_minor=amount_minor, intake=payload.intake,
                       disclaimer_version=payload.disclaimer_version,
                       disclaimer_accepted_at=datetime.now(timezone.utc),
+                      voucher_code=voucher.code if voucher else None,
                       jitsi_room=f"lc-{secrets.token_urlsafe(24)}")
     db.add(booking); db.flush()
 
-    cf_order = {}
-    try:
-        cf_order = create_cashfree_order(booking, user)
-        booking.cashfree_order_id = cf_order.get("order_id")
-    except Exception as exc:
-        log.error("Failed to generate Cashfree order", error=str(exc))
-        if settings.cashfree_mode.lower() == "production" or settings.production:
-            raise HTTPException(502, f"Payment gateway error: {exc}")
+    if voucher:
+        voucher.times_used = (voucher.times_used or 0) + 1
+        if not voucher.is_promotional or (voucher.max_uses > 0 and voucher.times_used >= voucher.max_uses):
+            voucher.used = True
 
-    audit(db, user, "booking.created", "booking", booking.id, {"disclaimer": payload.disclaimer_version})
+    cf_order = {}
+    if amount_minor == 0:
+        # 100% Free promotional booking
+        booking.status = BookingStatus.CONFIRMED
+        booking.cashfree_order_id = "PROMO_FREE"
+    else:
+        try:
+            cf_order = create_cashfree_order(booking, user)
+            booking.cashfree_order_id = cf_order.get("order_id")
+        except Exception as exc:
+            log.error("Failed to generate Cashfree order", error=str(exc))
+            if settings.cashfree_mode.lower() == "production" or settings.production:
+                raise HTTPException(502, f"Payment gateway error: {exc}")
+
+    audit(db, user, "booking.created", "booking", booking.id, {
+        "disclaimer": payload.disclaimer_version,
+        "voucher_code": voucher.code if voucher else None,
+        "amount_minor": booking.amount_minor
+    })
     db.commit(); db.refresh(booking)
 
     # Attach transient properties for frontend checkout
@@ -144,6 +188,54 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         log.debug("Event bus notification for booking creation skipped", error=str(exc))
 
     return booking
+
+
+@router.post("/api/v1/bookings/validate-voucher", response_model=VoucherValidateResponse)
+def validate_voucher(
+    payload: VoucherValidateRequest,
+    user: User = Depends(current_user),
+    db: Session = Depends(get_db)
+):
+    """
+    Validate a promotional or rebooking voucher code and return the discounted breakdown.
+    """
+    code_clean = payload.code.strip().upper()
+    voucher = db.scalar(select(Voucher).where(func.upper(Voucher.code) == code_clean))
+    if not voucher:
+        raise HTTPException(404, "Invalid voucher code.")
+    if not voucher.is_active:
+        raise HTTPException(400, "This voucher is inactive.")
+
+    now_dt = datetime.now(timezone.utc)
+    exp = voucher.expires_at
+    if exp.tzinfo is None:
+        exp = exp.replace(tzinfo=timezone.utc)
+    if exp <= now_dt:
+        raise HTTPException(400, "This voucher has expired.")
+    if voucher.used:
+        raise HTTPException(400, "This voucher has already been redeemed.")
+    if voucher.user_id and voucher.user_id != user.id:
+        raise HTTPException(403, "This voucher is reserved for a different user.")
+    if voucher.max_uses > 0 and voucher.times_used >= voucher.max_uses:
+        raise HTTPException(400, "This promotional voucher has reached its redemption limit.")
+
+    # Calculate fee
+    lawyer = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == payload.lawyer_id))
+    hourly_fee = lawyer.hourly_fee_minor if lawyer else 0
+    platform_fee = max(3500, round(hourly_fee * 0.05)) if hourly_fee > 0 else 0
+    original_amount_minor = hourly_fee + platform_fee
+    discount_amount_minor = round(original_amount_minor * (voucher.discount_percent / 100))
+    final_amount_minor = max(0, original_amount_minor - discount_amount_minor)
+
+    return VoucherValidateResponse(
+        valid=True,
+        code=voucher.code,
+        discount_percent=voucher.discount_percent,
+        original_amount_minor=original_amount_minor,
+        discount_amount_minor=discount_amount_minor,
+        final_amount_minor=final_amount_minor,
+        message=f"{voucher.discount_percent}% promotional discount applied!"
+    )
 
 
 @router.get("/api/v1/bookings", response_model=list[BookingOut])
