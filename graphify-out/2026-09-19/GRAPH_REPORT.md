@@ -1,7 +1,7 @@
-# Graph Report - VidhiMeet  (2026-09-18)
+# Graph Report - VidhiMeet  (2026-09-19)
 
 ## Corpus Check
-- 122 files · ~202,958 words
+- 122 files · ~202,968 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `c72a9983`
+- Built from commit: `9034d093`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -172,8 +172,8 @@ Cohesion: 0.07
 Nodes (10): B(), bn(), je(), N(), sn(), we(), wn(), Ws() (+2 more)
 
 ### Community 10 - "N"
-Cohesion: 0.09
-Nodes (16): clean_string(), Trim whitespace and escape HTML control characters to prevent XSS attacks.     R, Sanitize raw user string input without HTML entity encoding to prevent double-es, sanitize_text(), BankAccountUpdate, DraftingRequestCreate, DraftSubmit, MessageCreate (+8 more)
+Cohesion: 0.07
+Nodes (20): clean_string(), Trim whitespace and escape HTML control characters to prevent XSS attacks.     R, Sanitize raw user string input without HTML entity encoding to prevent double-es, sanitize_text(), BankAccountUpdate, DraftingRequestCreate, DraftSubmit, MessageCreate (+12 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.05
@@ -204,8 +204,8 @@ Cohesion: 0.14
 Nodes (25): a(), Bt(), c(), cr(), d(), ee(), er(), f() (+17 more)
 
 ### Community 19 - "_cors_response"
-Cohesion: 0.13
-Nodes (13): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), FastAPI, Verify structlog processor scrubs sensitive PII fields and credentials from log, Verify scan_document_payload rejects PDF files containing embedded JavaScript tr, Verify scan_document_payload rejects Office document archives containing VBA mac (+5 more)
+Cohesion: 0.22
+Nodes (6): Sanitize sensitive PII keys and credentials before log rendering., Configure structured JSON logging for production or key-value console logging fo, scrub_sensitive_pii_processor(), setup_logging(), Verify structlog processor scrubs sensitive PII fields and credentials from log, test_structlog_pii_scrubbing_processor()
 
 ### Community 20 - "ntp_now"
 Cohesion: 0.07
@@ -232,8 +232,8 @@ Cohesion: 0.20
 Nodes (7): cn(), _e(), nn(), on(), qe(), un(), ze()
 
 ### Community 26 - "_cors_response"
-Cohesion: 0.10
-Nodes (36): AsyncSession, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), get_me(), google_auth() (+28 more)
+Cohesion: 0.09
+Nodes (37): AsyncSession, Message, PasswordResetToken, RefreshToken, UserConsent, enable_mfa(), forgot_password(), get_me() (+29 more)
 
 ### Community 27 - "test_rate_limiter.py"
 Cohesion: 0.12
@@ -376,8 +376,8 @@ Cohesion: 0.36
 Nodes (12): checkInactivity(), ensureModalElement(), getLimits(), getStoredActiveTime(), hideWarningModal(), isCallImmune(), LexAPI, performLogout() (+4 more)
 
 ### Community 85 - "__init__.py"
-Cohesion: 0.17
-Nodes (16): authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), current_user(), decode_token(), _get_sync_redis() (+8 more)
+Cohesion: 0.11
+Nodes (23): authenticate_stream_user(), Request, Session, Server-Sent Events (SSE) stream endpoint for real-time notifications and UI auto, sse_event_stream(), current_user(), decode_token(), _get_sync_redis() (+15 more)
 
 ### Community 86 - "User"
 Cohesion: 0.10
@@ -388,8 +388,8 @@ Cohesion: 0.07
 Nodes (37): Booking, cashfree_webhook(), Request, Session, Handle Cashfree PG Webhook events (e.g. PAYMENT_SUCCESS_WEBHOOK, ORDER_PAID)., calculate_tax_breakdown(), generate_client_receipt_html(), generate_lawyer_settlement_advice_html() (+29 more)
 
 ### Community 88 - "test_rate_limiter.py"
-Cohesion: 0.09
-Nodes (13): BankAccountCreate, Reject registration if the user is under 18 (DPDP Act 2023, Section 9)., RegisterRequest, Canonical Validation Constants and Statutory Limits for VidhiMeet. Serves as the, date, test_bank_account_vpa_validation(), test_register_request_name_sanitizing(), Verify GET /api/v1/public/validation-rules returns correct schema. (+5 more)
+Cohesion: 0.15
+Nodes (9): BankAccountCreate, Canonical Validation Constants and Statutory Limits for VidhiMeet. Serves as the, test_bank_account_vpa_validation(), Verify GET /api/v1/public/validation-rules returns correct schema., Verify IFSC and account number patterns work as expected in Pydantic models., Verify DPDP Act §9 minimum age validation in RegisterRequest., test_bank_account_validation_rules(), test_dpdpa_age_verification_validation() (+1 more)
 
 ### Community 90 - "test_error_handling.py"
 Cohesion: 0.29
@@ -416,8 +416,8 @@ Cohesion: 0.40
 Nodes (4): Cashfree Payments — Integration Skills, How to use these skills, Shared Conventions, Skill Map
 
 ### Community 97 - "submit_feedback"
-Cohesion: 0.08
-Nodes (16): Base, Message, now(), PlatformFeedback, datetime, WebhookEvent, get_validation_rules(), health() (+8 more)
+Cohesion: 0.09
+Nodes (15): Base, now(), PlatformFeedback, datetime, WebhookEvent, get_validation_rules(), health(), Session (+7 more)
 
 ## Knowledge Gaps
 - **170 isolated node(s):** `deploy_rules.sh script`, `colors`, `metrics`, `pendingLawyers`, `rejectedLawyers` (+165 more)
@@ -427,7 +427,7 @@ Nodes (16): Base, Message, now(), PlatformFeedback, datetime, WebhookEvent, get_
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `admin.py` to `submit_feedback`, `websocket_chat_endpoint`, `lawyer.js`, `Booking`, `services.py`, `main.py`, `test_escrow_payout.py`, `LawyerProfile`, `LawyerGrid`, `check_clock_drift`, `_cors_response`, `__init__.py`, `User`, `test_cashfree.py`, `PlatformFeedback`, `_cors_response`, `80394484e25e_add_phonepe_transaction_id.py`, `Booking`?**
+- **Why does `User` connect `admin.py` to `submit_feedback`, `websocket_chat_endpoint`, `lawyer.js`, `Booking`, `services.py`, `main.py`, `test_escrow_payout.py`, `LawyerProfile`, `LawyerGrid`, `check_clock_drift`, `__init__.py`, `User`, `test_cashfree.py`, `PlatformFeedback`, `_cors_response`, `80394484e25e_add_phonepe_transaction_id.py`, `Booking`?**
   _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Why does `_launchDaily()` connect `Booking` to `mr`?**
   _High betweenness centrality (0.010) - this node is a cross-community bridge._

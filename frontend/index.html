@@ -32,7 +32,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/design-tokens.min.css">
-  <link rel="stylesheet" href="css/styles.min.css?v=rev-44">
+  <link rel="stylesheet" href="css/styles.min.css?v=rev-45">
   <link rel="stylesheet" href="css/cookie-consent.min.css">
   <script>
     (function() {
@@ -221,11 +221,24 @@
       <div class="heading">
         <div>
           <h2>Meet your legal experts</h2>
-        </div><button class="link" id="view-all-lawyers-btn">View all lawyers →</button>
+        </div>
+        <div class="carousel-controls-group">
+          <button class="link" id="view-all-lawyers-btn">View all lawyers →</button>
+          <div class="carousel-arrow-buttons" aria-label="Lawyer carousel navigation">
+            <button type="button" class="carousel-nav-btn prev" id="lawyer-carousel-prev" aria-label="Previous lawyers" title="Previous" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="carousel-nav-btn next" id="lawyer-carousel-next" aria-label="Next lawyers" title="Next">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
       </div>
       <div class="filters"><button class="active" data-filter="all">All experts</button><button
           data-filter="today">Available today</button><button data-filter="low">Under ₹2,000</button></div>
-      <div class="lawyer-grid" id="lawyer-grid"></div>
+      <div class="lawyer-carousel-container">
+        <div class="lawyer-grid lawyer-carousel-track" id="lawyer-grid"></div>
+      </div>
     </section>
 
     <section class="how" id="how">
@@ -431,7 +444,7 @@
   <script src="js/daily-js.min.js" defer></script>
   <script src="js/pdf-annotator.min.js?v=rev-44" defer></script>
   <script src="js/realtime.min.js?v=rev-44" defer></script>
-  <script src="js/app.min.js?v=rev-44" defer></script>
+  <script src="js/app.min.js?v=rev-45" defer></script>
 </body>
 
 </html>

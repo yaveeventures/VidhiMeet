@@ -311,6 +311,53 @@ async function loadLawyers() {
 }
 
 
+function updateLawyerCarouselButtons() {
+  const track = document.getElementById("lawyer-grid");
+  const prevBtn = document.getElementById("lawyer-carousel-prev");
+  const nextBtn = document.getElementById("lawyer-carousel-next");
+  if (!track || !prevBtn || !nextBtn) return;
+  
+  const maxScroll = track.scrollWidth - track.clientWidth;
+  prevBtn.disabled = track.scrollLeft <= 4;
+  nextBtn.disabled = maxScroll <= 4 || track.scrollLeft >= maxScroll - 6;
+}
+
+function initLawyerCarousel() {
+  const track = document.getElementById("lawyer-grid");
+  const prevBtn = document.getElementById("lawyer-carousel-prev");
+  const nextBtn = document.getElementById("lawyer-carousel-next");
+  if (!track) return;
+
+  if (prevBtn) {
+    prevBtn.onclick = () => {
+      const firstCard = track.querySelector(".lawyer-card");
+      const cardWidth = firstCard ? firstCard.offsetWidth + 20 : 340;
+      track.scrollBy({ left: -cardWidth, behavior: "smooth" });
+    };
+  }
+
+  if (nextBtn) {
+    nextBtn.onclick = () => {
+      const firstCard = track.querySelector(".lawyer-card");
+      const cardWidth = firstCard ? firstCard.offsetWidth + 20 : 340;
+      track.scrollBy({ left: cardWidth, behavior: "smooth" });
+    };
+  }
+
+  track.addEventListener("scroll", updateLawyerCarouselButtons, { passive: true });
+  window.addEventListener("resize", updateLawyerCarouselButtons, { passive: true });
+
+  // Keyboard navigation for View All card
+  track.addEventListener("keydown", (e) => {
+    if ((e.key === "Enter" || e.key === " ") && e.target.closest("#carousel-view-all-card")) {
+      e.preventDefault();
+      window.location.hash = "all-lawyers-view";
+    }
+  });
+
+  updateLawyerCarouselButtons();
+}
+
 function render() {
   if (isLawyersLoading && !lawyers.length) {
     if (grid) renderLawyerSkeletons(grid, 3);
@@ -327,36 +374,65 @@ function render() {
   if (filter === "top") list = list.filter(x => x.rating >= 4.9);
   if (filter === "low") list = list.filter(x => x.fee < 2000);
   
-  const homeList = list.slice(0, 3);
+  // Display max 10 lawyers in the home carousel slider
+  const homeList = list.slice(0, 10);
   
   if (!grid) return;
-  grid.innerHTML = homeList.length 
-    ? homeList.map(x => `
-        <article class="lawyer-card" data-preview="${x.id}">
-          <div class="lawyer-photo" style="background:${x.color}">
-            <span class="initials" style="background:${darken(x.color)}">${x.initials}</span>
-            ${x.available ? '<span class="badge">AVAILABLE TODAY</span>' : ""}
-            <span class="rating" style="background:#e3f1e7;color:#337953;">✓ Verified</span>
+  if (!homeList.length) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;width:100%;text-align:center;padding:48px 24px;background:#f9fafb;border-radius:16px;border:1px dashed var(--line);margin:10px 0;">
+        <h4 style="font-size:18px;color:var(--forest);font-weight:700;margin-bottom:6px;">No verified lawyers available in this category yet</h4>
+        <p style="font-size:14px;color:var(--ink-light);margin-bottom:16px;">We are actively onboarding verified advocates across India.</p>
+        <a href="lawyer.html" style="display:inline-block;padding:10px 20px;background:var(--forest);color:white;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Are you a lawyer? Register as an Expert →</a>
+      </div>`;
+  } else {
+    const lawyerCardsHtml = homeList.map(x => `
+      <article class="lawyer-card" data-preview="${x.id}">
+        <div class="lawyer-photo" style="background:${x.color}">
+          <span class="initials" style="background:${darken(x.color)}">${x.initials}</span>
+          ${x.available ? '<span class="badge">AVAILABLE TODAY</span>' : ""}
+          <span class="rating" style="background:#e3f1e7;color:#337953;">✓ Verified</span>
+        </div>
+        <div class="details">
+          <h3>${escapeHtml(x.name)}</h3>
+          <p class="specialty">${escapeHtml(x.specialty)}</p>
+          <div class="meta">
+            <span>◷ ${x.years} yrs exp.</span>
+            <span>◌ ${escapeHtml(x.languages)}</span>
           </div>
-          <div class="details">
-            <h3>${escapeHtml(x.name)}</h3>
-            <p class="specialty">${escapeHtml(x.specialty)}</p>
-            <div class="meta">
-              <span>◷ ${x.years} yrs exp.</span>
-              <span>◌ ${escapeHtml(x.languages)}</span>
-            </div>
-            <div class="card-bottom">
-              <span><strong>${money(x.fee)}</strong> <small>/ session</small></span>
-              <button class="book" data-book="${x.id}">View &amp; book</button>
-            </div>
+          <div class="card-bottom">
+            <span><strong>${money(x.fee)}</strong> <small>/ session</small></span>
+            <button class="book" data-book="${x.id}">View &amp; book</button>
           </div>
-        </article>
-      `).join("")
-    : `<div style="grid-column:1/-1;text-align:center;padding:48px 24px;background:#f9fafb;border-radius:16px;border:1px dashed var(--line);margin:20px 0;">
-         <h4 style="font-size:18px;color:var(--forest);font-weight:700;margin-bottom:6px;">No verified lawyers available in this category yet</h4>
-         <p style="font-size:14px;color:var(--ink-light);margin-bottom:16px;">We are actively onboarding verified advocates across India.</p>
-         <a href="lawyer.html" style="display:inline-block;padding:10px 20px;background:var(--forest);color:white;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Are you a lawyer? Register as an Expert →</a>
-       </div>`;
+        </div>
+      </article>
+    `).join("");
+
+    // View All option as the last card in the carousel
+    const viewAllCardHtml = `
+      <article class="lawyer-card view-all-card" id="carousel-view-all-card" role="button" tabindex="0" aria-label="Explore all verified lawyers in directory">
+        <div class="view-all-badge">FULL DIRECTORY</div>
+        <div class="view-all-icon-wrap">
+          <span class="view-all-icon">⚖️</span>
+        </div>
+        <div class="view-all-details">
+          <small class="view-all-kicker">PAN-INDIA VERIFIED ROSTER</small>
+          <h3>View All Legal Experts</h3>
+          <p>Browse our complete network of verified advocates with filters for experience, regional languages, and practice domains.</p>
+          <button class="view-all-btn" type="button" tabindex="-1">
+            <span>Explore All Lawyers</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+        </div>
+      </article>
+    `;
+
+    grid.innerHTML = lawyerCardsHtml + viewAllCardHtml;
+  }
+
+  // Reset scroll to beginning on filter/practice update
+  grid.scrollTo({ left: 0, behavior: "instant" });
+  setTimeout(updateLawyerCarouselButtons, 40);
 }
 
 function bookingView() {
@@ -2115,7 +2191,7 @@ document.addEventListener("click", async e => {
   }
 
   // View All Lawyers
-  if (e.target.id === "view-all-lawyers-btn") {
+  if (e.target.id === "view-all-lawyers-btn" || e.target.closest("#carousel-view-all-card")) {
     e.preventDefault();
     window.location.hash = "all-lawyers-view";
   }
@@ -2902,6 +2978,7 @@ function openReviewModal(bookingId, lawyerName) {
 // Initial checks and loads
 LexAPI.subscribe("auth:change", updateHeader);
 updateHeader();
+initLawyerCarousel();
 loadLawyers();
 
 async function initBookingLanding() {
