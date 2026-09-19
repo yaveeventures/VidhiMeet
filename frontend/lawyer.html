@@ -27,7 +27,7 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/design-tokens.min.css">
-  <link rel="stylesheet" href="css/lawyer.min.css?v=rev-45">
+  <link rel="stylesheet" href="css/lawyer.min.css?v=rev-46">
   <link rel="stylesheet" href="css/cookie-consent.min.css">
 
   <script>
@@ -846,40 +846,40 @@
   <!-- Bank Account Form Modal -->
   <div class="backdrop" id="bank-modal" hidden>
     <div class="call-modal" style="max-width:480px;">
-      <button id="bank-modal-close">×</button>
+      <button id="bank-modal-close" aria-label="Close modal">×</button>
       <small class="eyebrow" id="bank-modal-eyebrow">PAYOUT ACCOUNT</small>
       <h2 id="bank-modal-title">Add bank account</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;">Your account number is encrypted and never displayed in full.</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Your account number is encrypted and never displayed in full.</p>
       <form id="bank-form" autocomplete="off">
         <div class="form">
-          <label style="display:block;margin-bottom:12px;">Account holder name *
-            <input id="bank-holder" placeholder="As per bank records" required style="margin-top:6px;">
+          <label>Account holder name *
+            <input id="bank-holder" placeholder="As per bank records" required>
           </label>
-          <label style="display:block;margin-bottom:12px;">Bank name *
-            <input id="bank-name" placeholder="e.g. HDFC Bank" required style="margin-top:6px;" list="bank-suggestions">
+          <label>Bank name *
+            <input id="bank-name" placeholder="e.g. HDFC Bank" required list="bank-suggestions">
             <datalist id="bank-suggestions">
               <option value="HDFC Bank"><option value="ICICI Bank"><option value="State Bank of India">
               <option value="Axis Bank"><option value="Kotak Mahindra Bank"><option value="Punjab National Bank">
               <option value="Bank of Baroda"><option value="Canara Bank"><option value="IndusInd Bank">
             </datalist>
           </label>
-          <label style="display:block;margin-bottom:12px;">Account number *
-            <input id="bank-acno" type="password" autocomplete="new-password" placeholder="6–18 digits" pattern="[0-9]{6,18}" required style="margin-top:6px;" inputmode="numeric">
+          <label>Account number *
+            <input id="bank-acno" type="password" autocomplete="new-password" placeholder="6–18 digits" pattern="[0-9]{6,18}" required inputmode="numeric">
           </label>
-          <label style="display:block;margin-bottom:12px;">Confirm account number *
-            <input id="bank-acno-confirm" type="text" placeholder="Re-enter account number" pattern="[0-9]{6,18}" required style="margin-top:6px;" inputmode="numeric">
+          <label>Confirm account number *
+            <input id="bank-acno-confirm" type="text" placeholder="Re-enter account number" pattern="[0-9]{6,18}" required inputmode="numeric">
           </label>
-          <label style="display:block;margin-bottom:12px;">IFSC code *
-            <input id="bank-ifsc" placeholder="e.g. HDFC0001234" required style="margin-top:6px;" maxlength="11" pattern="[A-Z]{4}0[A-Z0-9]{6}">
+          <label>IFSC code *
+            <input id="bank-ifsc" placeholder="e.g. HDFC0001234" required maxlength="11" pattern="[A-Z]{4}0[A-Z0-9]{6}">
           </label>
-          <label style="display:block;margin-bottom:12px;">UPI ID / VPA (optional)
-            <input id="bank-vpa" placeholder="e.g. lawyer@upi" style="margin-top:6px;">
+          <label>UPI ID / VPA (optional)
+            <input id="bank-vpa" placeholder="e.g. lawyer@upi">
           </label>
-          <label style="display:block;margin-bottom:16px;">PAN Number <small style="font-weight:normal;color:var(--muted);font-size:11.5px;">(required for payouts)</small>
-            <input id="bank-pan" placeholder="e.g. ABCDE1234F" maxlength="10" autocomplete="off" style="margin-top:6px;text-transform:uppercase;letter-spacing:0.08em;">
+          <label>PAN Number <small style="font-weight:normal;color:var(--muted);font-size:11.5px;">(required for payouts)</small>
+            <input id="bank-pan" placeholder="e.g. ABCDE1234F" maxlength="10" autocomplete="off" style="text-transform:uppercase;letter-spacing:0.08em;">
             <small id="bank-pan-hint" style="color:var(--muted);font-size:11.5px;margin-top:3px;display:block;">PAN is encrypted at rest per DPDPA 2023. Required to enable payout releases.</small>
           </label>
-          <p id="bank-form-error" style="color:var(--terra);font-size:13px;margin-bottom:10px;"></p>
+          <p id="bank-form-error" style="color:var(--terra);font-size:13px;margin:4px 0;"></p>
           <button class="primary" type="submit" id="bank-form-submit" style="width:100%;">Save account</button>
         </div>
       </form>
@@ -1014,7 +1014,7 @@
       </div>
 
       <!-- Quick Contact Channels -->
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+      <div class="support-channels-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
         <div style="background:#faf8f5; border:1px solid #e2dacd; border-radius:12px; padding:14px; display:flex; align-items:center; gap:10px;">
           <span style="font-size:20px;">💬</span>
           <div>
@@ -1086,7 +1086,7 @@
           </div>
         </div>
       </div>
-      <div style="display:flex;gap:10px;justify-content:flex-end;">
+      <div class="welcome-modal-actions" style="display:flex;gap:10px;justify-content:flex-end;">
         <button type="button" class="outline" id="welcome-dismiss-btn" style="padding:10px 18px;font-size:13px;">Explore Dashboard First</button>
         <button type="button" class="primary" id="welcome-start-btn" style="padding:10px 20px;font-size:13px;">Start Profile Setup →</button>
       </div>

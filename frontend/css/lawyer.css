@@ -745,26 +745,49 @@ main {
   position:fixed;
   inset:0;
   background:#0b1d17cc;
-  z-index:60;
-  display:grid;
-  place-items:center;
-  padding:20px}
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  box-sizing:border-box}
 .backdrop[hidden] {
-  display:none}
+  display:none!important}
 .call-modal {
   width:min(1050px,100%);
+  max-height:min(90vh,90dvh);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
   background:white;
-  padding:20px;
-  border-radius:17px;
-  position:relative}
+  padding:24px;
+  border-radius:18px;
+  position:relative;
+  margin:auto;
+  box-sizing:border-box;
+  box-shadow:0 24px 48px rgba(0,0,0,0.22)}
 .call-modal>button {
   position:absolute;
   right:14px;
   top:14px;
   border:0;
   border-radius:50%;
-  width:32px;
-  height:32px}
+  width:34px;
+  height:34px;
+  background:#edf2ee;
+  color:var(--ink);
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:5;
+  transition:background .15s ease,transform .15s ease}
+.call-modal>button:hover {
+  background:#dde5df;
+  transform:scale(1.05)}
 .call-modal h2 {
   font:600 24px "Playfair Display";
   margin:6px 0}
@@ -1053,26 +1076,49 @@ main {
   position:fixed;
   inset:0;
   background:#0b1d17cc;
-  z-index:60;
-  display:grid;
-  place-items:center;
-  padding:20px}
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  box-sizing:border-box}
 .backdrop[hidden] {
-  display:none}
+  display:none!important}
 .call-modal {
   width:min(1050px,100%);
+  max-height:min(90vh,90dvh);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
   background:white;
-  padding:20px;
-  border-radius:17px;
-  position:relative}
+  padding:24px;
+  border-radius:18px;
+  position:relative;
+  margin:auto;
+  box-sizing:border-box;
+  box-shadow:0 24px 48px rgba(0,0,0,0.22)}
 .call-modal>button {
   position:absolute;
   right:14px;
   top:14px;
   border:0;
   border-radius:50%;
-  width:32px;
-  height:32px}
+  width:34px;
+  height:34px;
+  background:#edf2ee;
+  color:var(--ink);
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:5;
+  transition:background .15s ease,transform .15s ease}
+.call-modal>button:hover {
+  background:#dde5df;
+  transform:scale(1.05)}
 .call-modal h2 {
   font:600 24px "Playfair Display";
   margin:6px 0}
@@ -1588,26 +1634,49 @@ main {
   position:fixed;
   inset:0;
   background:#0b1d17cc;
-  z-index:60;
-  display:grid;
-  place-items:center;
-  padding:20px}
+  z-index:999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  box-sizing:border-box}
 .backdrop[hidden] {
-  display:none}
+  display:none!important}
 .call-modal {
   width:min(1050px,100%);
+  max-height:min(90vh,90dvh);
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
   background:white;
-  padding:20px;
-  border-radius:17px;
-  position:relative}
+  padding:24px;
+  border-radius:18px;
+  position:relative;
+  margin:auto;
+  box-sizing:border-box;
+  box-shadow:0 24px 48px rgba(0,0,0,0.22)}
 .call-modal>button {
   position:absolute;
   right:14px;
   top:14px;
   border:0;
   border-radius:50%;
-  width:32px;
-  height:32px}
+  width:34px;
+  height:34px;
+  background:#edf2ee;
+  color:var(--ink);
+  font-size:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:5;
+  transition:background .15s ease,transform .15s ease}
+.call-modal>button:hover {
+  background:#dde5df;
+  transform:scale(1.05)}
 .call-modal h2 {
   font:600 24px "Playfair Display";
   margin:6px 0}
@@ -2585,11 +2654,21 @@ main {
   }
 
   /* Modals */
+  .backdrop {
+    padding: 10px !important;
+    align-items: center !important;
+  }
   .call-modal, .modal-card {
-    width: 95vw !important;
-    max-height: 94vh !important;
-    padding: 20px 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: min(92vh, 92dvh) !important;
+    padding: 20px 16px 24px !important;
     border-radius: 16px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    margin: auto !important;
+    box-sizing: border-box !important;
   }
 
   /* Jitsi Container */
@@ -4187,6 +4266,88 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
 .btn-manual-link:hover {
   background: #edf5f0;
   border-color: #bcd0c2;
+}
+
+/* ── Bank Account Modal Mobile & Responsive Refinements ── */
+#bank-modal .call-modal {
+  max-width: 480px;
+  width: 100%;
+}
+#bank-modal #bank-form .form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+#bank-modal #bank-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 0 !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dark, #1c2826);
+}
+#bank-modal #bank-form input {
+  width: 100%;
+  margin-top: 2px !important;
+  padding: 10px 14px;
+  font-size: 15px;
+  border: 1.5px solid #d1ded7;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #17251f;
+  box-sizing: border-box;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+#bank-modal #bank-form input:focus {
+  border-color: var(--forest, #173c30);
+  box-shadow: 0 0 0 3px rgba(23, 60, 48, 0.12);
+  outline: none;
+}
+#bank-modal #bank-form-submit {
+  width: 100%;
+  min-height: 46px;
+  padding: 13px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 12px;
+  margin-top: 8px;
+  background: var(--forest, #173c30);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.18s ease, transform 0.15s ease;
+}
+#bank-modal #bank-form-submit:hover {
+  background: #1e4d3b;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  #bank-modal .call-modal {
+    padding: 18px 14px 22px !important;
+    max-height: min(94vh, 94dvh) !important;
+  }
+  #bank-modal h2 {
+    font-size: 21px !important;
+    margin: 4px 0 6px !important;
+  }
+  #bank-modal #bank-form input {
+    font-size: 16px !important; /* Prevents auto-zoom on iOS devices */
+    padding: 11px 13px !important;
+  }
+  .welcome-modal-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  .welcome-modal-actions button {
+    width: 100% !important;
+    text-align: center !important;
+  }
+  .support-channels-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 

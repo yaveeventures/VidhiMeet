@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "frontend/js/lawyer.js": {
-    "mtime": 1789797680.0712044,
-    "ast_hash": "9a765c9dd281c9364cdd671883332c61",
+    "mtime": 1789722330.6741533,
+    "ast_hash": "2e777df0f6e4fdf46dc9d24b152efb4b",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.js": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
-    "mtime": 1789797669.8075762,
-    "ast_hash": "3ac9e8a673a97594dc6dcce261d889ba",
+    "mtime": 1789640967.1621225,
+    "ast_hash": "18951a06583a8b5a06b22efea1d4c87d",
     "semantic_hash": ""
   },
   "frontend/privacy.html": {
@@ -535,57 +535,57 @@
     "semantic_hash": ""
   },
   "frontend/js/admin-login.min.js": {
-    "mtime": 1789797691.0171604,
+    "mtime": 1789739455.4188447,
     "ast_hash": "0fd5558af9c017bbd9112244d9ae6e6c",
     "semantic_hash": ""
   },
   "frontend/js/admin.min.js": {
-    "mtime": 1789797691.0674615,
+    "mtime": 1789739455.4309757,
     "ast_hash": "9464ba576ce73e4ad93a1908e881527f",
     "semantic_hash": ""
   },
   "frontend/js/api-client.min.js": {
-    "mtime": 1789797691.1025527,
+    "mtime": 1789739455.4381943,
     "ast_hash": "1d3bd77774378b5e15522e4e03918774",
     "semantic_hash": ""
   },
   "frontend/js/app.min.js": {
-    "mtime": 1789797691.196066,
+    "mtime": 1789739455.4602044,
     "ast_hash": "959fd87402f5e9fe17b9fb0dbc92fc7e",
     "semantic_hash": ""
   },
   "frontend/js/cookie-consent.min.js": {
-    "mtime": 1789797691.2289388,
+    "mtime": 1789739455.4633873,
     "ast_hash": "31ae49c56cd7c8dbb845efdbce491c20",
     "semantic_hash": ""
   },
   "frontend/js/daily-js.min.js": {
-    "mtime": 1789797691.8432486,
+    "mtime": 1789739455.4715698,
     "ast_hash": "1b9bbe3f5f65a87798aa436d262d3055",
     "semantic_hash": ""
   },
   "frontend/js/e2ee.min.js": {
-    "mtime": 1789797691.8676896,
+    "mtime": 1789739455.473271,
     "ast_hash": "c1893a293ec88cab478eef5234872eec",
     "semantic_hash": ""
   },
   "frontend/js/firebase-phone-auth.min.js": {
-    "mtime": 1789797691.8904066,
+    "mtime": 1789739455.474998,
     "ast_hash": "c38dec4f6d2c3585f2ad813c014ecbd4",
     "semantic_hash": ""
   },
   "frontend/js/lawyer.min.js": {
-    "mtime": 1789797691.9691274,
-    "ast_hash": "42ac8f0df60e7fffb2f940cf23188fb4",
+    "mtime": 1789739455.4987009,
+    "ast_hash": "a473b18e39ec678e940a583803dc4d98",
     "semantic_hash": ""
   },
   "frontend/js/pdf-annotator.min.js": {
-    "mtime": 1789797692.013059,
+    "mtime": 1789739455.505687,
     "ast_hash": "493e61ce228708c0f1f949d7aa7181dd",
     "semantic_hash": ""
   },
   "frontend/js/realtime.min.js": {
-    "mtime": 1789797692.0451126,
+    "mtime": 1789739455.507885,
     "ast_hash": "75828ee6fc96fd40a4eb696c0b7763e8",
     "semantic_hash": ""
   },
@@ -630,7 +630,7 @@
     "semantic_hash": ""
   },
   "frontend/js/validation-rules.min.js": {
-    "mtime": 1789797692.0688741,
+    "mtime": 1789739455.5104957,
     "ast_hash": "c52bac716c7c8c628848c20f9813d21b",
     "semantic_hash": ""
   },

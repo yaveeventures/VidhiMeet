@@ -2138,6 +2138,8 @@ function openBankModal(isEdit = false) {
   }
   if (errEl) errEl.textContent = "";
   modal.hidden = false;
+  const modalCard = modal.querySelector(".call-modal");
+  if (modalCard) modalCard.scrollTop = 0;
 }
 
 async function handleBankFormSubmit(e) {
