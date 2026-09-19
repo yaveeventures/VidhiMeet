@@ -1699,10 +1699,13 @@ $("#menu").onclick = (e) => {
   if (e) e.stopPropagation();
   setAdminSidebarOpen();
 };
-$(".close").onclick = () => {
-  $("#review-modal").hidden = true;
-  document.body.style.overflow = "";
-};
+const reviewCloseBtn = $("#review-modal .close");
+if (reviewCloseBtn) {
+  reviewCloseBtn.onclick = () => {
+    $("#review-modal").hidden = true;
+    document.body.style.overflow = "";
+  };
+}
 
 $("#review-modal").onclick = e => {
   if (e.target === $("#review-modal")) {
@@ -2473,6 +2476,11 @@ function initVoucherModalEvents() {
   const expiryInput = document.getElementById("new-voucher-expiry");
   const errEl = document.getElementById("voucher-form-error");
 
+  // Ensure modal is cleanly hidden on initialization
+  if (modal && modal.hidden) {
+    modal.style.display = "none";
+  }
+
   const openModal = () => {
     if (!modal) return;
     if (form) form.reset();
@@ -2500,16 +2508,48 @@ function initVoucherModalEvents() {
     });
 
     modal.hidden = false;
+    modal.style.display = "flex";
+    document.body.style.overflow = "hidden";
     setTimeout(() => document.getElementById("new-voucher-code")?.focus(), 100);
   };
 
   const closeModal = () => {
-    if (modal) modal.hidden = true;
+    if (modal) {
+      modal.hidden = true;
+      modal.style.display = "none";
+      document.body.style.overflow = "";
+    }
   };
 
   if (openBtn) openBtn.onclick = openModal;
-  if (closeBtn) closeBtn.onclick = closeModal;
-  if (cancelBtn) cancelBtn.onclick = closeModal;
+  if (closeBtn) {
+    closeBtn.onclick = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      closeModal();
+    };
+  }
+  if (cancelBtn) {
+    cancelBtn.onclick = (e) => {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      closeModal();
+    };
+  }
+
+  // Close on clicking backdrop outside modal content
+  if (modal) {
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    };
+  }
+
+  // Close on Escape key press
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal && !modal.hidden && modal.style.display !== "none") {
+      closeModal();
+    }
+  });
 
   // Percentage slider change
   if (pctSlider && pctLabel) {
