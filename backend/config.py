@@ -147,12 +147,6 @@ class Settings(BaseSettings):
             return "https://api.cashfree.com/pg"
         return "https://sandbox.cashfree.com/pg"
 
-    @property
-    def cashfree_verification_base_url(self) -> str:
-        if self.cashfree_mode.lower() == "production":
-            return "https://api.cashfree.com/verification"
-        return "https://sandbox.cashfree.com/verification"
-
 
 @lru_cache
 def get_settings() -> Settings:

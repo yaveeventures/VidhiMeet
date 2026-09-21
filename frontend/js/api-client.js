@@ -433,12 +433,6 @@ const LexAPI = (() => {
     updateBankAccount: payload => request("/lawyers/me/bank-account", {method:"PUT", body:JSON.stringify(payload)}),
     deleteBankAccount: () => request("/lawyers/me/bank-account", {method:"DELETE"}),
     initiateUpiVerification: () => request("/lawyers/me/bank-account/verify", {method:"POST"}),
-    initiateReversePennyDrop: () => request("/lawyers/me/bank-account/reverse-penny-drop/initiate", {method:"POST"}),
-    getReversePennyDropStatus: (verificationId = "") => {
-      const q = verificationId ? `?verification_id=${encodeURIComponent(verificationId)}` : "";
-      return request(`/lawyers/me/bank-account/reverse-penny-drop/status${q}`);
-    },
-    mockCompleteReversePennyDrop: (payload = {}) => request("/lawyers/me/bank-account/reverse-penny-drop/mock-complete", {method:"POST", body:JSON.stringify(payload)}),
 
     // Drafting Features
     listDraftingRequests: () => request("/drafting"),

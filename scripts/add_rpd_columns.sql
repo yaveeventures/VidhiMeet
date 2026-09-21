@@ -9,7 +9,7 @@ ALTER TABLE public.lawyer_bank_accounts
     ADD COLUMN IF NOT EXISTS verification_txn_id VARCHAR(80),
     ADD COLUMN IF NOT EXISTS verification_id VARCHAR(80),
     ADD COLUMN IF NOT EXISTS reference_id VARCHAR(80),
-    ADD COLUMN IF NOT EXISTS verification_method VARCHAR(40) DEFAULT 'reverse_penny_drop',
+    ADD COLUMN IF NOT EXISTS verification_method VARCHAR(40) DEFAULT 'manual',
     ADD COLUMN IF NOT EXISTS verification_status VARCHAR(30) DEFAULT 'unverified',
     ADD COLUMN IF NOT EXISTS upi_name VARCHAR(255),
     ADD COLUMN IF NOT EXISTS utr VARCHAR(100),

@@ -547,39 +547,12 @@ class BankAccountOut(BaseModel):
     verified_at: datetime | None = None
     utr: str | None = None
     verification_status: str | None = "unverified"
-    verification_method: str | None = "reverse_penny_drop"
+    verification_method: str | None = "manual"
     verification_id: str | None = None
     pan_number_masked: str | None = None
     has_pan: bool = False
     created_at: datetime
     model_config = {'from_attributes': True}
-
-
-class RpdInitiateResponse(BaseModel):
-    verification_id: str
-    reference_id: str | None = None
-    status: str
-    payment_link: str | None = None
-    qr_code: str | None = None
-    upi_intent: dict | None = None
-    valid_upto: int | str | None = None
-    amount: float = 1.0
-    currency: str = "INR"
-    is_mock: bool = False
-    message: str = "Scan UPI QR code or click UPI app link to complete ₹1 verification."
-
-
-class RpdStatusResponse(BaseModel):
-    verification_id: str
-    status: str
-    verified: bool
-    utr: str | None = None
-    account_holder_name: str | None = None
-    bank_name: str | None = None
-    account_number_masked: str | None = None
-    ifsc_code: str | None = None
-    upi_vpa: str | None = None
-    message: str
 
 
 class AdminPayoutAccountOut(BaseModel):

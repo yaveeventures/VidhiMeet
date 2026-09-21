@@ -1,5 +1,5 @@
 """
-Tests for Lawyer Bank Account management and UPI Reverse Penny Drop verification.
+Tests for Lawyer Bank Account management and direct verification.
 """
 
 
@@ -59,7 +59,7 @@ def test_get_bank_account(client):
 
 
 def test_update_bank_account_resets_verification(client):
-    """Editing IFSC resets the verified flag; verification done via RPD mock-complete."""
+    """Editing IFSC resets the verified flag."""
     reg = client.post("/api/v1/auth/register", json={
         "email": "bank_update@example.com", "password": "secure-password-update-123",
         "full_name": "Adv. Update Bank", "role": "lawyer",
@@ -75,19 +75,10 @@ def test_update_bank_account_resets_verification(client):
         "bank_name": "State Bank of India"
     }, headers=headers)
 
-    # Verify via RPD: initiate -> mock-complete
-    init = client.post(
-        "/api/v1/lawyers/me/bank-account/reverse-penny-drop/initiate",
-        headers=headers
-    )
-    assert init.status_code == 200
-    v_id = init.json()["verification_id"]
-    mc = client.post(
-        "/api/v1/lawyers/me/bank-account/reverse-penny-drop/mock-complete",
-        json={"verification_id": v_id},
-        headers=headers
-    )
-    assert mc.json()["verified"] is True
+    # Verify directly
+    ver = client.post("/api/v1/lawyers/me/bank-account/verify", headers=headers)
+    assert ver.status_code == 200
+    assert ver.json()["verified"] is True
 
     acct = client.get("/api/v1/lawyers/me/bank-account", headers=headers).json()
     assert acct["verified"] is True
@@ -96,7 +87,6 @@ def test_update_bank_account_resets_verification(client):
     upd = client.put("/api/v1/lawyers/me/bank-account", json={"ifsc_code": "SBIN0002222"}, headers=headers)
     assert upd.status_code == 200
     assert upd.json()["verified"] is False
-
 
 
 def test_delete_bank_account(client):
@@ -145,8 +135,8 @@ def test_duplicate_add_returns_409(client):
     assert res2.status_code == 409
 
 
-def test_upi_verification_demo_mode(client):
-    """Verify endpoint now delegates to RPD; returns verification_id and qr_code in mock mode."""
+def test_bank_account_verification(client):
+    """Verify endpoint marks account verified and returns audit UTR."""
     reg = client.post("/api/v1/auth/register", json={
         "email": "bank_verify@example.com", "password": "secure-password-verify-123",
         "full_name": "Adv. Verify Bank", "role": "lawyer",
@@ -163,21 +153,25 @@ def test_upi_verification_demo_mode(client):
         "upi_vpa": "verify@upi"
     }, headers=headers)
 
-    # POST /verify now initiates RPD and returns session data
+    # POST /verify marks account verified
     res = client.post("/api/v1/lawyers/me/bank-account/verify", headers=headers)
     assert res.status_code == 200
     data = res.json()
-    # In RPD mode, response contains verification_id (not yet verified)
-    assert data.get("already_verified") is not True
-    assert "verification_id" in data or "qr_code" in data
+    assert data["verified"] is True
+    assert data["utr"].startswith("VERIFIED-")
+
+    # Second call returns already_verified
+    res2 = client.post("/api/v1/lawyers/me/bank-account/verify", headers=headers)
+    assert res2.status_code == 200
+    assert res2.json()["already_verified"] is True
 
     acct = client.get("/api/v1/lawyers/me/bank-account", headers=headers).json()
-    # Account not yet verified — awaiting RPD ₹1 payment
-    assert acct["verified"] is False
+    assert acct["verified"] is True
+    assert acct["verification_status"] == "verified"
 
 
-def test_verify_without_account_triggers_rpd(client):
-    """Calling /verify without a bank account now initiates RPD (auto-link flow)."""
+def test_verify_without_account_returns_404(client):
+    """Calling /verify without a bank account returns 404."""
     reg = client.post("/api/v1/auth/register", json={
         "email": "bank_noacct@example.com", "password": "secure-password-noacct-123",
         "full_name": "Adv. No Acct", "role": "lawyer",
@@ -186,8 +180,4 @@ def test_verify_without_account_triggers_rpd(client):
     token = reg.json()["access_token"]
     res = client.post("/api/v1/lawyers/me/bank-account/verify",
                       headers={"Authorization": f"Bearer {token}"})
-    # RPD is initiated automatically — returns 200 with verification_id
-    assert res.status_code == 200
-    data = res.json()
-    assert "verification_id" in data
-    assert data.get("already_verified") is not True
+    assert res.status_code == 404

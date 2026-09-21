@@ -89,7 +89,7 @@ async def lifespan(app: FastAPI):
                     ("verification_txn_id", "VARCHAR(80) NULL"),
                     ("verification_id", "VARCHAR(80) NULL"),
                     ("reference_id", "VARCHAR(80) NULL"),
-                    ("verification_method", "VARCHAR(40) DEFAULT 'reverse_penny_drop'"),
+                    ("verification_method", "VARCHAR(40) DEFAULT 'manual'"),
                     ("verification_status", "VARCHAR(30) DEFAULT 'unverified'"),
                     ("upi_name", "VARCHAR(255) NULL"),
                     ("utr", "VARCHAR(100) NULL"),

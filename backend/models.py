@@ -125,9 +125,9 @@ class LawyerBankAccount(Base):
     utr: Mapped[str | None] = mapped_column(String(100), nullable=True)   # Verification UTR (audit trail)
     upi_name: Mapped[str | None] = mapped_column(String(255), nullable=True)  # VPA display name
     verification_txn_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
-    verification_id: Mapped[str | None] = mapped_column(String(80), nullable=True, index=True)  # Cashfree RPD ID
-    reference_id: Mapped[str | None] = mapped_column(String(80), nullable=True)  # Cashfree Reference ID
-    verification_method: Mapped[str | None] = mapped_column(String(40), default="reverse_penny_drop")
+    verification_id: Mapped[str | None] = mapped_column(String(80), nullable=True, index=True)
+    reference_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    verification_method: Mapped[str | None] = mapped_column(String(40), default="manual")
     verification_status: Mapped[str | None] = mapped_column(String(30), default="unverified")  # unverified, pending, verified, failed
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
