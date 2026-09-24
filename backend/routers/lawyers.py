@@ -23,7 +23,7 @@ class LawyersCache(TypedDict):
 
 # Fast in-memory cache for public lawyers listing
 _LAWYERS_CACHE: LawyersCache = {"data": None, "timestamp": 0.0}
-_CACHE_TTL = 30.0  # 30 seconds TTL
+_CACHE_TTL = 180.0  # 3 minutes in-memory cache TTL for public listing
 
 
 def invalidate_lawyers_cache():
@@ -56,6 +56,9 @@ def lawyers(response: Response,
             defer(LawyerProfile.aadhaar_url),
             defer(LawyerProfile.mobile_number),
             defer(LawyerProfile.rejection_reason),
+            defer(User.phone),
+            defer(User.password_hash),
+            defer(User.mfa_secret),
         )
         .where(LawyerProfile.verified.is_(True), User.active.is_(True))
     )

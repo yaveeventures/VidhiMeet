@@ -203,24 +203,27 @@ async def lifespan(app: FastAPI):
 
     # ── NTP clock synchronization (CERT-In / DPDP forensic timestamp compliance) ─
     if settings.ntp_sync_on_startup:
-        try:
-            from .ntp_time import check_clock_drift
-            status = check_clock_drift()
-            if status["within_tolerance"]:
-                log.info(
-                    "NTP startup check succeeded",
-                    server=status["ntp_server"],
-                    drift_seconds=status["drift_seconds"],
-                    synced_at=status["synced_at"],
-                )
-            else:
-                log.critical(
-                    "NTP startup drift alert: Timestamps may not be forensically authoritative",
-                    server=status["ntp_server"],
-                    drift_seconds=status["drift_seconds"],
-                )
-        except (OSError, RuntimeError, KeyError, ValueError) as exc:  # pragma: no cover
-            log.error("NTP startup check raised an error", error=str(exc))
+        async def _check_ntp_async():
+            try:
+                from .ntp_time import check_clock_drift
+                status = await asyncio.to_thread(check_clock_drift)
+                if status["within_tolerance"]:
+                    log.info(
+                        "NTP startup check succeeded",
+                        server=status["ntp_server"],
+                        drift_seconds=status["drift_seconds"],
+                        synced_at=status["synced_at"],
+                    )
+                else:
+                    log.critical(
+                        "NTP startup drift alert: Timestamps may not be forensically authoritative",
+                        server=status["ntp_server"],
+                        drift_seconds=status["drift_seconds"],
+                    )
+            except (OSError, RuntimeError, KeyError, ValueError) as exc:  # pragma: no cover
+                log.error("NTP startup check raised an error", error=str(exc))
+
+        asyncio.create_task(_check_ntp_async())
 
     # ── Background Task: Automated 6-hour escrow payout sweep ────────────────
     async def _payout_sweep_worker():
@@ -279,7 +282,7 @@ async def security_headers_and_rate_limit(request: Request, call_next):
     category = "global"
     if path.startswith("/api/v1/auth"):
         category = "auth"
-    elif path.startswith("/api/v1/public") or path == "/api/v1/lawyers" or path == "/api/v1/health":
+    elif path.startswith("/api/v1/public") or path == "/api/v1/lawyers" or path in ("/api/v1/health", "/health", "/ping"):
         category = "public"
     elif path.startswith("/api/v1/admin"):
         category = "admin"

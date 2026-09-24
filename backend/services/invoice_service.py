@@ -99,6 +99,7 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       background-color: #f1f5f9;
       line-height: 1.5;
       padding: 30px 16px;
+      -webkit-font-smoothing: antialiased;
     }}
     .action-bar {{
       max-width: 820px;
@@ -106,34 +107,43 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
+    }}
+    .action-buttons {{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }}
     .btn {{
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
-      padding: 10px 20px;
+      padding: 10px 18px;
       font-size: 14px;
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }}
     .btn-primary {{
       background: var(--primary);
-      color: #ffffff;
+      color: #ffffff !important;
       border: 1px solid var(--primary-dark);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }}
     .btn-primary:hover {{ background: var(--forest); }}
     .btn-outline {{
       background: #ffffff;
-      color: var(--slate-700);
+      color: var(--slate-700) !important;
       border: 1px solid var(--slate-200);
     }}
     .btn-outline:hover {{ background: var(--slate-50); }}
     .invoice-card {{
       max-width: 820px;
+      width: 100%;
       margin: 0 auto;
       background: #ffffff;
       border: 1px solid var(--slate-200);
@@ -145,30 +155,34 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
+      gap: 24px;
       border-bottom: 2px solid var(--slate-200);
       padding-bottom: 28px;
       margin-bottom: 28px;
     }}
     .brand-logo {{
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 24px;
       font-weight: 800;
       color: var(--primary);
       text-decoration: none;
+      line-height: 1.2;
     }}
     .brand-logo span {{ color: var(--gold); }}
     .company-details {{
       font-size: 12.5px;
       color: var(--slate-600);
-      margin-top: 8px;
+      margin-top: 10px;
       max-width: 380px;
-      line-height: 1.45;
+      line-height: 1.5;
     }}
     .invoice-meta {{
       text-align: right;
+      flex-shrink: 0;
+      max-width: 100%;
     }}
     .invoice-meta h1 {{
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -176,7 +190,8 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       font-weight: 800;
       color: var(--slate-900);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
+      line-height: 1.2;
     }}
     .meta-tag {{
       display: inline-block;
@@ -193,8 +208,14 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       font-size: 13px;
       color: var(--slate-600);
       margin-top: 6px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }}
     .meta-row strong {{ color: var(--slate-900); }}
+    .break-all {{
+      word-break: break-all;
+      overflow-wrap: anywhere;
+    }}
 
     .parties-grid {{
       display: grid;
@@ -219,17 +240,28 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       font-weight: 700;
       color: var(--slate-900);
       margin-bottom: 4px;
+      overflow-wrap: break-word;
     }}
     .party-desc {{
       font-size: 13px;
       color: var(--slate-600);
-      line-height: 1.4;
+      line-height: 1.45;
+      overflow-wrap: break-word;
     }}
 
+    .table-wrap {{
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 24px;
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+    }}
     table.invoice-table {{
       width: 100%;
+      min-width: 520px;
       border-collapse: collapse;
-      margin-bottom: 24px;
+      background: #ffffff;
     }}
     table.invoice-table th {{
       background: #f8fafc;
@@ -249,6 +281,9 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       border-bottom: 1px solid var(--slate-200);
       vertical-align: top;
     }}
+    table.invoice-table tbody tr:last-child td {{
+      border-bottom: none;
+    }}
     .text-right {{ text-align: right; }}
     .item-desc {{
       font-size: 12px;
@@ -263,11 +298,13 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       margin-bottom: 28px;
     }}
     .summary-box {{
-      width: 320px;
+      width: 340px;
+      max-width: 100%;
     }}
     .summary-row {{
       display: flex;
       justify-content: space-between;
+      gap: 12px;
       font-size: 13px;
       color: var(--slate-600);
       padding: 6px 0;
@@ -290,7 +327,16 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
       font-size: 13px;
+      line-height: 1.45;
+    }}
+    .payment-badge code {{
+      word-break: break-all;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 12px;
     }}
 
     .disclaimer-box {{
@@ -300,8 +346,89 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       color: var(--slate-500);
       line-height: 1.5;
     }}
-    .disclaimer-box p {{ margin-bottom: 6px; }}
+    .disclaimer-box p {{ margin-bottom: 8px; }}
 
+    /* ── Mobile Responsive Styles ────────────────────────────────────────── */
+    @media screen and (max-width: 680px) {{
+      body {{
+        padding: 14px 10px;
+      }}
+      .action-bar {{
+        margin-bottom: 14px;
+        gap: 6px;
+      }}
+      .action-buttons {{
+        gap: 6px;
+      }}
+      .btn {{
+        padding: 8px 12px;
+        font-size: 12.5px;
+      }}
+      .invoice-card {{
+        padding: 22px 16px;
+        border-radius: 10px;
+      }}
+      .invoice-header {{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 18px;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }}
+      .brand-logo {{
+        font-size: 22px;
+      }}
+      .company-details {{
+        max-width: 100%;
+        font-size: 12px;
+      }}
+      .invoice-meta {{
+        text-align: left;
+        background: var(--slate-50);
+        border: 1px solid var(--slate-200);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }}
+      .invoice-meta h1 {{
+        font-size: 18px;
+      }}
+      .meta-row {{
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12.5px;
+      }}
+      .parties-grid {{
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 16px;
+        margin-bottom: 22px;
+      }}
+      .parties-grid > div:first-child {{
+        border-bottom: 1px solid var(--slate-200);
+        padding-bottom: 14px;
+      }}
+      .summary-section {{
+        justify-content: stretch;
+      }}
+      .summary-box {{
+        width: 100%;
+        background: var(--slate-50);
+        border: 1px solid var(--slate-200);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }}
+      .payment-badge {{
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 14px;
+        font-size: 12px;
+      }}
+    }}
+
+    /* ── Print / Save as PDF Styles ───────────────────────────────────────── */
     @media print {{
       body {{
         background: #ffffff !important;
@@ -312,6 +439,14 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
+        max-width: 100% !important;
+      }}
+      .table-wrap {{
+        border: none !important;
+        overflow: visible !important;
+      }}
+      table.invoice-table {{
+        min-width: 100% !important;
       }}
     }}
   </style>
@@ -319,8 +454,11 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
 <body>
 
   <div class="action-bar">
-    <a href="javascript:window.history.back()" class="btn btn-outline">← Back</a>
-    <button onclick="window.print()" class="btn btn-primary">🖨️ Print / Save as PDF</button>
+    <a href="/" id="btn-back" class="btn btn-outline">← Back</a>
+    <div class="action-buttons">
+      <button id="btn-save-pdf" type="button" class="btn btn-primary">📥 Save as PDF</button>
+      <button id="btn-print" type="button" class="btn btn-outline">🖨️ Print</button>
+    </div>
   </div>
 
   <div class="invoice-card">
@@ -337,9 +475,9 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       <div class="invoice-meta">
         <h1>Tax Invoice &amp; Receipt</h1>
         <div class="meta-tag">PAID &amp; CONFIRMED ✓</div>
-        <div class="meta-row"><strong>Invoice No:</strong> {inv_number}</div>
-        <div class="meta-row"><strong>Date:</strong> {date_str}</div>
-        <div class="meta-row"><strong>Cashfree Ref:</strong> {cf_order_id}</div>
+        <div class="meta-row"><strong>Invoice No:</strong> <span>{inv_number}</span></div>
+        <div class="meta-row"><strong>Date:</strong> <span>{date_str}</span></div>
+        <div class="meta-row"><strong>Cashfree Ref:</strong> <span class="break-all">{cf_order_id}</span></div>
       </div>
     </div>
 
@@ -362,64 +500,66 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
       </div>
     </div>
 
-    <table class="invoice-table">
-      <thead>
-        <tr>
-          <th style="width: 5%;">#</th>
-          <th style="width: 55%;">Description</th>
-          <th style="width: 15%;">SAC / HSN</th>
-          <th style="width: 10%;" class="text-right">Rate</th>
-          <th style="width: 15%;" class="text-right">Amount (INR)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>
-            <strong>Advocate Professional Consultation Fee</strong>
-            <div class="item-desc">
-              Online private video legal consultation with Advocate {lawyer_name} ({practice_title}).<br>
-              <em>*Collected by {settings.company_brand} in escrow as a pure collection agent on behalf of the Advocate under Bar Council of India guidelines.</em>
-            </div>
-          </td>
-          <td>Pure Agent</td>
-          <td class="text-right">₹{base_price:,.2f}</td>
-          <td class="text-right">₹{base_price:,.2f}</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>
-            <strong>Technology &amp; Platform Infrastructure Usage Fee</strong>
-            <div class="item-desc">
-              Marketplace platform provisioning, encrypted room infrastructure, end-to-end security &amp; escrow management service.
-            </div>
-          </td>
-          <td>998315</td>
-          <td class="text-right">₹{tax_info['base_taxable']:,.2f}</td>
-          <td class="text-right">₹{tax_info['base_taxable']:,.2f}</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>
-            <strong>CGST (9%)</strong>
-            <div class="item-desc">Central Goods &amp; Services Tax on platform fee</div>
-          </td>
-          <td>998315</td>
-          <td class="text-right">9%</td>
-          <td class="text-right">₹{tax_info['cgst']:,.2f}</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>
-            <strong>SGST (9%)</strong>
-            <div class="item-desc">State Goods &amp; Services Tax on platform fee</div>
-          </td>
-          <td>998315</td>
-          <td class="text-right">9%</td>
-          <td class="text-right">₹{tax_info['sgst']:,.2f}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th style="width: 5%;">#</th>
+            <th style="width: 55%;">Description</th>
+            <th style="width: 15%;">SAC / HSN</th>
+            <th style="width: 10%;" class="text-right">Rate</th>
+            <th style="width: 15%;" class="text-right">Amount (INR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>
+              <strong>Advocate Professional Consultation Fee</strong>
+              <div class="item-desc">
+                Online private video legal consultation with Advocate {lawyer_name} ({practice_title}).<br>
+                <em>*Collected by {settings.company_brand} in escrow as a pure collection agent on behalf of the Advocate under Bar Council of India guidelines.</em>
+              </div>
+            </td>
+            <td>Pure Agent</td>
+            <td class="text-right">₹{base_price:,.2f}</td>
+            <td class="text-right">₹{base_price:,.2f}</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <strong>Technology &amp; Platform Infrastructure Usage Fee</strong>
+              <div class="item-desc">
+                Marketplace platform provisioning, encrypted room infrastructure, end-to-end security &amp; escrow management service.
+              </div>
+            </td>
+            <td>998315</td>
+            <td class="text-right">₹{tax_info['base_taxable']:,.2f}</td>
+            <td class="text-right">₹{tax_info['base_taxable']:,.2f}</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <strong>CGST (9%)</strong>
+              <div class="item-desc">Central Goods &amp; Services Tax on platform fee</div>
+            </td>
+            <td>998315</td>
+            <td class="text-right">9%</td>
+            <td class="text-right">₹{tax_info['cgst']:,.2f}</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>
+              <strong>SGST (9%)</strong>
+              <div class="item-desc">State Goods &amp; Services Tax on platform fee</div>
+            </td>
+            <td>998315</td>
+            <td class="text-right">9%</td>
+            <td class="text-right">₹{tax_info['sgst']:,.2f}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="summary-section">
       <div class="summary-box">
@@ -458,6 +598,7 @@ def generate_client_receipt_html(booking: Booking, client: User, lawyer: User | 
     </div>
   </div>
 
+  <script src="/js/receipt.min.js"></script>
 </body>
 </html>"""
 
@@ -506,6 +647,7 @@ def generate_lawyer_settlement_advice_html(booking: Booking, lawyer: User) -> st
       --slate-900: #0f172a;
       --slate-700: #334155;
       --slate-600: #475569;
+      --slate-500: #64748b;
       --slate-200: #e2e8f0;
       --slate-50: #f8fafc;
     }}
@@ -516,6 +658,7 @@ def generate_lawyer_settlement_advice_html(booking: Booking, lawyer: User) -> st
       background: #f1f5f9;
       padding: 30px 16px;
       line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
     }}
     .action-bar {{
       max-width: 820px;
@@ -523,27 +666,42 @@ def generate_lawyer_settlement_advice_html(booking: Booking, lawyer: User) -> st
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
+    }}
+    .action-buttons {{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }}
     .btn {{
-      padding: 10px 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
       font-size: 14px;
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
       text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }}
     .btn-primary {{
       background: var(--primary);
-      color: #fff;
+      color: #fff !important;
       border: 1px solid var(--forest);
     }}
+    .btn-primary:hover {{ background: var(--forest); }}
     .btn-outline {{
       background: #fff;
-      color: var(--slate-700);
+      color: var(--slate-700) !important;
       border: 1px solid var(--slate-200);
     }}
+    .btn-outline:hover {{ background: var(--slate-50); }}
     .card {{
       max-width: 820px;
+      width: 100%;
       margin: 0 auto;
       background: #fff;
       border: 1px solid var(--slate-200);
@@ -554,39 +712,106 @@ def generate_lawyer_settlement_advice_html(booking: Booking, lawyer: User) -> st
     .header {{
       display: flex;
       justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
       border-bottom: 2px solid var(--slate-200);
       padding-bottom: 24px;
       margin-bottom: 24px;
     }}
-    table {{
+    .header-details {{
+      max-width: 380px;
+      line-height: 1.5;
+    }}
+    .voucher-meta {{
+      text-align: right;
+      flex-shrink: 0;
+      max-width: 100%;
+    }}
+    .table-wrap {{
       width: 100%;
-      border-collapse: collapse;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       margin-top: 20px;
       margin-bottom: 20px;
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+    }}
+    table {{
+      width: 100%;
+      min-width: 480px;
+      border-collapse: collapse;
+      background: #ffffff;
     }}
     th, td {{
       padding: 12px 14px;
       border-bottom: 1px solid var(--slate-200);
       font-size: 13.5px;
+      vertical-align: top;
+    }}
+    table tbody tr:last-child td {{
+      border-bottom: none;
     }}
     th {{ background: #f8fafc; text-align: left; font-weight: 700; color: var(--slate-600); }}
     .text-right {{ text-align: right; }}
+    .break-all {{ word-break: break-all; overflow-wrap: anywhere; }}
+
+    /* ── Mobile Responsive Styles ────────────────────────────────────────── */
+    @media screen and (max-width: 680px) {{
+      body {{
+        padding: 14px 10px;
+      }}
+      .action-bar {{
+        margin-bottom: 14px;
+        gap: 6px;
+      }}
+      .action-buttons {{
+        gap: 6px;
+      }}
+      .btn {{
+        padding: 8px 12px;
+        font-size: 12.5px;
+      }}
+      .card {{
+        padding: 22px 16px;
+        border-radius: 10px;
+      }}
+      .header {{
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        padding-bottom: 18px;
+        margin-bottom: 18px;
+      }}
+      .voucher-meta {{
+        text-align: left;
+        background: var(--slate-50);
+        border: 1px solid var(--slate-200);
+        border-radius: 8px;
+        padding: 14px 16px;
+      }}
+    }}
+
     @media print {{
       body {{ background: #fff !important; padding: 0 !important; }}
       .action-bar {{ display: none !important; }}
-      .card {{ border: none !important; box-shadow: none !important; padding: 0 !important; }}
+      .card {{ border: none !important; box-shadow: none !important; padding: 0 !important; max-width: 100% !important; }}
+      .table-wrap {{ border: none !important; overflow: visible !important; }}
+      table {{ min-width: 100% !important; }}
     }}
   </style>
 </head>
 <body>
   <div class="action-bar">
-    <a href="javascript:window.history.back()" class="btn btn-outline">← Back</a>
-    <button onclick="window.print()" class="btn btn-primary">🖨️ Print / Save Voucher</button>
+    <a href="/lawyer.html" id="btn-back" class="btn btn-outline">← Back</a>
+    <div class="action-buttons">
+      <button id="btn-save-pdf" type="button" class="btn btn-primary">📥 Save as PDF</button>
+      <button id="btn-print" type="button" class="btn btn-outline">🖨️ Print</button>
+    </div>
   </div>
 
   <div class="card">
     <div class="header">
-      <div>
+      <div class="header-details">
         <h2 style="font-family:'Plus Jakarta Sans',sans-serif; color:var(--primary);">⚖️ {settings.company_brand}</h2>
         <p style="font-size:12.5px; color:var(--slate-600); margin-top:4px;">
           <strong>{settings.company_name}</strong><br>
@@ -594,62 +819,66 @@ def generate_lawyer_settlement_advice_html(booking: Booking, lawyer: User) -> st
           {settings.company_address}
         </p>
       </div>
-      <div style="text-align:right;">
+      <div class="voucher-meta">
         <h3 style="font-size:18px; text-transform:uppercase;">Payout Settlement Advice</h3>
         <span style="display:inline-block; margin-top:4px; padding:3px 10px; background:#ecfdf5; color:#065f46; border-radius:999px; font-size:12px; font-weight:700;">DISBURSED ✓</span>
-        <p style="font-size:13px; color:var(--slate-600); margin-top:6px;"><strong>Voucher:</strong> {inv_number}<br><strong>Disbursement Date:</strong> {date_str}</p>
+        <p style="font-size:13px; color:var(--slate-600); margin-top:6px;"><strong>Voucher:</strong> <span>{inv_number}</span><br><strong>Disbursement Date:</strong> <span>{date_str}</span></p>
       </div>
     </div>
 
     <div style="background:var(--slate-50); border:1px solid var(--slate-200); border-radius:8px; padding:16px 20px; margin-bottom:24px;">
       <p style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--slate-600);">Payee (Advocate)</p>
       <p style="font-size:15px; font-weight:700; color:var(--slate-900);">{lawyer_name}</p>
-      <p style="font-size:13px; color:var(--slate-600);">Email: {lawyer_email} &middot; Practice Area: {practice_title}</p>
+      <p style="font-size:13px; color:var(--slate-600); overflow-wrap:break-word;">Email: {lawyer_email} &middot; Practice Area: {practice_title}</p>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Reference</th>
-          <th class="text-right">Credit (INR)</th>
-          <th class="text-right">Debit (INR)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <strong>Consultation Professional Fee (Escrow Release)</strong>
-            <div style="font-size:12px; color:var(--slate-500); margin-top:3px;">Consultation ID: {booking.id} (Dispute window cleared)</div>
-          </td>
-          <td>Escrow Release</td>
-          <td class="text-right">₹{gross_fee:,.2f}</td>
-          <td class="text-right">-</td>
-        </tr>
-        <tr>
-          <td>
-            <strong>VidhiMeet Platform Facilitation Commission</strong>
-            <div style="font-size:12px; color:var(--slate-500); margin-top:3px;">Base fee: ₹{tax_info['base_taxable']:,.2f} + 18% GST: ₹{tax_info['total_gst']:,.2f} (SAC 998315)</div>
-          </td>
-          <td>Platform Fee</td>
-          <td class="text-right">-</td>
-          <td class="text-right">₹{platform_deduction:,.2f}</td>
-        </tr>
-        <tr style="font-weight:700; background:#f8fafc; font-size:15px;">
-          <td colspan="2">Net Disbursed to Advocate Bank Account:</td>
-          <td colspan="2" class="text-right" style="color:var(--primary);">₹{net_payout:,.2f}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Reference</th>
+            <th class="text-right">Credit (INR)</th>
+            <th class="text-right">Debit (INR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Consultation Professional Fee (Escrow Release)</strong>
+              <div style="font-size:12px; color:var(--slate-500); margin-top:3px;">Consultation ID: {booking.id} (Dispute window cleared)</div>
+            </td>
+            <td>Escrow Release</td>
+            <td class="text-right">₹{gross_fee:,.2f}</td>
+            <td class="text-right">-</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>VidhiMeet Platform Facilitation Commission</strong>
+              <div style="font-size:12px; color:var(--slate-500); margin-top:3px;">Base fee: ₹{tax_info['base_taxable']:,.2f} + 18% GST: ₹{tax_info['total_gst']:,.2f} (SAC 998315)</div>
+            </td>
+            <td>Platform Fee</td>
+            <td class="text-right">-</td>
+            <td class="text-right">₹{platform_deduction:,.2f}</td>
+          </tr>
+          <tr style="font-weight:700; background:#f8fafc; font-size:15px;">
+            <td colspan="2">Net Disbursed to Advocate Bank Account:</td>
+            <td colspan="2" class="text-right" style="color:var(--primary);">₹{net_payout:,.2f}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <div style="background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:14px 18px; margin-top:20px; font-size:13px;">
-      <strong>Disbursement Method:</strong> Direct Bank Transfer (Cashfree Payouts){bank_info} &middot; <strong>UTR / Reference ID:</strong> <code>{payout_ref}</code>
+    <div style="background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; padding:14px 18px; margin-top:20px; font-size:13px; overflow-wrap:anywhere;">
+      <strong>Disbursement Method:</strong> Direct Bank Transfer (Cashfree Payouts){bank_info} &middot; <strong>UTR / Reference ID:</strong> <code class="break-all">{payout_ref}</code>
     </div>
 
     <p style="margin-top:28px; font-size:11.5px; color:var(--slate-500); line-height:1.5;">
       <em>Note: VidhiMeet is an intermediary technology marketplace under Section 79 of the Information Technology Act, 2000. This settlement advice confirms the net transfer of consultation earnings after deduction of the agreed platform infrastructure fee. Advocates practice as independent legal professionals and are responsible for their individual direct tax filings.</em>
     </p>
   </div>
+
+  <script src="/js/receipt.min.js"></script>
 </body>
 </html>"""
 

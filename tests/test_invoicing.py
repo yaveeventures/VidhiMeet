@@ -91,6 +91,20 @@ def test_client_receipt_html_content():
     assert "Advocate Priya Sharma" in html_out
     assert "order_CF_998877" in html_out
 
+    # Check responsive and mobile layout containers
+    assert "table-wrap" in html_out
+    assert "break-all" in html_out
+    assert "@media screen and (max-width: 680px)" in html_out
+
+    # Check CSP-safe navigation actions (no inline JS or blocked pseudo-protocols)
+    assert 'id="btn-back"' in html_out
+    assert 'href="/"' in html_out
+    assert 'id="btn-save-pdf"' in html_out
+    assert 'id="btn-print"' in html_out
+    assert "javascript:window.history.back()" not in html_out
+    assert "onclick=" not in html_out
+    assert '/js/receipt.min.js' in html_out
+
 
 def test_settlement_advice_html_content():
     """Verify advocate settlement voucher contains payout calculations and intermediary notices."""
@@ -128,6 +142,20 @@ def test_settlement_advice_html_content():
     assert "CMS2026091812345678" in html_out
     assert "HDFC Bank" in html_out
     assert "Section 79 of the Information Technology Act" in html_out
+
+    # Check responsive and mobile layout containers
+    assert "table-wrap" in html_out
+    assert "break-all" in html_out
+    assert "@media screen and (max-width: 680px)" in html_out
+
+    # Check CSP-safe navigation actions
+    assert 'id="btn-back"' in html_out
+    assert 'href="/lawyer.html"' in html_out
+    assert 'id="btn-save-pdf"' in html_out
+    assert 'id="btn-print"' in html_out
+    assert "javascript:window.history.back()" not in html_out
+    assert "onclick=" not in html_out
+    assert '/js/receipt.min.js' in html_out
 
 
 def test_receipt_api_access_control(client: TestClient, database: Session):

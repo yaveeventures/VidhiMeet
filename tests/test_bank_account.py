@@ -181,3 +181,76 @@ def test_verify_without_account_returns_404(client):
     res = client.post("/api/v1/lawyers/me/bank-account/verify",
                       headers={"Authorization": f"Bearer {token}"})
     assert res.status_code == 404
+
+
+def test_admin_verify_and_revoke_bank_account(client):
+    """Admin can manually verify and revoke verification for a lawyer bank account."""
+    # 1. Register lawyer and add bank account
+    lawyer_reg = client.post("/api/v1/auth/register", json={
+        "email": "bank_adminver@example.com", "password": "secure-password-adminver-123",
+        "full_name": "Adv. Admin Verify", "role": "lawyer",
+        "consent_privacy_policy": True, "consent_terms": True
+    })
+    lawyer_token = lawyer_reg.json()["access_token"]
+    l_headers = {"Authorization": f"Bearer {lawyer_token}"}
+
+    bank_res = client.post("/api/v1/lawyers/me/bank-account", json={
+        "account_holder_name": "Adv. Admin Verify",
+        "account_number": "555566667777",
+        "ifsc_code": "UBIN0001234",
+        "bank_name": "Union Bank of India"
+    }, headers=l_headers)
+    assert bank_res.status_code == 201
+    bank_id = bank_res.json()["id"]
+    lawyer_id = client.get("/api/v1/auth/me", headers=l_headers).json()["id"]
+
+    # 2. Create admin
+    from backend.db import SessionLocal
+    from backend.models import Role, User
+    from backend.security import create_access_token, hash_password
+    db = SessionLocal()
+    try:
+        admin = User(
+            email="admin_bankver@example.com",
+            password_hash=hash_password("Pass123!"),
+            full_name="Super Admin",
+            role=Role.ADMIN
+        )
+        db.add(admin)
+        db.commit()
+        admin_token = create_access_token(admin)
+    finally:
+        db.close()
+    a_headers = {"Authorization": f"Bearer {admin_token}"}
+
+    # 3. Non-admin forbidden
+    client_reg = client.post("/api/v1/auth/register", json={
+        "email": "client_forbidden@example.com", "password": "secure-client-pass-123",
+        "full_name": "Test Client", "role": "client",
+        "consent_privacy_policy": True, "consent_terms": True
+    })
+    c_token = client_reg.json()["access_token"]
+    forbidden_res = client.patch(f"/api/v1/admin/payouts/{bank_id}/verify?verified=true",
+                                 headers={"Authorization": f"Bearer {c_token}"})
+    assert forbidden_res.status_code == 403
+
+    # 4. Admin verifies by bank_id
+    ver_res = client.patch(f"/api/v1/admin/payouts/{bank_id}/verify?verified=true", headers=a_headers)
+    assert ver_res.status_code == 200
+    vdata = ver_res.json()
+    assert vdata["verified"] is True
+    assert vdata["verification_status"] == "verified"
+    assert vdata["utr"].startswith("ADM-VERIFIED-")
+
+    # 5. Check lawyer sees verified state
+    acct = client.get("/api/v1/lawyers/me/bank-account", headers=l_headers).json()
+    assert acct["verified"] is True
+    assert acct["verification_status"] == "verified"
+
+    # 6. Admin revokes verification
+    rev_res = client.patch(f"/api/v1/admin/payouts/{lawyer_id}/verify?verified=false", headers=a_headers)
+    assert rev_res.status_code == 200
+    rdata = rev_res.json()
+    assert rdata["verified"] is False
+    assert rdata["verification_status"] == "unverified"
+

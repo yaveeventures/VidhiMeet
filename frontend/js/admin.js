@@ -639,8 +639,11 @@ async function reviewApplication(id, name, practice, bar, isVerified = false, ba
   let bankSectionHtml = "";
   if (bank) {
     const rpdStatusHtml = bank.verified
-      ? `<span style="font-size:11px; background:#e6fffa; color:#234e52; border:1px solid #b2f5ea; padding:2px 8px; border-radius:4px; font-weight:700;">✓ RPD Verified</span>`
-      : `<span style="font-size:11px; background:#fffaf0; color:#744210; border:1px solid #fbd38d; padding:2px 8px; border-radius:4px; font-weight:700;">${escapeHtml(bank.verification_status || "Pending")}</span>`;
+      ? `<span style="font-size:11px; background:#e6fffa; color:#234e52; border:1px solid #b2f5ea; padding:2px 8px; border-radius:4px; font-weight:700;">✓ Verified</span>`
+      : `<div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:11px; background:#fffaf0; color:#744210; border:1px solid #fbd38d; padding:2px 8px; border-radius:4px; font-weight:700;">${escapeHtml(bank.verification_status || "Pending")}</span>
+          <button type="button" class="primary" style="padding: 3px 8px; font-size: 11px; border-radius: 4px; background: #047857; color: #fff; border:none; cursor:pointer; font-weight:600;" onclick="handleToggleBankAccountVerify('${bank.id}', true, '${escapeHtml(user.full_name || name)}')">✓ Verify Bank</button>
+        </div>`;
 
     bankSectionHtml = `
       <div class="dossier-card">
@@ -1805,6 +1808,18 @@ window.forceReleasePayout = async function(entityType, id) {
   }
 };
 
+window.handleToggleBankAccountVerify = async function(accountId, verifyState, lawyerName) {
+  const actionText = verifyState ? "verify" : "revoke verification for";
+  if (!confirm(`Are you sure you want to ${actionText} the bank account for ${lawyerName}?`)) return;
+  try {
+    await LexAPI.verifyAdminBankAccount(accountId, verifyState);
+    toast(`Bank account for ${lawyerName} ${verifyState ? 'verified successfully' : 'verification revoked'}.`);
+    await loadData();
+  } catch (err) {
+    toast(`Operation failed: ${err.message || err}`, true);
+  }
+};
+
 function getAdvocateInitials(name) {
   if (!name) return "AD";
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -2033,6 +2048,15 @@ function renderPayouts() {
           <td>
             ${p.verified ? '<span class="status-pill status-confirmed">✓ Verified</span>' : '<span class="status-pill status-pending">⏳ Pending Verification</span>'}
           </td>
+          <td>
+            ${p.verified ? `
+              <button class="outline" style="padding: 4px 10px; font-size: 11px; border-radius: 6px; border-color: #cbd5e1; color: #64748b; cursor: pointer;" onclick="handleToggleBankAccountVerify('${p.id}', false, '${escapeHtml(p.lawyer_name || "Advocate")}')" title="Revoke bank verification">Revoke</button>
+            ` : `
+              <button class="primary" style="padding: 5px 12px; font-size: 12px; border-radius: 6px; background: #047857; color: #fff; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);" onclick="handleToggleBankAccountVerify('${p.id}', true, '${escapeHtml(p.lawyer_name || "Advocate")}')" title="Mark bank account as verified">
+                <span>✓ Verify</span>
+              </button>
+            `}
+          </td>
         </tr>
       `;
     }).join("");
@@ -2048,6 +2072,7 @@ function renderPayouts() {
             <th>Bank Name</th>
             <th>UPI VPA</th>
             <th>Verification Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>

@@ -568,6 +568,50 @@ def get_admin_payouts(_admin: User = Depends(require_roles(Role.ADMIN)), db: Ses
     return out
 
 
+@router.patch("/payouts/{account_id}/verify")
+def admin_verify_bank_account(
+    account_id: str,
+    verified: bool = True,
+    request: Request = None,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    """
+    Allows an administrator to manually verify or revoke verification for a lawyer's payout bank account.
+    """
+    acct = db.get(LawyerBankAccount, account_id)
+    if not acct:
+        acct = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == account_id))
+    if not acct:
+        raise HTTPException(404, "Bank account not found")
+
+    if verified:
+        acct.verified = True
+        acct.verified_at = datetime.now(timezone.utc)
+        acct.verification_status = "verified"
+        acct.verification_method = "admin_manual"
+        if not acct.utr:
+            acct.utr = f"ADM-VERIFIED-{acct.id[:12].upper()}"
+        audit(db, admin, "bank_account.verified", "lawyer_bank_account", acct.id, {"lawyer_id": acct.user_id}, request=request)
+    else:
+        acct.verified = False
+        acct.verified_at = None
+        acct.verification_status = "unverified"
+        audit(db, admin, "bank_account.unverified", "lawyer_bank_account", acct.id, {"lawyer_id": acct.user_id}, request=request)
+
+    db.commit()
+    db.refresh(acct)
+    return {
+        "status": "success",
+        "account_id": acct.id,
+        "lawyer_id": acct.user_id,
+        "verified": acct.verified,
+        "verification_status": acct.verification_status,
+        "verified_at": acct.verified_at,
+        "utr": acct.utr
+    }
+
+
 @router.get("/feedback", response_model=list[PlatformFeedbackOut])
 def get_platform_feedback(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
     """Returns all submitted platform feedback ordered by newest first."""

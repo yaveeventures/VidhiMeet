@@ -13,6 +13,8 @@ router = APIRouter()
 
 
 @router.get("/api/v1/health")
+@router.get("/health", include_in_schema=False)
+@router.get("/ping", include_in_schema=False)
 def health(db: Session = Depends(get_db)):
     db.execute(select(1))
     return {"status": "ok", "time": datetime.now(timezone.utc).isoformat()}

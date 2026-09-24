@@ -123,17 +123,49 @@ const LexAPI = (() => {
     return response.status === 204 ? null : response.json();
   }
 
-  // Cache Helper
-  async function cachedRequest(path, ttlMs = 15000) {
+  // Cache Helper with SessionStorage & Stale-While-Revalidate support
+  async function cachedRequest(path, ttlMs = 15000, useStorage = false) {
     const now = Date.now();
+    const storageKey = "lex_cache_" + path;
+
+    // 1. Check in-memory cache
     if (cache.has(path)) {
       const entry = cache.get(path);
       if (now - entry.timestamp < entry.ttl) {
         return entry.data;
       }
     }
+
+    // 2. Check sessionStorage fallback if enabled
+    if (useStorage && typeof window !== "undefined" && window.sessionStorage) {
+      try {
+        const stored = sessionStorage.getItem(storageKey);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (parsed && parsed.data && (now - parsed.timestamp < ttlMs)) {
+            cache.set(path, { data: parsed.data, timestamp: parsed.timestamp, ttl: ttlMs });
+            // Background revalidation if older than 45s
+            if (now - parsed.timestamp > 45000) {
+              request(path).then(freshData => {
+                cache.set(path, { data: freshData, timestamp: Date.now(), ttl: ttlMs });
+                try {
+                  sessionStorage.setItem(storageKey, JSON.stringify({ data: freshData, timestamp: Date.now() }));
+                } catch (_) {}
+              }).catch(() => {});
+            }
+            return parsed.data;
+          }
+        }
+      } catch (_) {}
+    }
+
     const data = await request(path);
     cache.set(path, { data, timestamp: now, ttl: ttlMs });
+    if (useStorage && typeof window !== "undefined" && window.sessionStorage) {
+      try {
+        sessionStorage.setItem(storageKey, JSON.stringify({ data, timestamp: now }));
+      } catch (_) {}
+    }
     return data;
   }
 
@@ -146,6 +178,18 @@ const LexAPI = (() => {
     invalidateCache(prefix = "") {
       for (const key of cache.keys()) {
         if (key.startsWith(prefix)) cache.delete(key);
+      }
+      if (typeof window !== "undefined" && window.sessionStorage) {
+        try {
+          const toRemove = [];
+          for (let i = 0; i < sessionStorage.length; i++) {
+            const k = sessionStorage.key(i);
+            if (k && k.startsWith("lex_cache_" + prefix)) {
+              toRemove.push(k);
+            }
+          }
+          toRemove.forEach(k => sessionStorage.removeItem(k));
+        } catch (_) {}
       }
     },
     async login(email, password) {
@@ -347,7 +391,11 @@ const LexAPI = (() => {
       if (!r.ok) return null;
       return r.json();
     }).catch(() => null),
-    lawyers: filters => cachedRequest(`/lawyers?${new URLSearchParams(filters || {})}`, 10000),
+    lawyers: filters => {
+      const query = filters ? new URLSearchParams(filters).toString() : "";
+      const path = query ? `/lawyers?${query}` : "/lawyers";
+      return cachedRequest(path, 300000, true);
+    },
     getProfile: () => request("/lawyers/me"),
     updateProfile: payload => {
       LexAPI.invalidateCache("/lawyers");
@@ -398,6 +446,7 @@ const LexAPI = (() => {
     verifyLawyerDocument: (id, docType, verified = true) => request(`/admin/lawyers/${id}/documents/verify?doc_type=${docType}&verified=${verified}`, {method:"PATCH"}),
     getLawyerVerificationDossier: (id) => request(`/admin/lawyers/${id}/verification-dossier`),
     getAdminPayouts: () => request("/admin/payouts"),
+    verifyAdminBankAccount: (id, verified = true) => request(`/admin/payouts/${id}/verify?verified=${verified}`, { method: "PATCH" }),
     getPendingPayouts: () => request("/admin/payouts/pending"),
     triggerPayoutSweep: () => request("/admin/payouts/sweep", { method: "POST" }),
     forceReleaseBookingPayout: (id) => request(`/admin/payouts/bookings/${id}/release`, { method: "POST" }),
