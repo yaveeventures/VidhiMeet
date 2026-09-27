@@ -3819,7 +3819,7 @@ function openContactModal() {
       
       <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; background: #f8fafc; padding: 16px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 14px;">
         <div><strong>📧 Email Support:</strong> <a href="mailto:support@VidhiMeet.in" style="color: #4f46e5; font-weight: 600;">support@VidhiMeet.in</a></div>
-        <div><strong>📞 Customer Helpline:</strong> <a href="tel:+919632410042" style="color: #4f46e5; font-weight: 600;">+91 96324 10042</a> (Mon - Sat, 9 AM - 7 PM IST)</div>
+        <div><strong>📞 Customer Helpline:</strong> <a href="tel:+918762298516" style="color: #4f46e5; font-weight: 600;">+91 87622 98516</a> (Mon - Sat, 9 AM - 7 PM IST)</div>
       </div>
 
       <form id="contact-form" style="display: flex; flex-direction: column; gap: 12px;">
