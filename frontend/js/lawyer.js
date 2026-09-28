@@ -1284,14 +1284,36 @@ function renderSessionTable(type = "upcoming") {
 }
 
 // Helper to generate standardized time dropdown options (30-min increments)
+// Helper to generate standardized time dropdown options (30-min increments)
 const ALL_TIME_SLOTS = [
   "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
   "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
   "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
   "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM", "05:30 PM",
   "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM", "08:00 PM", "08:30 PM",
-  "09:00 PM", "09:30 PM", "10:00 PM"
+  "09:00 PM", "09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM"
 ];
+
+const PERIOD_CONFIGS = [
+  { key: "morning", label: "Morning", icon: "☀️", defaultStart: "08:00 AM", defaultEnd: "12:00 PM" },
+  { key: "afternoon", label: "Afternoon", icon: "🌤️", defaultStart: "12:00 PM", defaultEnd: "04:00 PM" },
+  { key: "evening", label: "Evening", icon: "🌙", defaultStart: "05:00 PM", defaultEnd: "09:00 PM" }
+];
+
+const PERIOD_TIME_SLOTS = {
+  morning: [
+    "06:00 AM", "06:30 AM", "07:00 AM", "07:30 AM", "08:00 AM", "08:30 AM",
+    "09:00 AM", "09:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM", "12:00 PM"
+  ],
+  afternoon: [
+    "12:00 PM", "12:30 PM", "01:00 PM", "01:30 PM", "02:00 PM", "02:30 PM",
+    "03:00 PM", "03:30 PM", "04:00 PM", "04:30 PM", "05:00 PM"
+  ],
+  evening: [
+    "05:00 PM", "05:30 PM", "06:00 PM", "06:30 PM", "07:00 PM", "07:30 PM",
+    "08:00 PM", "08:30 PM", "09:00 PM", "09:30 PM", "10:00 PM", "10:30 PM", "11:00 PM"
+  ]
+};
 
 function timeToMinutes(tStr) {
   if (!tStr) return 0;
@@ -1306,26 +1328,50 @@ function timeToMinutes(tStr) {
   return h * 60 + m;
 }
 
-function generateStartTimeOptions(selectedStart) {
-  const times = ALL_TIME_SLOTS.slice(0, -1);
-  let cleanSelected = (selectedStart || "").trim().toUpperCase();
+function generatePeriodTimeOptions(periodKey, selectedTime, minStart = null) {
+  let pKey = periodKey;
+  let sTime = selectedTime;
+  let mStart = minStart;
+
+  // Handle legacy 1- or 2-arg signature where first arg is selectedTime
+  if (pKey && !PERIOD_TIME_SLOTS[pKey] && typeof pKey === "string" && (pKey.includes("AM") || pKey.includes("PM"))) {
+    mStart = selectedTime;
+    sTime = periodKey;
+    pKey = null;
+  }
+
+  const allowedSlots = (pKey && PERIOD_TIME_SLOTS[pKey]) ? PERIOD_TIME_SLOTS[pKey] : ALL_TIME_SLOTS;
+  let times = allowedSlots;
+
+  if (mStart) {
+    const minMins = timeToMinutes(mStart);
+    times = allowedSlots.filter(t => timeToMinutes(t) > minMins);
+    if (times.length === 0) {
+      times = [allowedSlots[allowedSlots.length - 1]];
+    }
+  } else {
+    // For start time dropdown, exclude the very last boundary slot
+    times = allowedSlots.slice(0, -1);
+  }
+
+  let cleanSelected = (sTime || "").trim().toUpperCase();
   if (!times.includes(cleanSelected)) {
-    cleanSelected = times.find(t => t.startsWith(cleanSelected.slice(0, 2))) || "09:00 AM";
+    if (mStart) {
+      const minMins = timeToMinutes(mStart);
+      cleanSelected = times.find(t => timeToMinutes(t) >= minMins + 60) || times[0] || allowedSlots[allowedSlots.length - 1];
+    } else {
+      cleanSelected = times[0] || allowedSlots[0];
+    }
   }
   return times.map(t => `<option value="${t}" ${t === cleanSelected ? "selected" : ""}>${t}</option>`).join("");
 }
 
-function generateEndTimeOptions(selectedEnd, minStart) {
-  const minMins = minStart ? timeToMinutes(minStart) : 0;
-  const validTimes = ALL_TIME_SLOTS.filter(t => timeToMinutes(t) > minMins);
-  let cleanSelected = (selectedEnd || "").trim().toUpperCase();
+function generateStartTimeOptions(selectedStart) {
+  return generatePeriodTimeOptions(selectedStart);
+}
 
-  if (!validTimes.includes(cleanSelected)) {
-    const defaultEndMins = minMins + 60;
-    const matched = validTimes.find(t => timeToMinutes(t) >= defaultEndMins);
-    cleanSelected = matched || validTimes[validTimes.length - 1] || "06:00 PM";
-  }
-  return validTimes.map(t => `<option value="${t}" ${t === cleanSelected ? "selected" : ""}>${t}</option>`).join("");
+function generateEndTimeOptions(selectedEnd, minStart) {
+  return generatePeriodTimeOptions(selectedEnd, minStart);
 }
 
 function renderTimeSelects(startVal, endVal) {
@@ -1352,47 +1398,226 @@ function generateTimeOptions(selectedTime) {
   return generateStartTimeOptions(selectedTime);
 }
 
+function updateDayBadge(dayCard) {
+  const dayKey = dayCard.dataset.day;
+  const badgeEl = dayCard.querySelector(`#badge-${dayKey}`);
+  if (!badgeEl) return;
+
+  const isDayActive = dayCard.querySelector(".day-toggle").checked;
+  if (!isDayActive) {
+    badgeEl.textContent = "Unavailable";
+    badgeEl.className = "day-badge badge-off";
+    return;
+  }
+
+  const activePeriodNames = [];
+  dayCard.querySelectorAll(".period-row").forEach(row => {
+    const chk = row.querySelector(".period-toggle");
+    if (chk && chk.checked) {
+      const title = row.querySelector(".period-title")?.textContent || row.dataset.period;
+      activePeriodNames.push(title);
+    }
+  });
+
+  if (activePeriodNames.length === 3) {
+    badgeEl.textContent = "All 3 sessions active";
+    badgeEl.className = "day-badge";
+  } else if (activePeriodNames.length === 0) {
+    badgeEl.textContent = "No sessions enabled";
+    badgeEl.className = "day-badge badge-warn";
+  } else {
+    badgeEl.textContent = activePeriodNames.join(" & ");
+    badgeEl.className = "day-badge";
+  }
+}
+
 // 3. Availability Tab
 function renderCalendar() {
   const container = $("#week");
+  if (!container) return;
   const weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   const avail = lawyerProfile.availability || {};
   
   container.innerHTML = weekDays.map((day, i) => {
     const dayKey = day.toLowerCase();
-    const dayConfig = avail[dayKey] || { active: i < 5, start: "09:00 AM", end: "06:00 PM" };
+    const rawConfig = avail[dayKey] || {};
+    const isDayActive = typeof rawConfig.active === "boolean" ? rawConfig.active : (i < 5);
+
+    const periods = {};
+    if (rawConfig.periods && typeof rawConfig.periods === "object") {
+      PERIOD_CONFIGS.forEach(p => {
+        const saved = rawConfig.periods[p.key] || {};
+        periods[p.key] = {
+          active: typeof saved.active === "boolean" ? saved.active : isDayActive,
+          start: saved.start || p.defaultStart,
+          end: saved.end || p.defaultEnd
+        };
+      });
+    } else {
+      PERIOD_CONFIGS.forEach(p => {
+        periods[p.key] = {
+          active: isDayActive,
+          start: p.defaultStart,
+          end: p.defaultEnd
+        };
+      });
+    }
+
+    const periodsHtml = PERIOD_CONFIGS.map(p => {
+      const pData = periods[p.key];
+      const startOptions = generatePeriodTimeOptions(p.key, pData.start);
+      const endOptions = generatePeriodTimeOptions(p.key, pData.end, pData.start);
+      const isDisabledClass = !pData.active ? "period-disabled" : "";
+      return `
+        <div class="period-row ${isDisabledClass}" data-period="${p.key}">
+          <label class="period-check-label">
+            <input type="checkbox" class="period-toggle" ${pData.active ? "checked" : ""}>
+            <span class="period-icon">${p.icon}</span>
+            <span class="period-title">${p.label}</span>
+          </label>
+          <div class="period-times">
+            <select class="period-start" ${!pData.active ? "disabled" : ""}>${startOptions}</select>
+            <span class="time-sep">to</span>
+            <select class="period-end" ${!pData.active ? "disabled" : ""}>${endOptions}</select>
+          </div>
+        </div>
+      `;
+    }).join("");
+
     return `
-      <div class="day" data-day="${dayKey}">
-        <strong>${day}</strong>
-        <label class="toggle">
-          <input type="checkbox" class="day-toggle" ${dayConfig.active ? "checked" : ""}>
-          <i></i>
-        </label>
-        <div class="times">
-          ${dayConfig.active 
-            ? renderTimeSelects(dayConfig.start, dayConfig.end) 
-            : "Unavailable"}
+      <div class="day-card ${!isDayActive ? "is-inactive" : ""}" data-day="${dayKey}">
+        <div class="day-header">
+          <div class="day-title-wrap">
+            <strong class="day-name">${day}</strong>
+            <span class="day-badge" id="badge-${dayKey}">--</span>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" class="day-toggle" ${isDayActive ? "checked" : ""}>
+            <i></i>
+          </label>
+        </div>
+        <div class="day-unavailable-msg" style="display:${isDayActive ? "none" : "block"};">
+          Unavailable for consultations on this day
+        </div>
+        <div class="day-periods" style="display:${isDayActive ? "flex" : "none"};">
+          ${periodsHtml}
         </div>
       </div>
     `;
   }).join("");
 
-  document.querySelectorAll(".day").forEach(dayRow => {
-    bindTimeSelectListeners(dayRow);
+  document.querySelectorAll(".day-card").forEach(dayCard => {
+    updateDayBadge(dayCard);
 
-    const chk = dayRow.querySelector(".day-toggle");
-    if (chk) {
-      chk.onchange = () => {
-        const timesDiv = dayRow.querySelector(".times");
-        if (chk.checked) {
-          timesDiv.innerHTML = renderTimeSelects("09:00 AM", "06:00 PM");
-          bindTimeSelectListeners(dayRow);
+    const dayChk = dayCard.querySelector(".day-toggle");
+    if (dayChk) {
+      dayChk.onchange = () => {
+        const isChecked = dayChk.checked;
+        const periodsDiv = dayCard.querySelector(".day-periods");
+        const unavailDiv = dayCard.querySelector(".day-unavailable-msg");
+        if (isChecked) {
+          dayCard.classList.remove("is-inactive");
+          if (periodsDiv) periodsDiv.style.display = "flex";
+          if (unavailDiv) unavailDiv.style.display = "none";
         } else {
-          timesDiv.innerHTML = "Unavailable";
+          dayCard.classList.add("is-inactive");
+          if (periodsDiv) periodsDiv.style.display = "none";
+          if (unavailDiv) unavailDiv.style.display = "block";
         }
+        dayCard.style.outline = "";
+        updateDayBadge(dayCard);
       };
     }
+
+    dayCard.querySelectorAll(".period-row").forEach(row => {
+      const periodChk = row.querySelector(".period-toggle");
+      const startSel = row.querySelector(".period-start");
+      const endSel = row.querySelector(".period-end");
+
+      if (periodChk && startSel && endSel) {
+        periodChk.onchange = () => {
+          const isPChecked = periodChk.checked;
+          row.classList.toggle("period-disabled", !isPChecked);
+          startSel.disabled = !isPChecked;
+          endSel.disabled = !isPChecked;
+          row.classList.remove("has-error");
+          dayCard.style.outline = "";
+          updateDayBadge(dayCard);
+        };
+
+        startSel.onchange = () => {
+          const pKey = row.dataset.period;
+          const newStart = startSel.value;
+          const currentEnd = endSel.value;
+          endSel.innerHTML = generatePeriodTimeOptions(pKey, currentEnd, newStart);
+          row.classList.remove("has-error");
+        };
+
+        endSel.onchange = () => {
+          row.classList.remove("has-error");
+        };
+      }
+    });
   });
+
+  const applyBtn = document.querySelector("#copy-mon-to-weekdays");
+  if (applyBtn) {
+    applyBtn.onclick = () => {
+      const mondayCard = document.querySelector('.day-card[data-day="monday"]');
+      if (!mondayCard) return;
+
+      const monActive = mondayCard.querySelector(".day-toggle").checked;
+      const monPeriods = {};
+      mondayCard.querySelectorAll(".period-row").forEach(row => {
+        const pKey = row.dataset.period;
+        monPeriods[pKey] = {
+          active: row.querySelector(".period-toggle").checked,
+          start: row.querySelector(".period-start").value,
+          end: row.querySelector(".period-end").value
+        };
+      });
+
+      const targetDays = ["tuesday", "wednesday", "thursday", "friday"];
+      targetDays.forEach(dKey => {
+        const targetCard = document.querySelector(`.day-card[data-day="${dKey}"]`);
+        if (!targetCard) return;
+
+        const dayToggle = targetCard.querySelector(".day-toggle");
+        dayToggle.checked = monActive;
+        targetCard.classList.toggle("is-inactive", !monActive);
+        targetCard.querySelector(".day-periods").style.display = monActive ? "flex" : "none";
+        targetCard.querySelector(".day-unavailable-msg").style.display = monActive ? "none" : "block";
+
+        targetCard.querySelectorAll(".period-row").forEach(row => {
+          const pKey = row.dataset.period;
+          const src = monPeriods[pKey];
+          if (!src) return;
+
+          const pChk = row.querySelector(".period-toggle");
+          const sSel = row.querySelector(".period-start");
+          const eSel = row.querySelector(".period-end");
+
+          pChk.checked = src.active;
+          row.classList.toggle("period-disabled", !src.active);
+          sSel.disabled = !src.active;
+          eSel.disabled = !src.active;
+
+          sSel.value = src.start;
+          eSel.innerHTML = generatePeriodTimeOptions(pKey, src.end, src.start);
+        });
+
+        targetCard.style.outline = "";
+        updateDayBadge(targetCard);
+      });
+
+      toast("Monday schedule copied to Tuesday–Friday.");
+    };
+  }
+
+  const acceptBookingsEl = $("#accepting-bookings-toggle");
+  if (acceptBookingsEl && typeof avail._accepting_bookings === "boolean") {
+    acceptBookingsEl.checked = avail._accepting_bookings;
+  }
 
   const minNoticeEl = $("#min-notice");
   const bufferEl = $("#buffer-time");
@@ -1404,46 +1629,126 @@ function renderCalendar() {
 
 async function saveAvailability() {
   const avail = {};
-  let invalidDay = null;
+  let hasError = false;
 
-  document.querySelectorAll(".day").forEach(dayRow => {
-    const dayKey = dayRow.dataset.day;
-    const dayName = dayRow.querySelector("strong")?.textContent || dayKey;
-    const active = dayRow.querySelector(".day-toggle").checked;
-    
-    dayRow.style.outline = "";
+  document.querySelectorAll(".day-card").forEach(dayCard => {
+    const dayKey = dayCard.dataset.day;
+    const dayName = dayCard.querySelector(".day-name")?.textContent || dayKey;
+    const isDayActive = dayCard.querySelector(".day-toggle").checked;
 
-    if (active) {
-      const start = dayRow.querySelector(".time-start").value;
-      const end = dayRow.querySelector(".time-end").value;
+    dayCard.style.outline = "";
 
-      if (timeToMinutes(start) >= timeToMinutes(end)) {
-        dayRow.style.outline = "2px solid var(--terra, #b30000)";
-        if (!invalidDay) invalidDay = dayName;
+    if (isDayActive) {
+      const periods = {};
+      let activePeriodCount = 0;
+      let earliestMinutes = Infinity;
+      let latestMinutes = -1;
+      let earliestStartStr = "09:00 AM";
+      let latestEndStr = "06:00 PM";
+
+      dayCard.querySelectorAll(".period-row").forEach(row => {
+        row.classList.remove("has-error");
+        const pKey = row.dataset.period;
+        const pTitle = row.querySelector(".period-title")?.textContent || pKey;
+        const isPeriodActive = row.querySelector(".period-toggle").checked;
+        const startVal = row.querySelector(".period-start").value;
+        const endVal = row.querySelector(".period-end").value;
+
+        if (isPeriodActive) {
+          activePeriodCount++;
+          const sMin = timeToMinutes(startVal);
+          const eMin = timeToMinutes(endVal);
+
+          if (sMin >= eMin) {
+            row.classList.add("has-error");
+            toast(`Invalid hours for ${dayName} ${pTitle}: End time must be after Start time.`);
+            hasError = true;
+          }
+
+          if (sMin < earliestMinutes) {
+            earliestMinutes = sMin;
+            earliestStartStr = startVal;
+          }
+          if (eMin > latestMinutes) {
+            latestMinutes = eMin;
+            latestEndStr = endVal;
+          }
+        }
+
+        periods[pKey] = {
+          active: isPeriodActive,
+          start: startVal,
+          end: endVal
+        };
+      });
+
+      if (activePeriodCount === 0) {
+        dayCard.style.outline = "2px solid var(--terra, #c86245)";
+        toast(`Please enable at least one session (Morning, Afternoon, or Evening) for ${dayName}, or toggle the day off.`);
+        hasError = true;
       }
 
-      avail[dayKey] = { active, start, end };
+      avail[dayKey] = {
+        active: true,
+        periods: periods,
+        start: earliestStartStr,
+        end: latestEndStr
+      };
     } else {
-      avail[dayKey] = { active: false };
+      avail[dayKey] = {
+        active: false,
+        periods: {
+          morning: { active: false, start: "08:00 AM", end: "12:00 PM" },
+          afternoon: { active: false, start: "12:00 PM", end: "04:00 PM" },
+          evening: { active: false, start: "05:00 PM", end: "09:00 PM" }
+        },
+        start: "09:00 AM",
+        end: "06:00 PM"
+      };
     }
   });
 
-  if (invalidDay) {
-    toast(`Invalid hours for ${invalidDay}: End time must be after Start time.`);
-    return;
-  }
+  if (hasError) return;
 
   const minNoticeEl = $("#min-notice");
   const bufferEl = $("#buffer-time");
   const tzEl = $("#timezone-select");
+  const acceptBookingsEl = $("#accepting-bookings-toggle");
+
   if (minNoticeEl) avail._min_notice = parseInt(minNoticeEl.value, 10) || 12;
   if (bufferEl) avail._buffer = parseInt(bufferEl.value, 10) || 15;
   if (tzEl) avail._timezone = tzEl.value || "Asia/Kolkata";
-  
+  if (acceptBookingsEl) avail._accepting_bookings = acceptBookingsEl.checked;
+
+  if (lawyerProfile.availability) {
+    if (lawyerProfile.availability.declarations_accepted_at) {
+      avail.declarations_accepted_at = lawyerProfile.availability.declarations_accepted_at;
+    }
+    if (lawyerProfile.availability.courts) {
+      avail.courts = lawyerProfile.availability.courts;
+    }
+  }
+
+  const saveBtn = document.querySelector("#save-availability-btn");
+  const origText = saveBtn ? saveBtn.innerHTML : "Save changes";
+  if (saveBtn) {
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `<span class="btn-spinner"></span> Saving...`;
+  }
+
   try {
+    const rawPractice = lawyerProfile.practice;
+    let practiceVal = [];
+    if (Array.isArray(rawPractice)) {
+      practiceVal = rawPractice.map(p => mapPracticeToBackend(p));
+    } else if (typeof rawPractice === "string") {
+      practiceVal = rawPractice.split(",").map(p => mapPracticeToBackend(p.trim()));
+    }
+    if (!practiceVal.length) practiceVal = ["property"];
+
     const payload = {
-      full_name: lawyerProfile.full_name || "Lawyer",
-      practice: lawyerProfile.practice || ["property"],
+      full_name: lawyerProfile.full_name || "Advocate",
+      practice: practiceVal,
       bar_number: lawyerProfile.bar_number || "PENDING",
       languages: lawyerProfile.languages || ["English"],
       hourly_fee_minor: lawyerProfile.hourly_fee_minor || 100000,
@@ -1451,15 +1756,26 @@ async function saveAvailability() {
       enrollment_date: lawyerProfile.enrollment_date || null,
       practice_address: lawyerProfile.practice_address || null,
       aadhaar_number: lawyerProfile.aadhaar_number || null,
+      pan_number: lawyerProfile.pan_number || null,
       mobile_number: lawyerProfile.mobile_number || null
     };
     await LexAPI.updateProfile(payload);
     lawyerProfile.availability = avail;
-    toast("Availability configurations saved.");
+    if (typeof LexAPI.invalidateCache === "function") {
+      LexAPI.invalidateCache("/lawyers");
+    }
+    toast("Availability configurations saved and calendars synchronized.");
   } catch (err) {
     toast("Error saving availability: " + err.message);
+  } finally {
+    if (saveBtn) {
+      saveBtn.disabled = false;
+      saveBtn.innerHTML = origText;
+    }
   }
 }
+
+window.saveAvailability = saveAvailability;
 
 // 3b. iCal Subscribe Panel
 async function initIcalPanel() {
@@ -3545,6 +3861,13 @@ document.addEventListener("click", e => {
   if (suppBtn) {
     e.preventDefault();
     openSupportModal();
+    return;
+  }
+
+  let saveAvailBtn = e.target.closest("#save-availability-btn");
+  if (saveAvailBtn) {
+    e.preventDefault();
+    saveAvailability();
     return;
   }
 

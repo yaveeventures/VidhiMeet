@@ -504,6 +504,197 @@ main {
   display:grid;
   grid-template-columns:1.5fr .7fr;
   gap:17px}
+.availability-toolbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+  padding-bottom:12px;
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+.availability-toolbar-hint {
+  font-size:12px;
+  color:var(--muted);
+}
+.btn-apply-weekdays {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:6px 12px;
+  font-size:12px;
+  font-weight:600;
+  color:var(--forest);
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:all 0.15s ease;
+}
+.btn-apply-weekdays:hover {
+  background:var(--mint);
+  border-color:var(--forest);
+}
+.day-card {
+  background:white;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+  margin-bottom:12px;
+  transition:border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.day-card:hover {
+  border-color:#c0ccc3;
+  box-shadow:0 3px 10px rgba(23,60,48,0.05);
+}
+.day-card.is-inactive {
+  background:#fafaf8;
+  border-color:#e5eae6;
+}
+.day-header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.day-title-wrap {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.day-name {
+  font-size:15px;
+  font-weight:700;
+  color:var(--ink);
+  min-width:85px;
+}
+.day-badge {
+  font-size:11px;
+  font-weight:600;
+  padding:2px 10px;
+  border-radius:99px;
+  background:var(--mint);
+  color:var(--forest);
+  letter-spacing:0.02em;
+  transition:all 0.2s;
+}
+.day-badge.badge-off {
+  background:#f0f0ee;
+  color:var(--muted);
+}
+.day-badge.badge-warn {
+  background:#fef3c7;
+  color:#92400e;
+}
+.day-unavailable-msg {
+  font-size:13px;
+  color:var(--muted);
+  font-style:italic;
+  padding:10px 0 2px 0;
+}
+.day-periods {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid #f0f3f0;
+}
+.period-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:8px 12px;
+  border-radius:8px;
+  background:#fbfcfb;
+  border:1px solid #e9eee9;
+  transition:all 0.15s ease;
+}
+.period-row:hover {
+  background:#f6f9f6;
+  border-color:#dbe4dc;
+}
+.period-row.period-disabled {
+  background:#fafafa;
+  border-color:#f0f0f0;
+  opacity:0.65;
+}
+.period-row.period-disabled .period-times {
+  opacity:0.4;
+  pointer-events:none;
+}
+.period-row.has-error {
+  border-color:var(--terra);
+  background:#fff8f6;
+}
+.period-check-label {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--ink);
+  cursor:pointer;
+  user-select:none;
+  min-width:130px;
+}
+.period-toggle {
+  width:17px;
+  height:17px;
+  accent-color:var(--forest);
+  cursor:pointer;
+  margin:0;
+}
+.period-icon {
+  font-size:14px;
+  display:inline-flex;
+  align-items:center;
+}
+.period-times {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.period-times select {
+  width:112px;
+  padding:6px 8px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:white;
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--ink);
+  cursor:pointer;
+  outline:none;
+  transition:border-color 0.15s;
+}
+.period-times select:focus {
+  border-color:var(--forest);
+}
+.period-times .time-sep {
+  font-size:12px;
+  color:var(--muted);
+  font-weight:500;
+}
+@media (max-width:600px) {
+  .period-row {
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+    padding:10px;
+  }
+  .period-times {
+    width:100%;
+    justify-content:space-between;
+  }
+  .period-times select {
+    flex:1;
+    min-width:0;
+  }
+}
 .day {
   display:grid;
   grid-template-columns:95px 40px 1fr;
@@ -4349,5 +4540,213 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
     grid-template-columns: 1fr !important;
   }
 }
+
+/* ── Unified VidhiMeet Dropdown Design System (Lawyer Portal) ──────────────── */
+select, 
+.panel select, 
+.field select, 
+.form select, 
+label select, 
+.modal select, 
+.call-modal select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: #ffffff !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23173c30' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 14px center !important;
+  background-size: 12px !important;
+  border: 1.5px solid var(--line, #dde3de) !important;
+  border-radius: 11px !important;
+  padding: 10px 38px 10px 14px !important;
+  font-family: var(--font-body, 'Inter', sans-serif) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: var(--ink, #17251f) !important;
+  cursor: pointer !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease !important;
+}
+
+select:hover:not(:disabled),
+.panel select:hover:not(:disabled),
+.field select:hover:not(:disabled),
+.form select:hover:not(:disabled),
+label select:hover:not(:disabled),
+.modal select:hover:not(:disabled),
+.call-modal select:hover:not(:disabled) {
+  border-color: #bcd0c2 !important;
+  background-color: #fbfcfb !important;
+}
+
+select:focus,
+.panel select:focus,
+.field select:focus,
+.form select:focus,
+label select:focus,
+.modal select:focus,
+.call-modal select:focus {
+  border-color: var(--forest, #173c30) !important;
+  box-shadow: 0 0 0 3px rgba(23, 60, 48, 0.12) !important;
+  background-color: #ffffff !important;
+  outline: none !important;
+}
+
+select:disabled,
+.panel select:disabled,
+.field select:disabled,
+.form select:disabled,
+label select:disabled,
+.modal select:disabled,
+.call-modal select:disabled {
+  background-color: #f3f5f3 !important;
+  border-color: #e2e7e3 !important;
+  color: var(--muted, #718079) !important;
+  cursor: not-allowed !important;
+  opacity: 0.65 !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+}
+
+/* ── Period Time Pickers in Availability View ── */
+.period-times select {
+  width: 116px !important;
+  height: 36px !important;
+  padding: 6px 26px 6px 10px !important;
+  background-position: right 9px center !important;
+  background-size: 10px !important;
+  font-size: 12.5px !important;
+  border-radius: 8px !important;
+}
+
+/* ── Custom Scrollable Select Dropdowns (Lawyer Portal) ── */
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  border: 1.5px solid var(--line, #dde3de);
+  border-radius: 11px;
+  padding: 11px 14px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink, #17251f);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  text-align: left;
+}
+
+.custom-select-trigger:focus,
+.custom-select-wrapper.open .custom-select-trigger {
+  border-color: var(--forest, #173c30);
+  box-shadow: 0 0 0 3px rgba(23, 60, 48, 0.12);
+  background: #ffffff;
+}
+
+.custom-select-trigger:disabled {
+  background: #f3f4f3;
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.custom-select-arrow {
+  font-size: 11px;
+  color: var(--muted);
+  transition: transform 0.2s ease;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.custom-select-wrapper.open .custom-select-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-select-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 164px; /* Exactly 4 items visible */
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid var(--line, #dde3de);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(23, 37, 31, 0.15);
+  z-index: 100;
+  padding: 3px 4px;
+  box-sizing: border-box;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.custom-select-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-select-menu::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.custom-select-menu::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.custom-select-menu::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.custom-select-wrapper.open .custom-select-menu {
+  display: flex;
+}
+
+.custom-select-option {
+  height: 38px;
+  min-height: 38px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink, #17251f);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.custom-select-option:hover {
+  background: #f0f7f3;
+  color: var(--forest, #173c30);
+  font-weight: 600;
+}
+
+.custom-select-option.selected {
+  background: var(--mint, #edf4ee);
+  color: var(--forest, #173c30);
+  font-weight: 700;
+}
+
+.custom-select-check {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--forest, #173c30);
+}
+
 
 

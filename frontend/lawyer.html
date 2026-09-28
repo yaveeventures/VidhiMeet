@@ -170,16 +170,21 @@
           <div><small class="eyebrow">SCHEDULING</small>
             <h1>Availability</h1>
             <p>Set open hours and prevent double-bookings.</p>
-          </div><button class="primary" data-toast="Availability saved and calendars synchronized.">Save
-            changes</button>
+          </div><button class="primary" id="save-availability-btn">Save changes</button>
         </div>
         <div class="two-col">
           <div class="panel">
             <div class="panel-head">
               <div>
                 <h2>Weekly hours</h2>
-                <p>Clients can book inside these windows.</p>
-              </div><label class="toggle">Accepting bookings<input type="checkbox" checked><i></i></label>
+                <p>Clients can book inside these morning, afternoon & evening windows.</p>
+              </div><label class="toggle">Accepting bookings<input type="checkbox" id="accepting-bookings-toggle" checked><i></i></label>
+            </div>
+            <div class="availability-toolbar">
+              <span class="availability-toolbar-hint">Customize Morning, Afternoon & Evening sessions for each day</span>
+              <button type="button" id="copy-mon-to-weekdays" class="btn-apply-weekdays" title="Apply Monday hours to Tuesday–Friday">
+                ⎘ Apply Monday to Tue–Fri
+              </button>
             </div>
             <div id="week"></div>
           </div>
@@ -1081,7 +1086,7 @@
   <script src="js/daily-js.min.js" defer></script>
   <script src="js/pdf-annotator.min.js?v=rev-44" defer></script>
   <script src="js/realtime.min.js?v=rev-44" defer></script>
-  <script src="js/lawyer.min.js?v=rev-44" defer></script>
+  <script src="js/lawyer.min.js?v=rev-48" defer></script>
 </body>
 
 </html>

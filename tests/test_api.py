@@ -440,6 +440,122 @@ def test_admin_metrics_escrow_calculation_excludes_pending(client, database):
     assert data["escrow_minor"] == 510000
 
 
+def test_lawyer_period_availability_booking(client):
+    from backend.db import get_db
+    from backend.models import User, LawyerProfile, Role, Practice
+    from backend.security import hash_password, create_access_token
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+
+    tz = ZoneInfo("Asia/Kolkata")
+    db = next(get_db())
+
+    # Create client
+    client_user = User(
+        id="c-period-user",
+        email="client-period@example.com",
+        password_hash=hash_password("client-pass-123"),
+        role=Role.CLIENT,
+        full_name="Period Client"
+    )
+    # Create lawyer
+    lawyer_user = User(
+        id="l-period-user",
+        email="lawyer-period@example.com",
+        password_hash=hash_password("lawyer-pass-123"),
+        role=Role.LAWYER,
+        full_name="Adv. Period Lawyer"
+    )
+    lawyer_profile = LawyerProfile(
+        user_id=lawyer_user.id,
+        bar_number="KAR/9999/2020",
+        practice="property",
+        languages="English,Kannada",
+        hourly_fee_minor=100000,
+        verified=True,
+        availability={
+            "_min_notice": 0,
+            "monday": {
+                "active": True,
+                "periods": {
+                    "morning": {"active": True, "start": "06:00 AM", "end": "08:00 AM"},
+                    "afternoon": {"active": False, "start": "02:00 PM", "end": "04:00 PM"},
+                    "evening": {"active": True, "start": "06:00 PM", "end": "10:00 PM"}
+                },
+                "start": "06:00 AM",
+                "end": "10:00 PM"
+            },
+            "tuesday": {"active": False}
+        }
+    )
+    db.add_all([client_user, lawyer_user, lawyer_profile])
+    db.commit()
+
+    token = create_access_token(client_user)
+
+    # Calculate next Monday
+    now_local = datetime.now(tz)
+    days_ahead = (0 - now_local.weekday()) % 7
+    if days_ahead == 0:
+        days_ahead = 7
+    next_monday = (now_local + timedelta(days=days_ahead)).date()
+
+    intake_data = {
+        "property_type": "Apartment",
+        "active_proceedings": "No",
+        "relationship": "Owner",
+        "notes": "Consultation test"
+    }
+
+    # 1. Booking during Morning (07:00 AM) -> should succeed
+    mon_morning = datetime(next_monday.year, next_monday.month, next_monday.day, 7, 0, tzinfo=tz)
+    res_morning = client.post("/api/v1/bookings", json={
+        "lawyer_id": lawyer_user.id,
+        "practice": "property",
+        "starts_at": mon_morning.isoformat(),
+        "intake": intake_data,
+        "disclaimer_accepted": True
+    }, headers={"Authorization": f"Bearer {token}"})
+    assert res_morning.status_code == 201
+
+    # 2. Booking during Afternoon (03:00 PM, inactive period) -> should be rejected (422)
+    mon_afternoon = datetime(next_monday.year, next_monday.month, next_monday.day, 15, 0, tzinfo=tz)
+    res_afternoon = client.post("/api/v1/bookings", json={
+        "lawyer_id": lawyer_user.id,
+        "practice": "property",
+        "starts_at": mon_afternoon.isoformat(),
+        "intake": intake_data,
+        "disclaimer_accepted": True
+    }, headers={"Authorization": f"Bearer {token}"})
+    assert res_afternoon.status_code == 422
+    assert "available during" in res_afternoon.json()["detail"].lower()
+
+    # 3. Booking during Evening (07:00 PM) -> should succeed
+    mon_evening = datetime(next_monday.year, next_monday.month, next_monday.day, 19, 0, tzinfo=tz)
+    res_evening = client.post("/api/v1/bookings", json={
+        "lawyer_id": lawyer_user.id,
+        "practice": "property",
+        "starts_at": mon_evening.isoformat(),
+        "intake": intake_data,
+        "disclaimer_accepted": True
+    }, headers={"Authorization": f"Bearer {token}"})
+    assert res_evening.status_code == 201
+
+    # 4. Booking on Tuesday (inactive day) -> should be rejected (422)
+    next_tuesday = next_monday + timedelta(days=1)
+    tue_time = datetime(next_tuesday.year, next_tuesday.month, next_tuesday.day, 7, 0, tzinfo=tz)
+    res_tue = client.post("/api/v1/bookings", json={
+        "lawyer_id": lawyer_user.id,
+        "practice": "property",
+        "starts_at": tue_time.isoformat(),
+        "intake": intake_data,
+        "disclaimer_accepted": True
+    }, headers={"Authorization": f"Bearer {token}"})
+    assert res_tue.status_code == 422
+    assert "unavailable on tuesdays" in res_tue.json()["detail"].lower()
+
+
+
 
 
 

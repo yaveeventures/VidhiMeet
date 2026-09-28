@@ -396,6 +396,7 @@ const LexAPI = (() => {
       const path = query ? `/lawyers?${query}` : "/lawyers";
       return cachedRequest(path, 300000, true);
     },
+    getLawyer: id => request(`/lawyers/${id}`),
     getProfile: () => request("/lawyers/me"),
     updateProfile: payload => {
       LexAPI.invalidateCache("/lawyers");

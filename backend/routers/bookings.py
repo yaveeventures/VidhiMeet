@@ -85,17 +85,39 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         if not day_config or not day_config.get("active", False):
             raise HTTPException(422, f"Lawyer is unavailable on {local_starts.strftime('%A')}s")
             
-        start_str = day_config.get("start")
-        end_str = day_config.get("end")
-        if start_str and end_str:
-            try:
-                work_start = datetime.strptime(start_str, "%I:%M %p").time()
-                work_end = datetime.strptime(end_str, "%I:%M %p").time()
-                booking_time = local_starts.time()
-                if booking_time < work_start or booking_time > work_end:
-                    raise HTTPException(422, f"Lawyer is only available between {start_str} and {end_str} on {local_starts.strftime('%A')}s")
-            except ValueError:
-                pass
+        booking_time = local_starts.time()
+        periods = day_config.get("periods")
+        if isinstance(periods, dict) and any(isinstance(p, dict) and p.get("active") for p in periods.values()):
+            within_any = False
+            period_ranges = []
+            for p_name, p_data in periods.items():
+                if isinstance(p_data, dict) and p_data.get("active"):
+                    p_start = p_data.get("start")
+                    p_end = p_data.get("end")
+                    if p_start and p_end:
+                        try:
+                            w_start = datetime.strptime(p_start, "%I:%M %p").time()
+                            w_end = datetime.strptime(p_end, "%I:%M %p").time()
+                            period_ranges.append(f"{p_name.capitalize()} ({p_start} - {p_end})")
+                            if w_start <= booking_time <= w_end:
+                                within_any = True
+                                break
+                        except ValueError:
+                            pass
+            if not within_any:
+                ranges_str = ", ".join(period_ranges) if period_ranges else "configured hours"
+                raise HTTPException(422, f"Lawyer is only available during {ranges_str} on {local_starts.strftime('%A')}s")
+        else:
+            start_str = day_config.get("start")
+            end_str = day_config.get("end")
+            if start_str and end_str:
+                try:
+                    work_start = datetime.strptime(start_str, "%I:%M %p").time()
+                    work_end = datetime.strptime(end_str, "%I:%M %p").time()
+                    if booking_time < work_start or booking_time > work_end:
+                        raise HTTPException(422, f"Lawyer is only available between {start_str} and {end_str} on {local_starts.strftime('%A')}s")
+                except ValueError:
+                    pass
 
     # ── Double Booking Conflict Check ──────────────────────────────────────────
     existing = db.scalar(

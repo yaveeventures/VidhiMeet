@@ -36,7 +36,7 @@ def lawyers(response: Response,
             practice: Practice | None = None, language: str | None = None,
             max_fee_minor: int | None = None,
             db: Session = Depends(get_db)):
-    response.headers["Cache-Control"] = "public, max-age=60, stale-while-revalidate=300"
+    response.headers["Cache-Control"] = "no-cache, must-revalidate"
 
     now = time.time()
     # Serve from in-memory cache for default unfiltered queries
@@ -149,6 +149,55 @@ def get_my_profile(user: User = Depends(require_roles(Role.LAWYER)), db: Session
         rejection_reason=getattr(profile, "rejection_reason", None),
         verified_at=getattr(profile, "verified_at", None),
         created_at=user.created_at
+    )
+
+
+@router.get("/api/v1/lawyers/{lawyer_id}", response_model=LawyerOut)
+def get_lawyer(lawyer_id: str, response: Response, db: Session = Depends(get_db)):
+    response.headers["Cache-Control"] = "no-cache, must-revalidate"
+    profile = db.scalar(
+        select(LawyerProfile)
+        .join(User)
+        .options(
+            defer(LawyerProfile.aadhaar_number),
+            defer(LawyerProfile.pan_number),
+            defer(LawyerProfile.practice_address),
+            defer(LawyerProfile.bar_license_url),
+            defer(LawyerProfile.aadhaar_url),
+            defer(LawyerProfile.mobile_number),
+            defer(LawyerProfile.rejection_reason),
+            defer(User.phone),
+            defer(User.password_hash),
+            defer(User.mfa_secret),
+        )
+        .where(
+            LawyerProfile.user_id == lawyer_id,
+            LawyerProfile.verified.is_(True),
+            User.active.is_(True)
+        )
+    )
+    if not profile or not profile.user:
+        raise HTTPException(status_code=404, detail="Lawyer not found")
+
+    p_practices = profile.practice if isinstance(profile.practice, list) else [profile.practice]
+    return LawyerOut(
+        id=profile.user.id,
+        full_name=profile.user.full_name,
+        practice=p_practices,
+        languages=profile.languages,
+        hourly_fee_minor=profile.hourly_fee_minor,
+        rating=float(profile.rating or 0),
+        verified=profile.verified,
+        bar_number=profile.bar_number,
+        availability=profile.availability or {},
+        enrollment_date=profile.enrollment_date,
+        practice_address=None,
+        bar_license_url=None,
+        aadhaar_url=None,
+        bar_license_verified=getattr(profile, "bar_license_verified", False),
+        aadhaar_verified=getattr(profile, "aadhaar_verified", False),
+        mobile_number=None,
+        created_at=profile.user.created_at
     )
 
 

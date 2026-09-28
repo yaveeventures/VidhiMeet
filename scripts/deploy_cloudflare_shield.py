@@ -89,11 +89,21 @@ def deploy():
         "kind": "zone",
         "phase": "http_request_firewall_custom",
         "rules": [
-            # Rule 1: Known Recon Scanners & Bot Blocking (exempting speed auditors like GTmetrix & Lighthouse)
+            # Rule 0: Allow Calendar Feeds (Google/Apple/Outlook), SEO Crawlers & Performance Testers
+            {
+                "action": "skip",
+                "action_parameters": {
+                    "ruleset": "current"
+                },
+                "description": "Allow Live Calendar Feeds (Google/Apple/Outlook), Search Crawlers & Performance Audits",
+                "expression": '(http.request.uri.path starts_with "/api/v1/calendar/feed/") or (http.request.uri.path in {"/sitemap.xml" "/robots.txt"}) or cf.bot_management.verified_bot or (http.user_agent contains "Google-Calendar-Importer") or (http.user_agent contains "Feedfetcher-Google") or (http.user_agent contains "GTmetrix") or (http.user_agent contains "Chrome-Lighthouse")',
+                "enabled": True
+            },
+            # Rule 1: Known Recon Scanners & Bot Blocking (exempting calendar feeds, verified bots & auditors)
             {
                 "action": "block",
                 "description": "Block Known Malicious Scanners & Recon Bots",
-                "expression": '((cf.client.bot or http.user_agent contains "nikto" or http.user_agent contains "sqlmap" or http.user_agent contains "nmap" or http.user_agent contains "dirbuster" or http.user_agent contains "gobuster" or http.user_agent contains "wpscan" or http.user_agent contains "masscan" or http.user_agent contains "python-requests" or http.user_agent contains "httpx" or http.user_agent contains "curl" or http.user_agent contains "wget") and not (http.user_agent contains "GTmetrix" or http.user_agent contains "Chrome-Lighthouse"))',
+                "expression": '((cf.client.bot or http.user_agent contains "nikto" or http.user_agent contains "sqlmap" or http.user_agent contains "nmap" or http.user_agent contains "dirbuster" or http.user_agent contains "gobuster" or http.user_agent contains "wpscan" or http.user_agent contains "masscan" or http.user_agent contains "python-requests" or http.user_agent contains "httpx" or http.user_agent contains "curl" or http.user_agent contains "wget") and not (http.request.uri.path starts_with "/api/v1/calendar/feed/" or cf.bot_management.verified_bot or http.user_agent contains "Google-Calendar-Importer" or http.user_agent contains "Feedfetcher-Google" or http.user_agent contains "GTmetrix" or http.user_agent contains "Chrome-Lighthouse"))',
                 "enabled": True
             },
             # Rule 2: Challenge Reconnaissance on API Docs & Directory

@@ -99,6 +99,125 @@ function closeModal() {
   close();
 }
 
+function initCustomSelect(selectEl) {
+  if (!selectEl) return null;
+
+  // Clean up any existing custom wrapper for this select
+  const existingWrapper = selectEl.parentElement?.querySelector(`.custom-select-wrapper[data-for-select="${selectEl.id || selectEl.name || ''}"]`);
+  if (existingWrapper) {
+    existingWrapper.remove();
+  }
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "custom-select-wrapper";
+  if (selectEl.id || selectEl.name) {
+    wrapper.dataset.forSelect = selectEl.id || selectEl.name;
+  }
+
+  const trigger = document.createElement("button");
+  trigger.type = "button";
+  trigger.className = "custom-select-trigger";
+  trigger.setAttribute("aria-haspopup", "listbox");
+  trigger.setAttribute("aria-expanded", "false");
+  if (selectEl.disabled) trigger.disabled = true;
+
+  const labelSpan = document.createElement("span");
+  labelSpan.className = "custom-select-label";
+
+  const arrowSpan = document.createElement("span");
+  arrowSpan.className = "custom-select-arrow";
+  arrowSpan.textContent = "▾";
+
+  trigger.appendChild(labelSpan);
+  trigger.appendChild(arrowSpan);
+
+  const menu = document.createElement("div");
+  menu.className = "custom-select-menu";
+  menu.setAttribute("role", "listbox");
+
+  const syncOptions = () => {
+    menu.innerHTML = "";
+    const options = Array.from(selectEl.options);
+    const selectedIndex = selectEl.selectedIndex >= 0 ? selectEl.selectedIndex : 0;
+    const selectedOpt = options[selectedIndex] || options[0];
+    labelSpan.textContent = selectedOpt ? selectedOpt.text : "Select option";
+    trigger.disabled = selectEl.disabled;
+
+    options.forEach((opt, idx) => {
+      const isSelected = opt.value === selectEl.value || (!selectEl.value && idx === selectedIndex);
+      const optDiv = document.createElement("div");
+      optDiv.className = `custom-select-option ${isSelected ? "selected" : ""}`;
+      optDiv.dataset.value = opt.value;
+      optDiv.setAttribute("role", "option");
+      optDiv.innerHTML = `
+        <span>${escapeHtml(opt.text)}</span>
+        ${isSelected ? '<span class="custom-select-check">✓</span>' : ''}
+      `;
+      optDiv.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        selectEl.value = opt.value;
+        labelSpan.textContent = opt.text;
+        selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+        menu.querySelectorAll(".custom-select-option").forEach(o => {
+          const match = o.dataset.value === opt.value;
+          o.classList.toggle("selected", match);
+          const chk = o.querySelector(".custom-select-check");
+          if (match && !chk) {
+            o.insertAdjacentHTML("beforeend", '<span class="custom-select-check">✓</span>');
+          } else if (!match && chk) {
+            chk.remove();
+          }
+        });
+        wrapper.classList.remove("open");
+        trigger.setAttribute("aria-expanded", "false");
+      };
+      menu.appendChild(optDiv);
+    });
+  };
+
+  syncOptions();
+
+  trigger.onclick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (trigger.disabled) return;
+    
+    // Close other dropdowns
+    document.querySelectorAll(".custom-select-wrapper.open").forEach(w => {
+      if (w !== wrapper) {
+        w.classList.remove("open");
+        const t = w.querySelector(".custom-select-trigger");
+        if (t) t.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    const isOpen = wrapper.classList.toggle("open");
+    trigger.setAttribute("aria-expanded", String(isOpen));
+  };
+
+  wrapper.appendChild(trigger);
+  wrapper.appendChild(menu);
+
+  selectEl.style.display = "none";
+  selectEl.parentNode.insertBefore(wrapper, selectEl.nextSibling);
+
+  selectEl.refreshCustomSelect = syncOptions;
+  return wrapper;
+}
+
+// Global click listener to close custom dropdowns on outside click
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".custom-select-wrapper")) {
+    document.querySelectorAll(".custom-select-wrapper.open").forEach(w => {
+      w.classList.remove("open");
+      const t = w.querySelector(".custom-select-trigger");
+      if (t) t.setAttribute("aria-expanded", "false");
+    });
+  }
+});
+
+
 function mapPracticeToBackend(p) {
   if (!p) return "property";
   if (Array.isArray(p)) return mapPracticeToBackend(p[0]);
@@ -495,11 +614,16 @@ function bookingView() {
 
     const practiceSelect = document.querySelector("#booking-practice-select");
     if (practiceSelect) {
+      initCustomSelect(practiceSelect);
       practiceSelect.onchange = (e) => {
         booking.selectedPractice = e.target.value;
         bookingView();
       };
     }
+
+    document.querySelectorAll("#intake-form select.intake-ans").forEach(sel => {
+      initCustomSelect(sel);
+    });
   }
   
   if (s === 2) {
@@ -522,7 +646,12 @@ function bookingView() {
       d.setDate(d.getDate() + i);
       const cfg = getDayConfig(d);
       if (cfg && cfg.active) {
-        activeDates.push(d);
+        if (cfg.periods && typeof cfg.periods === "object") {
+          const hasActivePeriod = Object.values(cfg.periods).some(p => p && p.active);
+          if (hasActivePeriod) activeDates.push(d);
+        } else {
+          activeDates.push(d);
+        }
       }
     }
 
@@ -554,13 +683,15 @@ function bookingView() {
         <div class="field">
           <label>Consultation mode</label>
           <select id="mode">
-            <option>Secure video call</option>
-            <option>Secure voice call</option>
+            <option value="Secure video call">Secure video call</option>
+            <option value="Secure voice call">Secure voice call</option>
           </select>
         </div>
         <div class="field">
           <label>Duration</label>
-          <select><option>45 minutes</option></select>
+          <select id="duration">
+            <option value="45 minutes">45 minutes</option>
+          </select>
         </div>
         <div class="actions" style="grid-column:1/-1">
           <button type="button" class="ghost secondary" data-back>Back</button>
@@ -569,8 +700,17 @@ function bookingView() {
       </form>
     `;
 
+    const dateSelect = document.querySelector("#date");
+    const timeSelect = document.querySelector("#time");
+    const modeSelect = document.querySelector("#mode");
+    const durationSelect = document.querySelector("#duration");
+
+    initCustomSelect(dateSelect);
+    initCustomSelect(timeSelect);
+    initCustomSelect(modeSelect);
+    initCustomSelect(durationSelect);
+
     const populateTimeSlots = (dateStr) => {
-      const timeSelect = document.querySelector("#time");
       if (!timeSelect || !dateStr) return;
       
       const parts = dateStr.split("-");
@@ -579,6 +719,8 @@ function bookingView() {
       
       if (!cfg || !cfg.active) {
         timeSelect.innerHTML = `<option value="">Unavailable on this day</option>`;
+        timeSelect.disabled = true;
+        if (timeSelect.refreshCustomSelect) timeSelect.refreshCustomSelect();
         return;
       }
 
@@ -603,8 +745,6 @@ function bookingView() {
         return `${h}:${mm} ${ampm}`;
       };
 
-      const startMins = parseTimeMinutes(cfg.start || "09:00 AM") || (9 * 60);
-      const endMins = parseTimeMinutes(cfg.end || "06:00 PM") || (18 * 60);
       const minNoticeHours = avail._min_notice || 12;
       const bufferMins = avail._buffer || 15;
       const slotStepMins = 45 + bufferMins; // 45 min consultation + buffer break
@@ -612,22 +752,53 @@ function bookingView() {
       const now = new Date();
       const minNoticeCutoff = new Date(now.getTime() + minNoticeHours * 60 * 60 * 1000);
 
-      const slots = [];
-      for (let m = startMins; m + 45 <= endMins; m += slotStepMins) {
-        const slotDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60, 0);
-        if (slotDate >= minNoticeCutoff) {
-          slots.push(formatTimeStr(m));
+      const activeWindows = [];
+      if (cfg.periods && typeof cfg.periods === "object") {
+        for (const pKey of ["morning", "afternoon", "evening"]) {
+          const p = cfg.periods[pKey];
+          if (p && p.active && p.start && p.end) {
+            const sm = parseTimeMinutes(p.start);
+            const em = parseTimeMinutes(p.end);
+            if (sm !== null && em !== null && sm < em) {
+              activeWindows.push({ startM: sm, endM: em });
+            }
+          }
         }
       }
 
+      if (activeWindows.length === 0) {
+        const sm = parseTimeMinutes(cfg.start || "09:00 AM") || (9 * 60);
+        const em = parseTimeMinutes(cfg.end || "06:00 PM") || (18 * 60);
+        if (sm < em) activeWindows.push({ startM: sm, endM: em });
+      }
+
+      const slots = [];
+      const seenTimes = new Set();
+      for (const win of activeWindows) {
+        for (let m = win.startM; m + 45 <= win.endM; m += slotStepMins) {
+          const slotDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60, 0);
+          if (slotDate >= minNoticeCutoff) {
+            const timeStr = formatTimeStr(m);
+            if (!seenTimes.has(timeStr)) {
+              seenTimes.add(timeStr);
+              slots.push({ minutes: m, label: timeStr });
+            }
+          }
+        }
+      }
+      slots.sort((a, b) => a.minutes - b.minutes);
+
       if (slots.length === 0) {
         timeSelect.innerHTML = `<option value="">No slots available (min ${minNoticeHours}h notice)</option>`;
+        timeSelect.disabled = true;
       } else {
-        timeSelect.innerHTML = slots.map(s => `<option>${s}</option>`).join("");
+        timeSelect.innerHTML = slots.map(s => `<option value="${s.label}">${s.label}</option>`).join("");
+        timeSelect.value = slots[0].label;
+        timeSelect.disabled = false;
       }
+      if (timeSelect.refreshCustomSelect) timeSelect.refreshCustomSelect();
     };
 
-    const dateSelect = document.querySelector("#date");
     if (dateSelect && dateSelect.value) {
       populateTimeSlots(dateSelect.value);
       dateSelect.onchange = (e) => populateTimeSlots(e.target.value);
@@ -842,13 +1013,23 @@ function bookingView() {
   }
 }
 
-function startBooking(id) {
+async function startBooking(id) {
   const lawyerIdStr = String(id);
   const found = lawyers.find(x => String(x.id) === lawyerIdStr);
   if (!found) {
     toast("Lawyer details not found. Please refresh and try again.");
     return;
   }
+  // Fetch fresh lawyer details to get any recently updated availability windows
+  try {
+    if (typeof LexAPI !== "undefined" && LexAPI.getLawyer) {
+      const fresh = await LexAPI.getLawyer(found.id);
+      if (fresh && fresh.availability) {
+        found.availability = fresh.availability;
+      }
+    }
+  } catch (_) {}
+
   booking = {
     lawyer: found,
     step: 1,
@@ -2240,8 +2421,16 @@ document.addEventListener("click", async e => {
     showLawyerProfile(preview.dataset.preview);
   }
   
-  if (e.target.closest(".close") || e.target === backdrop) {
+  if (e.target.closest(".close")) {
     close();
+  } else if (e.target === backdrop) {
+    // Prevent accidental dismiss on backdrop click; provide subtle nudge animation
+    const modalEl = document.querySelector(".modal");
+    if (modalEl) {
+      modalEl.classList.remove("modal-bounce");
+      void modalEl.offsetWidth; // trigger reflow
+      modalEl.classList.add("modal-bounce");
+    }
   }
   
   if (e.target.closest("[data-back]")) {
