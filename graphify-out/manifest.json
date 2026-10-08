@@ -235,8 +235,8 @@
     "semantic_hash": ""
   },
   "frontend/index.html": {
-    "mtime": 1790494339.6165285,
-    "ast_hash": "7dc749be7578351bf615061c5a4ccfe6",
+    "mtime": 1791458432.8928804,
+    "ast_hash": "3ea75280417a23fe0b62e35cb5089055",
     "semantic_hash": ""
   },
   "frontend/lawyer.html": {
@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "scripts/deploy_cloudflare_shield.py": {
-    "mtime": 1790593284.9699984,
-    "ast_hash": "4574043abbebc68f7156a88f354972a5",
+    "mtime": 1791455522.0007336,
+    "ast_hash": "c1e5903eac30eb18b64232e62cda58e5",
     "semantic_hash": ""
   },
   "frontend/cancellation-refund.html": {
