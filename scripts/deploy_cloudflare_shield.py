@@ -89,42 +89,28 @@ def deploy():
         "kind": "zone",
         "phase": "http_request_firewall_custom",
         "rules": [
-            # Rule 0: Allow Calendar Feeds (Google/Apple/Outlook), SEO Crawlers & Performance Testers
+            # Rule 0: Allow Calendar Feeds (Google/Apple/Outlook), SEO Crawlers, Verified Bots (Google, ChatGPT, Claude, Gemini, etc.) & Performance Testers
             {
                 "action": "skip",
                 "action_parameters": {
                     "ruleset": "current"
                 },
-                "description": "Allow Live Calendar Feeds (Google/Apple/Outlook), Search Crawlers & Performance Audits",
-                "expression": '(http.request.uri.path wildcard "/api/v1/calendar/feed/*") or (http.request.uri.path in {"/sitemap.xml" "/robots.txt"}) or (http.user_agent contains "Google-Calendar-Importer") or (http.user_agent contains "Feedfetcher-Google") or (http.user_agent contains "GTmetrix") or (http.user_agent contains "Chrome-Lighthouse")',
+                "description": "Allow Calendar Feeds, SEO Crawlers, Verified Bots, AI Assistants & Performance Audits",
+                "expression": '(http.request.uri.path wildcard "/api/v1/calendar/feed/*") or (http.request.uri.path in {"/sitemap.xml" "/robots.txt"}) or cf.client.bot or (http.user_agent contains "Google-Calendar-Importer") or (http.user_agent contains "Feedfetcher-Google") or (http.user_agent contains "GTmetrix") or (http.user_agent contains "Chrome-Lighthouse") or (http.user_agent contains "ChatGPT-User") or (http.user_agent contains "GPTBot") or (http.user_agent contains "OAI-SearchBot") or (http.user_agent contains "ClaudeBot") or (http.user_agent contains "Claude-Web") or (http.user_agent contains "anthropic") or (http.user_agent contains "Google-Extended") or (http.user_agent contains "GoogleOther") or (http.user_agent contains "PerplexityBot")',
                 "enabled": True
             },
-            # Rule 1: Known Recon Scanners & Bot Blocking (exempting calendar feeds, verified bots & auditors)
-            {
-                "action": "block",
-                "description": "Block Known Malicious Scanners & Recon Bots",
-                "expression": '(cf.client.bot or http.user_agent contains "nikto" or http.user_agent contains "sqlmap" or http.user_agent contains "nmap" or http.user_agent contains "dirbuster" or http.user_agent contains "gobuster" or http.user_agent contains "wpscan" or http.user_agent contains "masscan" or http.user_agent contains "python-requests" or http.user_agent contains "httpx" or http.user_agent contains "curl" or http.user_agent contains "wget") and not (http.request.uri.path wildcard "/api/v1/calendar/feed/*") and not (http.user_agent contains "Google-Calendar-Importer") and not (http.user_agent contains "Feedfetcher-Google") and not (http.user_agent contains "GTmetrix") and not (http.user_agent contains "Chrome-Lighthouse")',
-                "enabled": True
-            },
-            # Rule 2: Challenge Reconnaissance on API Docs & Directory
+            # Rule 1: Challenge Automated Access on Sensitive Endpoints
             {
                 "action": "managed_challenge",
                 "description": "Challenge Automated Access on API Docs & Admin Portal",
                 "expression": '(http.request.uri.path in {"/docs" "/openapi.json" "/redoc" "/admin-login.html" "/admin.html"})',
                 "enabled": True
             },
-            # Rule 3: SQLi & XSS Edge Payload Shield
+            # Rule 2: Consolidated Edge Shield (Scanners, SQLi, XSS, Path Traversal & Recon)
             {
                 "action": "block",
-                "description": "WAF Edge Shield: SQL Injection & XSS Payload Defense",
-                "expression": '(http.request.uri.query contains "select" or http.request.uri.query contains "union" or http.request.uri.query contains "insert" or http.request.uri.query contains "delete" or http.request.uri.query contains "drop" or http.request.uri.query contains "<script" or http.request.uri.query contains "javascript:" or http.request.uri.query contains "onerror=" or http.request.full_uri contains "%27" or http.request.full_uri contains "%3Cscript")',
-                "enabled": True
-            },
-            # Rule 4: Path Traversal & IDOR Enumeration Shield
-            {
-                "action": "block",
-                "description": "WAF Edge Shield: Path Traversal, LFI & Account Enumeration Defense",
-                "expression": '(http.request.uri.path contains "../" or http.request.uri.path contains "/etc/passwd" or http.request.uri.path contains "/win.ini" or http.request.uri.path contains "/proc/self" or http.request.uri.path contains ".env" or http.request.uri.path contains ".git" or http.request.uri.query contains "user_id[]" or http.request.uri.query contains "id[]")',
+                "description": "WAF Edge Shield: Recon Scanners, Injection (SQLi/XSS) & Path Traversal",
+                "expression": '((http.user_agent contains "nikto" or http.user_agent contains "sqlmap" or http.user_agent contains "nmap" or http.user_agent contains "dirbuster" or http.user_agent contains "gobuster" or http.user_agent contains "wpscan" or http.user_agent contains "masscan" or http.user_agent contains "python-requests" or http.user_agent contains "httpx" or http.user_agent contains "curl" or http.user_agent contains "wget" or http.request.uri.query contains "select" or http.request.uri.query contains "union" or http.request.uri.query contains "insert" or http.request.uri.query contains "delete" or http.request.uri.query contains "drop" or http.request.uri.query contains "<script" or http.request.uri.query contains "javascript:" or http.request.uri.query contains "onerror=" or http.request.full_uri contains "%27" or http.request.full_uri contains "%3Cscript" or http.request.uri.path contains "../" or http.request.uri.path contains "/etc/passwd" or http.request.uri.path contains "/win.ini" or http.request.uri.path contains "/proc/self" or http.request.uri.path contains ".env" or http.request.uri.path contains ".git" or http.request.uri.query contains "user_id[]" or http.request.uri.query contains "id[]") and not (http.request.uri.path wildcard "/api/v1/calendar/feed/*") and not cf.client.bot and not (http.user_agent contains "Google-Calendar-Importer") and not (http.user_agent contains "Feedfetcher-Google") and not (http.user_agent contains "GTmetrix") and not (http.user_agent contains "Chrome-Lighthouse") and not (http.user_agent contains "ChatGPT-User") and not (http.user_agent contains "GPTBot") and not (http.user_agent contains "OAI-SearchBot") and not (http.user_agent contains "ClaudeBot") and not (http.user_agent contains "Claude-Web") and not (http.user_agent contains "anthropic") and not (http.user_agent contains "Google-Extended") and not (http.user_agent contains "GoogleOther") and not (http.user_agent contains "PerplexityBot"))',
                 "enabled": True
             }
         ]
