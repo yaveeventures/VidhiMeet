@@ -177,7 +177,7 @@ def get_lawyer(lawyer_id: str, response: Response, db: Session = Depends(get_db)
         )
     )
     if not profile or not profile.user:
-        raise HTTPException(status_code=404, detail="Lawyer not found")
+        raise HTTPException(status_code=404, detail="Advocate not found")
 
     p_practices = profile.practice if isinstance(profile.practice, list) else [profile.practice]
     return LawyerOut(

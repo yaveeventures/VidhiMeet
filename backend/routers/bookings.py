@@ -60,17 +60,17 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
     lawyer = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == payload.lawyer_id,
                                                     LawyerProfile.verified.is_(True)))
     if not lawyer:
-        raise HTTPException(404, "verified lawyer not found for this practice")
+        raise HTTPException(404, "verified advocate not found for this practice")
     p_practices = [x.lower() for x in lawyer.practice] if isinstance(lawyer.practice, list) else [str(lawyer.practice).lower()]
     if payload.practice.value.lower() not in p_practices:
-        raise HTTPException(404, "verified lawyer not found for this practice")
+        raise HTTPException(404, "verified advocate not found for this practice")
 
     # ── Lawyer Availability & Working Hours Check ─────────────────────────────
     if lawyer.availability and isinstance(lawyer.availability, dict):
         min_notice = lawyer.availability.get("_min_notice", 12)
         if isinstance(min_notice, (int, float)) and min_notice > 0:
             if starts < datetime.now(timezone.utc) + timedelta(hours=min_notice):
-                raise HTTPException(422, f"Bookings for this lawyer require at least {min_notice} hours advance notice")
+                raise HTTPException(422, f"Bookings for this advocate require at least {min_notice} hours advance notice")
 
         try:
             from zoneinfo import ZoneInfo
@@ -83,7 +83,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         day_config = lawyer.availability.get(day_key, {})
         
         if not day_config or not day_config.get("active", False):
-            raise HTTPException(422, f"Lawyer is unavailable on {local_starts.strftime('%A')}s")
+            raise HTTPException(422, f"Advocate is unavailable on {local_starts.strftime('%A')}s")
             
         booking_time = local_starts.time()
         periods = day_config.get("periods")
@@ -106,7 +106,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                             pass
             if not within_any:
                 ranges_str = ", ".join(period_ranges) if period_ranges else "configured hours"
-                raise HTTPException(422, f"Lawyer is only available during {ranges_str} on {local_starts.strftime('%A')}s")
+                raise HTTPException(422, f"Advocate is only available during {ranges_str} on {local_starts.strftime('%A')}s")
         else:
             start_str = day_config.get("start")
             end_str = day_config.get("end")
@@ -115,7 +115,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                     work_start = datetime.strptime(start_str, "%I:%M %p").time()
                     work_end = datetime.strptime(end_str, "%I:%M %p").time()
                     if booking_time < work_start or booking_time > work_end:
-                        raise HTTPException(422, f"Lawyer is only available between {start_str} and {end_str} on {local_starts.strftime('%A')}s")
+                        raise HTTPException(422, f"Advocate is only available between {start_str} and {end_str} on {local_starts.strftime('%A')}s")
                 except ValueError:
                     pass
 
@@ -128,7 +128,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         )
     )
     if existing:
-        raise HTTPException(409, "This time slot is already booked for this lawyer.")
+        raise HTTPException(409, "This time slot is already booked for this advocate.")
 
     fee = max(3500, round(lawyer.hourly_fee_minor * 0.05))
     total_minor = lawyer.hourly_fee_minor + fee

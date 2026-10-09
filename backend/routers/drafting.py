@@ -35,7 +35,7 @@ _ACTIVE_STATUSES = (
 @router.post("", response_model=DraftingRequestOut, status_code=201)
 def create_drafting_request(payload: DraftingRequestCreate, user: User = Depends(current_user), db: Session = Depends(get_db)):
     if user.role not in (Role.CLIENT, Role.LAWYER):
-        raise HTTPException(403, "only clients and lawyers can request drafting")
+        raise HTTPException(403, "only clients and advocates can request drafting")
 
     req = DraftingRequest(
         title=payload.title.strip(),
@@ -361,7 +361,7 @@ def get_drafting_request(request_id: str, user: User = Depends(current_user), db
 def accept_drafting_request(request_id: str, user: User = Depends(require_roles(Role.LAWYER)), db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
     if not profile or not profile.verified:
-        raise HTTPException(403, "only verified lawyers can accept drafting requests")
+        raise HTTPException(403, "only verified advocates can accept drafting requests")
 
     req = db.get(DraftingRequest, request_id)
     if not req:
@@ -404,7 +404,7 @@ def accept_drafting_request(request_id: str, user: User = Depends(require_roles(
 def counter_drafting_request(request_id: str, payload: DraftingProposalCreate, user: User = Depends(require_roles(Role.LAWYER)), db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
     if not profile or not profile.verified:
-        raise HTTPException(403, "only verified lawyers can quote/counter drafting requests")
+        raise HTTPException(403, "only verified advocates can quote/counter drafting requests")
 
     req = db.get(DraftingRequest, request_id)
     if not req:
@@ -466,7 +466,7 @@ def accept_drafting_proposal(request_id: str, proposal_id: str, user: User = Dep
         )
     )
     if lawyer_active_count >= MAX_ACTIVE_DRAFTS_PER_LAWYER:
-        raise HTTPException(400, f"the selected lawyer already has {MAX_ACTIVE_DRAFTS_PER_LAWYER} active drafts and cannot take on more work right now")
+        raise HTTPException(400, f"the selected advocate already has {MAX_ACTIVE_DRAFTS_PER_LAWYER} active drafts and cannot take on more work right now")
 
     proposal.status = ProposalStatus.ACCEPTED
     req.drafter_id = proposal.lawyer_id
@@ -524,7 +524,7 @@ def submit_draft(request_id: str, payload: DraftSubmit, request: Request, user: 
         raise HTTPException(404, "drafting request not found")
 
     if req.drafter_id != user.id:
-        raise HTTPException(403, "only the assigned lawyer can submit the draft")
+        raise HTTPException(403, "only the assigned advocate can submit the draft")
 
     if req.status not in (DraftingStatus.IN_PROGRESS, DraftingStatus.REVISION_REQUESTED):
         raise HTTPException(400, "cannot submit draft, request is not in progress or in revision")

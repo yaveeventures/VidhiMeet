@@ -334,16 +334,16 @@ async function loadPublicStats() {
       const familyEl = document.getElementById("count-family");
       const corpEl   = document.getElementById("count-corporate");
       const propEl   = document.getElementById("count-property");
-      if (familyEl) familyEl.textContent = `${byPractice["family"] ?? 0} verified lawyers`;
-      if (corpEl)   corpEl.textContent   = `${byPractice["corporate"] ?? 0} verified lawyers`;
-      if (propEl)   propEl.textContent   = `${byPractice["property"] ?? 0} verified lawyers`;
+      if (familyEl) familyEl.textContent = `${byPractice["family"] ?? 0} verified advocates`;
+      if (corpEl)   corpEl.textContent   = `${byPractice["corporate"] ?? 0} verified advocates`;
+      if (propEl)   propEl.textContent   = `${byPractice["property"] ?? 0} verified advocates`;
     }
 
     // ── "Available today" float ───────────────────────────────────────────────
     const onlineEl = document.getElementById("stat-lawyers-online");
     if (onlineEl) {
       const total = (stats && stats.verified_lawyers) || (Array.isArray(lawyers) ? lawyers.length : 0);
-      onlineEl.textContent = `${total} lawyer${total !== 1 ? "s" : ""} available`;
+      onlineEl.textContent = `${total} advocate${total !== 1 ? "s" : ""} available`;
     }
 
     // ── Trust badge: Verified + client count ────────────────────────────
@@ -500,9 +500,9 @@ function render() {
   if (!homeList.length) {
     grid.innerHTML = `
       <div style="grid-column:1/-1;width:100%;text-align:center;padding:48px 24px;background:#f9fafb;border-radius:16px;border:1px dashed var(--line);margin:10px 0;">
-        <h4 style="font-size:18px;color:var(--forest);font-weight:700;margin-bottom:6px;">No verified lawyers available in this category yet</h4>
+        <h4 style="font-size:18px;color:var(--forest);font-weight:700;margin-bottom:6px;">No verified advocates available in this category yet</h4>
         <p style="font-size:14px;color:var(--ink-light);margin-bottom:16px;">We are actively onboarding verified advocates across India.</p>
-        <a href="lawyer.html" style="display:inline-block;padding:10px 20px;background:var(--forest);color:white;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Are you a lawyer? Register as an Expert →</a>
+        <a href="lawyer.html" style="display:inline-block;padding:10px 20px;background:var(--forest);color:white;border-radius:8px;font-weight:600;font-size:13px;text-decoration:none;">Are you an advocate? Register as an Expert →</a>
       </div>`;
   } else {
     const lawyerCardsHtml = homeList.map(x => `
@@ -529,7 +529,7 @@ function render() {
 
     // View All option as the last card in the carousel
     const viewAllCardHtml = `
-      <article class="lawyer-card view-all-card" id="carousel-view-all-card" role="button" tabindex="0" aria-label="Explore all verified lawyers in directory">
+      <article class="lawyer-card view-all-card" id="carousel-view-all-card" role="button" tabindex="0" aria-label="Explore all verified advocates in directory">
         <div class="view-all-badge">FULL DIRECTORY</div>
         <div class="view-all-icon-wrap">
           <span class="view-all-icon">⚖️</span>
@@ -539,7 +539,7 @@ function render() {
           <h3>View All Legal Experts</h3>
           <p>Browse our complete network of verified advocates with filters for experience, regional languages, and practice domains.</p>
           <button class="view-all-btn" type="button" tabindex="-1">
-            <span>Explore All Lawyers</span>
+            <span>Explore All Advocates</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </button>
         </div>
@@ -603,7 +603,7 @@ function bookingView() {
           </div>
         `).join("")}
         <div class="field">
-          <label>Anything else your lawyer should know?</label>
+          <label>Anything else your advocate should know?</label>
           <textarea id="intake-notes" placeholder="Share only what you are comfortable sharing..."></textarea>
         </div>
         <div class="actions">
@@ -855,7 +855,7 @@ function bookingView() {
 
       <label class="disclaimer">
         <input type="checkbox" id="ack" ${booking.disclaimerChecked ? 'checked' : ''}> 
-        <span>I understand VidhiMeet is an Electronic Marketplace Intermediary under Section 79 of the IT Act and does not itself provide legal advice. Legal advice is provided directly and solely by the verified lawyer. <strong>Metadata Waiver:</strong> I agree that in the event of a dispute, automated room connection logs (timestamps and participant durations) serve as sole definitive evidence for refund eligibility.</span>
+        <span>I understand VidhiMeet is an Electronic Marketplace Intermediary under Section 79 of the IT Act and does not itself provide legal advice. Legal advice is provided directly and solely by the verified advocate. <strong>Metadata Waiver:</strong> I agree that in the event of a dispute, automated room connection logs (timestamps and participant durations) serve as sole definitive evidence for refund eligibility.</span>
       </label>
       <div id="booking-error" style="color:var(--terra);font-size:12px;font-weight:700;margin-top:10px;"></div>
       <div class="actions">
@@ -1017,7 +1017,7 @@ async function startBooking(id) {
   const lawyerIdStr = String(id);
   const found = lawyers.find(x => String(x.id) === lawyerIdStr);
   if (!found) {
-    toast("Lawyer details not found. Please refresh and try again.");
+    toast("Advocate details not found. Please refresh and try again.");
     return;
   }
   // Fetch fresh lawyer details to get any recently updated availability windows
@@ -1051,7 +1051,7 @@ async function showLawyerProfile(id) {
   const l = lawyers.find(x => String(x.id) === lawyerIdStr);
   if (!l) return;
   content.innerHTML = `
-    <span class="kicker">Lawyer Profile</span>
+    <span class="kicker">Advocate Profile</span>
     <h2>${l.name}</h2>
     <div style="display:flex;align-items:center;gap:14px;margin:16px 0;">
       <span style="width:64px;height:64px;border-radius:50%;background:${l.color};display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:#fff;flex-shrink:0;">${l.initials}</span>
@@ -1935,7 +1935,7 @@ function renderLogin(redirect = null, fromBooking = false) {
       
       if (user && user.role === "lawyer") {
         LexAPI.logout();
-        errDiv.textContent = "This portal is for clients only. Lawyers must log in via the Lawyer Portal.";
+        errDiv.textContent = "This portal is for clients only. Advocates must log in via the Advocate Portal.";
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.style.pointerEvents = "";
@@ -2748,7 +2748,7 @@ async function showMyMeetings() {
         gcalUrl = `https://calendar.google.com/calendar/event?action=TEMPLATE` +
           `&text=${encodeURIComponent(`Legal Consultation (—${b.lawyer_name || "Advocate"})`)}`+
           `&dates=${fmt(dt)}/${fmt(dtEnd)}`+
-          `&details=${encodeURIComponent(`VidhiMeet consultation. Ref: ${b.id.slice(0,8).toUpperCase()}. Join room after lawyer confirms.`)}`+
+          `&details=${encodeURIComponent(`VidhiMeet consultation. Ref: ${b.id.slice(0,8).toUpperCase()}. Join room after advocate confirms.`)}`+
           `&location=${encodeURIComponent("VidhiMeet Secure Video Room")}`;
       }
 
@@ -2811,7 +2811,7 @@ async function showMyMeetings() {
             </div>
             
             <div class="meeting-lawyer-name" style="font-size: 18px; font-weight: 700; color: var(--forest); margin: 6px 0 2px;">
-              ${b.lawyer_name || "Assigned Lawyer"}
+              ${b.lawyer_name || "Assigned Advocate"}
             </div>
             <div class="meeting-datetime">
               <span class="meeting-date">📅 ${dateStr}</span>
@@ -2830,7 +2830,7 @@ async function showMyMeetings() {
             ${reviewHTML}
             ${b.status === "cancelled" || b.status === "refunded" ? `<span class="meeting-hint">✗ Booking ${b.status}</span>` : ""}
             ${["confirmed","in_progress","pending_payment"].includes(b.status) ? `
-              <button class="btn-chat-meeting" data-chat-booking="${b.id}" data-chat-lawyer="${b.lawyer_name || 'Your Lawyer'}" data-chat-salt="${b.chat_key_salt || ''}">💬 Chat</button>
+              <button class="btn-chat-meeting" data-chat-booking="${b.id}" data-chat-lawyer="${b.lawyer_name || 'Your Advocate'}" data-chat-salt="${b.chat_key_salt || ''}">💬 Chat</button>
             ` : ""}
             <input type="file" id="doc-file-${b.id}" accept=".pdf,.jpg,.jpeg,.png,.docx" hidden>
           </div>
@@ -3403,12 +3403,12 @@ function renderAllLawyers() {
   } else if (!lawyers.length) {
     gridEl.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 48px 24px; background: white; border-radius: 16px; border: 1px dashed var(--line); margin: 20px 0;">
-        <h4 style="font-size: 18px; color: var(--forest); font-weight: 700; margin-bottom: 8px;">No lawyers available right now</h4>
-        <p style="font-size: 14px; color: var(--muted); margin-bottom: 16px;">We could not reach the lawyer network or no verified advocates are listed yet.</p>
+        <h4 style="font-size: 18px; color: var(--forest); font-weight: 700; margin-bottom: 8px;">No advocates available right now</h4>
+        <p style="font-size: 14px; color: var(--muted); margin-bottom: 16px;">We could not reach the advocate network or no verified advocates are listed yet.</p>
         <button class="primary" onclick="loadLawyers()" style="min-height: 40px; padding: 8px 20px; font-size: 13px;">⟳ Retry Loading</button>
       </div>`;
   } else {
-    gridEl.innerHTML = `<p class="lead" style="grid-column: 1/-1; text-align: center; padding: 40px 0; color: var(--muted);">No lawyers match your selected filters. Try adjusting them.</p>`;
+    gridEl.innerHTML = `<p class="lead" style="grid-column: 1/-1; text-align: center; padding: 40px 0; color: var(--muted);">No advocates match your selected filters. Try adjusting them.</p>`;
   }
 }
 
@@ -3853,7 +3853,7 @@ window.payForDrafting = async function(reqId) {
 
         <div style="background:#f4f7f5; padding:12px 14px; border-radius:10px; font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:24px; display:flex; align-items:flex-start; gap:8px;">
           <span style="font-size:16px;">🛡️</span>
-          <span><strong>Buyer Protection:</strong> Your payment will be safely held in VidhiMeet Escrow and only released to the lawyer after you review and approve the finalized draft.</span>
+          <span><strong>Buyer Protection:</strong> Your payment will be safely held in VidhiMeet Escrow and only released to the advocate after you review and approve the finalized draft.</span>
         </div>
 
         <div id="drafting-pay-error" style="color:var(--terra); font-size:13px; margin-bottom:12px; font-weight:600;" hidden></div>
@@ -3877,7 +3877,7 @@ window.payForDrafting = async function(reqId) {
       try {
         await LexAPI.confirmDraftingPayment(reqId);
         close();
-        toast("Payment successful! The lawyer has been notified to begin drafting.");
+        toast("Payment successful! The advocate has been notified to begin drafting.");
         await loadDraftingRequests();
       } catch (err) {
         btn.disabled = false;
@@ -3899,7 +3899,7 @@ window.approveDraft = async function(reqId) {
   }
   try {
     await LexAPI.approveDraft(reqId);
-    toast("Draft approved successfully! Payment released to the lawyer.");
+    toast("Draft approved successfully! Payment released to the advocate.");
     await loadDraftingRequests();
   } catch (err) {
     toast("Error: " + err.message);

@@ -388,7 +388,7 @@ function initLawyerAuth() {
       }
       await authFn("lawyer");
       const user = LexAPI.getCurrentUser();
-      const fullName = user ? user.full_name : "Lawyer";
+      const fullName = user ? user.full_name : "Advocate";
       toast(`Welcome, ${fullName}!`);
       checkLawyerSession();
       loadData();
@@ -427,7 +427,7 @@ function initLawyerAuth() {
       const user = LexAPI.getCurrentUser();
       if (!user || user.role !== "lawyer") {
         LexAPI.logout();
-        errDiv.textContent = "Access denied. Only lawyers can access this portal.";
+        errDiv.textContent = "Access denied. Only advocates can access this portal.";
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.style.pointerEvents = "";
@@ -3999,7 +3999,7 @@ document.getElementById("support-ticket-form")?.addEventListener("submit", async
     console.error("Failed to submit support ticket to backend:", err);
   }
 
-  toast(`🎧 Ticket [${category}] submitted! Lawyer support will contact you within 15 mins.`);
+  toast(`🎧 Ticket [${category}] submitted! Advocate support will contact you within 15 mins.`);
   const msgEl = document.getElementById("support-message");
   if (msgEl) msgEl.value = "";
   closeSupportModal();
@@ -5432,7 +5432,7 @@ window.payForDrafting = async function(reqId) {
       try {
         await LexAPI.confirmDraftingPayment(reqId);
         closeDraftingModal();
-        toast("Payment successful! The lawyer has been notified to begin drafting.");
+        toast("Payment successful! The advocate has been notified to begin drafting.");
         await loadDraftingPortal();
       } catch (err) {
         btn.disabled = false;
@@ -5455,7 +5455,7 @@ window.approveDraft = async function(reqId) {
     async () => {
       try {
         await LexAPI.approveDraft(reqId);
-        toast("Draft approved successfully! Payment released to the lawyer.");
+        toast("Draft approved successfully! Payment released to the advocate.");
         await loadDraftingPortal();
       } catch (err) {
         toast("Error: " + err.message);

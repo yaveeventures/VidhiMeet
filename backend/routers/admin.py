@@ -78,7 +78,7 @@ def verify_lawyer(request: Request, lawyer_id: str, approved: bool | None = None
                   db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
     if not profile:
-        raise HTTPException(404, "lawyer profile not found")
+        raise HTTPException(404, "advocate profile not found")
     
     if status:
         target_status = status.lower()
@@ -89,7 +89,7 @@ def verify_lawyer(request: Request, lawyer_id: str, approved: bool | None = None
     
     if target_status == "approved":
         if not profile.bar_license_url or not profile.aadhaar_url:
-            raise HTTPException(400, "Cannot approve lawyer without both Bar Council Certificate and Aadhaar / Govt ID on file")
+            raise HTTPException(400, "Cannot approve advocate without both Bar Council Certificate and Aadhaar / Govt ID on file")
         profile.verification_status = "approved"
         profile.verified = True
         profile.bar_license_verified = True
@@ -126,7 +126,7 @@ def verify_lawyer_document(request: Request, lawyer_id: str, doc_type: str, veri
                            db: Session = Depends(get_db)):
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
     if not profile:
-        raise HTTPException(404, "Lawyer profile not found")
+        raise HTTPException(404, "Advocate profile not found")
 
     if doc_type in ("bar_license", "bar"):
         profile.bar_license_verified = verified
@@ -150,10 +150,10 @@ def get_lawyer_verification_dossier(
     import re
     user = db.get(User, lawyer_id)
     if not user:
-        raise HTTPException(404, "Lawyer user not found")
+        raise HTTPException(404, "Advocate user not found")
     profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == lawyer_id))
     if not profile:
-        raise HTTPException(404, "Lawyer profile not found")
+        raise HTTPException(404, "Advocate profile not found")
     bank = db.scalar(select(LawyerBankAccount).where(LawyerBankAccount.user_id == lawyer_id))
 
     # Helper for Aadhaar

@@ -128,7 +128,7 @@ def initiate_lawyer_payout(
         )
         return {
             "status": "held",
-            "reason": "Lawyer does not have a verified bank account",
+            "reason": "Advocate does not have a verified bank account",
             "entity_id": entity_id,
         }
 

@@ -109,7 +109,7 @@ def login(request: Request, payload: LoginRequest, db: Session = Depends(get_db)
 def setup_mfa(user: User = Depends(current_user), db: Session = Depends(get_db)):
     """Generate TOTP secret and provisioning URI for MFA authenticator setup."""
     if user.role not in (Role.LAWYER, Role.ADMIN):
-        raise HTTPException(403, "MFA is mandatory for lawyers and admins")
+        raise HTTPException(403, "MFA is mandatory for advocates and admins")
     secret = user.mfa_secret
     if not secret:
         secret = pyotp.random_base32()
@@ -330,7 +330,7 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
         if payload.role == Role.LAWYER and user.role != Role.LAWYER:
             raise HTTPException(403, f"This Google account ({email}) is already registered as a Client. Please sign in with an Advocate account.")
         if payload.role == Role.CLIENT and user.role != Role.CLIENT:
-            raise HTTPException(403, f"This Google account ({email}) is already registered as an Advocate. Please log in through the Lawyer Portal.")
+            raise HTTPException(403, f"This Google account ({email}) is already registered as an Advocate. Please log in through the Advocate Portal.")
         if user.role == Role.LAWYER:
             profile = db.scalar(select(LawyerProfile).where(LawyerProfile.user_id == user.id))
             if not profile:

@@ -251,7 +251,7 @@ function getAllUnifiedTransactions() {
     id: t.id,
     title: null,                                        // consultations have no title
     party_a: t.client_name || "Client",
-    party_b: t.lawyer_name || "Lawyer",
+    party_b: t.lawyer_name || "Advocate",
     status: t.status,
     amount_minor: t.amount_minor,
     platform_fee_minor: t.platform_fee_minor,
@@ -263,7 +263,7 @@ function getAllUnifiedTransactions() {
     id: d.id,
     title: d.title || null,
     party_a: d.creator_name || "Client",
-    party_b: d.drafter_name || (d.drafter_id ? "Lawyer" : "Unassigned"),
+    party_b: d.drafter_name || (d.drafter_id ? "Advocate" : "Unassigned"),
     status: d.status,
     amount_minor: d.agreed_price_minor || d.price_minor,
     platform_fee_minor: d.platform_fee_minor || 0,
@@ -356,7 +356,7 @@ function renderOverview() {
       <div><span class="metric green">○</span></div>
       <p>Total platform users</p>
       <strong>${totalUsers}</strong>
-      <small>${users.filter(u=>u.role==="client").length} clients · ${users.filter(u=>u.role==="lawyer").length} lawyers</small>
+      <small>${users.filter(u=>u.role==="client").length} clients · ${users.filter(u=>u.role==="lawyer").length} advocates</small>
     </article>
     <article>
       <div><span class="metric gold">▣</span></div>
@@ -382,7 +382,7 @@ function renderOverview() {
   const attentionItems = pendingLawyers.length + openDisputes.length;
   $(".notice div").innerHTML = `
     <strong>${attentionItems} item${attentionItems !== 1 ? "s" : ""} ${attentionItems === 1 ? "needs" : "need"} your attention</strong>
-    <small>${pendingLawyers.length} lawyer application${pendingLawyers.length !== 1 ? "s" : ""} and ${openDisputes.length} dispute${openDisputes.length !== 1 ? "s" : ""} open.</small>
+    <small>${pendingLawyers.length} advocate application${pendingLawyers.length !== 1 ? "s" : ""} and ${openDisputes.length} dispute${openDisputes.length !== 1 ? "s" : ""} open.</small>
   `;
 
   // ── Quick activity feed (audit log summary) ───────────────────────────
@@ -419,7 +419,7 @@ function renderOverview() {
   }).join("");
 
   if (pendingLawyers.length === 0) {
-    $("#mini-applications").innerHTML = `<p class="muted" style="padding:15px 0;">No pending lawyer applications.</p>`;
+    $("#mini-applications").innerHTML = `<p class="muted" style="padding:15px 0;">No pending advocate applications.</p>`;
   }
 }
 
@@ -615,10 +615,10 @@ async function reviewApplication(id, name, practice, bar, isVerified = false, ba
     ? `<button class="reject" id="btn-show-rejection" type="button">Revoke verification</button>
        <button class="ghost" data-close-modal>Close</button>`
     : `<button class="reject" id="btn-show-rejection" type="button">Reject profile</button>
-       <button class="primary" id="approve-btn" data-decide-id="${id}" data-decide-approved="true" ${approveDisabled}>Approve lawyer</button>`;
+       <button class="primary" id="approve-btn" data-decide-id="${id}" data-decide-approved="true" ${approveDisabled}>Approve advocate</button>`;
 
   const descriptionText = activeVerified
-    ? "Verified professional credentials on file for this lawyer."
+    ? "Verified professional credentials on file for this advocate."
     : "Review submitted fields alongside uploaded documents and verify credentials before approval.";
 
   // Year mismatch banner
@@ -698,7 +698,7 @@ async function reviewApplication(id, name, practice, bar, isVerified = false, ba
           <div class="dossier-card-title"><i>💳</i> 3. Bank Account & PAN Identity Matching</div>
           <span style="font-size:11px; background:#edf2f7; color:#4a5568; padding:2px 8px; border-radius:4px; font-weight:600;">Not Added</span>
         </div>
-        <p style="margin:4px 0 0; font-size:12px; color:#718096;">Lawyer has not submitted payout bank account or PAN details yet.</p>
+        <p style="margin:4px 0 0; font-size:12px; color:#718096;">Advocate has not submitted payout bank account or PAN details yet.</p>
       </div>
     `;
   }
@@ -1000,7 +1000,7 @@ async function decideVerification(id, approved, rejectionReason = null) {
   try {
     await LexAPI.verifyLawyer(id, approved, rejectionReason);
     try { sessionStorage.removeItem(`admin_doc_verified_${id}`); } catch (_) {}
-    toast(approved ? "Lawyer approved and profile activated." : "Lawyer rejected. Feedback recorded on profile.");
+    toast(approved ? "Advocate approved and profile activated." : "Advocate rejected. Feedback recorded on profile.");
     $("#review-modal").hidden = true;
     document.body.style.overflow = "";
     await loadData();
@@ -1014,7 +1014,7 @@ function openVerificationPolicyModal() {
   $("#review-content").innerHTML = `
     <div style="padding:10px 4px;">
       <span style="color:var(--forest); font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.05em;">Trust & Safety Policy</span>
-      <h2 style="font-family:'Playfair Display',serif; margin:6px 0 14px; font-size:22px; color:var(--forest);">Lawyer Verification & Credentials Policy</h2>
+      <h2 style="font-family:'Playfair Display',serif; margin:6px 0 14px; font-size:22px; color:var(--forest);">Advocate Verification & Credentials Policy</h2>
       <p style="font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:16px;">
         To preserve marketplace integrity and adhere to Bar Council guidelines and the DPDP Act 2023, every advocate profile undergoes mandatory dual-document verification before being listed publicly.
       </p>
@@ -1110,7 +1110,7 @@ function renderDisputes(filter = "open") {
     const isResolved = ["completed", "refunded"].includes(d.status);
     const amount = d.amount_minor ? d.amount_minor / 100 : 0;
     const categoryLabels = {
-      no_show: "🚫 Lawyer No-Show",
+      no_show: "🚫 Advocate No-Show",
       bad_connectivity: "📡 Bad Connectivity / Drop",
       short_duration: "⏱️ Short Duration (<50%)",
       quality_other: "⚖️ Quality / Other"
@@ -1147,7 +1147,7 @@ function renderDisputes(filter = "open") {
           <div>
             <span style="font-size:11px; font-weight:700; text-transform:uppercase; color:var(--terra);">${catLabel}</span>
             <h3 style="margin:4px 0 2px; font-size:18px;">Consultation Dispute #${d.id.slice(0,8).toUpperCase()}</h3>
-            <p style="margin:0; font-size:13px; color:var(--muted);">Client: <strong>${escapeHtml(d.client_name || "Client")}</strong> vs Lawyer: <strong>${escapeHtml(d.lawyer_name || "Lawyer")}</strong></p>
+            <p style="margin:0; font-size:13px; color:var(--muted);">Client: <strong>${escapeHtml(d.client_name || "Client")}</strong> vs Advocate: <strong>${escapeHtml(d.lawyer_name || "Advocate")}</strong></p>
           </div>
           <span style="padding:6px 12px; border-radius:99px; font-size:11px; font-weight:700; ${autoBadgeStyle}">
             ${escapeHtml(autoStatus)}
@@ -1162,7 +1162,7 @@ function renderDisputes(filter = "open") {
 
         <div style="display:flex; gap:18px; flex-wrap:wrap; font-size:12px; background:#f4f7f4; padding:10px 14px; border-radius:10px;">
           <span>Hold Amount: <b>${money(amount)}</b></span>
-          <span>Lawyer Room Time: <b>${lawyerMin} mins</b></span>
+          <span>Advocate Room Time: <b>${lawyerMin} mins</b></span>
           <span>Client Room Time: <b>${clientMin} mins</b></span>
           <span>Slot Duration: <b>${d.duration_minutes || 45} mins</b></span>
         </div>
@@ -1187,7 +1187,7 @@ function renderDisputes(filter = "open") {
 
 async function resolveDispute(id, outcome, strikeLawyer = false) {
   const promptMsg = strikeLawyer
-    ? `Issue REFUND and add STRIKE penalty to lawyer profile?`
+    ? `Issue REFUND and add STRIKE penalty to advocate profile?`
     : `Resolve dispute by choosing outcome: ${outcome.toUpperCase()}?`;
   if (confirm(promptMsg)) {
     try {
@@ -1215,7 +1215,7 @@ function renderUsers(role = "all") {
 
   function setEl(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
   setEl("stat-total-clients",        totalClients);
-  setEl("stat-total-clients-sub",    `${totalLawyers} lawyer${totalLawyers !== 1 ? "s" : ""} · ${totalAll} total users`);
+  setEl("stat-total-clients-sub",    `${totalLawyers} advocate${totalLawyers !== 1 ? "s" : ""} · ${totalAll} total users`);
   setEl("stat-verified-lawyers",     verifiedLawyers);
   setEl("stat-verified-lawyers-sub", `${totalLawyers - verifiedLawyers} pending verification`);
   setEl("stat-active-users",         activeUsers);
@@ -1503,12 +1503,12 @@ function renderPayoutOverview() {
     <article>
       <span>Next scheduled payout</span>
       <strong>${payoutStr}</strong>
-      <small>${payoutDateStr} · ${payoutLawyersCount} lawyer${payoutLawyersCount !== 1 ? 's' : ''}</small>
+      <small>${payoutDateStr} · ${payoutLawyersCount} advocate${payoutLawyersCount !== 1 ? 's' : ''}</small>
     </article>
     <article>
       <span>Pending verification</span>
       <strong>${pendingAmountStr}</strong>
-      <small>${pendingLawyersCount} lawyer account${pendingLawyersCount !== 1 ? 's' : ''}</small>
+      <small>${pendingLawyersCount} advocate account${pendingLawyersCount !== 1 ? 's' : ''}</small>
     </article>
     <article>
       <span>Failed payouts</span>
@@ -1647,7 +1647,7 @@ document.addEventListener("click", e => {
         a.rejection_reason
       );
     } else {
-      toast("Could not load lawyer details. Please refresh and try again.");
+      toast("Could not load advocate details. Please refresh and try again.");
     }
   }
 
@@ -1687,7 +1687,7 @@ document.addEventListener("click", e => {
     let html = `<h3>Pending items summary</h3>`;
     const totalPending = pendingLawyers.length + disputes.length;
     if (totalPending) {
-      if (pendingLawyers.length) html += `<p>${pendingLawyers.length} lawyer applications pending verification.</p>`;
+      if (pendingLawyers.length) html += `<p>${pendingLawyers.length} advocate applications pending verification.</p>`;
       if (disputes.length) html += `<p>${disputes.length} open disputes.</p>`;
     } else {
       html += `<p>No pending items at the moment.</p>`;
@@ -1794,7 +1794,7 @@ function updateBadgeCounts() {
 }
 
 window.forceReleasePayout = async function(entityType, id) {
-  if (!confirm(`Force-release payout for this ${entityType}? Funds will transfer to the lawyer's bank account.`)) return;
+  if (!confirm(`Force-release payout for this ${entityType}? Funds will transfer to the advocate's bank account.`)) return;
   try {
     if (entityType === "booking") {
       await LexAPI.forceReleaseBookingPayout(id);
@@ -2007,8 +2007,8 @@ function renderPayouts() {
       container.innerHTML = `
         <div class="payout-empty-card" style="padding: 40px 24px;">
           <div class="payout-empty-icon" style="background:#f1f5f9; border-color:#e2e8f0; color:#64748b;">💳</div>
-          <h3 class="payout-empty-title">${q ? 'No matching bank accounts found' : 'No lawyer payout bank accounts registered yet'}</h3>
-          <p class="payout-empty-desc">${q ? `No accounts matched "${escapeHtml(q)}". Try searching by lawyer name, bank name, account number, or IFSC.` : 'Bank accounts registered by advocates for payout disbursements will appear here.'}</p>
+          <h3 class="payout-empty-title">${q ? 'No matching bank accounts found' : 'No advocate payout bank accounts registered yet'}</h3>
+          <p class="payout-empty-desc">${q ? `No accounts matched "${escapeHtml(q)}". Try searching by advocate name, bank name, account number, or IFSC.` : 'Bank accounts registered by advocates for payout disbursements will appear here.'}</p>
         </div>`;
       return;
     }
@@ -2065,7 +2065,7 @@ function renderPayouts() {
       <table>
         <thead>
           <tr>
-            <th>Lawyer</th>
+            <th>Advocate</th>
             <th>Account Holder</th>
             <th>Account Number (Masked)</th>
             <th>IFSC Code (Masked)</th>

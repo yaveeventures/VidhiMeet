@@ -77,7 +77,7 @@ def _build_vevent(booking: Booking, base_url: str = "https://VidhiMeet.in") -> s
     description = (
         f"VidhiMeet Consultation\\n"
         f"Ref: {booking.id[:8].upper()}\\n"
-        f"Lawyer: {lawyer_name}\\n"
+        f"Advocate: {lawyer_name}\\n"
         f"Client: {client_name}\\n"
         f"Practice: {practice}\\n"
         f"Duration: {booking.duration_minutes or 45} minutes\\n"
