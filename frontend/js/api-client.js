@@ -213,20 +213,47 @@ const LexAPI = (() => {
       emit("auth:change", { authenticated: true, user: this.getCurrentUser() });
       return tokens;
     },
+    loadGoogleGSI() {
+      if (window.google && window.google.accounts && window.google.accounts.oauth2) {
+        return Promise.resolve();
+      }
+      if (window._gsiPromise) return window._gsiPromise;
+      window._gsiPromise = new Promise((resolve, reject) => {
+        const existing = document.querySelector('script[src*="accounts.google.com/gsi/client"]');
+        if (existing) {
+          if (window.google && window.google.accounts) return resolve();
+          existing.addEventListener('load', resolve, { once: true });
+          existing.addEventListener('error', () => {
+            window._gsiPromise = null;
+            reject(new Error('Failed to load Google Sign-In SDK'));
+          }, { once: true });
+          return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.defer = true;
+        script.onload = () => resolve();
+        script.onerror = () => {
+          window._gsiPromise = null;
+          reject(new Error('Failed to load Google Sign-In SDK'));
+        };
+        document.head.appendChild(script);
+      });
+      return window._gsiPromise;
+    },
     async performGoogleAuth(role = "client") {
       let idToken = null;
       let email = null;
       let fullName = null;
       const clientId = window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com";
 
-      // 0. Ensure Google Identity Services SDK is ready (poll up to 3.5s)
+      // 0. Ensure Google Identity Services SDK is loaded dynamically on demand
       if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
-        const start = Date.now();
-        while (Date.now() - start < 3500) {
-          await new Promise(r => setTimeout(r, 100));
-          if (window.google && window.google.accounts && window.google.accounts.oauth2) {
-            break;
-          }
+        try {
+          await this.loadGoogleGSI();
+        } catch (loadErr) {
+          console.warn("Failed to dynamically load Google GSI SDK:", loadErr);
         }
       }
 
@@ -544,6 +571,7 @@ const LexAPI = (() => {
 if (typeof window !== "undefined") {
   window.LexAPI = LexAPI;
   window.performGoogleAuth = (role) => LexAPI.performGoogleAuth(role);
+  window.loadGoogleGSI = () => LexAPI.loadGoogleGSI();
 }
 
 // ── Enterprise Inactivity & Auto-Logout Manager (DPDP Act & Legal Privilege) ──

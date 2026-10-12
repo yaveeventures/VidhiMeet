@@ -7,6 +7,10 @@
   padding: 2px 0;
 }
 
+.brand picture {
+  display: contents;
+}
+
 /* Hide old letter-icon — replaced by logo image */
 .brand i { display: none; }
 
@@ -14,6 +18,7 @@
   display: block;
   height: 40px;
   width: auto;
+  aspect-ratio: 137 / 72;
   object-fit: contain;
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
@@ -2587,6 +2592,12 @@ input[aria-invalid="true"], select[aria-invalid="true"], textarea[aria-invalid="
   background: #e5be79;
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(217, 173, 98, 0.45);
+}
+
+.view-all-btn:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+  background: #e5be79;
 }
 
 @keyframes modalNudge {

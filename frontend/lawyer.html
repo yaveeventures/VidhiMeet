@@ -25,10 +25,18 @@
   <meta name="twitter:image" content="https://vidhimeet.in/logo-white.png">
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+  </noscript>
   <link rel="stylesheet" href="css/design-tokens.min.css">
+  <link rel="preload" href="css/lawyer.min.css?v=rev-46" as="style">
   <link rel="stylesheet" href="css/lawyer.min.css?v=rev-46">
-  <link rel="stylesheet" href="css/cookie-consent.min.css">
+  <link rel="preload" href="css/cookie-consent.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/cookie-consent.min.css"></noscript>
 
   <script>
     // Synchronous auth check to immediately render lawyer sign-in page if not logged in
@@ -62,7 +70,7 @@
 </head>
 
 <body>
-  <aside id="sidebar"><a class="brand" href="index.html"><img src="logo-white.png" alt="VidhiMeet" class="brand-logo-img" height="80" style="height:80px;width:auto;display:block;"></a><small class="portal">ADVOCATE
+  <aside id="sidebar"><a class="brand" href="index.html"><picture><source type="image/avif" srcset="logo-white.avif 1x, logo-white@2x.avif 2x"><source type="image/webp" srcset="logo-white.webp 1x, logo-white@2x.webp 2x"><img src="logo-white.png" srcset="logo-white.png 1x, logo-white@2x.png 2x" alt="VidhiMeet" class="brand-logo-img" width="118" height="80" style="height:80px;width:auto;display:block;" decoding="async"></picture></a><small class="portal">ADVOCATE
       PORTAL</small>
     <nav>
       <button class="active" data-view="overview">⌂ <span>Overview</span></button><button data-view="consultations">▣
@@ -1078,7 +1086,6 @@
       <button type="button" class="primary" id="review-sla-done-btn" style="width:100%;padding:12px;font-size:14px;border-radius:10px;">Return to Dashboard</button>
     </div>
   </div>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="js/cookie-consent.min.js" defer></script>
   <script src="js/validation-rules.min.js?v=rev-44" defer></script>
   <script src="js/e2ee.min.js" defer></script>
@@ -1086,7 +1093,7 @@
   <script src="js/daily-js.min.js" defer></script>
   <script src="js/pdf-annotator.min.js?v=rev-44" defer></script>
   <script src="js/realtime.min.js?v=rev-44" defer></script>
-  <script src="js/lawyer.min.js?v=rev-48" defer></script>
+  <script src="js/lawyer.min.js?v=rev-49" defer></script>
 </body>
 
 </html>
