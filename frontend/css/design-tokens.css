@@ -75,22 +75,17 @@ h1, h2, h3, h4, h5, h6, .display-font {
   box-shadow: var(--shadow-glow);
 }
 
-/* Skeleton Loading Shimmer Keyframes */
+/* Skeleton Loading Shimmer Keyframes (GPU-composited opacity) */
 @keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.42; }
 }
 
 .skeleton-shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.03) 25%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.03) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite linear;
+  background: rgba(255, 255, 255, 0.08);
+  animation: shimmer 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   border-radius: 8px;
+  will-change: opacity;
 }
 
 /* Modern Accessible Dialog Modals */
