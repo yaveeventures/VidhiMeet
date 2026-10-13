@@ -76,14 +76,14 @@ resource "cloudflare_ruleset" "bot_management" {
   kind        = "zone"
   phase       = "http_request_firewall_custom"
 
-  # Rule 2.0: Allow Search Engine Crawlers & SEO Files (/sitemap.xml, /robots.txt)
+  # Rule 2.0: Allow Search Engine Crawlers, SEO Files & Audit Scanners (/sitemap.xml, /robots.txt, Bingbot, Lighthouse)
   rules {
     action      = "skip"
     action_parameters {
       ruleset = "current"
     }
-    description = "Allow Search Engine Crawlers & SEO Files (/sitemap.xml, /robots.txt)"
-    expression  = "(http.request.uri.path in {\"/sitemap.xml\" \"/robots.txt\"}) or cf.bot_management.verified_bot"
+    description = "Allow Search Engine Crawlers, SEO Files & Audit Scanners (/sitemap.xml, /robots.txt, Bingbot, Lighthouse)"
+    expression  = "(http.request.uri.path in {\"/sitemap.xml\" \"/robots.txt\"}) or cf.bot_management.verified_bot or (http.user_agent contains \"GTmetrix\") or (http.user_agent contains \"Chrome-Lighthouse\") or ((http.user_agent contains \"bingbot\" or http.user_agent contains \"BingPreview\") and ip.src.asnum in {8075 8068 8069})"
     enabled     = true
   }
 

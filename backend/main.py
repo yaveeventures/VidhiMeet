@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 import secrets
 from contextlib import asynccontextmanager
 
@@ -7,7 +8,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.exc import IntegrityError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 
 from .config import get_settings
 from .db import Base, engine, async_engine
@@ -471,6 +472,11 @@ class FrontendStaticFiles(StaticFiles):
         full_path = scope.get("path", "")
         if full_path.startswith("/api/") or path.startswith("api/"):
             raise StarletteHTTPException(status_code=404, detail="Not Found")
+        # Legacy backward-compatibility resolution for images moved to frontend/images/
+        if (path.startswith("logo") or path.startswith("og-image")) and self.directory:
+            image_fallback = os.path.join(self.directory, "images", path)
+            if os.path.isfile(image_fallback):
+                return FileResponse(image_fallback)
         return await super().get_response(path, scope)
 
 app.mount("/", FrontendStaticFiles(directory="frontend", html=True), name="frontend")

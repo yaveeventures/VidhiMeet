@@ -1,7 +1,7 @@
-# Graph Report - VidhiMeet  (2026-10-12)
+# Graph Report - VidhiMeet  (2026-10-13)
 
 ## Corpus Check
-- 125 files · ~233,684 words
+- 125 files · ~235,264 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `389f6114`
+- Built from commit: `56bfc738`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -115,6 +115,8 @@
 10. `BookingStatus` - 62 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `reset_rate_limiter()` --calls--> `get_settings()`  [EXTRACTED]
+  tests/conftest.py → backend/config.py
 - `get_user_by_email()` --indirect_call--> `User`  [INFERRED]
   tests/test_drafting.py → backend/models.py
 - `test_admin_ntp_status_endpoint_accessible_by_admin()` --indirect_call--> `User`  [INFERRED]
@@ -122,8 +124,6 @@
 - `test_cancelled_slot_relisting()` --indirect_call--> `User`  [INFERRED]
   tests/test_cancellation.py → backend/models.py
 - `test_client_cancel_between_2h_and_24h_partial_refund()` --indirect_call--> `User`  [INFERRED]
-  tests/test_cancellation.py → backend/models.py
-- `test_client_cancel_more_than_24h_full_refund()` --indirect_call--> `User`  [INFERRED]
   tests/test_cancellation.py → backend/models.py
 
 ## Import Cycles
@@ -144,8 +144,8 @@ Cohesion: 0.05
 Nodes (88): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience(), calculateProfileCompleteness() (+80 more)
 
 ### Community 3 - "lawyer.js"
-Cohesion: 0.08
-Nodes (18): clean_string(), Trim whitespace and escape HTML control characters to prevent XSS attacks.     R, Sanitize raw user string input without HTML entity encoding to prevent double-es, sanitize_text(), BankAccountCreate, BankAccountUpdate, DraftingRequestCreate, DraftSubmit (+10 more)
+Cohesion: 0.09
+Nodes (16): clean_string(), Trim whitespace and escape HTML control characters to prevent XSS attacks.     R, Sanitize raw user string input without HTML entity encoding to prevent double-es, sanitize_text(), BankAccountUpdate, DraftingRequestCreate, DraftSubmit, MessageCreate (+8 more)
 
 ### Community 4 - "app.js"
 Cohesion: 0.08
@@ -161,11 +161,11 @@ Nodes (47): check_clock_drift(), _get_servers(), ntp_now(), ntp_now_ist(), NtpSt
 
 ### Community 7 - "i"
 Cohesion: 0.10
-Nodes (42): Message, Review, request_erasure(), booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document() (+34 more)
+Nodes (43): Message, Review, request_erasure(), booking_for_participant(), cancel_booking(), cancellation_preview(), complete_booking(), confirm_document() (+35 more)
 
 ### Community 10 - "models.py"
-Cohesion: 0.05
-Nodes (64): get_settings(), DraftComment, DraftingProposal, DraftingRequest, rate_limit_dependency(), accept_drafting_proposal(), accept_drafting_request(), add_draft_comment() (+56 more)
+Cohesion: 0.06
+Nodes (63): get_settings(), DraftComment, DraftingProposal, DraftingRequest, rate_limit_dependency(), accept_drafting_proposal(), accept_drafting_request(), add_draft_comment() (+55 more)
 
 ### Community 11 - "LawyerProfile"
 Cohesion: 0.04
@@ -176,8 +176,8 @@ Cohesion: 0.05
 Nodes (88): $(), aadhaarFileEl, ALL_TIME_SLOTS, barLicenceFileEl, bindTimeSelectListeners(), bookings, calculateExperience(), calculateProfileCompleteness() (+80 more)
 
 ### Community 13 - "main.py"
-Cohesion: 0.10
-Nodes (15): get_validation_rules(), Public endpoint exposing canonical platform validation rules and constraints, Reject registration if the user is under 18 (DPDP Act 2023, Section 9)., RegisterRequest, get_public_validation_rules(), Canonical Validation Constants and Statutory Limits for VidhiMeet. Serves as the, Returns a dictionary of validation rules safe to expose publicly to frontend cli, date (+7 more)
+Cohesion: 0.08
+Nodes (17): get_validation_rules(), Public endpoint exposing canonical platform validation rules and constraints, BankAccountCreate, Reject registration if the user is under 18 (DPDP Act 2023, Section 9)., RegisterRequest, get_public_validation_rules(), Canonical Validation Constants and Statutory Limits for VidhiMeet. Serves as the, Returns a dictionary of validation rules safe to expose publicly to frontend cli (+9 more)
 
 ### Community 14 - "LawyerGrid"
 Cohesion: 0.22
@@ -189,7 +189,7 @@ Nodes (32): AsyncSession, PasswordResetToken, RefreshToken, enable_mfa(), forgot
 
 ### Community 17 - "admin.py"
 Cohesion: 0.09
-Nodes (53): User, admin_metrics(), admin_verify_bank_account(), create_promotional_voucher(), delete_voucher(), force_release_booking_payout(), force_release_draft_payout(), get_admin_payouts() (+45 more)
+Nodes (52): User, admin_metrics(), admin_verify_bank_account(), create_promotional_voucher(), delete_voucher(), force_release_booking_payout(), force_release_draft_payout(), get_admin_payouts() (+44 more)
 
 ### Community 18 - "9d0be6640444_add_aadhaar_and_profile_picture.py"
 Cohesion: 0.12
@@ -224,8 +224,8 @@ Cohesion: 0.19
 Nodes (10): cn(), dr(), _e(), he(), nn(), on(), qe(), un() (+2 more)
 
 ### Community 26 - "_cors_response"
-Cohesion: 0.05
-Nodes (54): Base, FrontendStaticFiles, lifespan(), AuditLog, EncryptedString, now(), PlatformFeedback, datetime (+46 more)
+Cohesion: 0.04
+Nodes (55): Base, FrontendStaticFiles, lifespan(), AuditLog, EncryptedString, now(), PlatformFeedback, datetime (+47 more)
 
 ### Community 27 - "test_rate_limiter.py"
 Cohesion: 0.21
