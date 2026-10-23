@@ -24,6 +24,81 @@ variable "cloudflare_account_id" {
   description = "The Cloudflare Account ID"
 }
 
+variable "origin_server_ip" {
+  type        = string
+  description = "Public IPv4 address of the origin server hosting VidhiMeet"
+  default     = "127.0.0.1"
+}
+
+# ------------------------------------------------------------------------------
+# LAYER 0: Cloudflare DNS Records & Strict SSL/TLS 1.3 Edge Configuration
+# Configures apex and subdomains (www, lawyer, admin) with Strict SSL/TLS 1.3
+# ------------------------------------------------------------------------------
+resource "cloudflare_record" "apex_ipv4" {
+  zone_id = var.cloudflare_zone_id
+  name    = "vidhimeet.in"
+  value   = var.origin_server_ip
+  type    = "A"
+  proxied = true
+  ttl     = 1
+  comment = "VidhiMeet Apex Domain (Proxied via Cloudflare Edge WAF)"
+}
+
+resource "cloudflare_record" "www" {
+  zone_id = var.cloudflare_zone_id
+  name    = "www"
+  value   = "vidhimeet.in"
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+  comment = "VidhiMeet WWW Canonical Redirect"
+}
+
+resource "cloudflare_record" "lawyer_subdomain" {
+  zone_id = var.cloudflare_zone_id
+  name    = "lawyer"
+  value   = "vidhimeet.in"
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+  comment = "VidhiMeet Advocate Portal Subdomain"
+}
+
+resource "cloudflare_record" "admin_subdomain" {
+  zone_id = var.cloudflare_zone_id
+  name    = "admin"
+  value   = "vidhimeet.in"
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+  comment = "VidhiMeet Admin Console Subdomain"
+}
+
+resource "cloudflare_zone_settings_override" "zone_settings" {
+  zone_id = var.cloudflare_zone_id
+
+  settings {
+    ssl                      = "strict"
+    min_tls_version          = "1.2"
+    tls_1_3                  = "on"
+    always_use_https         = "on"
+    automatic_https_rewrites = "on"
+    opportunistic_encryption = "on"
+    brotli                   = "on"
+    http3                    = "on"
+    zero_rtt                 = "on"
+    security_header {
+      strict_transport_security {
+        enabled            = true
+        max_age            = 63072000
+        include_subdomains = true
+        preload            = true
+        nosniff            = true
+      }
+    }
+  }
+}
+
 # ------------------------------------------------------------------------------
 # LAYER 1: Edge-Level Rate Limiting Ruleset (http_ratelimit phase)
 # Protects authentication endpoints from credential stuffing & brute-force bots
@@ -163,3 +238,14 @@ resource "cloudflare_ruleset" "custom_waf" {
     enabled     = true
   }
 }
+
+# ------------------------------------------------------------------------------
+# LAYER 4: Private Document Vault (Cloudflare R2 Bucket)
+# Zero-trust storage with native AES-256 server-side encryption at rest (FIPS 140-2)
+# ------------------------------------------------------------------------------
+resource "cloudflare_r2_bucket" "documents_bucket" {
+  account_id = var.cloudflare_account_id
+  name       = "vidhimeet-documents"
+  location   = "APAC"
+}
+

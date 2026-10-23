@@ -62,6 +62,16 @@ class Settings(BaseSettings):
     rate_limit_auth_backoff_base_seconds: float = 2.0   # Base delay multiplier
     rate_limit_auth_backoff_max_seconds: float = 300.0  # Max delay cap (5 mins)
     rate_limit_auth_window_seconds: int = 600           # Sliding window for auth attempts (10 mins)
+    # ── Database Connection Pooling & Cluster Configuration ─────────────────
+    db_pool_size: int = 15                      # Baseline pool size per worker process
+    db_max_overflow: int = 25                   # Maximum burst connections above pool size
+    db_pool_recycle_seconds: int = 1800         # Recycle connections every 30 minutes to prevent stale sockets
+    db_pool_timeout_seconds: int = 30           # Seconds to wait for an available pool connection
+    db_pool_pre_ping: bool = True               # Liveness test connection before returning to pool
+    db_ssl_require: bool = True                 # Automatically enforce TLS (sslmode=require) in production
+    # ── Redis Connection Pooling & TLS Configuration ─────────────────────────
+    redis_max_connections: int = 50             # Redis connection pool capacity
+    redis_ssl_cert_reqs: str = "none"           # TLS verification: "none", "optional", or "required"
     # ── Data Retention (DPDP Act §8(7)) ──────────────────────────────────────
     # Number of days to retain completed/disputed bookings (default: 7 years for tax/legal compliance)
     retention_completed_days: int = 2555   # ~7 years
@@ -113,6 +123,7 @@ class Settings(BaseSettings):
             if not origin.startswith("https://"):
                 raise ValueError("ALLOWED_ORIGINS must contain only HTTPS origins in production")
         return self
+
     @property
     def origins(self) -> list[str]:
         parsed = [x.strip() for x in self.allowed_origins.split(",") if x.strip()]

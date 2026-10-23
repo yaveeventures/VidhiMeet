@@ -33,14 +33,26 @@ class SlidingWindowRateLimiter:
         if s.redis_url:
             try:
                 import redis.asyncio as redis
-                self._redis_client = redis.from_url(
-                    s.redis_url,
-                    decode_responses=True,
-                    socket_connect_timeout=5,
-                    socket_timeout=5,
-                )
+                is_tls = s.redis_url.startswith("rediss://")
+                kwargs = {
+                    "decode_responses": True,
+                    "socket_connect_timeout": 5,
+                    "socket_timeout": 5,
+                    "retry_on_timeout": True,
+                    "max_connections": s.redis_max_connections,
+                }
+                if is_tls:
+                    import ssl
+                    cert_reqs_map = {
+                        "none": ssl.CERT_NONE,
+                        "optional": ssl.CERT_OPTIONAL,
+                        "required": ssl.CERT_REQUIRED,
+                    }
+                    kwargs["ssl_cert_reqs"] = cert_reqs_map.get(s.redis_ssl_cert_reqs.lower(), ssl.CERT_NONE)
+
+                self._redis_client = redis.from_url(s.redis_url, **kwargs)
                 await self._redis_client.ping()
-                log.info("Redis rate limiter connected successfully")
+                log.info("Redis rate limiter connected successfully", tls=is_tls, max_connections=s.redis_max_connections)
             except Exception as e:
                 # Catch-all: SSL errors, connection refused, timeout, import errors, etc.
                 # Redis is optional — never crash the app on a Redis failure.
@@ -61,21 +73,33 @@ class SlidingWindowRateLimiter:
         return limits.get(category, s.rate_limit_global_per_min)
 
     def _get_client_ip(self, request: Request) -> str:
-        forwarded = request.headers.get("x-forwarded-for")
-        if forwarded:
-            return forwarded.split(",")[0].strip()
+        s = get_settings()
+        # CF-Connecting-IP takes highest priority when behind Cloudflare
+        cf_ip = request.headers.get("CF-Connecting-IP")
+        if cf_ip:
+            return cf_ip.strip()
+
+        if s.trust_proxy:
+            xff = request.headers.get("X-Forwarded-For")
+            if xff:
+                return xff.split(",")[0].strip()
+            x_real_ip = request.headers.get("X-Real-IP")
+            if x_real_ip:
+                return x_real_ip.strip()
+
         return request.client.host if request.client else "127.0.0.1"
 
     async def _extract_account_id(self, request: Request) -> str | None:
-        account = request.query_params.get("email") or request.query_params.get("username")
-        if not account and request.headers.get("content-type", "").startswith("application/json"):
+        account = None
+        if request.method == "POST":
             try:
-                body_bytes = await request.body()
-                if body_bytes:
-                    data = json.loads(body_bytes)
-                    if isinstance(data, dict):
-                        account = data.get("email") or data.get("username") or data.get("account")
-            except (json.JSONDecodeError, UnicodeDecodeError, ValueError, TypeError):
+                content_type = request.headers.get("content-type", "")
+                if "application/json" in content_type:
+                    body = await request.body()
+                    if body:
+                        data = json.loads(body.decode("utf-8"))
+                        account = data.get("email") or data.get("username")
+            except Exception:
                 pass
         return str(account).lower().strip() if account else None
 
