@@ -226,7 +226,7 @@ CREATE POLICY "participant_select" ON public.drafting_requests
     USING (
         creator_id = public.current_app_user_id()
         OR drafter_id = public.current_app_user_id()
-        OR status = 'open'::draftingstatus
+        OR status::text IN ('open', 'OPEN')
     );
 
 CREATE POLICY "owner_insert" ON public.drafting_requests
