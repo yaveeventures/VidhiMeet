@@ -206,7 +206,7 @@ from cryptography.fernet import Fernet, InvalidToken, MultiFernet
 def _get_fernet_cipher() -> MultiFernet:
     keys = []
     if settings.data_encryption_key:
-        keys.append(settings.data_encryption_key)
+        keys.append(settings.data_encryption_key.strip('"\''))
     # Fallback keys for decrypting historical records during key rotation
     for fallback in [
         "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU=",

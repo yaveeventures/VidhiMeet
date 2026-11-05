@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     daily_api_key: str = ""
     daily_domain: str = "lexconnect"
     aws_region: str = "ap-south-1"
+    aws_access_key_id: str = ""
+    aws_secret_access_key: str = ""
     document_bucket: str = ""
     s3_endpoint_url: str = ""  # Cloudflare R2: https://<ACCOUNT_ID>.r2.cloudflarestorage.com
     max_document_bytes: int = 10 * 1024 * 1024
@@ -87,6 +89,20 @@ class Settings(BaseSettings):
     # Run an NTP drift check on application startup
     ntp_sync_on_startup: bool = True
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    @model_validator(mode="before")
+    @classmethod
+    def remap_legacy_and_sanitize(cls, data: any):
+        if isinstance(data, dict):
+            # Gracefully remap verification keys to payout keys if payout keys are omitted
+            if not data.get("cashfree_payout_app_id") and data.get("cashfree_verification_app_id"):
+                data["cashfree_payout_app_id"] = data["cashfree_verification_app_id"]
+            if not data.get("cashfree_payout_secret_key") and data.get("cashfree_verification_secret_key"):
+                data["cashfree_payout_secret_key"] = data["cashfree_verification_secret_key"]
+            # Strip enclosing quotes if present in env strings
+            if isinstance(data.get("data_encryption_key"), str):
+                data["data_encryption_key"] = data["data_encryption_key"].strip('"\'')
+        return data
 
     @field_validator("jwt_secret")
     @classmethod

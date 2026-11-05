@@ -54,10 +54,30 @@
       "norm_label": "basesettings"
     },
     {
+      "label": ".remap_legacy_and_sanitize()",
+      "file_type": "code",
+      "source_file": "backend/config.py",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "backend_config_settings_remap_legacy_and_sanitize",
+      "community": 581,
+      "norm_label": ".remap_legacy_and_sanitize()"
+    },
+    {
+      "label": "any",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "backend_config_py_any",
+      "community": 581,
+      "norm_label": "any"
+    },
+    {
       "label": ".secure_secret()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L93",
+      "source_location": "L109",
       "_origin": "ast",
       "id": "backend_config_settings_secure_secret",
       "community": 581,
@@ -67,7 +87,7 @@
       "label": ".supported_video_provider()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L100",
+      "source_location": "L116",
       "_origin": "ast",
       "id": "backend_config_settings_supported_video_provider",
       "community": 581,
@@ -77,7 +97,7 @@
       "label": ".production_safety_checks()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L107",
+      "source_location": "L123",
       "_origin": "ast",
       "id": "backend_config_settings_production_safety_checks",
       "community": 581,
@@ -87,7 +107,7 @@
       "label": ".origins()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L129",
+      "source_location": "L145",
       "_origin": "ast",
       "id": "backend_config_settings_origins",
       "community": 581,
@@ -97,7 +117,7 @@
       "label": ".production()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L153",
+      "source_location": "L169",
       "_origin": "ast",
       "id": "backend_config_settings_production",
       "community": 581,
@@ -107,7 +127,7 @@
       "label": ".cashfree_base_url()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L157",
+      "source_location": "L173",
       "_origin": "ast",
       "id": "backend_config_settings_cashfree_base_url",
       "community": 581,
@@ -117,7 +137,7 @@
       "label": "get_settings()",
       "file_type": "code",
       "source_file": "backend/config.py",
-      "source_location": "L164",
+      "source_location": "L180",
       "_origin": "ast",
       "id": "backend_config_get_settings",
       "community": 11,
@@ -150,7 +170,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "backend_db_base",
-      "community": 24,
+      "community": 75,
       "norm_label": "base"
     },
     {
@@ -160,7 +180,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "declarativebase",
-      "community": 24,
+      "community": 75,
       "norm_label": "declarativebase"
     },
     {
@@ -190,7 +210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_logging_config",
-      "community": 24,
+      "community": 40,
       "norm_label": "logging_config.py"
     },
     {
@@ -200,7 +220,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "backend_logging_config_scrub_sensitive_pii_processor",
-      "community": 24,
+      "community": 40,
       "norm_label": "scrub_sensitive_pii_processor()"
     },
     {
@@ -210,7 +230,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_logging_config_setup_logging",
-      "community": 24,
+      "community": 40,
       "norm_label": "setup_logging()"
     },
     {
@@ -220,7 +240,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "backend_logging_config_rationale_11",
-      "community": 24,
+      "community": 40,
       "norm_label": "sanitize sensitive pii keys and credentials before log rendering."
     },
     {
@@ -230,7 +250,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_logging_config_rationale_18",
-      "community": 24,
+      "community": 40,
       "norm_label": "configure structured json logging for production or key-value console logging fo"
     },
     {
@@ -400,7 +420,7 @@
       "source_location": "L490",
       "_origin": "ast",
       "id": "backend_main_frontendstaticfiles",
-      "community": 24,
+      "community": 76,
       "norm_label": "frontendstaticfiles"
     },
     {
@@ -410,7 +430,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "staticfiles",
-      "community": 24,
+      "community": 76,
       "norm_label": "staticfiles"
     },
     {
@@ -590,7 +610,7 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "backend_models_lawyerprofile",
-      "community": 11,
+      "community": 76,
       "norm_label": "lawyerprofile"
     },
     {
@@ -710,7 +730,7 @@
       "source_location": "L230",
       "_origin": "ast",
       "id": "backend_models_booking_last_message_at",
-      "community": 85,
+      "community": 24,
       "norm_label": ".last_message_at()"
     },
     {
@@ -730,7 +750,7 @@
       "source_location": "L247",
       "_origin": "ast",
       "id": "backend_models_passwordresettoken",
-      "community": 24,
+      "community": 75,
       "norm_label": "passwordresettoken"
     },
     {
@@ -740,7 +760,7 @@
       "source_location": "L257",
       "_origin": "ast",
       "id": "backend_models_auditlog",
-      "community": 75,
+      "community": 76,
       "norm_label": "auditlog"
     },
     {
@@ -760,7 +780,7 @@
       "source_location": "L275",
       "_origin": "ast",
       "id": "backend_models_message",
-      "community": 7,
+      "community": 24,
       "norm_label": "message"
     },
     {
@@ -770,7 +790,7 @@
       "source_location": "L289",
       "_origin": "ast",
       "id": "backend_models_message_sender_name",
-      "community": 7,
+      "community": 24,
       "norm_label": ".sender_name()"
     },
     {
@@ -800,7 +820,7 @@
       "source_location": "L312",
       "_origin": "ast",
       "id": "backend_models_userconsent",
-      "community": 75,
+      "community": 76,
       "norm_label": "userconsent"
     },
     {
@@ -930,7 +950,7 @@
       "source_location": "L432",
       "_origin": "ast",
       "id": "backend_models_platformfeedback",
-      "community": 17,
+      "community": 24,
       "norm_label": "platformfeedback"
     },
     {
@@ -940,7 +960,7 @@
       "source_location": "L443",
       "_origin": "ast",
       "id": "backend_models_platformfeedback_user_name",
-      "community": 17,
+      "community": 24,
       "norm_label": ".user_name()"
     },
     {
@@ -950,7 +970,7 @@
       "source_location": "L447",
       "_origin": "ast",
       "id": "backend_models_platformfeedback_user_email",
-      "community": 17,
+      "community": 24,
       "norm_label": ".user_email()"
     },
     {
@@ -960,7 +980,7 @@
       "source_location": "L451",
       "_origin": "ast",
       "id": "backend_models_voucher",
-      "community": 40,
+      "community": 17,
       "norm_label": "voucher"
     },
     {
@@ -970,7 +990,7 @@
       "source_location": "L471",
       "_origin": "ast",
       "id": "backend_models_voucher_user_email",
-      "community": 40,
+      "community": 17,
       "norm_label": ".user_email()"
     },
     {
@@ -990,7 +1010,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_ntp_time",
-      "community": 6,
+      "community": 89,
       "norm_label": "ntp_time.py"
     },
     {
@@ -1000,7 +1020,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "backend_ntp_time_ntpstatus",
-      "community": 6,
+      "community": 89,
       "norm_label": "ntpstatus"
     },
     {
@@ -1010,7 +1030,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_ntp_time_py_typeddict",
-      "community": 6,
+      "community": 89,
       "norm_label": "typeddict"
     },
     {
@@ -1020,7 +1040,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "backend_ntp_time_query_ntp_server",
-      "community": 6,
+      "community": 89,
       "norm_label": "_query_ntp_server()"
     },
     {
@@ -1030,7 +1050,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_ntp_time_py_datetime",
-      "community": 6,
+      "community": 89,
       "norm_label": "datetime"
     },
     {
@@ -1040,7 +1060,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "backend_ntp_time_get_servers",
-      "community": 6,
+      "community": 89,
       "norm_label": "_get_servers()"
     },
     {
@@ -1050,7 +1070,7 @@
       "source_location": "L89",
       "_origin": "ast",
       "id": "backend_ntp_time_sync_ntp_offset",
-      "community": 6,
+      "community": 89,
       "norm_label": "sync_ntp_offset()"
     },
     {
@@ -1060,7 +1080,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "backend_ntp_time_ntp_now",
-      "community": 6,
+      "community": 89,
       "norm_label": "ntp_now()"
     },
     {
@@ -1070,7 +1090,7 @@
       "source_location": "L135",
       "_origin": "ast",
       "id": "backend_ntp_time_ntp_now_ist",
-      "community": 6,
+      "community": 89,
       "norm_label": "ntp_now_ist()"
     },
     {
@@ -1080,7 +1100,7 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "backend_ntp_time_check_clock_drift",
-      "community": 6,
+      "community": 89,
       "norm_label": "check_clock_drift()"
     },
     {
@@ -1090,7 +1110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_1",
-      "community": 6,
+      "community": 89,
       "norm_label": "ntp_time.py ----------- ntp time synchronization for cert-in and dpdp forensic t"
     },
     {
@@ -1100,7 +1120,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_48",
-      "community": 6,
+      "community": 89,
       "norm_label": "send a single ntp client request to *host* and return the transmit     timestamp"
     },
     {
@@ -1110,7 +1130,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_76",
-      "community": 6,
+      "community": 89,
       "norm_label": "return the ordered list of ntp servers from settings."
     },
     {
@@ -1120,7 +1140,7 @@
       "source_location": "L90",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_90",
-      "community": 6,
+      "community": 89,
       "norm_label": "sync system clock offset relative to official npl/nic ntp servers.     caches th"
     },
     {
@@ -1130,7 +1150,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_127",
-      "community": 6,
+      "community": 89,
       "norm_label": "return the current time as a utc-aware datetime adjusted by cached npl/nic ntp d"
     },
     {
@@ -1140,7 +1160,7 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_136",
-      "community": 6,
+      "community": 89,
       "norm_label": "return the current npl/nic-sourced time in indian standard time (utc+5:30)."
     },
     {
@@ -1150,7 +1170,7 @@
       "source_location": "L144",
       "_origin": "ast",
       "id": "backend_ntp_time_rationale_144",
-      "community": 6,
+      "community": 89,
       "norm_label": "compare the system clock against the first reachable ntp server.      returns a"
     },
     {
@@ -1290,7 +1310,7 @@
       "source_location": "L268",
       "_origin": "ast",
       "id": "backend_rate_limiter_rate_limit_dependency",
-      "community": 11,
+      "community": 7,
       "norm_label": "rate_limit_dependency()"
     },
     {
@@ -1430,7 +1450,7 @@
       "source_location": "L396",
       "_origin": "ast",
       "id": "backend_routers_admin_trigger_expire_abandoned_bookings",
-      "community": 17,
+      "community": 26,
       "norm_label": "trigger_expire_abandoned_bookings()"
     },
     {
@@ -1900,7 +1920,7 @@
       "source_location": "L377",
       "_origin": "ast",
       "id": "backend_routers_auth_request_erasure",
-      "community": 75,
+      "community": 76,
       "norm_label": "request_erasure()"
     },
     {
@@ -2200,7 +2220,7 @@
       "source_location": "L225",
       "_origin": "ast",
       "id": "backend_routers_bookings_validate_voucher",
-      "community": 92,
+      "community": 7,
       "norm_label": "validate_voucher()"
     },
     {
@@ -2390,7 +2410,7 @@
       "source_location": "L230",
       "_origin": "ast",
       "id": "backend_routers_bookings_rationale_230",
-      "community": 92,
+      "community": 7,
       "norm_label": "validate a promotional or rebooking voucher code and return the discounted break"
     },
     {
@@ -2690,7 +2710,7 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "backend_routers_drafting_write_mock_pdf",
-      "community": 11,
+      "community": 48,
       "norm_label": "_write_mock_pdf()"
     },
     {
@@ -2700,7 +2720,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "backend_routers_drafting_download_drafting_document",
-      "community": 11,
+      "community": 48,
       "norm_label": "download_drafting_document()"
     },
     {
@@ -2750,7 +2770,7 @@
       "source_location": "L361",
       "_origin": "ast",
       "id": "backend_routers_drafting_accept_drafting_request",
-      "community": 11,
+      "community": 48,
       "norm_label": "accept_drafting_request()"
     },
     {
@@ -2870,7 +2890,7 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "backend_routers_drafting_rationale_142",
-      "community": 11,
+      "community": 48,
       "norm_label": "helper to write a mock pdf file when serving local document downloads."
     },
     {
@@ -2940,7 +2960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_lawyers",
-      "community": 11,
+      "community": 74,
       "norm_label": "lawyers.py"
     },
     {
@@ -2950,7 +2970,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyerscache",
-      "community": 11,
+      "community": 74,
       "norm_label": "lawyerscache"
     },
     {
@@ -2960,7 +2980,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_typeddict",
-      "community": 11,
+      "community": 74,
       "norm_label": "typeddict"
     },
     {
@@ -2970,7 +2990,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "backend_routers_lawyers_invalidate_lawyers_cache",
-      "community": 11,
+      "community": 17,
       "norm_label": "invalidate_lawyers_cache()"
     },
     {
@@ -2980,7 +3000,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyers",
-      "community": 11,
+      "community": 74,
       "norm_label": "lawyers()"
     },
     {
@@ -2990,7 +3010,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_response",
-      "community": 11,
+      "community": 74,
       "norm_label": "response"
     },
     {
@@ -3000,7 +3020,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_session",
-      "community": 11,
+      "community": 74,
       "norm_label": "session"
     },
     {
@@ -3010,7 +3030,7 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "backend_routers_lawyers_mask_pan",
-      "community": 11,
+      "community": 74,
       "norm_label": "_mask_pan()"
     },
     {
@@ -3020,7 +3040,7 @@
       "source_location": "L108",
       "_origin": "ast",
       "id": "backend_routers_lawyers_get_my_profile",
-      "community": 11,
+      "community": 74,
       "norm_label": "get_my_profile()"
     },
     {
@@ -3030,7 +3050,7 @@
       "source_location": "L156",
       "_origin": "ast",
       "id": "backend_routers_lawyers_get_lawyer",
-      "community": 11,
+      "community": 74,
       "norm_label": "get_lawyer()"
     },
     {
@@ -3040,7 +3060,7 @@
       "source_location": "L205",
       "_origin": "ast",
       "id": "backend_routers_lawyers_update_my_profile",
-      "community": 11,
+      "community": 17,
       "norm_label": "update_my_profile()"
     },
     {
@@ -3050,7 +3070,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_request",
-      "community": 11,
+      "community": 17,
       "norm_label": "request"
     },
     {
@@ -3060,7 +3080,7 @@
       "source_location": "L291",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyer_document_presign",
-      "community": 11,
+      "community": 74,
       "norm_label": "lawyer_document_presign()"
     },
     {
@@ -3070,7 +3090,7 @@
       "source_location": "L316",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyer_document_mock_upload",
-      "community": 11,
+      "community": 74,
       "norm_label": "lawyer_document_mock_upload()"
     },
     {
@@ -3080,7 +3100,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_lawyers_py_uploadfile",
-      "community": 11,
+      "community": 74,
       "norm_label": "uploadfile"
     },
     {
@@ -3090,7 +3110,7 @@
       "source_location": "L346",
       "_origin": "ast",
       "id": "backend_routers_lawyers_lawyer_document_confirm",
-      "community": 11,
+      "community": 17,
       "norm_label": "lawyer_document_confirm()"
     },
     {
@@ -3100,7 +3120,7 @@
       "source_location": "L402",
       "_origin": "ast",
       "id": "backend_routers_lawyers_download_lawyer_document",
-      "community": 11,
+      "community": 74,
       "norm_label": "download_lawyer_document()"
     },
     {
@@ -3120,7 +3140,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_routers_public_health",
-      "community": 17,
+      "community": 24,
       "norm_label": "health()"
     },
     {
@@ -3130,7 +3150,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_routers_public_py_session",
-      "community": 17,
+      "community": 24,
       "norm_label": "session"
     },
     {
@@ -3140,7 +3160,7 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "backend_routers_public_public_stats",
-      "community": 17,
+      "community": 24,
       "norm_label": "public_stats()"
     },
     {
@@ -3150,7 +3170,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_routers_public_submit_feedback",
-      "community": 17,
+      "community": 24,
       "norm_label": "submit_feedback()"
     },
     {
@@ -3180,7 +3200,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "backend_routers_public_rationale_25",
-      "community": 17,
+      "community": 24,
       "norm_label": "public endpoint \u2014 no auth required. returns live platform statistics for the hom"
     },
     {
@@ -3190,7 +3210,7 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "backend_routers_public_rationale_66",
-      "community": 17,
+      "community": 24,
       "norm_label": "public endpoint allowing users to submit platform feedback."
     },
     {
@@ -3220,7 +3240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_routers_webhooks",
-      "community": 85,
+      "community": 24,
       "norm_label": "webhooks.py"
     },
     {
@@ -3230,7 +3250,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "backend_routers_webhooks_webhook_status",
-      "community": 85,
+      "community": 24,
       "norm_label": "webhook_status()"
     },
     {
@@ -3350,7 +3370,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_routers_websocket_chat_validate_ws_user_and_booking",
-      "community": 85,
+      "community": 18,
       "norm_label": "_validate_ws_user_and_booking()"
     },
     {
@@ -3420,7 +3440,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "backend_sanitizer_sanitize_key",
-      "community": 3,
+      "community": 74,
       "norm_label": "sanitize_key()"
     },
     {
@@ -3460,7 +3480,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "backend_sanitizer_rationale_75",
-      "community": 3,
+      "community": 74,
       "norm_label": "sanitize object storage keys to prevent path traversal.     ensures relative key"
     },
     {
@@ -3480,7 +3500,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "backend_schemas_googleloginrequest",
-      "community": 0,
+      "community": 75,
       "norm_label": "googleloginrequest"
     },
     {
@@ -3500,7 +3520,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "backend_schemas_googleloginrequest_check_token_or_email",
-      "community": 0,
+      "community": 75,
       "norm_label": ".check_token_or_email()"
     },
     {
@@ -3590,7 +3610,7 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "backend_schemas_tokenresponse",
-      "community": 0,
+      "community": 75,
       "norm_label": "tokenresponse"
     },
     {
@@ -3800,7 +3820,7 @@
       "source_location": "L295",
       "_origin": "ast",
       "id": "backend_schemas_lawyerout",
-      "community": 0,
+      "community": 74,
       "norm_label": "lawyerout"
     },
     {
@@ -3810,7 +3830,7 @@
       "source_location": "L324",
       "_origin": "ast",
       "id": "backend_schemas_lawyerout_convert_to_list",
-      "community": 0,
+      "community": 74,
       "norm_label": ".convert_to_list()"
     },
     {
@@ -4000,7 +4020,7 @@
       "source_location": "L504",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate",
-      "community": 89,
+      "community": 3,
       "norm_label": "bankaccountupdate"
     },
     {
@@ -4010,7 +4030,7 @@
       "source_location": "L514",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate_clean_pan",
-      "community": 89,
+      "community": 3,
       "norm_label": ".clean_pan()"
     },
     {
@@ -4020,7 +4040,7 @@
       "source_location": "L522",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate_sanitize_account_text",
-      "community": 89,
+      "community": 3,
       "norm_label": ".sanitize_account_text()"
     },
     {
@@ -4030,7 +4050,7 @@
       "source_location": "L527",
       "_origin": "ast",
       "id": "backend_schemas_bankaccountupdate_validate_vpa",
-      "community": 89,
+      "community": 3,
       "norm_label": ".validate_vpa()"
     },
     {
@@ -4100,7 +4120,7 @@
       "source_location": "L604",
       "_origin": "ast",
       "id": "backend_schemas_draftcommentcreate",
-      "community": 3,
+      "community": 0,
       "norm_label": "draftcommentcreate"
     },
     {
@@ -4180,7 +4200,7 @@
       "source_location": "L697",
       "_origin": "ast",
       "id": "backend_schemas_draftsubmit_clean_key",
-      "community": 3,
+      "community": 74,
       "norm_label": ".clean_key()"
     },
     {
@@ -4270,7 +4290,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "backend_security_verify_password",
-      "community": 75,
+      "community": 24,
       "norm_label": "verify_password()"
     },
     {
@@ -4280,7 +4300,7 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "backend_security_create_access_token",
-      "community": 26,
+      "community": 16,
       "norm_label": "create_access_token()"
     },
     {
@@ -4360,7 +4380,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "backend_security_require_roles",
-      "community": 27,
+      "community": 19,
       "norm_label": "require_roles()"
     },
     {
@@ -4430,7 +4450,7 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "backend_security_rationale_43",
-      "community": 75,
+      "community": 24,
       "norm_label": "verify raw password against stored hash.     supports argon2id natively with bac"
     },
     {
@@ -4480,7 +4500,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_auth_service",
-      "community": 75,
+      "community": 89,
       "norm_label": "auth_service.py"
     },
     {
@@ -4490,7 +4510,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "backend_services_auth_service_get_client_ip",
-      "community": 75,
+      "community": 48,
       "norm_label": "get_client_ip()"
     },
     {
@@ -4500,7 +4520,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_auth_service_py_request",
-      "community": 75,
+      "community": 48,
       "norm_label": "request"
     },
     {
@@ -4510,7 +4530,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "backend_services_auth_service_audit",
-      "community": 75,
+      "community": 48,
       "norm_label": "audit()"
     },
     {
@@ -4520,7 +4540,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_auth_service_py_session",
-      "community": 75,
+      "community": 48,
       "norm_label": "session"
     },
     {
@@ -4530,7 +4550,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "asyncsession",
-      "community": 75,
+      "community": 48,
       "norm_label": "asyncsession"
     },
     {
@@ -4560,7 +4580,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "backend_services_auth_service_rationale_14",
-      "community": 75,
+      "community": 48,
       "norm_label": "extract real client ip prioritizing cloudflare and reverse-proxy headers."
     },
     {
@@ -4570,7 +4590,7 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "backend_services_auth_service_rationale_44",
-      "community": 75,
+      "community": 48,
       "norm_label": "record a security/compliance event with an npl/nic ntp-sourced timestamp and rea"
     },
     {
@@ -4660,7 +4680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_dispute_service",
-      "community": 11,
+      "community": 85,
       "norm_label": "dispute_service.py"
     },
     {
@@ -4670,7 +4690,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "backend_services_dispute_service_evaluate_daily_meeting_logs",
-      "community": 7,
+      "community": 85,
       "norm_label": "evaluate_daily_meeting_logs()"
     },
     {
@@ -4680,7 +4700,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_dispute_service_py_session",
-      "community": 7,
+      "community": 85,
       "norm_label": "session"
     },
     {
@@ -4690,7 +4710,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "backend_services_dispute_service_rationale_13",
-      "community": 7,
+      "community": 85,
       "norm_label": "queries daily.co rest api or room session logs for the booking's room,     calcu"
     },
     {
@@ -4710,7 +4730,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "backend_services_drafting_service_presign_document",
-      "community": 11,
+      "community": 7,
       "norm_label": "presign_document()"
     },
     {
@@ -4880,7 +4900,7 @@
       "source_location": "L886",
       "_origin": "ast",
       "id": "backend_services_invoice_service_send_booking_receipt_email",
-      "community": 7,
+      "community": 85,
       "norm_label": "send_booking_receipt_email()"
     },
     {
@@ -4930,7 +4950,7 @@
       "source_location": "L887",
       "_origin": "ast",
       "id": "backend_services_invoice_service_rationale_887",
-      "community": 7,
+      "community": 85,
       "norm_label": "send an automated booking confirmation and payment receipt email to the client"
     },
     {
@@ -4940,7 +4960,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_malware_scanner",
-      "community": 24,
+      "community": 40,
       "norm_label": "malware_scanner.py"
     },
     {
@@ -4950,7 +4970,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "backend_services_malware_scanner_scan_document_payload",
-      "community": 24,
+      "community": 40,
       "norm_label": "scan_document_payload()"
     },
     {
@@ -4960,7 +4980,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "backend_services_malware_scanner_rationale_23",
-      "community": 24,
+      "community": 40,
       "norm_label": "perform deep structural payload inspection on document uploads.     detects embe"
     },
     {
@@ -4970,7 +4990,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_payment_service",
-      "community": 85,
+      "community": 26,
       "norm_label": "payment_service.py"
     },
     {
@@ -4980,7 +5000,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "backend_services_payment_service_sanitize_phone",
-      "community": 85,
+      "community": 26,
       "norm_label": "_sanitize_phone()"
     },
     {
@@ -4990,7 +5010,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "backend_services_payment_service_phone_for_user",
-      "community": 85,
+      "community": 26,
       "norm_label": "_phone_for_user()"
     },
     {
@@ -5000,7 +5020,7 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_services_payment_service_get_cf_headers",
-      "community": 85,
+      "community": 26,
       "norm_label": "_get_cf_headers()"
     },
     {
@@ -5010,7 +5030,7 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "backend_services_payment_service_create_cashfree_order",
-      "community": 85,
+      "community": 26,
       "norm_label": "create_cashfree_order()"
     },
     {
@@ -5020,7 +5040,7 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "backend_services_payment_service_expire_abandoned_bookings",
-      "community": 85,
+      "community": 26,
       "norm_label": "expire_abandoned_bookings()"
     },
     {
@@ -5030,7 +5050,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_payment_service_py_session",
-      "community": 85,
+      "community": 26,
       "norm_label": "session"
     },
     {
@@ -5040,7 +5060,7 @@
       "source_location": "L154",
       "_origin": "ast",
       "id": "backend_services_payment_service_get_cashfree_order",
-      "community": 85,
+      "community": 26,
       "norm_label": "get_cashfree_order()"
     },
     {
@@ -5050,7 +5070,7 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "backend_services_payment_service_verify_cashfree_signature",
-      "community": 85,
+      "community": 26,
       "norm_label": "verify_cashfree_signature()"
     },
     {
@@ -5060,7 +5080,7 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "backend_services_payment_service_initiate_refund",
-      "community": 85,
+      "community": 26,
       "norm_label": "initiate_refund()"
     },
     {
@@ -5070,7 +5090,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_19",
-      "community": 85,
+      "community": 26,
       "norm_label": "format phone number for cashfree requirements (10 digits, no country code)."
     },
     {
@@ -5080,7 +5100,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_29",
-      "community": 85,
+      "community": 26,
       "norm_label": "return a 10-digit phone for cashfree order creation.     priority: user.phone (c"
     },
     {
@@ -5090,7 +5110,7 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_61",
-      "community": 85,
+      "community": 26,
       "norm_label": "create an order in cashfree pg v3 api (2023-08-01 / 2026-01-01).     sets an exp"
     },
     {
@@ -5100,7 +5120,7 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_127",
-      "community": 85,
+      "community": 26,
       "norm_label": "transition any pending_payment bookings older than max_age_minutes to cancelled."
     },
     {
@@ -5110,7 +5130,7 @@
       "source_location": "L155",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_155",
-      "community": 85,
+      "community": 26,
       "norm_label": "fetch status of an order from cashfree pg."
     },
     {
@@ -5120,7 +5140,7 @@
       "source_location": "L178",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_178",
-      "community": 85,
+      "community": 26,
       "norm_label": "verify cashfree pg webhook signature using hmac-sha256.     signature = base64(h"
     },
     {
@@ -5130,7 +5150,7 @@
       "source_location": "L197",
       "_origin": "ast",
       "id": "backend_services_payment_service_rationale_197",
-      "community": 85,
+      "community": 26,
       "norm_label": "trigger cashfree payment refund."
     },
     {
@@ -5140,7 +5160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_payout_service",
-      "community": 16,
+      "community": 92,
       "norm_label": "payout_service.py"
     },
     {
@@ -5150,7 +5170,7 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "backend_services_payout_service_get_payout_api_base_url",
-      "community": 16,
+      "community": 92,
       "norm_label": "get_payout_api_base_url()"
     },
     {
@@ -5160,7 +5180,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "backend_services_payout_service_call_cashfree_transfer",
-      "community": 16,
+      "community": 92,
       "norm_label": "_call_cashfree_transfer()"
     },
     {
@@ -5170,7 +5190,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_payout_service_py_any",
-      "community": 16,
+      "community": 92,
       "norm_label": "any"
     },
     {
@@ -5180,7 +5200,7 @@
       "source_location": "L96",
       "_origin": "ast",
       "id": "backend_services_payout_service_initiate_lawyer_payout",
-      "community": 16,
+      "community": 92,
       "norm_label": "initiate_lawyer_payout()"
     },
     {
@@ -5190,7 +5210,7 @@
       "source_location": "",
       "_origin": "ast",
       "id": "backend_services_payout_service_py_session",
-      "community": 16,
+      "community": 92,
       "norm_label": "session"
     },
     {
@@ -5200,7 +5220,7 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "backend_services_payout_service_sweep_booking_payouts",
-      "community": 16,
+      "community": 92,
       "norm_label": "sweep_booking_payouts()"
     },
     {
@@ -5210,7 +5230,7 @@
       "source_location": "L260",
       "_origin": "ast",
       "id": "backend_services_payout_service_sweep_draft_payouts",
-      "community": 16,
+      "community": 92,
       "norm_label": "sweep_draft_payouts()"
     },
     {
@@ -5220,7 +5240,7 @@
       "source_location": "L306",
       "_origin": "ast",
       "id": "backend_services_payout_service_sweep_all_payouts",
-      "community": 16,
+      "community": 92,
       "norm_label": "sweep_all_payouts()"
     },
     {
@@ -5230,7 +5250,7 @@
       "source_location": "L321",
       "_origin": "ast",
       "id": "backend_services_payout_service_get_pending_payouts",
-      "community": 16,
+      "community": 92,
       "norm_label": "get_pending_payouts()"
     },
     {
@@ -5240,7 +5260,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_1",
-      "community": 16,
+      "community": 92,
       "norm_label": "cashfree payouts and escrow release service. manages automated and administrativ"
     },
     {
@@ -5250,7 +5270,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_47",
-      "community": 16,
+      "community": 92,
       "norm_label": "executes a direct bank transfer request via cashfree payouts api."
     },
     {
@@ -5260,7 +5280,7 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_103",
-      "community": 16,
+      "community": 92,
       "norm_label": "dispatches payout to the lawyer for a completed booking or drafting request."
     },
     {
@@ -5270,7 +5290,7 @@
       "source_location": "L212",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_212",
-      "community": 16,
+      "community": 92,
       "norm_label": "sweeps all completed bookings whose 7-day dispute window has expired     and who"
     },
     {
@@ -5280,7 +5300,7 @@
       "source_location": "L261",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_261",
-      "community": 16,
+      "community": 92,
       "norm_label": "sweeps all completed draftingrequests whose payout is still pending or held"
     },
     {
@@ -5290,7 +5310,7 @@
       "source_location": "L307",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_307",
-      "community": 16,
+      "community": 92,
       "norm_label": "runs full sweep over both bookings and draft requests."
     },
     {
@@ -5300,7 +5320,7 @@
       "source_location": "L322",
       "_origin": "ast",
       "id": "backend_services_payout_service_rationale_322",
-      "community": 16,
+      "community": 92,
       "norm_label": "retrieves unified list of pending/held/failed payouts across bookings and drafts"
     },
     {
@@ -5327,7 +5347,7 @@
       "label": "generate_presigned_post_data()",
       "file_type": "code",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L13",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "backend_services_s3_client_generate_presigned_post_data",
       "community": 11,
@@ -5337,7 +5357,7 @@
       "label": "delete_s3_object()",
       "file_type": "code",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L45",
+      "source_location": "L49",
       "_origin": "ast",
       "id": "backend_services_s3_client_delete_s3_object",
       "community": 11,
@@ -5347,9 +5367,9 @@
       "label": "Deletes an object from S3/R2 cloud bucket or local mock uploads directory.",
       "file_type": "rationale",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L46",
+      "source_location": "L50",
       "_origin": "ast",
-      "id": "backend_services_s3_client_rationale_46",
+      "id": "backend_services_s3_client_rationale_50",
       "community": 11,
       "norm_label": "deletes an object from s3/r2 cloud bucket or local mock uploads directory."
     },
@@ -8668,7 +8688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_o",
-      "community": 74,
+      "community": 14,
       "norm_label": "o()"
     },
     {
@@ -8748,7 +8768,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_h",
-      "community": 15,
+      "community": 64,
       "norm_label": "h()"
     },
     {
@@ -8768,7 +8788,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_v",
-      "community": 15,
+      "community": 14,
       "norm_label": "v()"
     },
     {
@@ -8798,7 +8818,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_y",
-      "community": 64,
+      "community": 14,
       "norm_label": "y()"
     },
     {
@@ -8818,7 +8838,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_t",
-      "community": 15,
+      "community": 64,
       "norm_label": "t()"
     },
     {
@@ -8828,7 +8848,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_n",
-      "community": 10,
+      "community": 14,
       "norm_label": "n()"
     },
     {
@@ -8848,7 +8868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_j",
-      "community": 64,
+      "community": 15,
       "norm_label": "j()"
     },
     {
@@ -8898,7 +8918,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ee",
-      "community": 430,
+      "community": 15,
       "norm_label": "ee()"
     },
     {
@@ -8908,7 +8928,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_te",
-      "community": 64,
+      "community": 10,
       "norm_label": "te()"
     },
     {
@@ -8948,7 +8968,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_oe",
-      "community": 64,
+      "community": 10,
       "norm_label": "oe()"
     },
     {
@@ -8978,7 +8998,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ue",
-      "community": 10,
+      "community": 14,
       "norm_label": "ue()"
     },
     {
@@ -8988,7 +9008,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_le",
-      "community": 64,
+      "community": 14,
       "norm_label": "le()"
     },
     {
@@ -8998,7 +9018,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_de",
-      "community": 64,
+      "community": 5,
       "norm_label": "de()"
     },
     {
@@ -9008,7 +9028,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_fe",
-      "community": 64,
+      "community": 15,
       "norm_label": "fe()"
     },
     {
@@ -9018,7 +9038,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_he",
-      "community": 25,
+      "community": 15,
       "norm_label": "he()"
     },
     {
@@ -9028,7 +9048,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pe",
-      "community": 25,
+      "community": 15,
       "norm_label": "pe()"
     },
     {
@@ -9038,7 +9058,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ve",
-      "community": 25,
+      "community": 15,
       "norm_label": "ve()"
     },
     {
@@ -9088,7 +9108,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_be",
-      "community": 64,
+      "community": 10,
       "norm_label": "be()"
     },
     {
@@ -9118,7 +9138,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ae",
-      "community": 430,
+      "community": 15,
       "norm_label": "ae()"
     },
     {
@@ -9128,7 +9148,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_processevent",
-      "community": 64,
+      "community": 5,
       "norm_label": "processevent()"
     },
     {
@@ -9138,7 +9158,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xe",
-      "community": 10,
+      "community": 5,
       "norm_label": "xe()"
     },
     {
@@ -9238,7 +9258,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_setuser",
-      "community": 10,
+      "community": 9,
       "norm_label": ".setuser()"
     },
     {
@@ -9248,7 +9268,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_getuser",
-      "community": 10,
+      "community": 9,
       "norm_label": ".getuser()"
     },
     {
@@ -9358,7 +9378,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_je_setsession",
-      "community": 10,
+      "community": 9,
       "norm_label": ".setsession()"
     },
     {
@@ -9628,7 +9648,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_setuponce",
-      "community": 64,
+      "community": 15,
       "norm_label": "setuponce()"
     },
     {
@@ -9648,7 +9668,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_at",
-      "community": 74,
+      "community": 64,
       "norm_label": "at()"
     },
     {
@@ -9658,7 +9678,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ct",
-      "community": 64,
+      "community": 15,
       "norm_label": "ct()"
     },
     {
@@ -9688,7 +9708,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ft",
-      "community": 9,
+      "community": 5,
       "norm_label": "ft()"
     },
     {
@@ -9698,7 +9718,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ht",
-      "community": 64,
+      "community": 5,
       "norm_label": "ht()"
     },
     {
@@ -9718,7 +9738,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mt",
-      "community": 64,
+      "community": 15,
       "norm_label": "mt()"
     },
     {
@@ -9728,7 +9748,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yt",
-      "community": 64,
+      "community": 15,
       "norm_label": "yt()"
     },
     {
@@ -9758,7 +9778,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pt",
-      "community": 64,
+      "community": 15,
       "norm_label": "pt()"
     },
     {
@@ -9768,7 +9788,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_it",
-      "community": 64,
+      "community": 14,
       "norm_label": "it()"
     },
     {
@@ -9778,7 +9798,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_nt",
-      "community": 64,
+      "community": 15,
       "norm_label": "nt()"
     },
     {
@@ -9788,7 +9808,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xt",
-      "community": 64,
+      "community": 15,
       "norm_label": "xt()"
     },
     {
@@ -9798,7 +9818,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_jt",
-      "community": 64,
+      "community": 15,
       "norm_label": "jt()"
     },
     {
@@ -9968,7 +9988,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zt",
-      "community": 64,
+      "community": 10,
       "norm_label": "zt()"
     },
     {
@@ -10008,7 +10028,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_an",
-      "community": 25,
+      "community": 15,
       "norm_label": "an()"
     },
     {
@@ -10048,7 +10068,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ln",
-      "community": 14,
+      "community": 15,
       "norm_label": "ln()"
     },
     {
@@ -10058,7 +10078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_dn",
-      "community": 64,
+      "community": 15,
       "norm_label": "dn()"
     },
     {
@@ -10068,7 +10088,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_fn",
-      "community": 14,
+      "community": 5,
       "norm_label": "fn()"
     },
     {
@@ -10088,7 +10108,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_pn",
-      "community": 64,
+      "community": 14,
       "norm_label": "pn()"
     },
     {
@@ -10118,7 +10138,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yn",
-      "community": 10,
+      "community": 14,
       "norm_label": "yn()"
     },
     {
@@ -10158,7 +10178,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_in",
-      "community": 64,
+      "community": 15,
       "norm_label": "in()"
     },
     {
@@ -10178,7 +10198,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_rn",
-      "community": 64,
+      "community": 15,
       "norm_label": "rn()"
     },
     {
@@ -10188,7 +10208,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_jn",
-      "community": 10,
+      "community": 14,
       "norm_label": "jn()"
     },
     {
@@ -10228,7 +10248,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_er",
-      "community": 15,
+      "community": 64,
       "norm_label": "er()"
     },
     {
@@ -10238,7 +10258,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_preprocessevent",
-      "community": 21,
+      "community": 5,
       "norm_label": "preprocessevent()"
     },
     {
@@ -10298,7 +10318,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_cr",
-      "community": 15,
+      "community": 64,
       "norm_label": "cr()"
     },
     {
@@ -10308,7 +10328,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ur",
-      "community": 64,
+      "community": 25,
       "norm_label": "ur()"
     },
     {
@@ -10318,7 +10338,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_lr",
-      "community": 15,
+      "community": 64,
       "norm_label": "lr()"
     },
     {
@@ -10328,7 +10348,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_dr",
-      "community": 64,
+      "community": 25,
       "norm_label": "dr()"
     },
     {
@@ -10338,7 +10358,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_hr",
-      "community": 15,
+      "community": 64,
       "norm_label": "hr()"
     },
     {
@@ -10398,7 +10418,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_captureexception",
-      "community": 430,
+      "community": 15,
       "norm_label": ".captureexception()"
     },
     {
@@ -10408,7 +10428,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_capturemessage",
-      "community": 430,
+      "community": 15,
       "norm_label": ".capturemessage()"
     },
     {
@@ -10418,7 +10438,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_captureevent",
-      "community": 430,
+      "community": 15,
       "norm_label": ".captureevent()"
     },
     {
@@ -10428,7 +10448,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_capturesession",
-      "community": 10,
+      "community": 5,
       "norm_label": ".capturesession()"
     },
     {
@@ -10568,7 +10588,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_recorddroppedevent",
-      "community": 15,
+      "community": 5,
       "norm_label": ".recorddroppedevent()"
     },
     {
@@ -10588,7 +10608,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_emit",
-      "community": 14,
+      "community": 5,
       "norm_label": ".emit()"
     },
     {
@@ -10618,7 +10638,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_updatesessionfromevent",
-      "community": 10,
+      "community": 5,
       "norm_label": "._updatesessionfromevent()"
     },
     {
@@ -10648,7 +10668,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_prepareevent",
-      "community": 14,
+      "community": 5,
       "norm_label": "._prepareevent()"
     },
     {
@@ -10658,7 +10678,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_processevent",
-      "community": 430,
+      "community": 5,
       "norm_label": "._processevent()"
     },
     {
@@ -10668,7 +10688,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_mr_process",
-      "community": 430,
+      "community": 15,
       "norm_label": "._process()"
     },
     {
@@ -10698,7 +10718,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yr",
-      "community": 430,
+      "community": 64,
       "norm_label": "yr()"
     },
     {
@@ -10708,7 +10728,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br",
-      "community": 430,
+      "community": 5,
       "norm_label": "br"
     },
     {
@@ -10718,7 +10738,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_constructor",
-      "community": 430,
+      "community": 5,
       "norm_label": ".constructor()"
     },
     {
@@ -10728,7 +10748,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_eventfromexception",
-      "community": 430,
+      "community": 15,
       "norm_label": ".eventfromexception()"
     },
     {
@@ -10738,7 +10758,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_eventfrommessage",
-      "community": 10,
+      "community": 15,
       "norm_label": ".eventfrommessage()"
     },
     {
@@ -10758,7 +10778,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_br_prepareevent",
-      "community": 430,
+      "community": 5,
       "norm_label": "._prepareevent()"
     },
     {
@@ -10788,7 +10808,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ro",
-      "community": 74,
+      "community": 64,
       "norm_label": "ro()"
     },
     {
@@ -10798,7 +10818,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_fo",
-      "community": 74,
+      "community": 64,
       "norm_label": "fo()"
     },
     {
@@ -10808,7 +10828,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_bo",
-      "community": 74,
+      "community": 64,
       "norm_label": "bo()"
     },
     {
@@ -10818,7 +10838,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vo",
-      "community": 74,
+      "community": 64,
       "norm_label": "vo()"
     },
     {
@@ -10828,7 +10848,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_yo",
-      "community": 74,
+      "community": 64,
       "norm_label": "yo()"
     },
     {
@@ -10838,7 +10858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_wo",
-      "community": 74,
+      "community": 64,
       "norm_label": "wo()"
     },
     {
@@ -10848,7 +10868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qo",
-      "community": 74,
+      "community": 64,
       "norm_label": "qo()"
     },
     {
@@ -10858,7 +10878,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_go",
-      "community": 74,
+      "community": 64,
       "norm_label": "go()"
     },
     {
@@ -10868,7 +10888,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zo",
-      "community": 74,
+      "community": 64,
       "norm_label": "zo()"
     },
     {
@@ -10878,7 +10898,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ho",
-      "community": 74,
+      "community": 64,
       "norm_label": "ho()"
     },
     {
@@ -10888,7 +10908,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ko",
-      "community": 74,
+      "community": 64,
       "norm_label": "ko()"
     },
     {
@@ -10898,7 +10918,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xo",
-      "community": 74,
+      "community": 64,
       "norm_label": "xo()"
     },
     {
@@ -10908,7 +10928,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ea",
-      "community": 74,
+      "community": 64,
       "norm_label": "ea()"
     },
     {
@@ -10918,7 +10938,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_na",
-      "community": 15,
+      "community": 64,
       "norm_label": "na()"
     },
     {
@@ -10928,7 +10948,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ra",
-      "community": 15,
+      "community": 64,
       "norm_label": "ra()"
     },
     {
@@ -10938,7 +10958,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ia",
-      "community": 15,
+      "community": 64,
       "norm_label": "ia()"
     },
     {
@@ -10958,7 +10978,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_sa",
-      "community": 15,
+      "community": 64,
       "norm_label": "sa()"
     },
     {
@@ -10988,7 +11008,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_va",
-      "community": 15,
+      "community": 14,
       "norm_label": "va()"
     },
     {
@@ -11008,7 +11028,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_la",
-      "community": 15,
+      "community": 64,
       "norm_label": "la()"
     },
     {
@@ -11028,7 +11048,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ua",
-      "community": 15,
+      "community": 64,
       "norm_label": "ua()"
     },
     {
@@ -11058,7 +11078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_rs",
-      "community": 15,
+      "community": 64,
       "norm_label": "rs()"
     },
     {
@@ -11068,7 +11088,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_is",
-      "community": 15,
+      "community": 64,
       "norm_label": "is()"
     },
     {
@@ -11108,7 +11128,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_es",
-      "community": 15,
+      "community": 64,
       "norm_label": "es()"
     },
     {
@@ -11158,7 +11178,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ls",
-      "community": 74,
+      "community": 64,
       "norm_label": "ls()"
     },
     {
@@ -11168,7 +11188,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ds",
-      "community": 74,
+      "community": 64,
       "norm_label": "ds()"
     },
     {
@@ -11178,7 +11198,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_xs",
-      "community": 64,
+      "community": 15,
       "norm_label": "xs()"
     },
     {
@@ -11188,7 +11208,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_fs",
-      "community": 74,
+      "community": 64,
       "norm_label": "fs()"
     },
     {
@@ -11198,7 +11218,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_bs",
-      "community": 74,
+      "community": 15,
       "norm_label": "bs()"
     },
     {
@@ -11208,7 +11228,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_vs",
-      "community": 74,
+      "community": 64,
       "norm_label": "vs()"
     },
     {
@@ -11238,7 +11258,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_ws",
-      "community": 64,
+      "community": 14,
       "norm_label": "ws()"
     },
     {
@@ -11248,7 +11268,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_qs",
-      "community": 74,
+      "community": 64,
       "norm_label": "qs()"
     },
     {
@@ -11268,7 +11288,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_zs",
-      "community": 74,
+      "community": 64,
       "norm_label": "zs()"
     },
     {
@@ -11498,7 +11518,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_j",
-      "community": 23,
+      "community": 21,
       "norm_label": "j()"
     },
     {
@@ -11508,7 +11528,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_w",
-      "community": 21,
+      "community": 38,
       "norm_label": "w()"
     },
     {
@@ -11518,7 +11538,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_q",
-      "community": 21,
+      "community": 38,
       "norm_label": "q()"
     },
     {
@@ -11548,7 +11568,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_ee",
-      "community": 21,
+      "community": 35,
       "norm_label": "ee()"
     },
     {
@@ -11608,7 +11628,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_se",
-      "community": 21,
+      "community": 23,
       "norm_label": "se()"
     },
     {
@@ -11628,7 +11648,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_ue",
-      "community": 23,
+      "community": 35,
       "norm_label": "ue()"
     },
     {
@@ -11638,7 +11658,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_le",
-      "community": 21,
+      "community": 23,
       "norm_label": "le()"
     },
     {
@@ -11768,7 +11788,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_ae",
-      "community": 38,
+      "community": 35,
       "norm_label": "ae()"
     },
     {
@@ -11778,7 +11798,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_processevent",
-      "community": 23,
+      "community": 21,
       "norm_label": "processevent()"
     },
     {
@@ -12048,7 +12068,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_je_addbreadcrumb",
-      "community": 23,
+      "community": 45,
       "norm_label": ".addbreadcrumb()"
     },
     {
@@ -12288,7 +12308,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_setup",
-      "community": 21,
+      "community": 23,
       "norm_label": "setup()"
     },
     {
@@ -12338,7 +12358,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_ft",
-      "community": 23,
+      "community": 21,
       "norm_label": "ft()"
     },
     {
@@ -12348,7 +12368,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_ht",
-      "community": 23,
+      "community": 21,
       "norm_label": "ht()"
     },
     {
@@ -12358,7 +12378,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_gt",
-      "community": 21,
+      "community": 35,
       "norm_label": "gt()"
     },
     {
@@ -12368,7 +12388,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mt",
-      "community": 21,
+      "community": 23,
       "norm_label": "mt()"
     },
     {
@@ -12458,7 +12478,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_bt",
-      "community": 21,
+      "community": 23,
       "norm_label": "bt()"
     },
     {
@@ -12468,7 +12488,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_vt",
-      "community": 21,
+      "community": 23,
       "norm_label": "vt()"
     },
     {
@@ -12508,7 +12528,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_qt_then",
-      "community": 38,
+      "community": 35,
       "norm_label": ".then()"
     },
     {
@@ -12628,7 +12648,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_tn",
-      "community": 23,
+      "community": 38,
       "norm_label": "tn()"
     },
     {
@@ -12728,7 +12748,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_hn",
-      "community": 21,
+      "community": 38,
       "norm_label": "hn()"
     },
     {
@@ -12748,7 +12768,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_vn",
-      "community": 23,
+      "community": 21,
       "norm_label": "vn()"
     },
     {
@@ -12768,7 +12788,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_yn",
-      "community": 34,
+      "community": 23,
       "norm_label": "yn()"
     },
     {
@@ -12798,7 +12818,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mn",
-      "community": 21,
+      "community": 23,
       "norm_label": "mn()"
     },
     {
@@ -12828,7 +12848,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_rn",
-      "community": 21,
+      "community": 23,
       "norm_label": "rn()"
     },
     {
@@ -12838,7 +12858,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_jn",
-      "community": 34,
+      "community": 23,
       "norm_label": "jn()"
     },
     {
@@ -12848,7 +12868,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_qn",
-      "community": 23,
+      "community": 35,
       "norm_label": "qn()"
     },
     {
@@ -12858,7 +12878,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_kn",
-      "community": 21,
+      "community": 23,
       "norm_label": "kn()"
     },
     {
@@ -12938,7 +12958,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_sr",
-      "community": 23,
+      "community": 38,
       "norm_label": "sr()"
     },
     {
@@ -13048,7 +13068,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_captureexception",
-      "community": 38,
+      "community": 35,
       "norm_label": ".captureexception()"
     },
     {
@@ -13058,7 +13078,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_capturemessage",
-      "community": 38,
+      "community": 35,
       "norm_label": ".capturemessage()"
     },
     {
@@ -13068,7 +13088,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_captureevent",
-      "community": 38,
+      "community": 21,
       "norm_label": ".captureevent()"
     },
     {
@@ -13158,7 +13178,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_addeventprocessor",
-      "community": 21,
+      "community": 38,
       "norm_label": ".addeventprocessor()"
     },
     {
@@ -13188,7 +13208,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_addintegration",
-      "community": 21,
+      "community": 38,
       "norm_label": ".addintegration()"
     },
     {
@@ -13218,7 +13238,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_recorddroppedevent",
-      "community": 38,
+      "community": 23,
       "norm_label": ".recorddroppedevent()"
     },
     {
@@ -13228,7 +13248,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_on",
-      "community": 21,
+      "community": 38,
       "norm_label": ".on()"
     },
     {
@@ -13258,7 +13278,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_setupintegrations",
-      "community": 21,
+      "community": 38,
       "norm_label": "._setupintegrations()"
     },
     {
@@ -13308,7 +13328,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_processevent",
-      "community": 38,
+      "community": 21,
       "norm_label": "._processevent()"
     },
     {
@@ -13318,7 +13338,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_process",
-      "community": 38,
+      "community": 35,
       "norm_label": "._process()"
     },
     {
@@ -13328,7 +13348,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_mr_clearoutcomes",
-      "community": 21,
+      "community": 38,
       "norm_label": "._clearoutcomes()"
     },
     {
@@ -13348,7 +13368,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_yr",
-      "community": 23,
+      "community": 21,
       "norm_label": "yr()"
     },
     {
@@ -13358,7 +13378,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_br",
-      "community": 38,
+      "community": 35,
       "norm_label": "br"
     },
     {
@@ -13378,7 +13398,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_br_eventfromexception",
-      "community": 38,
+      "community": 35,
       "norm_label": ".eventfromexception()"
     },
     {
@@ -13388,7 +13408,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_br_eventfrommessage",
-      "community": 23,
+      "community": 35,
       "norm_label": ".eventfrommessage()"
     },
     {
@@ -13408,7 +13428,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_br_prepareevent",
-      "community": 38,
+      "community": 35,
       "norm_label": "._prepareevent()"
     },
     {
@@ -13418,7 +13438,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_js_daily_js_min_kr",
-      "community": 23,
+      "community": 38,
       "norm_label": "kr()"
     },
     {
@@ -14028,7 +14048,7 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "frontend_js_html2pdf_bundle_min_t",
-      "community": 21,
+      "community": 14,
       "norm_label": "t()"
     },
     {
@@ -17338,7 +17358,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_py",
-      "community": 24,
+      "community": 97,
       "norm_label": "env.py"
     },
     {
@@ -17348,7 +17368,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_offline",
-      "community": 24,
+      "community": 97,
       "norm_label": "run_migrations_offline()"
     },
     {
@@ -17358,7 +17378,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_migrations_env_run_migrations_online",
-      "community": 24,
+      "community": 97,
       "norm_label": "run_migrations_online()"
     },
     {
@@ -18786,7 +18806,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_py",
-      "community": 6,
+      "community": 96,
       "norm_label": "test_cancellation.py"
     },
     {
@@ -18796,7 +18816,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_register_user",
-      "community": 6,
+      "community": 96,
       "norm_label": "register_user()"
     },
     {
@@ -18806,7 +18826,7 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_verify_lawyer",
-      "community": 6,
+      "community": 96,
       "norm_label": "verify_lawyer()"
     },
     {
@@ -18816,7 +18836,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_create_confirmed_booking",
-      "community": 6,
+      "community": 96,
       "norm_label": "create_confirmed_booking()"
     },
     {
@@ -18826,7 +18846,7 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_test_client_cancel_more_than_24h_full_refund",
-      "community": 6,
+      "community": 96,
       "norm_label": "test_client_cancel_more_than_24h_full_refund()"
     },
     {
@@ -18836,7 +18856,7 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_test_client_cancel_between_2h_and_24h_partial_refund",
-      "community": 6,
+      "community": 96,
       "norm_label": "test_client_cancel_between_2h_and_24h_partial_refund()"
     },
     {
@@ -18846,7 +18866,7 @@
       "source_location": "L107",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_test_client_cancel_under_2h_zero_refund",
-      "community": 6,
+      "community": 96,
       "norm_label": "test_client_cancel_under_2h_zero_refund()"
     },
     {
@@ -18856,7 +18876,7 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_test_lawyer_cancel_full_refund_plus_voucher",
-      "community": 6,
+      "community": 96,
       "norm_label": "test_lawyer_cancel_full_refund_plus_voucher()"
     },
     {
@@ -18866,7 +18886,7 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "d_yavee_ventures_projects_lawyergrid_tests_test_cancellation_test_cancelled_slot_relisting",
-      "community": 6,
+      "community": 96,
       "norm_label": "test_cancelled_slot_relisting()"
     },
     {
@@ -18876,7 +18896,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_cashfree",
-      "community": 85,
+      "community": 26,
       "norm_label": "test_cashfree.py"
     },
     {
@@ -18886,7 +18906,7 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "tests_test_cashfree_test_verify_cashfree_signature_hmac",
-      "community": 85,
+      "community": 26,
       "norm_label": "test_verify_cashfree_signature_hmac()"
     },
     {
@@ -18896,7 +18916,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "tests_test_cashfree_test_create_cashfree_order_fallback",
-      "community": 85,
+      "community": 26,
       "norm_label": "test_create_cashfree_order_fallback()"
     },
     {
@@ -18906,7 +18926,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_test_cashfree_test_expire_abandoned_bookings",
-      "community": 85,
+      "community": 26,
       "norm_label": "test_expire_abandoned_bookings()"
     },
     {
@@ -18926,7 +18946,7 @@
       "source_location": "L169",
       "_origin": "ast",
       "id": "tests_test_cashfree_test_admin_expire_abandoned_endpoint",
-      "community": 17,
+      "community": 26,
       "norm_label": "test_admin_expire_abandoned_endpoint()"
     },
     {
@@ -18946,7 +18966,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_compliance",
-      "community": 75,
+      "community": 76,
       "norm_label": "test_compliance.py"
     },
     {
@@ -18956,7 +18976,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "tests_test_compliance_test_dpdpa_consent_enforcement_and_logging",
-      "community": 75,
+      "community": 76,
       "norm_label": "test_dpdpa_consent_enforcement_and_logging()"
     },
     {
@@ -18966,7 +18986,7 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "tests_test_compliance_test_pii_encryption_at_rest",
-      "community": 75,
+      "community": 76,
       "norm_label": "test_pii_encryption_at_rest()"
     },
     {
@@ -18976,7 +18996,7 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "tests_test_compliance_test_right_to_erasure",
-      "community": 75,
+      "community": 76,
       "norm_label": "test_right_to_erasure()"
     },
     {
@@ -19036,7 +19056,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_document_vault",
-      "community": 11,
+      "community": 26,
       "norm_label": "test_document_vault.py"
     },
     {
@@ -19666,7 +19686,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_lawyer_verification.py"
     },
     {
@@ -19676,7 +19696,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_admin_user",
-      "community": 26,
+      "community": 16,
       "norm_label": "admin_user()"
     },
     {
@@ -19686,7 +19706,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_lawyer_user",
-      "community": 26,
+      "community": 16,
       "norm_label": "lawyer_user()"
     },
     {
@@ -19696,7 +19716,7 @@
       "source_location": "L49",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_approve_lawyer_fails_without_documents",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_approve_lawyer_fails_without_documents()"
     },
     {
@@ -19706,7 +19726,7 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_approve_lawyer_succeeds_with_both_documents",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_approve_lawyer_succeeds_with_both_documents()"
     },
     {
@@ -19716,7 +19736,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_reject_lawyer_stores_reason_and_resets_flags",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_reject_lawyer_stores_reason_and_resets_flags()"
     },
     {
@@ -19726,7 +19746,7 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_revoke_previously_approved_lawyer_resets_flags",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_revoke_previously_approved_lawyer_resets_flags()"
     },
     {
@@ -19736,7 +19756,7 @@
       "source_location": "L158",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_admin_pending_and_rejected_lawyer_search",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_admin_pending_and_rejected_lawyer_search()"
     },
     {
@@ -19746,7 +19766,7 @@
       "source_location": "L184",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_lawyer_profile_me_returns_rejection_reason_and_status",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_lawyer_profile_me_returns_rejection_reason_and_status()"
     },
     {
@@ -19756,7 +19776,7 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_admin_verification_dossier_endpoint",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_admin_verification_dossier_endpoint()"
     },
     {
@@ -19766,7 +19786,7 @@
       "source_location": "L232",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_test_verified_lawyer_edit_resets_verification",
-      "community": 26,
+      "community": 16,
       "norm_label": "test_verified_lawyer_edit_resets_verification()"
     },
     {
@@ -19776,7 +19796,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_50",
-      "community": 26,
+      "community": 16,
       "norm_label": "approving a lawyer without both bar license and aadhaar document must fail with"
     },
     {
@@ -19786,7 +19806,7 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_76",
-      "community": 26,
+      "community": 16,
       "norm_label": "approving a lawyer with both documents uploaded succeeds and synchronizes all fl"
     },
     {
@@ -19796,7 +19816,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_106",
-      "community": 26,
+      "community": 16,
       "norm_label": "rejecting a candidate records rejection_reason and clears document verified flag"
     },
     {
@@ -19806,7 +19826,7 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_131",
-      "community": 26,
+      "community": 16,
       "norm_label": "revoking a previously verified lawyer resets sub-document flags and verified sta"
     },
     {
@@ -19816,7 +19836,7 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_159",
-      "community": 26,
+      "community": 16,
       "norm_label": "admin pending and rejected endpoints support search and expose rejection_reason."
     },
     {
@@ -19826,7 +19846,7 @@
       "source_location": "L185",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_185",
-      "community": 26,
+      "community": 16,
       "norm_label": "get /api/v1/lawyers/me exposes verification_status and rejection_reason to the a"
     },
     {
@@ -19836,7 +19856,7 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_202",
-      "community": 26,
+      "community": 16,
       "norm_label": "get /api/v1/admin/lawyers/{id}/verification-dossier returns complete matching do"
     },
     {
@@ -19846,7 +19866,7 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "tests_test_lawyer_verification_rationale_233",
-      "community": 26,
+      "community": 16,
       "norm_label": "an approved lawyer editing critical credential fields (enrollment_date, bar_numb"
     },
     {
@@ -20166,7 +20186,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_py",
-      "community": 26,
+      "community": 24,
       "norm_label": "test_payout_masking.py"
     },
     {
@@ -20176,7 +20196,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_test_payout_bank_account_encryption_at_rest",
-      "community": 26,
+      "community": 19,
       "norm_label": "test_payout_bank_account_encryption_at_rest()"
     },
     {
@@ -20186,7 +20206,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_test_admin_payouts_masked_endpoint",
-      "community": 26,
+      "community": 19,
       "norm_label": "test_admin_payouts_masked_endpoint()"
     },
     {
@@ -20206,7 +20226,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_rationale_9",
-      "community": 26,
+      "community": 19,
       "norm_label": "verify that both account_number and ifsc_code are encrypted at rest in the datab"
     },
     {
@@ -20216,7 +20236,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "c_users_suraj_documents_new_project_tests_test_payout_masking_rationale_58",
-      "community": 26,
+      "community": 19,
       "norm_label": "verify that get /api/v1/admin/payouts returns masked credentials."
     },
     {
@@ -20236,7 +20256,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers",
-      "community": 40,
+      "community": 76,
       "norm_label": "test_promotional_vouchers.py"
     },
     {
@@ -20246,7 +20266,7 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers_create_user",
-      "community": 40,
+      "community": 76,
       "norm_label": "_create_user()"
     },
     {
@@ -20256,7 +20276,7 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers_auth_header",
-      "community": 40,
+      "community": 76,
       "norm_label": "_auth_header()"
     },
     {
@@ -20266,7 +20286,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers_test_admin_create_promotional_voucher",
-      "community": 40,
+      "community": 76,
       "norm_label": "test_admin_create_promotional_voucher()"
     },
     {
@@ -20276,7 +20296,7 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers_test_client_cannot_create_voucher",
-      "community": 40,
+      "community": 76,
       "norm_label": "test_client_cannot_create_voucher()"
     },
     {
@@ -20286,7 +20306,7 @@
       "source_location": "L87",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers_test_validate_and_apply_promotional_voucher",
-      "community": 40,
+      "community": 76,
       "norm_label": "test_validate_and_apply_promotional_voucher()"
     },
     {
@@ -20296,7 +20316,7 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "tests_test_promotional_vouchers_test_100_percent_free_promotional_voucher",
-      "community": 40,
+      "community": 76,
       "norm_label": "test_100_percent_free_promotional_voucher()"
     },
     {
@@ -20426,7 +20446,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_realtime",
-      "community": 26,
+      "community": 24,
       "norm_label": "test_realtime.py"
     },
     {
@@ -20436,7 +20456,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "tests_test_realtime_test_event_bus_pub_sub",
-      "community": 26,
+      "community": 24,
       "norm_label": "test_event_bus_pub_sub()"
     },
     {
@@ -20446,7 +20466,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "tests_test_realtime_test_websocket_chat",
-      "community": 26,
+      "community": 85,
       "norm_label": "test_websocket_chat()"
     },
     {
@@ -20486,7 +20506,7 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "tests_test_sanitizer_test_sanitize_key",
-      "community": 3,
+      "community": 74,
       "norm_label": "test_sanitize_key()"
     },
     {
@@ -20606,7 +20626,7 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "tests_test_security_critical_test_get_client_ip_priority",
-      "community": 75,
+      "community": 48,
       "norm_label": "test_get_client_ip_priority()"
     },
     {
@@ -20616,7 +20636,7 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "tests_test_security_critical_test_audit_records_real_ip",
-      "community": 75,
+      "community": 76,
       "norm_label": "test_audit_records_real_ip()"
     },
     {
@@ -20666,7 +20686,7 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "tests_test_security_critical_rationale_72",
-      "community": 75,
+      "community": 48,
       "norm_label": "verify get_client_ip correctly prioritizes cloudflare and reverse proxy headers."
     },
     {
@@ -20676,7 +20696,7 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "tests_test_security_critical_rationale_106",
-      "community": 75,
+      "community": 76,
       "norm_label": "verify audit() writes client ip into metadata_json."
     },
     {
@@ -20736,7 +20756,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "tests_test_security_medium",
-      "community": 24,
+      "community": 40,
       "norm_label": "test_security_medium.py"
     },
     {
@@ -20746,7 +20766,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_structlog_pii_scrubbing_processor",
-      "community": 24,
+      "community": 40,
       "norm_label": "test_structlog_pii_scrubbing_processor()"
     },
     {
@@ -20756,7 +20776,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_rejects_malicious_pdf_js",
-      "community": 24,
+      "community": 40,
       "norm_label": "test_malware_scanner_rejects_malicious_pdf_js()"
     },
     {
@@ -20766,7 +20786,7 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_rejects_vba_macro_binaries",
-      "community": 24,
+      "community": 40,
       "norm_label": "test_malware_scanner_rejects_vba_macro_binaries()"
     },
     {
@@ -20776,7 +20796,7 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_malware_scanner_accepts_clean_pdf",
-      "community": 24,
+      "community": 40,
       "norm_label": "test_malware_scanner_accepts_clean_pdf()"
     },
     {
@@ -20786,7 +20806,7 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "tests_test_security_medium_test_mock_upload_endpoint_rejects_malicious_pdf",
-      "community": 26,
+      "community": 40,
       "norm_label": "test_mock_upload_endpoint_rejects_malicious_pdf()"
     },
     {
@@ -20796,7 +20816,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_16",
-      "community": 24,
+      "community": 40,
       "norm_label": "verify structlog processor scrubs sensitive pii fields and credentials from log"
     },
     {
@@ -20806,7 +20826,7 @@
       "source_location": "L42",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_42",
-      "community": 24,
+      "community": 40,
       "norm_label": "verify scan_document_payload rejects pdf files containing embedded javascript tr"
     },
     {
@@ -20816,7 +20836,7 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_58",
-      "community": 24,
+      "community": 40,
       "norm_label": "verify scan_document_payload rejects office document archives containing vba mac"
     },
     {
@@ -20826,7 +20846,7 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_70",
-      "community": 24,
+      "community": 40,
       "norm_label": "verify scan_document_payload accepts clean pdf files."
     },
     {
@@ -20836,7 +20856,7 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "tests_test_security_medium_rationale_81",
-      "community": 26,
+      "community": 40,
       "norm_label": "verify document mock upload endpoint rejects infected pdf uploads with http 422."
     },
     {
@@ -22325,7 +22345,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L164",
+      "source_location": "L180",
       "weight": 1.0,
       "source": "backend_config",
       "target": "backend_config_get_settings",
@@ -22621,7 +22641,7 @@
       "context": "return_type",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L164",
+      "source_location": "L180",
       "weight": 1.0,
       "source": "backend_config_get_settings",
       "target": "backend_config_settings",
@@ -22631,7 +22651,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L157",
+      "source_location": "L173",
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "backend_config_settings_cashfree_base_url",
@@ -22641,7 +22661,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L129",
+      "source_location": "L145",
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "backend_config_settings_origins",
@@ -22651,7 +22671,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L153",
+      "source_location": "L169",
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "backend_config_settings_production",
@@ -22661,7 +22681,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L107",
+      "source_location": "L123",
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "backend_config_settings_production_safety_checks",
@@ -22671,7 +22691,17 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L93",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "backend_config_settings",
+      "target": "backend_config_settings_remap_legacy_and_sanitize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/config.py",
+      "source_location": "L109",
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "backend_config_settings_secure_secret",
@@ -22681,7 +22711,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "backend/config.py",
-      "source_location": "L100",
+      "source_location": "L116",
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "backend_config_settings_supported_video_provider",
@@ -22695,6 +22725,17 @@
       "weight": 1.0,
       "source": "backend_config_settings",
       "target": "basesettings",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/config.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "backend_config_settings_remap_legacy_and_sanitize",
+      "target": "backend_config_py_any",
       "confidence_score": 1.0
     },
     {
@@ -23087,7 +23128,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L53",
+      "source_location": "L57",
       "weight": 1.0,
       "source": "backend_services_s3_client_delete_s3_object",
       "target": "backend_config_get_settings",
@@ -23098,7 +23139,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L14",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "backend_services_s3_client_generate_presigned_post_data",
       "target": "backend_config_get_settings",
@@ -47126,7 +47167,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L45",
+      "source_location": "L49",
       "weight": 1.0,
       "source": "backend_services_s3_client",
       "target": "backend_services_s3_client_delete_s3_object",
@@ -47136,7 +47177,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L13",
+      "source_location": "L17",
       "weight": 1.0,
       "source": "backend_services_s3_client",
       "target": "backend_services_s3_client_generate_presigned_post_data",
@@ -47157,7 +47198,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L70",
+      "source_location": "L74",
       "weight": 1.0,
       "source": "backend_services_s3_client_delete_s3_object",
       "target": "backend_services_s3_client_get_s3_client",
@@ -47168,7 +47209,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L15",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "backend_services_s3_client_generate_presigned_post_data",
       "target": "backend_services_s3_client_get_s3_client",
@@ -47178,9 +47219,9 @@
       "relation": "rationale_for",
       "confidence": "EXTRACTED",
       "source_file": "backend/services/s3_client.py",
-      "source_location": "L46",
+      "source_location": "L50",
       "weight": 1.0,
-      "source": "backend_services_s3_client_rationale_46",
+      "source": "backend_services_s3_client_rationale_50",
       "target": "backend_services_s3_client_delete_s3_object",
       "confidence_score": 1.0
     },
@@ -89017,5 +89058,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1f228e6f15c2b796c367eb242caa069f9c75d32d"
+  "built_at_commit": "e6e225ee5f22eab5dd88e010c79ad8acd6ef20af"
 }
