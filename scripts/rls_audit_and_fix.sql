@@ -345,10 +345,22 @@ CREATE POLICY "owner_insert" ON public.platform_feedback
 -- (This is intentional: tokens are opaque to the client; webhooks are Cashfree-only.)
 
 -- -----------------------------------------------------------------------------
--- STEP 6: Revoke all schema access from anon role (defense-in-depth)
+-- STEP 6: Table grants and anon lockout
 -- -----------------------------------------------------------------------------
+-- For RLS policies to evaluate, the `authenticated` role needs table-level
+-- permissions (RLS then restricts which specific rows can be seen or edited).
+-- `anon` is kept completely locked out of the schema.
 DO $$
 BEGIN
+    -- Grant table permissions to authenticated role so RLS policies can take effect
+    IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'authenticated') THEN
+        GRANT USAGE ON SCHEMA public TO authenticated;
+        GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO authenticated;
+        GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO authenticated;
+        RAISE NOTICE 'Granted table permissions to authenticated role (RLS will restrict rows).';
+    END IF;
+
+    -- Lock out anon role completely
     IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'anon') THEN
         REVOKE ALL ON ALL TABLES    IN SCHEMA public FROM anon;
         REVOKE ALL ON ALL SEQUENCES IN SCHEMA public FROM anon;
