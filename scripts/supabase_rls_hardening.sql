@@ -1,12 +1,21 @@
 -- ==============================================================================
--- VidhiMeet Supabase Database Hardening Script
--- Description:
---   1. Enables Row Level Security (RLS) on all 16 public tables.
---   2. Adds explicit full-access policy for `service_role`.
---   3. Resolves Supabase Database Linter 0008 (rls_enabled_no_policy).
---   4. Revokes schema access from `anon` and `authenticated` roles to protect
---      against unauthorized PostgREST queries (Defense-in-Depth).
+-- VidhiMeet Supabase Database Hardening Script (legacy — superseded)
 -- ==============================================================================
+-- SUPERSEDED BY: scripts/rls_audit_and_fix.sql
+--
+-- That script:
+--   1. Identifies tables with RLS disabled
+--   2. Enables RLS + FORCE ROW LEVEL SECURITY on all 16 tables
+--   3. Creates service_role bypass policy (backend never blocked)
+--   4. Creates per-user ownership policies scoped to current_app_user_id()
+--      (compatible with both Supabase Auth jwt and app's own JWT via
+--       SET LOCAL app.current_user_id = '<uuid>')
+--   5. Locks out anon role entirely
+--   6. Includes PROOF queries (SET ROLE tests) to verify isolation
+--
+-- Run scripts/rls_audit_and_fix.sql in the Supabase SQL Editor instead.
+-- ==============================================================================
+-- (Legacy script kept below for reference)
 
 DO $$
 DECLARE

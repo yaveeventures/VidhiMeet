@@ -186,8 +186,11 @@ def download_drafting_document(key: str, token: str | None = None,
         raise HTTPException(401, "user not found")
 
     if user.role != Role.ADMIN:
-        # Enforce strict participant isolation (BOLA protection) for document downloads
-        # User must be creator, drafter, or have submitted a proposal for this drafting request
+        # Enforce strict participant isolation (BOLA protection) for document downloads.
+        # User must be the creator, the drafter, or a lawyer who submitted a proposal on this request.
+        # Fix: removed the overly-permissive fallbacks that previously allowed (a) any user with any
+        # booking, or (b) any active/verified lawyer on the platform, to download documents they have
+        # no connection to.
         req = db.scalar(
             select(DraftingRequest).where(
                 (DraftingRequest.creator_id == user.id) |
@@ -197,16 +200,8 @@ def download_drafting_document(key: str, token: str | None = None,
                 ))
             )
         )
-        # Or user must be a client/lawyer in a booking referencing this document key
         if not req:
-            from ..models import Booking
-            booking_match = db.scalar(
-                select(Booking).where(
-                    (Booking.client_id == user.id) | (Booking.lawyer_id == user.id)
-                )
-            )
-            if not booking_match and not (user.role == Role.LAWYER and user.active):
-                raise HTTPException(404, "document not found")
+            raise HTTPException(404, "document not found")
 
     import os
     from fastapi.responses import FileResponse
@@ -680,10 +675,12 @@ def delete_draft_comment(request_id: str, comment_id: str, user: User = Depends(
     if req and req.status in (DraftingStatus.COMPLETED, DraftingStatus.CANCELLED):
         raise HTTPException(400, "Version freeze active: document is finalized and read-only.")
 
-    # Allow request participants (client, lawyer, author, or admin) to delete feedback comments
+    # Only the comment author, the drafting request creator, the drafter, or an admin may delete a comment.
+    # Any other caller — regardless of role — is denied.
+    # Fix: removed overly-permissive fallback that previously allowed any CLIENT or LAWYER to delete
+    # comments on drafting requests they have no involvement with (BOLA vulnerability).
     if req and user.role != Role.ADMIN and user.id != comment.user_id and user.id != req.creator_id and user.id != req.drafter_id:
-        if user.role not in (Role.CLIENT, Role.LAWYER):
-            raise HTTPException(403, "unauthorized to delete this comment")
+        raise HTTPException(403, "unauthorized to delete this comment")
 
     db.delete(comment)
     audit(db, user, "drafting.comment_deleted", "drafting_request", request_id, {"comment_id": comment_id})

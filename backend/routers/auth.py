@@ -275,20 +275,19 @@ def google_auth(request: Request, payload: GoogleLoginRequest, db: Session = Dep
     email = None
     full_name = payload.full_name
 
-    if payload.id_token:
-        try:
-            token_data = _verify_google_id_token(payload.id_token, get_settings().google_client_id)
-            email = token_data.get("email", "").lower()
-            if token_data.get("name") and not full_name:
-                full_name = token_data.get("name")
-        except ValueError as err:
-            raise HTTPException(401, f"Google token verification failed: {err}")
+    if not payload.id_token:
+        raise HTTPException(400, "id_token is required for Google sign-in")
+
+    try:
+        token_data = _verify_google_id_token(payload.id_token, get_settings().google_client_id)
+        email = token_data.get("email", "").lower()
+        if token_data.get("name") and not full_name:
+            full_name = token_data.get("name")
+    except ValueError as err:
+        raise HTTPException(401, f"Google token verification failed: {err}")
 
     if not email:
-        if payload.email:
-            email = payload.email.lower()
-        else:
-            raise HTTPException(400, "Valid email or Google ID token is required")
+        raise HTTPException(400, "Google token did not return a valid email address")
 
     user = db.scalar(select(User).where(User.email == email))
 
