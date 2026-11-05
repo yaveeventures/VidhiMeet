@@ -129,3 +129,48 @@ def test_audit_records_real_ip():
     assert isinstance(added_entry, AuditLog)
     assert added_entry.metadata_json["ip_address"] == "103.21.244.2"
 
+
+def test_strict_schema_rejects_unknown_fields_in_register():
+    """Verify that unknown/extra fields in register payload are strictly rejected with HTTP 422."""
+    payload = {
+        "email": "hacker@example.com",
+        "password": "ValidPassword123!",
+        "full_name": "Hacker User",
+        "role": "client",
+        "consent_privacy_policy": True,
+        "consent_terms": True,
+        "date_of_birth": "1990-01-01",
+        "is_admin": True,  # Rogue field (mass-assignment attempt)
+        "verified": True,   # Rogue field
+    }
+    response = client.post("/api/v1/auth/register", json=payload)
+    assert response.status_code == 422
+    data = response.json()
+    errors = str(data)
+    assert "extra_forbidden" in errors or "Extra inputs are not permitted" in errors
+
+
+def test_strict_schema_rejects_unknown_fields_in_booking():
+    """Verify that unknown/extra fields in booking payload are strictly rejected with HTTP 422."""
+    from backend.security import create_access_token
+    token = create_access_token({"sub": "user-client-1", "role": Role.CLIENT, "full_name": "Client"})
+    
+    payload = {
+        "lawyer_id": "lawyer-1",
+        "practice": "property",
+        "starts_at": "2026-12-01T10:00:00Z",
+        "duration_minutes": 45,
+        "intake": {"case": "info"},
+        "disclaimer_accepted": True,
+        "status": "confirmed",      # Rogue field: trying to bypass payment
+        "amount_minor": 0,          # Rogue field: trying to override price
+    }
+    response = client.post(
+        "/api/v1/bookings",
+        json=payload,
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert response.status_code == 422
+    errors = str(response.json())
+    assert "extra_forbidden" in errors or "Extra inputs are not permitted" in errors
+

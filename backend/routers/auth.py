@@ -34,6 +34,7 @@ from ..schemas import (
     MfaEnableRequest,
     MfaSetupResponse,
     MfaVerifyRequest,
+    PhoneUpdateRequest,
     RefreshRequest,
     RegisterRequest,
     ResetPasswordRequest,
@@ -450,14 +451,15 @@ def get_me(user: User = Depends(current_user)):
 
 
 @router.patch("/me/phone", dependencies=[Depends(rate_limit_dependency("authenticated"))])
-def update_phone(payload: dict, user: User = Depends(current_user), db: Session = Depends(get_db)):
+def update_phone(payload: PhoneUpdateRequest, user: User = Depends(current_user), db: Session = Depends(get_db)):
     """
     Save the user's mobile number (10 digits, Indian).
     Called by the frontend phone-collection modal before initiating Cashfree checkout.
     The number is stored encrypted (DPDP sensitive personal data).
+    Strictly rejects unknown fields via PhoneUpdateRequest.
     """
     import re
-    phone_raw = str(payload.get("phone", "")).strip()
+    phone_raw = payload.phone.strip()
     digits = re.sub(r"\D", "", phone_raw)
     # Strip leading 91 country code if provided as 91XXXXXXXXXX
     if len(digits) == 12 and digits.startswith("91"):

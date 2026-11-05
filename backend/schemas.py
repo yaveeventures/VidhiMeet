@@ -1,6 +1,18 @@
 import enum
 from datetime import date, datetime
-from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, model_validator
+
+
+class StrictBaseModel(BaseModel):
+    """
+    Base request model that strictly rejects unknown/extra fields.
+    Prevents mass-assignment attacks and prototype pollution.
+    """
+    model_config = ConfigDict(extra="forbid")
+
+
+class PhoneUpdateRequest(StrictBaseModel):
+    phone: str = Field(..., max_length=20, description="10-digit Indian phone number")
 from .models import BookingStatus, Practice, Role, DraftingStatus, ProposalStatus
 from .sanitizer import sanitize_text, sanitize_filename, sanitize_key, clean_string
 from .validation_constants import (
@@ -17,7 +29,7 @@ from .validation_constants import (
 )
 
 
-class GoogleLoginRequest(BaseModel):
+class GoogleLoginRequest(StrictBaseModel):
     id_token: str | None = None
     email: EmailStr | None = None
     full_name: str | None = None
@@ -32,7 +44,7 @@ class GoogleLoginRequest(BaseModel):
         return self
 
 
-class RegisterRequest(BaseModel):
+class RegisterRequest(StrictBaseModel):
     email: EmailStr
     password: str = Field(min_length=PASSWORD_MIN_LENGTH, max_length=PASSWORD_MAX_LENGTH)
     full_name: str = Field(min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH)
@@ -86,7 +98,7 @@ class RegisterRequest(BaseModel):
         return dob
 
 
-class LoginRequest(BaseModel):
+class LoginRequest(StrictBaseModel):
     email: EmailStr = Field(..., max_length=256)
     password: str = Field(..., min_length=1, max_length=PASSWORD_MAX_LENGTH)
     totp_code: str | None = Field(default=None, max_length=6)
@@ -104,26 +116,26 @@ class MfaSetupResponse(BaseModel):
     qr_uri: str
 
 
-class MfaEnableRequest(BaseModel):
+class MfaEnableRequest(StrictBaseModel):
     code: str = Field(..., min_length=6, max_length=6)
 
 
-class MfaVerifyRequest(BaseModel):
+class MfaVerifyRequest(StrictBaseModel):
     email: EmailStr = Field(..., max_length=256)
     code: str = Field(..., min_length=6, max_length=6)
 
 
-class ForgotPasswordRequest(BaseModel):
+class ForgotPasswordRequest(StrictBaseModel):
     email: EmailStr = Field(..., max_length=256)
 
 
-class ResetPasswordRequest(BaseModel):
+class ResetPasswordRequest(StrictBaseModel):
     token: str = Field(..., min_length=16, max_length=128)
     new_password: str = Field(..., min_length=12, max_length=128)
 
 
 
-class BookingCreate(BaseModel):
+class BookingCreate(StrictBaseModel):
     lawyer_id: str = Field(..., max_length=128)
     practice: Practice
     starts_at: datetime
@@ -141,7 +153,7 @@ class DisputeCategory(str, enum.Enum):
     QUALITY_OTHER = "quality_other"
 
 
-class DisputeCreate(BaseModel):
+class DisputeCreate(StrictBaseModel):
     category: DisputeCategory
     reason: str = Field(..., min_length=10, max_length=1000)
 
@@ -207,7 +219,7 @@ class CancellationPreviewOut(BaseModel):
     reversal_timeline_notice: str
 
 
-class CancellationRequest(BaseModel):
+class CancellationRequest(StrictBaseModel):
     reason: str | None = Field(default=None, max_length=500)
 
     @field_validator("reason")
@@ -243,7 +255,7 @@ class VoucherOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-class PromoVoucherCreate(BaseModel):
+class PromoVoucherCreate(StrictBaseModel):
     code: str = Field(..., min_length=3, max_length=30)
     discount_percent: int = Field(..., ge=1, le=100)
     expires_at: datetime | None = None
@@ -274,7 +286,7 @@ class AdminVoucherOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-class VoucherValidateRequest(BaseModel):
+class VoucherValidateRequest(StrictBaseModel):
     code: str = Field(..., min_length=2, max_length=30)
     lawyer_id: str = Field(..., min_length=1)
     duration_minutes: int = Field(default=45, ge=30, le=45)
@@ -346,11 +358,11 @@ class LawyerOut(BaseModel):
         return v
 
 
-class RefreshRequest(BaseModel):
+class RefreshRequest(StrictBaseModel):
     refresh_token: str = Field(..., min_length=1, max_length=512)
 
 
-class LawyerProfileUpdate(BaseModel):
+class LawyerProfileUpdate(StrictBaseModel):
     full_name: str = Field(..., min_length=2, max_length=160)
     practice: list[Practice]
     bar_number: str = Field(..., min_length=2, max_length=100)
@@ -417,7 +429,7 @@ class AuditLogOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-class MessageCreate(BaseModel):
+class MessageCreate(StrictBaseModel):
     content: str = Field(..., min_length=1, max_length=5000)
     encrypted: bool = False
     iv: str | None = Field(default=None, max_length=255)
@@ -444,7 +456,7 @@ class MessageOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-class ReviewCreate(BaseModel):
+class ReviewCreate(StrictBaseModel):
     rating: int = Field(ge=1, le=5)
     comment: str | None = Field(default=None, max_length=2000)
 
@@ -468,7 +480,7 @@ class ReviewOut(BaseModel):
 
 # ── Bank Account ──────────────────────────────────────────────────────────────
 
-class BankAccountCreate(BaseModel):
+class BankAccountCreate(StrictBaseModel):
     account_holder_name: str = Field(..., min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH)
     account_number: str = Field(..., min_length=6, max_length=18, pattern=BANK_ACCOUNT_REGEX)
     ifsc_code: str = Field(..., pattern=IFSC_REGEX)
@@ -501,7 +513,7 @@ class BankAccountCreate(BaseModel):
         return v
 
 
-class BankAccountUpdate(BaseModel):
+class BankAccountUpdate(StrictBaseModel):
     account_holder_name: str | None = Field(default=None, min_length=NAME_MIN_LENGTH, max_length=NAME_MAX_LENGTH)
     account_number: str | None = Field(default=None, min_length=6, max_length=18, pattern=BANK_ACCOUNT_REGEX)
     ifsc_code: str | None = Field(default=None, pattern=IFSC_REGEX)
@@ -574,7 +586,7 @@ class AdminPayoutAccountOut(BaseModel):
 
 # ── Drafting feature schemas ──────────────────────────────────────────────────
 
-class DraftingRequestCreate(BaseModel):
+class DraftingRequestCreate(StrictBaseModel):
     title: str = Field(..., min_length=2, max_length=255)
     description: str = Field(..., min_length=5, max_length=20000)
     price_minor: int = Field(..., ge=1000, le=50000000)
@@ -586,7 +598,7 @@ class DraftingRequestCreate(BaseModel):
         return sanitize_text(v) or v
 
 
-class DraftingProposalCreate(BaseModel):
+class DraftingProposalCreate(StrictBaseModel):
     amount_minor: int = Field(..., ge=1000, le=50000000)
 
 
@@ -601,7 +613,7 @@ class DraftingProposalOut(BaseModel):
     model_config = {"from_attributes": True}
 
 
-class DraftCommentCreate(BaseModel):
+class DraftCommentCreate(StrictBaseModel):
     page_number: int = Field(1, ge=1)
     position_x: float = Field(0.0, ge=0.0, le=100.0)
     position_y: float = Field(0.0, ge=0.0, le=100.0)
@@ -687,7 +699,7 @@ class PendingPayoutOut(BaseModel):
     dispute_window_expired: bool = False
 
 
-class DraftSubmit(BaseModel):
+class DraftSubmit(StrictBaseModel):
     draft_file_key: str | None = Field(None, max_length=255, description="Storage key for uploaded draft file")
     draft_filename: str | None = Field(None, max_length=255)
     draft_text: str | None = Field(None, max_length=100000)
@@ -708,7 +720,7 @@ class DraftSubmit(BaseModel):
         return sanitize_text(v) if v else v
 
 
-class PlatformFeedbackCreate(BaseModel):
+class PlatformFeedbackCreate(StrictBaseModel):
     rating: int = Field(5, ge=1, le=5)
     comments: str = Field(..., min_length=1, max_length=2000)
 
