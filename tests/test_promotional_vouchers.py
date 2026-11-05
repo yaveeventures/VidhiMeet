@@ -65,6 +65,11 @@ def test_admin_create_promotional_voucher(client, database):
     assert toggle_res2.status_code == 200
     assert toggle_res2.json()["is_active"] is True
 
+    # 4. Delete voucher
+    del_res = client.delete(f"/api/v1/admin/vouchers/{data['id']}", headers=headers)
+    assert del_res.status_code == 200
+    assert del_res.json()["id"] == data["id"]
+
 
 def test_client_cannot_create_voucher(client, database):
     c_user = _create_user(database, f"client_unauth_{uuid.uuid4().hex[:6]}@test.com", Role.CLIENT, "Client Unauth")

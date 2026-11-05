@@ -242,11 +242,32 @@ async def lifespan(app: FastAPI):
 
     sweep_task = asyncio.create_task(_payout_sweep_worker())
 
+    # ── Background Task: Automated 5-minute abandoned booking expiration sweep ─
+    async def _abandoned_booking_sweep_worker():
+        while True:
+            try:
+                await asyncio.sleep(5 * 60)  # Runs every 5 minutes
+                from .db import SessionLocal
+                from .services.payment_service import expire_abandoned_bookings
+                with SessionLocal() as session:
+                    expire_abandoned_bookings(session, max_age_minutes=20)
+            except asyncio.CancelledError:
+                break
+            except Exception as exc:
+                log.error("Periodic abandoned booking sweep encountered error", error=str(exc))
+
+    booking_sweep_task = asyncio.create_task(_abandoned_booking_sweep_worker())
+
     yield
 
     sweep_task.cancel()
+    booking_sweep_task.cancel()
     try:
         await sweep_task
+    except asyncio.CancelledError:
+        pass
+    try:
+        await booking_sweep_task
     except asyncio.CancelledError:
         pass
 

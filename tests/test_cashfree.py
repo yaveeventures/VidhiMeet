@@ -41,10 +41,74 @@ def test_create_cashfree_order_fallback():
                       disclaimer_version="2026-01", disclaimer_accepted_at=datetime.now(timezone.utc),
                       jitsi_room="room-123")
     
-    order = create_cashfree_order(booking, user)
+    order = create_cashfree_order(booking, user, expiry_minutes=25)
     assert order["order_id"].startswith("order_")
     assert "payment_session_id" in order
     assert order["order_status"] in ("ACTIVE", "PAID")
+    assert "order_expiry_time" in order
+    # Verify ISO 8601 UTC format ending with Z
+    assert order["order_expiry_time"].endswith("Z")
+    expiry_dt = datetime.fromisoformat(order["order_expiry_time"].replace("Z", "+00:00"))
+    now = datetime.now(timezone.utc)
+    # Expiry should be roughly 25 minutes from now
+    diff_minutes = (expiry_dt - now).total_seconds() / 60
+    assert 24 <= diff_minutes <= 26
+
+
+def test_expire_abandoned_bookings(database):
+    from backend.services.payment_service import expire_abandoned_bookings
+    from backend.security import hash_password
+
+    lawyer = User(email="l_expire@test.com", password_hash=hash_password("pw123"), full_name="Lawyer E", role=Role.LAWYER)
+    client_u = User(email="c_expire@test.com", password_hash=hash_password("pw123"), full_name="Client E", role=Role.CLIENT)
+    database.add(lawyer)
+    database.add(client_u)
+    database.commit()
+
+    now = datetime.now(timezone.utc)
+    # Stale booking: created 45 minutes ago, still pending_payment
+    b_stale = Booking(
+        client_id=client_u.id, lawyer_id=lawyer.id, practice=Practice.PROPERTY,
+        starts_at=now + timedelta(days=1), duration_minutes=30, amount_minor=100000,
+        status=BookingStatus.PENDING_PAYMENT,
+        intake={"notes": "test intake"},
+        created_at=now - timedelta(minutes=45),
+        disclaimer_version="2026-01", disclaimer_accepted_at=now, jitsi_room="r-stale"
+    )
+    # Fresh booking: created 5 minutes ago, still pending_payment
+    b_fresh = Booking(
+        client_id=client_u.id, lawyer_id=lawyer.id, practice=Practice.PROPERTY,
+        starts_at=now + timedelta(days=2), duration_minutes=30, amount_minor=100000,
+        status=BookingStatus.PENDING_PAYMENT,
+        intake={"notes": "test intake"},
+        created_at=now - timedelta(minutes=5),
+        disclaimer_version="2026-01", disclaimer_accepted_at=now, jitsi_room="r-fresh"
+    )
+    # Confirmed booking: created 60 minutes ago, already confirmed
+    b_confirmed = Booking(
+        client_id=client_u.id, lawyer_id=lawyer.id, practice=Practice.PROPERTY,
+        starts_at=now + timedelta(days=3), duration_minutes=30, amount_minor=100000,
+        status=BookingStatus.CONFIRMED,
+        intake={"notes": "test intake"},
+        created_at=now - timedelta(minutes=60),
+        disclaimer_version="2026-01", disclaimer_accepted_at=now, jitsi_room="r-conf"
+    )
+
+    database.add_all([b_stale, b_fresh, b_confirmed])
+    database.commit()
+
+    expired_ids = expire_abandoned_bookings(database, max_age_minutes=20)
+    assert b_stale.id in expired_ids
+    assert b_fresh.id not in expired_ids
+    assert b_confirmed.id not in expired_ids
+
+    database.refresh(b_stale)
+    database.refresh(b_fresh)
+    database.refresh(b_confirmed)
+
+    assert b_stale.status == BookingStatus.CANCELLED
+    assert b_fresh.status == BookingStatus.PENDING_PAYMENT
+    assert b_confirmed.status == BookingStatus.CONFIRMED
 
 
 def test_cashfree_webhook_endpoint(client, database):
@@ -102,6 +166,45 @@ def test_cashfree_webhook_endpoint(client, database):
     assert booking.status == BookingStatus.CONFIRMED
 
 
+def test_admin_expire_abandoned_endpoint(database):
+    from backend.security import hash_password
+    from backend.routers.admin import trigger_expire_abandoned_bookings
+
+    admin_user = User(email="admin_exp@test.com", password_hash=hash_password("AdminPass123!"), full_name="Admin E", role=Role.ADMIN)
+    lawyer_user = User(email="lawyer_exp@test.com", password_hash=hash_password("Pass123!"), full_name="Lawyer E", role=Role.LAWYER)
+    client_user = User(email="client_exp@test.com", password_hash=hash_password("Pass123!"), full_name="Client E", role=Role.CLIENT)
+    database.add_all([admin_user, lawyer_user, client_user])
+    database.commit()
+
+    now = datetime.now(timezone.utc)
+
+    # Create stale pending booking (> 30 mins ago)
+    b_stale = Booking(
+        client_id=client_user.id,
+        lawyer_id=lawyer_user.id,
+        practice=Practice.PROPERTY,
+        starts_at=now + timedelta(days=5),
+        duration_minutes=30,
+        amount_minor=105000,
+        status=BookingStatus.PENDING_PAYMENT,
+        intake={"notes": "abandoned checkout"},
+        created_at=now - timedelta(minutes=40),
+        disclaimer_version="2026-01",
+        disclaimer_accepted_at=now,
+        jitsi_room="r-stale-admin",
+    )
+    database.add(b_stale)
+    database.commit()
+
+    # Trigger admin function
+    res = trigger_expire_abandoned_bookings(max_age_minutes=20, admin=admin_user, db=database)
+    assert res["expired_count"] >= 1
+    assert b_stale.id in res["expired_ids"]
+
+    database.refresh(b_stale)
+    assert b_stale.status == BookingStatus.CANCELLED
+
+
 def test_verify_payment_endpoint(client, database):
     from backend.security import create_access_token, hash_password
     c_user = User(email="client_verify@test.com", password_hash=hash_password("Password123!"),
@@ -141,3 +244,42 @@ def test_verify_payment_endpoint(client, database):
 
     database.refresh(booking)
     assert booking.status == BookingStatus.CONFIRMED
+
+
+def test_admin_expire_abandoned_endpoint(database):
+    from backend.security import hash_password
+    from backend.routers.admin import trigger_expire_abandoned_bookings
+
+    admin_user = User(email="admin_exp@test.com", password_hash=hash_password("AdminPass123!"), full_name="Admin E", role=Role.ADMIN)
+    lawyer_user = User(email="lawyer_exp@test.com", password_hash=hash_password("Pass123!"), full_name="Lawyer E", role=Role.LAWYER)
+    client_user = User(email="client_exp@test.com", password_hash=hash_password("Pass123!"), full_name="Client E", role=Role.CLIENT)
+    database.add_all([admin_user, lawyer_user, client_user])
+    database.commit()
+
+    now = datetime.now(timezone.utc)
+
+    # Create stale pending booking (> 30 mins ago)
+    b_stale = Booking(
+        client_id=client_user.id,
+        lawyer_id=lawyer_user.id,
+        practice=Practice.PROPERTY,
+        starts_at=now + timedelta(days=5),
+        duration_minutes=30,
+        amount_minor=105000,
+        status=BookingStatus.PENDING_PAYMENT,
+        intake={"notes": "abandoned checkout"},
+        created_at=now - timedelta(minutes=40),
+        disclaimer_version="2026-01",
+        disclaimer_accepted_at=now,
+        jitsi_room="r-stale-admin",
+    )
+    database.add(b_stale)
+    database.commit()
+
+    # Trigger admin function
+    res = trigger_expire_abandoned_bookings(max_age_minutes=20, admin=admin_user, db=database)
+    assert res["expired_count"] >= 1
+    assert b_stale.id in res["expired_ids"]
+
+    database.refresh(b_stale)
+    assert b_stale.status == BookingStatus.CANCELLED

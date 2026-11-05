@@ -207,9 +207,13 @@ def _get_fernet_cipher() -> MultiFernet:
     keys = []
     if settings.data_encryption_key:
         keys.append(settings.data_encryption_key)
-    legacy_key = "development-only-data-encryption-key-must-be-changed"
-    if legacy_key not in keys:
-        keys.append(legacy_key)
+    # Fallback keys for decrypting historical records during key rotation
+    for fallback in [
+        "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU=",
+        "development-only-data-encryption-key-must-be-changed"
+    ]:
+        if fallback not in keys:
+            keys.append(fallback)
 
     ciphers = []
     for k in keys:

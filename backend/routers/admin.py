@@ -387,7 +387,20 @@ def toggle_user_active(request: Request, user_id: str, active: bool, admin: User
 
 @router.get("/transactions", response_model=list[BookingOut])
 def list_transactions(_admin: User = Depends(require_roles(Role.ADMIN)), db: Session = Depends(get_db)):
+    from ..services.payment_service import expire_abandoned_bookings
+    expire_abandoned_bookings(db, max_age_minutes=20)
     return list(db.scalars(select(Booking).order_by(Booking.created_at.desc())).all())
+
+
+@router.post("/bookings/expire-abandoned")
+def trigger_expire_abandoned_bookings(
+    max_age_minutes: int = 20,
+    admin: User = Depends(require_roles(Role.ADMIN)),
+    db: Session = Depends(get_db)
+):
+    from ..services.payment_service import expire_abandoned_bookings
+    expired_ids = expire_abandoned_bookings(db, max_age_minutes=max_age_minutes)
+    return {"expired_count": len(expired_ids), "expired_ids": expired_ids}
 
 
 @router.get("/drafting-transactions", response_model=list[DraftingRequestOut])
@@ -571,8 +584,8 @@ def get_admin_payouts(_admin: User = Depends(require_roles(Role.ADMIN)), db: Ses
 @router.patch("/payouts/{account_id}/verify")
 def admin_verify_bank_account(
     account_id: str,
+    request: Request,
     verified: bool = True,
-    request: Request = None,
     admin: User = Depends(require_roles(Role.ADMIN)),
     db: Session = Depends(get_db)
 ):
@@ -761,8 +774,8 @@ def create_promotional_voucher(
 @router.patch("/vouchers/{voucher_id}/toggle", response_model=AdminVoucherOut)
 def toggle_voucher_status(
     voucher_id: str,
+    request: Request,
     active: bool = Query(...),
-    request: Request = None,
     admin: User = Depends(require_roles(Role.ADMIN)),
     db: Session = Depends(get_db)
 ):
@@ -786,7 +799,7 @@ def toggle_voucher_status(
 @router.delete("/vouchers/{voucher_id}")
 def delete_voucher(
     voucher_id: str,
-    request: Request = None,
+    request: Request,
     admin: User = Depends(require_roles(Role.ADMIN)),
     db: Session = Depends(get_db)
 ):

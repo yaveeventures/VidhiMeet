@@ -1,12 +1,15 @@
 import base64
+from datetime import datetime, timedelta, timezone
 import hashlib
 import hmac
 import re
 import uuid
 import httpx
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 import structlog
 from ..config import get_settings
-from ..models import Booking, User
+from ..models import Booking, BookingStatus, User
 
 logger = structlog.get_logger("payment_service")
 settings = get_settings()
@@ -54,9 +57,11 @@ def _get_cf_headers() -> dict[str, str]:
     }
 
 
-def create_cashfree_order(booking: Booking, user: User, return_url: str | None = None) -> dict:
+def create_cashfree_order(booking: Booking, user: User, return_url: str | None = None, expiry_minutes: int = 20) -> dict:
     """
     Create an order in Cashfree PG V3 API (2023-08-01 / 2026-01-01).
+    Sets an explicit order_expiry_time (ISO 8601 UTC) so Cashfree automatically
+    expires the order if unpaid within expiry_minutes (default: 20 mins).
     Returns order details including payment_session_id.
     """
     order_id = f"order_{booking.id.replace('-', '')}"
@@ -65,6 +70,9 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
     customer_phone = _phone_for_user(user)
     customer_email = user.email or "customer@vidhimeet.in"
     customer_name = user.full_name or "Client"
+
+    expiry_dt = datetime.now(timezone.utc) + timedelta(minutes=expiry_minutes)
+    order_expiry_time = expiry_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     # In dev or test environments without API keys, return mock order
     if not settings.cashfree_app_id or not settings.cashfree_secret_key:
@@ -79,6 +87,7 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
             "cf_order_id": f"cf_mock_{uuid.uuid4().hex[:12]}",
             "order_amount": amount,
             "order_currency": "INR",
+            "order_expiry_time": order_expiry_time,
         }
 
     url = f"{settings.cashfree_base_url}/orders"
@@ -86,6 +95,7 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
         "order_id": order_id,
         "order_amount": amount,
         "order_currency": "INR",
+        "order_expiry_time": order_expiry_time,
         "customer_details": {
             "customer_id": customer_id,
             "customer_name": customer_name,
@@ -102,7 +112,7 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
             resp = client.post(url, json=payload, headers=_get_cf_headers())
             resp.raise_for_status()
             data = resp.json()
-            logger.info("Cashfree order created successfully", booking_id=booking.id, order_id=order_id)
+            logger.info("Cashfree order created successfully", booking_id=booking.id, order_id=order_id, order_expiry_time=order_expiry_time)
             return data
     except httpx.HTTPStatusError as exc:
         err_detail = exc.response.text
@@ -111,6 +121,34 @@ def create_cashfree_order(booking: Booking, user: User, return_url: str | None =
     except Exception as exc:
         logger.error("Failed to create Cashfree order", booking_id=booking.id, error=str(exc))
         raise RuntimeError(f"Payment gateway error: {exc}") from exc
+
+
+def expire_abandoned_bookings(db: Session, max_age_minutes: int = 20) -> list[str]:
+    """
+    Transition any pending_payment bookings older than max_age_minutes to cancelled.
+    Frees advocate calendar slots and cleans up transactions in the admin panel.
+    Returns list of expired booking IDs.
+    """
+    cutoff = datetime.now(timezone.utc) - timedelta(minutes=max_age_minutes)
+    expired_bookings = list(
+        db.scalars(
+            select(Booking).where(
+                Booking.status == BookingStatus.PENDING_PAYMENT,
+                Booking.created_at <= cutoff,
+            )
+        ).all()
+    )
+    if not expired_bookings:
+        return []
+
+    expired_ids = []
+    for b in expired_bookings:
+        b.status = BookingStatus.CANCELLED
+        expired_ids.append(b.id)
+        logger.info("Auto-expired abandoned booking", booking_id=b.id, created_at=str(b.created_at))
+
+    db.commit()
+    return expired_ids
 
 
 def get_cashfree_order(order_id: str) -> dict:

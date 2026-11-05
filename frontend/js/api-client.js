@@ -242,11 +242,28 @@ const LexAPI = (() => {
       });
       return window._gsiPromise;
     },
+    async getAuthConfig() {
+      if (window._authConfigCache) return window._authConfigCache;
+      try {
+        const res = await fetch(getBaseUrl() + "/public/auth-config");
+        if (res.ok) {
+          window._authConfigCache = await res.json();
+          return window._authConfigCache;
+        }
+      } catch (err) {
+        console.warn("Failed to load /public/auth-config from server:", err);
+      }
+      return { google_client_id: "", firebase: {} };
+    },
     async performGoogleAuth(role = "client") {
       let idToken = null;
       let email = null;
       let fullName = null;
-      const clientId = window.GOOGLE_CLIENT_ID || "1040292571789-l57llglphoakuffucsreo4mteui5u9bs.apps.googleusercontent.com";
+      const authConfig = await this.getAuthConfig();
+      const clientId = window.GOOGLE_CLIENT_ID || authConfig.google_client_id;
+      if (!clientId) {
+        throw new Error("Google Sign-In is not configured on this server.");
+      }
 
       // 0. Ensure Google Identity Services SDK is loaded dynamically on demand
       if (!window.google || !window.google.accounts || !window.google.accounts.oauth2) {
@@ -564,12 +581,14 @@ const LexAPI = (() => {
     getBookingReceiptUrl: (bookingId) => `${getBaseUrl()}/bookings/${encodeURIComponent(bookingId)}/receipt?token=${encodeURIComponent(accessToken || "")}`,
     getSettlementAdviceUrl: (bookingId) => `${getBaseUrl()}/bookings/${encodeURIComponent(bookingId)}/settlement-advice?token=${encodeURIComponent(accessToken || "")}`,
     resolveUploadUrl: (url) => resolveUploadUrl(url),
-    getBaseUrl: () => getBaseUrl()
+    getBaseUrl: () => getBaseUrl(),
+    getAuthConfig: () => LexAPI.getAuthConfig()
   };
 })();
 
 if (typeof window !== "undefined") {
   window.LexAPI = LexAPI;
+  window.getPublicAuthConfig = () => LexAPI.getAuthConfig();
   window.performGoogleAuth = (role) => LexAPI.performGoogleAuth(role);
   window.loadGoogleGSI = () => LexAPI.loadGoogleGSI();
 }

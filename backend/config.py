@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     environment: str = "development"
     database_url: str = "sqlite:///./lexconnect.db"
     redis_url: str = "redis://localhost:6379/0"
-    jwt_secret: str = "c9351da88dfde26f691b7c03f9cee000cec35daad7346bec8767e2ef7359f339"
+    jwt_secret: str = "dev-insecure-jwt-secret-do-not-use-in-production-12345"
     jwt_issuer: str = "lexconnect"
     access_token_minutes: int = 60
     refresh_token_days: int = 14
@@ -21,9 +21,17 @@ class Settings(BaseSettings):
     s3_endpoint_url: str = ""  # Cloudflare R2: https://<ACCOUNT_ID>.r2.cloudflarestorage.com
     max_document_bytes: int = 10 * 1024 * 1024
     presigned_url_expiry_seconds: int = 900  # 15 minutes max link validity
-    data_encryption_key: str = "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU="
+    data_encryption_key: str = ""
     trust_proxy: bool = False
     google_client_id: str = ""
+    # ── Firebase Client Configuration (Served to Frontend via Server Route) ───
+    firebase_api_key: str = ""
+    firebase_auth_domain: str = ""
+    firebase_project_id: str = ""
+    firebase_storage_bucket: str = ""
+    firebase_messaging_sender_id: str = ""
+    firebase_app_id: str = ""
+    firebase_measurement_id: str = ""
     # ── Cashfree Payment Gateway (PG) & Secure ID Configuration ───────────────
     cashfree_app_id: str = ""
     cashfree_secret_key: str = ""
@@ -111,10 +119,14 @@ class Settings(BaseSettings):
         if not self.production:
             return self
 
-        if self.jwt_secret == "development-only-secret-change-before-production":
+        if self.jwt_secret in (
+            "development-only-secret-change-before-production",
+            "c9351da88dfde26f691b7c03f9cee000cec35daad7346bec8767e2ef7359f339",
+            "dev-insecure-jwt-secret-do-not-use-in-production-12345",
+        ):
             raise ValueError("JWT_SECRET must be replaced in production")
-        if not self.data_encryption_key:
-            raise ValueError("DATA_ENCRYPTION_KEY is required in production")
+        if not self.data_encryption_key or self.data_encryption_key == "ghFEREKJUe8xkIIE15ZdvIzc8mmKW8FZ-3HUaF2VbvU=":
+            raise ValueError("DATA_ENCRYPTION_KEY is required in production and the leaked default key cannot be used")
         if not self.document_bucket:
             raise ValueError("DOCUMENT_BUCKET is required in production")
         if not self.daily_api_key:

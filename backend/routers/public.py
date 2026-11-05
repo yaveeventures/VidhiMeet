@@ -87,3 +87,26 @@ def get_validation_rules():
         "rules": get_public_validation_rules()
     }
 
+
+@router.get("/api/v1/public/auth-config")
+def get_public_auth_config():
+    """
+    Public endpoint exposing client authentication configuration (Google OAuth Client ID & Firebase Phone Auth).
+    Eliminates hardcoded API keys and credentials in static frontend JavaScript files.
+    """
+    from ..config import get_settings
+    settings = get_settings()
+    return {
+        "google_client_id": settings.google_client_id or "",
+        "firebase": {
+            "apiKey": settings.firebase_api_key or "",
+            "authDomain": settings.firebase_auth_domain or "",
+            "projectId": settings.firebase_project_id or "",
+            "storageBucket": settings.firebase_storage_bucket or "",
+            "messagingSenderId": settings.firebase_messaging_sender_id or "",
+            "appId": settings.firebase_app_id or "",
+            "measurementId": settings.firebase_measurement_id or "",
+        }
+    }
+
+

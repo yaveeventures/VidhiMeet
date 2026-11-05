@@ -120,6 +120,7 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
                     pass
 
     # ── Double Booking Conflict Check ──────────────────────────────────────────
+    stale_cutoff = datetime.now(timezone.utc) - timedelta(minutes=20)
     existing = db.scalar(
         select(Booking).where(
             Booking.lawyer_id == payload.lawyer_id,
@@ -128,7 +129,15 @@ def create_booking(payload: BookingCreate, request: Request, user: User = Depend
         )
     )
     if existing:
-        raise HTTPException(409, "This time slot is already booked for this advocate.")
+        c_at = existing.created_at
+        if c_at and not c_at.tzinfo:
+            c_at = c_at.replace(tzinfo=timezone.utc)
+        if existing.status == BookingStatus.PENDING_PAYMENT and c_at and c_at <= stale_cutoff:
+            existing.status = BookingStatus.CANCELLED
+            db.commit()
+            log.info("Released slot from expired abandoned booking", booking_id=existing.id, lawyer_id=payload.lawyer_id)
+        else:
+            raise HTTPException(409, "This time slot is already booked for this advocate.")
 
     fee = max(3500, round(lawyer.hourly_fee_minor * 0.05))
     total_minor = lawyer.hourly_fee_minor + fee

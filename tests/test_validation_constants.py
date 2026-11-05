@@ -31,6 +31,19 @@ def test_public_validation_rules_endpoint():
     assert rules["max_document_size_bytes"] == 20 * 1024 * 1024
 
 
+def test_public_auth_config_endpoint():
+    """Verify GET /api/v1/public/auth-config returns Google and Firebase client auth settings."""
+    client = TestClient(app)
+    response = client.get("/api/v1/public/auth-config")
+    assert response.status_code == 200
+    data = response.json()
+    assert "google_client_id" in data
+    assert "firebase" in data
+    fb = data["firebase"]
+    for key in ["apiKey", "authDomain", "projectId", "storageBucket", "messagingSenderId", "appId"]:
+        assert key in fb
+
+
 def test_bank_account_validation_rules():
     """Verify IFSC and account number patterns work as expected in Pydantic models."""
     # Valid account

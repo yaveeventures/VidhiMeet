@@ -1,9 +1,14 @@
 import os
 os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 os.environ["JWT_SECRET"] = "test-secret-that-is-at-least-thirty-two-characters"
+os.environ["DATA_ENCRYPTION_KEY"] = "gB_X5YTU3bVGUr0z8OqYKDvT-S1ZSu-GFHLr_5kXo8I="
 os.environ["CASHFREE_APP_ID"] = ""
 os.environ["CASHFREE_SECRET_KEY"] = ""
 os.environ["CASHFREE_MODE"] = "sandbox"
+os.environ["NTP_SYNC_ON_STARTUP"] = "false"
+os.environ["SMTP_SERVER"] = ""
+os.environ["SMTP_USER"] = ""
+os.environ["SMTP_PASSWORD"] = ""
 
 from backend.config import get_settings
 get_settings.cache_clear()
