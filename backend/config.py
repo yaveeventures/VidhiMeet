@@ -24,14 +24,6 @@ class Settings(BaseSettings):
     data_encryption_key: str = ""
     trust_proxy: bool = False
     google_client_id: str = ""
-    # ── Firebase Client Configuration (Served to Frontend via Server Route) ───
-    firebase_api_key: str = ""
-    firebase_auth_domain: str = ""
-    firebase_project_id: str = ""
-    firebase_storage_bucket: str = ""
-    firebase_messaging_sender_id: str = ""
-    firebase_app_id: str = ""
-    firebase_measurement_id: str = ""
     # ── Cashfree Payment Gateway (PG) & Secure ID Configuration ───────────────
     cashfree_app_id: str = ""
     cashfree_secret_key: str = ""
@@ -39,9 +31,6 @@ class Settings(BaseSettings):
     cashfree_mode: str = "sandbox"  # "sandbox" or "production"
     cashfree_payout_app_id: str = ""
     cashfree_payout_secret_key: str = ""
-    cashfree_verification_app_id: str = ""
-    cashfree_verification_secret_key: str = ""
-    cashfree_public_key: str = ""
     dispute_window_days: int = 7
     # ── SMTP Email Configuration ───────────────────────────────────────────
     smtp_server: str = ""

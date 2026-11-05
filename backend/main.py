@@ -7,7 +7,6 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from sqlalchemy.exc import IntegrityError
 from fastapi.responses import JSONResponse, FileResponse
 
 from .config import get_settings
@@ -342,8 +341,8 @@ async def security_headers_and_rate_limit(request: Request, call_next):
         "X-XSS-Protection": "1; mode=block",
         "Referrer-Policy": "strict-origin-when-cross-origin",
         "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
-        "Permissions-Policy": f'camera=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), microphone=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), display-capture=(self "{daily_url}" "https://meet.jit.si" "https://8x8.vc"), geolocation=()',
-        "Content-Security-Policy": f"default-src 'self'; {script_policy} frame-src 'self' {daily_url} https://daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc https://VidhiMeet.firebaseapp.com https://www.google.com https://accounts.google.com; connect-src 'self' {daily_url} {daily_wss} https://api.daily.co https://meet.jit.si https://*.meet.jit.si https://8x8.vc https://*.8x8.vc wss://*.meet.jit.si wss://*.8x8.vc https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src *; object-src 'self'; base-uri 'self'; worker-src blob: https://cdnjs.cloudflare.com;",
+        "Permissions-Policy": f'camera=(self "{daily_url}"), microphone=(self "{daily_url}"), display-capture=(self "{daily_url}"), geolocation=()',
+        "Content-Security-Policy": f"default-src 'self'; {script_policy} frame-src 'self' {daily_url} https://daily.co https://www.google.com https://accounts.google.com; connect-src 'self' {daily_url} {daily_wss} https://api.daily.co https://*.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; font-src https://fonts.gstatic.com; img-src 'self' data: https:; media-src *; object-src 'self'; base-uri 'self'; worker-src blob: https://cdnjs.cloudflare.com;",
     })
     return response
 

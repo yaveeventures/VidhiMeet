@@ -14,7 +14,6 @@ from .payment_service import (
     initiate_refund,
     expire_abandoned_bookings,
 )
-from .compliance_service import verify_ntp_compliance
 from .dispute_service import evaluate_daily_meeting_logs
 from .invoice_service import (
     generate_client_receipt_html,
@@ -38,7 +37,6 @@ __all__ = [
     "verify_cashfree_signature",
     "initiate_refund",
     "expire_abandoned_bookings",
-    "verify_ntp_compliance",
     "evaluate_daily_meeting_logs",
 ]
 

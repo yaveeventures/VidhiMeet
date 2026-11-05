@@ -1,5 +1,6 @@
 import os
 os.environ["DATABASE_URL"] = "sqlite:///:memory:"
+os.environ["REDIS_URL"] = ""
 os.environ["JWT_SECRET"] = "test-secret-that-is-at-least-thirty-two-characters"
 os.environ["DATA_ENCRYPTION_KEY"] = "gB_X5YTU3bVGUr0z8OqYKDvT-S1ZSu-GFHLr_5kXo8I="
 os.environ["CASHFREE_APP_ID"] = ""

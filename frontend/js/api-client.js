@@ -253,7 +253,7 @@ const LexAPI = (() => {
       } catch (err) {
         console.warn("Failed to load /public/auth-config from server:", err);
       }
-      return { google_client_id: "", firebase: {} };
+      return { google_client_id: "" };
     },
     async performGoogleAuth(role = "client") {
       let idToken = null;
@@ -340,22 +340,7 @@ const LexAPI = (() => {
         }
       }
 
-      // 3. Firebase Auth popup fallback
-      if (!idToken && window.firebase && firebase.auth && firebase.auth.GoogleAuthProvider) {
-        try {
-          const provider = new firebase.auth.GoogleAuthProvider();
-          const res = await firebase.auth().signInWithPopup(provider);
-          if (res && res.user) {
-            idToken = await res.user.getIdToken();
-            email = res.user.email;
-            fullName = res.user.displayName || email.split("@")[0];
-          }
-        } catch (e) {
-          console.warn("Google popup fallback:", e);
-        }
-      }
-
-      // 4. Local development mock fallback (STRICTLY RESTRICTED to localhost / dev environments)
+      // 3. Local development mock fallback (STRICTLY RESTRICTED to localhost / dev environments)
       const isLocalhost = ["localhost", "127.0.0.1", "0.0.0.0"].includes(window.location.hostname);
       if (!idToken && !email) {
         if (!isLocalhost) {
