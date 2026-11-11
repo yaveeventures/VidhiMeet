@@ -152,8 +152,18 @@ def test_strict_schema_rejects_unknown_fields_in_register():
 
 def test_strict_schema_rejects_unknown_fields_in_booking():
     """Verify that unknown/extra fields in booking payload are strictly rejected with HTTP 422."""
-    from backend.security import create_access_token
-    token = create_access_token({"sub": "user-client-1", "role": Role.CLIENT, "full_name": "Client"})
+    # Register an active client user so authentication succeeds
+    reg_res = client.post("/api/v1/auth/register", json={
+        "email": "booking_schema_client@example.com",
+        "password": "ValidPassword123!",
+        "full_name": "Booking Client",
+        "role": "client",
+        "consent_privacy_policy": True,
+        "consent_terms": True,
+        "date_of_birth": "1992-05-10"
+    })
+    assert reg_res.status_code == 201
+    token = reg_res.json()["access_token"]
     
     payload = {
         "lawyer_id": "lawyer-1",
