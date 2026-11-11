@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -94,11 +95,13 @@ class Settings(BaseSettings):
     @classmethod
     def remap_legacy_and_sanitize(cls, data: any):
         if isinstance(data, dict):
-            # Gracefully remap verification keys to payout keys if payout keys are omitted
+            # Gracefully remap verification keys to payout keys if payout keys are omitted and not disabled
             if not data.get("cashfree_payout_app_id") and data.get("cashfree_verification_app_id"):
-                data["cashfree_payout_app_id"] = data["cashfree_verification_app_id"]
+                if os.getenv("CASHFREE_PAYOUT_APP_ID") != "" and os.getenv("CASHFREE_VERIFICATION_APP_ID") != "":
+                    data["cashfree_payout_app_id"] = data["cashfree_verification_app_id"]
             if not data.get("cashfree_payout_secret_key") and data.get("cashfree_verification_secret_key"):
-                data["cashfree_payout_secret_key"] = data["cashfree_verification_secret_key"]
+                if os.getenv("CASHFREE_PAYOUT_SECRET_KEY") != "" and os.getenv("CASHFREE_VERIFICATION_SECRET_KEY") != "":
+                    data["cashfree_payout_secret_key"] = data["cashfree_verification_secret_key"]
             # Strip enclosing quotes if present in env strings
             if isinstance(data.get("data_encryption_key"), str):
                 data["data_encryption_key"] = data["data_encryption_key"].strip('"\'')
