@@ -81,14 +81,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.getElementById("admin-login-btn").addEventListener("click", doAdminLogin);
 
-  // Enter in password → submit
+  // Enter in password → submit (IME composition safe)
   document.getElementById("admin-password").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") doAdminLogin();
+    if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) {
+      e.preventDefault();
+      doAdminLogin();
+    }
   });
 
-  // Enter in email → move to password
+  // Enter in email → move to password (IME composition safe)
   document.getElementById("admin-email").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") document.getElementById("admin-password").focus();
+    if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) {
+      e.preventDefault();
+      document.getElementById("admin-password").focus();
+    }
   });
 });
 

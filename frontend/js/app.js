@@ -1204,9 +1204,12 @@ async function collectPhone() {
       resolve(true); // Allow checkout even if skipped
     };
 
-    // Enter key submits
+    // Enter key submits (IME composition safe)
     document.getElementById("phone-modal-input").onkeydown = (e) => {
-      if (e.key === "Enter") document.getElementById("phone-modal-save").click();
+      if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) {
+        e.preventDefault();
+        document.getElementById("phone-modal-save").click();
+      }
     };
   });
 }

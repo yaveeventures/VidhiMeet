@@ -716,10 +716,10 @@
           <span>Sign in with Google</span>
         </button>
         <div class="auth-divider"><span>or sign in with email</span></div>
-        <form id="lawyer-login-form" autocomplete="off">
+        <form id="lawyer-login-form">
           <div class="field">
             <label>Email Address</label>
-            <input type="email" id="lawyer-login-email" required placeholder="advocate@example.com">
+            <input type="email" id="lawyer-login-email" autocomplete="username" spellcheck="false" required placeholder="advocate@example.com">
           </div>
           <div class="field">
             <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -727,7 +727,7 @@
               <button type="button" id="btn-lawyer-forgot-password" style="background:none;border:none;color:var(--forest);font-size:12px;font-weight:600;cursor:pointer;padding:0;">Forgot password?</button>
             </div>
             <div class="password-wrap">
-              <input type="password" id="lawyer-login-password" required placeholder="••••••••••••">
+              <input type="password" id="lawyer-login-password" autocomplete="current-password" required placeholder="••••••••••••">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
                 <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -742,10 +742,10 @@
       <div id="lawyer-forgot-section" style="display:none;">
         <h2>Account Recovery</h2>
         <p>Enter your advocate email address to reset your password.</p>
-        <form id="lawyer-forgot-form" autocomplete="off">
+        <form id="lawyer-forgot-form">
           <div class="field">
             <label>Email Address</label>
-            <input type="email" id="lawyer-forgot-email" required placeholder="advocate@example.com">
+            <input type="email" id="lawyer-forgot-email" autocomplete="username" spellcheck="false" required placeholder="advocate@example.com">
           </div>
           <div id="lawyer-forgot-error" class="error-message"></div>
           <div id="lawyer-forgot-success" style="color:#2e7d32;font-size:13px;font-weight:600;margin-top:8px;line-height:1.5;"></div>
@@ -757,12 +757,12 @@
       <div id="lawyer-reset-section" style="display:none;">
         <h2>Set New Password</h2>
         <p>Please choose a strong password with at least 12 characters.</p>
-        <form id="lawyer-reset-form" autocomplete="off">
+        <form id="lawyer-reset-form">
           <input type="hidden" id="lawyer-reset-token-input">
           <div class="field">
             <label>New Password (min 12 chars)</label>
             <div class="password-wrap">
-              <input type="password" id="lawyer-reset-new-password" required minlength="12" placeholder="At least 12 characters">
+              <input type="password" id="lawyer-reset-new-password" autocomplete="new-password" required minlength="12" placeholder="At least 12 characters">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
                 <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -772,7 +772,7 @@
           <div class="field">
             <label>Confirm Password</label>
             <div class="password-wrap">
-              <input type="password" id="lawyer-reset-confirm-password" required minlength="12" placeholder="Re-enter new password">
+              <input type="password" id="lawyer-reset-confirm-password" autocomplete="new-password" required minlength="12" placeholder="Re-enter new password">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
                 <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -798,19 +798,19 @@
           <span>Sign in with Google</span>
         </button>
         <div class="auth-divider"><span>or register with email</span></div>
-        <form id="lawyer-register-form" autocomplete="off">
+        <form id="lawyer-register-form">
           <div class="field">
             <label>Full Name</label>
-            <input type="text" id="lawyer-reg-name" required placeholder="Adv. John Doe">
+            <input type="text" id="lawyer-reg-name" autocomplete="name" required placeholder="Adv. John Doe">
           </div>
           <div class="field">
             <label>Email Address</label>
-            <input type="email" id="lawyer-reg-email" required placeholder="advocate@example.com">
+            <input type="email" id="lawyer-reg-email" autocomplete="username" spellcheck="false" required placeholder="advocate@example.com">
           </div>
           <div class="field">
             <label>Password (min 12 chars)</label>
             <div class="password-wrap">
-              <input type="password" id="lawyer-reg-password" required minlength="12" placeholder="••••••••••••">
+              <input type="password" id="lawyer-reg-password" autocomplete="new-password" required minlength="12" placeholder="••••••••••••">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
                 <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
@@ -820,7 +820,7 @@
           <div class="field">
             <label>Re-enter Password</label>
             <div class="password-wrap">
-              <input type="password" id="lawyer-reg-confirm-password" required minlength="12" placeholder="••••••••••••">
+              <input type="password" id="lawyer-reg-confirm-password" autocomplete="new-password" required minlength="12" placeholder="••••••••••••">
               <button type="button" class="password-toggle-btn" aria-label="Show password" title="Show password">
                 <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 <svg class="eye-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
